@@ -1,30 +1,30 @@
 # fractals-sass Walkthrough
 
-We have successfully developed **fractals-sass** inside `/Users/amrit/fractals/packages/fractals-sass`. 
+We have successfully developed **fractals-sass** inside `/Users/amrit/mandala/packages/fractals-sass`. 
 The system is built in **TypeScript** and supports compiling both standard CSS and **pure indented Sass (tab-indented)**.
 
 ---
 
 ## 📂 Project Structure
 
-All files are structured inside `/Users/amrit/fractals/packages/fractals-sass`:
+All files are structured inside `/Users/amrit/mandala/packages/fractals-sass`:
 
-- [package.json](file:///Users/amrit/fractals/packages/fractals-sass/package.json): Package metadata, TS compilation config, CLI binary mapping, and exports.
-- [tsconfig.json](file:///Users/amrit/fractals/packages/fractals-sass/tsconfig.json): TypeScript compiler options.
-- [core.sass](file:///Users/amrit/fractals/packages/fractals-sass/core.sass): Static color and layout classes mapping to CSS custom properties (indented with tabs).
+- [package.json](file:///Users/amrit/mandala/packages/fractals-sass/package.json): Package metadata, TS compilation config, CLI binary mapping, and exports.
+- [tsconfig.json](file:///Users/amrit/mandala/packages/fractals-sass/tsconfig.json): TypeScript compiler options.
+- [core.sass](file:///Users/amrit/mandala/packages/fractals-sass/core.sass): Static color and layout classes mapping to CSS custom properties (indented with tabs).
 - **`themes/`**
-  - [default-dark.sass](file:///Users/amrit/fractals/packages/fractals-sass/themes/default-dark.sass): Default dark mode theme variables under `:root`.
-  - [default-light.sass](file:///Users/amrit/fractals/packages/fractals-sass/themes/default-light.sass): Default light mode theme variables under `.theme-light`.
+  - [default-dark.sass](file:///Users/amrit/mandala/packages/fractals-sass/themes/default-dark.sass): Default dark mode theme variables under `:root`.
+  - [default-light.sass](file:///Users/amrit/mandala/packages/fractals-sass/themes/default-light.sass): Default light mode theme variables under `.theme-light`.
 - **`src/`**
-  - [index.ts](file:///Users/amrit/fractals/packages/fractals-sass/src/index.ts): Core scanner and style compiler. Matches utilities and `--pxN` custom properties, generating clean CSS or tab-indented `.sass`.
-  - [vite.ts](file:///Users/amrit/fractals/packages/fractals-sass/src/vite.ts): Vite JIT plugin providing the virtual module `virtual:fractals.css` with HMR.
-  - [postcss.ts](file:///Users/amrit/fractals/packages/fractals-sass/src/postcss.ts): PostCSS plugin replacing `@fractals utilities;` at compile time.
-  - [bin/cli.ts](file:///Users/amrit/fractals/packages/fractals-sass/src/bin/cli.ts): CLI compiler with automatic file watcher.
+  - [index.ts](file:///Users/amrit/mandala/packages/fractals-sass/src/index.ts): Core scanner and style compiler. Matches utilities and `--pxN` custom properties, generating clean CSS or tab-indented `.sass`.
+  - [vite.ts](file:///Users/amrit/mandala/packages/fractals-sass/src/vite.ts): Vite JIT plugin providing the virtual module `virtual:fractals.css` with HMR.
+  - [postcss.ts](file:///Users/amrit/mandala/packages/fractals-sass/src/postcss.ts): PostCSS plugin replacing `@fractals utilities;` at compile time.
+  - [bin/cli.ts](file:///Users/amrit/mandala/packages/fractals-sass/src/bin/cli.ts): CLI compiler with automatic file watcher.
 - **`playground/`**
-  - [package.json](file:///Users/amrit/fractals/packages/fractals-sass/playground/package.json): Dev dependencies and local `file:..` package link.
-  - [vite.config.js](file:///Users/amrit/fractals/packages/fractals-sass/playground/vite.config.js): Integrates the Vite plugin.
-  - [index.html](file:///Users/amrit/fractals/packages/fractals-sass/playground/index.html): Premium dark-theme play interface.
-  - [main.js](file:///Users/amrit/fractals/packages/fractals-sass/playground/main.js): Sandbox HMR rendering controller.
+  - [package.json](file:///Users/amrit/mandala/packages/fractals-sass/playground/package.json): Dev dependencies and local `file:..` package link.
+  - [vite.config.js](file:///Users/amrit/mandala/packages/fractals-sass/playground/vite.config.js): Integrates the Vite plugin.
+  - [index.html](file:///Users/amrit/mandala/packages/fractals-sass/playground/index.html): Premium dark-theme play interface.
+  - [main.js](file:///Users/amrit/mandala/packages/fractals-sass/playground/main.js): Sandbox HMR rendering controller.
 
 ---
 
@@ -64,7 +64,7 @@ Here are the three ways to integrate **fractals-sass** into new or existing proj
 1. Install `fractals-sass` in your Vite project:
    ```json
    "dependencies": {
-     "fractals-sass": "file:/Users/amrit/fractals/packages/fractals-sass"
+     "fractals-sass": "file:/Users/amrit/mandala/packages/fractals-sass"
    }
    ```
 2. Configure `vite.config.js`:

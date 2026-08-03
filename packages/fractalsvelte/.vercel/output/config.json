@@ -1,0 +1,69 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"src": ".*",
+			"continue": true,
+			"transforms": [
+				{
+					"type": "request.query",
+					"op": "delete",
+					"target": {
+						"key": "__pathname"
+					}
+				}
+			]
+		},
+		{
+			"src": "/_app/immutable/.+",
+			"headers": {
+				"cache-control": "public, immutable, max-age=31536000"
+			}
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "/_app/immutable/.+",
+			"status": 404,
+			"continue": false
+		},
+		{
+			"src": "^/?(?:/__data.json)?$",
+			"dest": "/"
+		},
+		{
+			"src": "^/ai/?(?:/__data.json)?$",
+			"dest": "/(docs)/ai"
+		},
+		{
+			"src": "^/ai/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/(docs)/ai/[slug]"
+		},
+		{
+			"src": "^/blocks/?(?:/__data.json)?$",
+			"dest": "/(docs)/blocks"
+		},
+		{
+			"src": "^/blocks/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/(docs)/blocks/[slug]"
+		},
+		{
+			"src": "^/components/?(?:/__data.json)?$",
+			"dest": "/(docs)/components"
+		},
+		{
+			"src": "^/components/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/(docs)/components/[slug]"
+		},
+		{
+			"src": "^/temp/?(?:/__data.json)?$",
+			"dest": "/temp"
+		},
+		{
+			"src": "/.*",
+			"dest": "/![-]/catchall"
+		}
+	],
+	"overrides": {}
+}

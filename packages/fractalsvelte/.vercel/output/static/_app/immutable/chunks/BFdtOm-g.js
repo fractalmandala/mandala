@@ -1,0 +1,1 @@
+import{tt as e}from"./CK3v5WtD.js";function t(t){e().then(t)}export{t};

@@ -1,7 +1,7 @@
 packages:
   - apps/*
-  # Synara is a separate Bun workspace and is intentionally gitignored.
-  - '!apps/synara-main'
+  # Synara/Fractalai is a separate Bun workspace and is intentionally gitignored.
+  - '!apps/fractalai'
   - sites/*
   - packages/*
 

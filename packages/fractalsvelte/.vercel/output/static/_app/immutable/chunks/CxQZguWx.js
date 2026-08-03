@@ -1,0 +1,28 @@
+import{$ as e,A as t,Ct as n,Ft as r,Gt as i,H as a,Ht as o,It as s,K as c,L as l,M as u,U as d,Ut as f,V as p,a as m,ct as h,g,gt as _,ht as v,mt as y,o as b,z as x}from"./CK3v5WtD.js";import"./xihTtKlq.js";import{t as S}from"./DZ2Ohr6_.js";import{t as C}from"./CQPz8g7J.js";import{n as w,t as T}from"./mx9sK6xP2.js";import{t as E}from"./DXVsdz3S2.js";import{t as D}from"./C3x0131v.js";import{n as O,r as k,t as A}from"./DgEkIpCu.js";var j=new Set([`$$slots`,`$$events`,`$$legacy`,`collapsed`,`children`]),M=d(`<div data-slot="code-overflow-fade"></div>`),N=d(`<div><!> <!> <!></div>`);function P(e,t){s(t,!0);let n=m(t,`collapsed`,15,!0),a=b(t,j),d=k({collapsed:C.with(()=>n(),e=>n(e))});var v=N();g(v,()=>({...a,"data-slot":`code-overflow`,"data-code-overflow":!0,"data-collapsed":n()}));var w=y(v);u(w,()=>t.children??i);var T=_(w,2),E=e=>{p(e,M())};l(T,e=>{n()&&e(E)}),S(_(T,2),{variant:`secondary`,size:`sm`,"data-code-overflow-toggle":!0,get"data-collapsed"(){return n()},get onclick(){return d.toggleCollapsed},children:(e,t)=>{o();var r=c();h(()=>x(r,n()?`Expand`:`Collapse`)),p(e,r)},$$slots:{default:!0}}),f(v),p(e,v),r()}var F=d(`<div style="width: 100%; max-width: 40rem; margin-inline: auto;"><!></div>`),I=d(`<h1 class="doc-title">Code</h1> <p class="doc-lede">Syntax-highlighted code block powered by Shiki (dual light/dark themes), with optional line numbers, line highlighting, a copy button (via <code>CopyButton</code>), and a collapsible overflow region. HTML is sanitized with DOMPurify.</p> <!> <h2>Installation</h2> <p>Install the package:</p> <!> <p>Or copy <code>src/lib/components/ai-elements/code/</code>. Uses the existing <code>copy-button</code> ai-element plus <code>shiki</code>, <code>@shikijs/langs</code>, <code>@shikijs/themes</code>, <code>dompurify</code>, <code>svelte-toolbelt</code>, and <code>runed</code>.</p> <h2>Usage</h2> <!> <p>Nest <code>CopyButton</code> inside <code>Root</code> so it can read the code from context. For long samples, wrap with <code>Overflow</code>:</p> <!> <h2>Examples</h2> <!> <h2>Props</h2> <h3>Code.Root</h3> <!> <h3>Code.Overflow</h3> <!> <h3>Code.CopyButton</h3> <p>Uses the shared <code>CopyButton</code> with the parent <code>Root</code> code text. Positioned top-right via <code>data-code-copy</code>.</p> <h2>Theming</h2> <ul><li>Frame: <code>var(--card)</code> / <code>var(--border)</code>; secondary uses muted secondary wash</li> <li>Line numbers + muted chrome: <code>var(--muted-foreground)</code></li> <li>Highlighted lines: <code>var(--secondary)</code></li> <li>Dark mode: Shiki dual-theme vars (<code>--shiki-dark*</code>) under <code>.dark</code></li></ul>`,1);function L(i,c){s(c,!0);let l=e=>{var n=F();t(y(n),()=>O,(e,n)=>{n(e,{code:h,lang:`typescript`,children:(e,n)=>{var r=a();t(v(r),()=>A,(e,t)=>{t(e,{})}),p(e,r)},$$slots:{default:!0}})}),f(n),p(e,n)},u=e=>{var n=F();t(y(n),()=>O,(e,n)=>{n(e,{code:h,lang:`typescript`,highlight:[6,[8,10]],children:(e,n)=>{var r=a();t(v(r),()=>A,(e,t)=>{t(e,{})}),p(e,r)},$$slots:{default:!0}})}),f(n),p(e,n)},d=e=>{var n=F();t(y(n),()=>O,(e,n)=>{n(e,{code:b,lang:`json`,variant:`secondary`,hideLines:!0,children:(e,n)=>{var r=a();t(v(r),()=>A,(e,t)=>{t(e,{})}),p(e,r)},$$slots:{default:!0}})}),f(n),p(e,n)},m=e=>{var n=F();t(y(n),()=>P,(e,n)=>{n(e,{children:(e,n)=>{var r=a();t(v(r),()=>O,(e,n)=>{n(e,{get code(){return g},lang:`typescript`,children:(e,n)=>{var r=a();t(v(r),()=>A,(e,t)=>{t(e,{})}),p(e,r)},$$slots:{default:!0}})}),p(e,r)},$$slots:{default:!0}})}),f(n),p(e,n)},h=`type User = {
+  id: string;
+  name: string;
+  roles: ("admin" | "editor" | "viewer")[];
+};
+
+export function greet(user: User) {
+  return \`Hello, \${user.name}\`;
+}
+
+console.log(greet({ id: "1", name: "Amrit", roles: ["admin"] }));`,g=Array.from({length:24},(e,t)=>`// line ${t+1}: lorem ipsum dolor sit amet`).join(`
+`),b=`{
+  "model": "gpt-4o",
+  "temperature": 0.2,
+  "messages": [
+    { "role": "user", "content": "Summarise this PR" }
+  ]
+}`,x=[{name:`code`,type:`string`,description:`Source text to highlight.`},{name:`lang`,type:`SupportedLanguage`,default:`"typescript"`,description:`bash | diff | javascript | json | svelte | typescript | python | tsx | jsx | css | text`},{name:`variant`,type:`"default" | "secondary"`,default:`"default"`,description:`Frame surface (card vs muted secondary).`},{name:`hideLines`,type:`boolean`,default:`false`,description:`Hide line numbers.`},{name:`highlight`,type:`(number | [number, number])[]`,description:`Line numbers or inclusive ranges to emphasize.`},{name:`children`,type:`Snippet`,description:`Usually Code.CopyButton (and/or Overflow).`}],S=[{name:`collapsed`,type:`boolean`,default:`true`,description:`Bindable. When true, max-height 300px with fade + Expand.`}],C=`<script lang="ts">
+  import * as Code from "fractalsvelte/ai-elements/code";
+<\/script>
+
+<Code.Root code={source} lang="typescript">
+  <Code.CopyButton />
+</Code.Root>`;var k=I(),j=_(v(k),4);T(j,{description:`TypeScript with line numbers and copy`,code:C,children:(e,t)=>{l(e)},$$slots:{default:!0}});var M=_(j,6);w(M,{code:`npm i fractalsvelte shiki @shikijs/langs @shikijs/themes dompurify svelte-toolbelt runed`,lang:`bash`});var N=_(M,6);w(N,{code:C,lang:`svelte`});var L=_(N,4);w(L,{code:`<Code.Overflow bind:collapsed>
+  <Code.Root code={longSource} lang="typescript">
+    <Code.CopyButton />
+  </Code.Root>
+</Code.Overflow>`,lang:`svelte`});var R=_(L,4);{let t=n(()=>[{title:`Default`,demo:l},{title:`Highlight`,demo:u},{title:`Secondary JSON`,demo:d},{title:`Overflow`,demo:m}]);E(R,{get items(){return e(t)}})}var z=_(R,6);D(z,{get props(){return x}}),D(_(z,4),{get props(){return S}}),o(8),p(i,k),r()}export{L as default};

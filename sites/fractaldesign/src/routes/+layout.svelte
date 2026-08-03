@@ -42,10 +42,10 @@
 	</main>
 	<footer class="row ycenter site-padding xbetween">
 		<div class="row ycenter gap8">
-			<span class="text-sm col3">2026 | Fractals Creation Engine</span>
+			<span class="text-sm col3">2026 | Mandala Creation Engine</span>
 		</div>
 		<div class="row ycenter gap8">
-			<a style="color: var(--text-secondary)" class="blank" href="https://github.com/fractalmandala/fractals" target="_blank" rel="noreferrer">
+			<a style="color: var(--text-secondary)" class="blank" href="https://github.com/fractalmandala/mandala" target="_blank" rel="noreferrer">
 				<Github template="iris" variant="fill" speed={0.75} easing="cubic-bezier(0.25, 0.1, 0.25, 1)" size={20} />
 			</a>
 			<a style="color: var(--text-secondary)" class="blank" href="https://x.com/saamaanyafreaky" target="_blank" rel="noreferrer">

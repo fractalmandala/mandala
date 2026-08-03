@@ -143,7 +143,7 @@
 			value={notes}
 			oninput={(e) => (draftNotes = e.currentTarget.value)}
 			onblur={saveNotes}
-			placeholder="Anything to remember…" />
+			placeholder="Anything to remember…"></textarea>
 	</label>
 
 	{#if error}<div class="err">⚠️ {error}</div>{/if}

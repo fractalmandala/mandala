@@ -1,6 +1,6 @@
 # Implementation Plan — FractalWiki SvelteKit Documentation Site
 
-**Project Path**: `/Users/amrit/fractals/sites/fractalwiki`  
+**Project Path**: `/Users/amrit/mandala/sites/fractalwiki`  
 **Vault Path**: `/Users/amrit/100cabinet/10wiki`  
 **Stack**: SvelteKit (Svelte 5 runes), TypeScript, mdsvex, Indented SASS, `fractals-styler`
 

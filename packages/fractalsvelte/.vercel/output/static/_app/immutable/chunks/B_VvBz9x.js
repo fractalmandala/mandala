@@ -1,0 +1,30 @@
+import{$ as e,A as t,Ct as n,Ft as r,H as i,Ht as a,It as o,U as s,Ut as c,V as l,a as u,g as d,gt as f,ht as p,l as m,mt as h,o as g}from"./CK3v5WtD.js";import"./xihTtKlq.js";import{n as _,t as v}from"./mx9sK6xP2.js";import{t as y}from"./DXVsdz3S2.js";import{n as b,t as x}from"./NhjzDwV4.js";import{t as S}from"./DgDpAjkY.js";import{t as C}from"./C3x0131v.js";var w=new Set([`$$slots`,`$$events`,`$$legacy`,`ref`,`width`,`height`,`size`,`radius`,`style`]),T=s(`<div></div>`);function E(t,i){o(i,!0);let a=u(i,`ref`,15,null),s=g(i,w),c=n(()=>[(i.size??i.width)&&`width:${i.size??i.width}`,(i.size??i.height)&&`height:${i.size??i.height}`,i.style].filter(Boolean).join(`;`));var f=T();d(f,()=>({"data-slot":`skeleton`,"data-radius":i.radius,style:e(c)||void 0,...s})),m(f,e=>a(e),()=>a()),l(t,f),r()}var D=e=>{var t=j(),n=h(t);E(n,{size:`3rem`,radius:`full`});var r=f(n,2),i=h(r);E(i,{width:`250px`,height:`1rem`}),E(f(i,2),{width:`200px`,height:`1rem`}),c(r),c(t),l(e,t)},O=e=>{var t=M(),n=h(t);E(n,{width:`250px`,height:`125px`,radius:`xl`});var r=f(n,2);E(r,{width:`250px`,height:`1rem`}),E(f(r,2),{width:`200px`,height:`1rem`}),c(t),l(e,t)},k=e=>{var t=N(),n=p(t);E(n,{size:`3rem`,radius:`none`});var r=f(n,2);E(r,{size:`3rem`,radius:`sm`});var i=f(r,2);E(i,{size:`3rem`,radius:`md`});var a=f(i,2);E(a,{size:`3rem`,radius:`lg`});var o=f(a,2);E(o,{size:`3rem`,radius:`xl`});var s=f(o,2);E(s,{size:`3rem`}),E(f(s,2),{size:`3rem`,radius:`full`}),l(e,t)},A=e=>{var n=i();t(p(n),()=>b,(e,n)=>{n(e,{style:`width:20rem`,children:(e,n)=>{var r=P(),i=p(r);t(i,()=>S,(e,t)=>{t(e,{children:(e,t)=>{var n=P(),r=p(n);E(r,{width:`60%`,height:`1.125rem`,radius:`md`}),E(f(r,2),{width:`85%`,height:`0.875rem`,radius:`md`}),l(e,n)},$$slots:{default:!0}})}),t(f(i,2),()=>x,(e,t)=>{t(e,{children:(e,t)=>{E(e,{width:`100%`,height:`6rem`,radius:`lg`})},$$slots:{default:!0}})}),l(e,r)},$$slots:{default:!0}})}),l(e,n)},j=s(`<div class="row ycenter" style="gap:1rem"><!> <div class="box" style="gap:0.5rem"><!> <!></div></div>`),M=s(`<div class="box" style="gap:0.75rem"><!> <!> <!></div>`),N=s(`<!> <!> <!> <!> <!> <!> <!>`,1),P=s(`<!> <!>`,1),F=s(`<div class="box" style="gap:0.5rem"><!> <!></div>`),I=s(`<h1 class="doc-title">Skeleton</h1> <p class="doc-lede">A placeholder that stands in for content while it loads.</p> <!> <h2>Installation</h2> <p>Install the package:</p> <!> <p>Or copy <code>src/lib/components/skeleton/</code> into your project — it has no runtime dependencies and
+owns its own animation.</p> <h2>Usage</h2> <!> <p>Skeleton has no intrinsic size: give it <code>width</code> and <code>height</code>, or <code>size</code> when both are equal.
+Match the dimensions of the content it replaces so the layout does not shift when the real
+content arrives.</p> <h2>Examples</h2>   <!> <h2>Props</h2> <!> <p><code>width</code>, <code>height</code> and <code>size</code> are applied as an inline style, so they win over the stylesheet.</p> <h2>Theming</h2> <div class="doc-table-wrap"><table><thead><tr><th>Token</th><th>Used for</th></tr></thead><tbody><tr><td><code>--muted</code></td><td>the placeholder fill</td></tr><tr><td><code>--radius</code></td><td><code>sm</code> / <code>md</code> / <code>lg</code> / <code>xl</code> radius values</td></tr></tbody></table></div> <p>The pulse animation is defined locally and runs for 2s. It is purely decorative — screen
+readers see an empty element, so announce loading state on the container instead, with <code>aria-busy</code> or a live region.</p>`,1);function L(t){let r=[{name:`width`,type:`string`,description:`Any CSS length — 250px, 100%, 12rem.`},{name:`height`,type:`string`,description:`Any CSS length.`},{name:`size`,type:`string`,description:`Shorthand for equal width and height. Overrides both.`},{name:`radius`,type:`"none" | "sm" | "md" | "lg" | "xl" | "2xl" | "full"`,description:`Corner radius. Omit for the default 1rem; use "full" for avatars.`},{name:`ref`,type:`HTMLElement | null`,default:`null`,description:`Bindable reference to the rendered element.`}],i=`<script lang="ts">
+  import { Skeleton } from "fractalsvelte/skeleton";
+<\/script>
+
+<Skeleton width="250px" height="1rem" />`;var o=I(),s=f(p(o),4);v(s,{description:`Skeleton — a line of text`,code:i,children:(e,t)=>{var n=F(),r=h(n);E(r,{width:`250px`,height:`1rem`}),E(f(r,2),{width:`200px`,height:`1rem`}),c(n),l(e,n)},$$slots:{default:!0}});var u=f(s,6);_(u,{code:`npm i fractalsvelte`,lang:`bash`});var d=f(u,6);_(d,{code:i});var m=f(d,6);{let t=n(()=>[{title:`Avatar and text`,demo:D,code:`<div class="row ycenter" style="gap:1rem">
+  <Skeleton size="3rem" radius="full" />
+  <div class="box" style="gap:0.5rem">
+    <Skeleton width="250px" height="1rem" />
+    <Skeleton width="200px" height="1rem" />
+  </div>
+</div>`,description:`radius="full" for a circular avatar placeholder.`},{title:`Card`,demo:O,code:`<div class="box" style="gap:0.75rem">
+  <Skeleton width="250px" height="125px" radius="xl" />
+  <Skeleton width="250px" height="1rem" />
+  <Skeleton width="200px" height="1rem" />
+</div>`},{title:`Radius`,demo:k,code:`<Skeleton size="3rem" radius="none" />
+<Skeleton size="3rem" radius="md" />
+<Skeleton size="3rem" radius="full" />`,description:`The sixth is the default — 1rem when radius is omitted.`},{title:`In place of content`,demo:A,code:`<!-- Skeletons take the shape of the content they stand in for. -->
+<Card.Root style="width:20rem">
+  <Card.Header>
+    <Skeleton width="60%" height="1.125rem" radius="md" />
+    <Skeleton width="85%" height="0.875rem" radius="md" />
+  </Card.Header>
+  <Card.Content>
+    <Skeleton width="100%" height="6rem" radius="lg" />
+  </Card.Content>
+</Card.Root>`,description:`Mirror the real layout so nothing shifts when content arrives.`}]);y(m,{get items(){return e(t)}})}C(f(m,4),{get props(){return r}}),a(8),l(t,o)}export{L as default};

@@ -34,7 +34,7 @@
 					rel="noreferrer">twitter/x</a
 				>, and see the monorepo for all my design work at
 				<a
-					href="https://github.com/fractalmandala/fractals"
+					href="https://github.com/fractalmandala/mandala"
 					target="_blank"
 					rel="noreferrer">github</a
 				>.
@@ -49,12 +49,12 @@
 				</div>
 				<div class="grid grid-cols-3 gap8">
 				<a
-					href="https://github.com/fractalmandala/fractals"
+					href="https://github.com/fractalmandala/mandala"
 					target="_blank"
 					rel="noreferrer"
 					class="box gap4 paper"
 				>
-					<p class="item-title">Fractals</p>
+					<p class="item-title">Mandala</p>
 					<p class="item-desc">
 						A monorepo and desktop app that's my main building project - an ambitious
 						all-in-one app for macOS.

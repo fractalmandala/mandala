@@ -1,0 +1,8 @@
+import{Ht as e,K as t,U as n,Ut as r,V as i,gt as a,ht as o,mt as s}from"./CK3v5WtD.js";import"./xihTtKlq.js";import{n as c,t as l}from"./mx9sK6xP2.js";import{t as u}from"./C3x0131v.js";import{t as d}from"./Bttgefmm.js";var f=n(`<div style="display:flex; gap:0.5rem; justify-content:center; align-items:center;"><!> <!> <!> <!></div>`),p=n(`<h1 class="doc-title">Badge</h1> <p class="doc-lede">Displays a badge or a component that looks like a badge.</p> <!> <h2>Installation</h2> <p>Install the package:</p> <!> <h2>Usage</h2> <!> <h2>Props</h2> <h3>Badge</h3> <!>`,1);function m(n){let m=[{name:`variant`,type:`"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"`,default:`"default"`,description:`Tone variant.`},{name:`href`,type:`string`,description:`Renders badge as an anchor tag when supplied.`}],h=`<script lang="ts">
+  import { Badge } from "fractalsvelte/badge";
+<\/script>
+
+<Badge>Badge</Badge>
+<Badge variant="secondary">Secondary</Badge>
+<Badge variant="outline">Outline</Badge>
+<Badge variant="destructive">Destructive</Badge>`;var g=p(),_=a(o(g),4);l(_,{description:`Badge - default`,code:h,children:(n,o)=>{var c=f(),l=s(c);d(l,{children:(n,r)=>{e(),i(n,t(`Badge`))},$$slots:{default:!0}});var u=a(l,2);d(u,{variant:`secondary`,children:(n,r)=>{e(),i(n,t(`Secondary`))},$$slots:{default:!0}});var p=a(u,2);d(p,{variant:`outline`,children:(n,r)=>{e(),i(n,t(`Outline`))},$$slots:{default:!0}}),d(a(p,2),{variant:`destructive`,children:(n,r)=>{e(),i(n,t(`Destructive`))},$$slots:{default:!0}}),r(c),i(n,c)},$$slots:{default:!0}});var v=a(_,6);c(v,{code:`npm i fractalsvelte`,lang:`bash`});var y=a(v,4);c(y,{code:h}),u(a(y,6),{get props(){return m}}),i(n,g)}export{m as default};

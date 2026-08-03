@@ -1,0 +1,1 @@
+import{lt as e,nt as t}from"./CK3v5WtD.js";function n(n){e(()=>t(()=>n()))}export{n as t};

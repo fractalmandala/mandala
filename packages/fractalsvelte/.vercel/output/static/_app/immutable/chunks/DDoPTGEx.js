@@ -1,0 +1,1 @@
+var e=`ArrowDown`,t=`ArrowLeft`,n=`ArrowRight`,r=`ArrowUp`,i=`CapsLock`,a=`Control`,o=`Enter`,s=`Escape`,c=`Home`,l=`Meta`,u=`PageDown`,d=`PageUp`,f=`Shift`;export{i as a,s as c,u as d,d as f,r as i,c as l,t as n,a as o,f as p,n as r,o as s,e as t,l as u};
