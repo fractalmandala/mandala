@@ -1,0 +1,17 @@
+{
+	"slug": "theme-toggle",
+	"source": "https://beui.dev/r/theme-toggle",
+	"tier": 3,
+	"category": "blocks",
+	"portedDate": "2026-08-07",
+	"components": ["ThemeToggle"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"Icon swap transitions via @humanspeak/svelte-motion AnimatePresence with keyed children",
+		"Sun/moon SVGs are inline rather than imported from an icon library",
+		"Theme state managed via Svelte 5 $bindable rune instead of React state + context",
+		"Indented SASS with data-slot pattern instead of Tailwind utility classes"
+	]
+}

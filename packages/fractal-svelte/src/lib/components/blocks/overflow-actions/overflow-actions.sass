@@ -1,0 +1,82 @@
+@use '../../../styles/mixins' as *
+
+[data-slot="overflow-actions"]
+	position: relative
+	display: inline-flex
+
+[data-slot="overflow-actions-trigger"], [data-slot="overflow-actions-item"]
+	+interactive
+	+focus-ring
+	border: 0
+	font: inherit
+
+[data-slot="overflow-actions-trigger"]
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	min-width: 2.5rem
+	height: 2.5rem
+	padding: 0 var(--fractal-svelte-space-3)
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-full)
+	background: var(--card)
+	color: var(--foreground)
+
+[data-slot="overflow-actions-menu"]
+	position: absolute
+	z-index: 60
+	display: grid
+	min-width: 11rem
+	padding: var(--fractal-svelte-space-1)
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-md)
+	background: var(--card)
+	box-shadow: var(--shadow-md)
+	animation: overflow-open calc(180ms * var(--motion-scale)) ease-out
+
+[data-placement^="bottom"] [data-slot="overflow-actions-menu"]
+	top: calc(100% + var(--fractal-svelte-space-1))
+
+[data-placement^="top"] [data-slot="overflow-actions-menu"]
+	bottom: calc(100% + var(--fractal-svelte-space-1))
+
+[data-placement$="start"] [data-slot="overflow-actions-menu"]
+	left: 0
+
+[data-placement$="end"] [data-slot="overflow-actions-menu"]
+	right: 0
+
+[data-slot="overflow-actions-item"]
+	display: flex
+	align-items: center
+	gap: var(--fractal-svelte-space-2)
+	width: 100%
+	padding: var(--fractal-svelte-space-2) var(--fractal-svelte-space-3)
+	border-radius: var(--fractal-svelte-radius-sm)
+	background: transparent
+	color: var(--foreground)
+	font-size: 0.8125rem
+	text-align: left
+
+	&:hover, &:focus-visible
+		background: var(--muted)
+
+	&[data-variant="destructive"]
+		color: var(--destructive)
+
+	&:disabled
+		cursor: not-allowed
+		opacity: 0.45
+
+[data-slot="overflow-actions-icon"]
+	+icon-child
+	display: inline-flex
+
+@keyframes overflow-open
+	from
+		opacity: 0
+		transform: translateY(-0.25rem) scale(0.96)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot="overflow-actions-menu"]
+		animation: none

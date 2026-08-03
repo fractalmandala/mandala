@@ -1,0 +1,17 @@
+{
+	"slug": "overflow-actions",
+	"source": "https://beui.dev/r/overflow-actions",
+	"tier": 3,
+	"category": "blocks",
+	"portedDate": "2026-08-08",
+	"components": ["OverflowActions"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge", "floating-ui"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"AnimatePresence-based popover enter/exit via @humanspeak/svelte-motion",
+		"CSS absolute positioning instead of floating-ui",
+		"Manual click-outside detection via document event listener",
+		"Indented SASS with data-slot pattern instead of Tailwind utility classes"
+	]
+}

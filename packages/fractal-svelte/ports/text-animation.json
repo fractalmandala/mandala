@@ -1,0 +1,16 @@
+{
+	"slug": "text-animation",
+	"source": "https://beui.dev/r/text-animation",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-03",
+	"components": ["TextAnimation"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": ["variant", "typewriter"],
+	"deviations": [
+		"The unified Svelte component exposes reveal, shimmer, cascade, and legacy typewriter variants instead of four React exports",
+		"Reveal supports canonical word or character splitting with stagger, blur, vertical offset, spring motion, and reduced-motion fallback",
+		"ChromaticTextReveal is represented by semantic-token shimmer rather than accepting literal color arrays"
+	]
+}

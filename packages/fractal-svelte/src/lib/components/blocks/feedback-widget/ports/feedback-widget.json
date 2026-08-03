@@ -1,0 +1,17 @@
+{
+	"slug": "feedback-widget",
+	"source": "https://beui.dev/r/feedback-widget",
+	"tier": 3,
+	"category": "blocks",
+	"portedDate": "2026-08-07",
+	"components": ["FeedbackWidget"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"Popover enter/exit via @humanspeak/svelte-motion AnimatePresence instead of framer-motion",
+		"State managed via Svelte 5 $state rune instead of React useState",
+		"Indented SASS with data-slot pattern instead of Tailwind utility classes",
+		"Emoji reactions are hardcoded constants rather than configurable"
+	]
+}

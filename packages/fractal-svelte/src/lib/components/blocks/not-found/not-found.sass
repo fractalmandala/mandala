@@ -1,0 +1,200 @@
+@use '../../../styles/mixins' as *
+
+[data-slot="not-found"]
+	--not-found-x: 50%
+	--not-found-y: 50%
+	--not-found-mx: 0px
+	--not-found-my: 0px
+	display: flex
+	flex-direction: column
+	align-items: center
+	justify-content: center
+	gap: var(--fractal-svelte-space-5)
+	min-height: 26rem
+	padding: var(--fractal-svelte-space-4)
+	color: var(--foreground)
+	text-align: center
+
+[data-slot="not-found-code"]
+	display: flex
+	margin: 0
+	font-size: clamp(5rem, 18vw, 11rem)
+	font-weight: 800
+	line-height: 0.9
+	letter-spacing: -0.08em
+
+[data-variant="glitch"] [data-slot="not-found-code"] span
+	animation: not-found-glitch calc(700ms * var(--motion-scale)) steps(2, end)
+	animation-delay: calc(var(--not-found-index) * 45ms * var(--motion-scale))
+
+[data-variant="magnetic"] [data-slot="not-found-code"] span
+	transform: translate(var(--not-found-mx), var(--not-found-my))
+	transition: transform calc(240ms * var(--motion-scale)) ease-out
+
+[data-slot="not-found-spotlight"]
+	position: relative
+	display: grid
+	place-items: center
+	width: min(36rem, 100%)
+	aspect-ratio: 16 / 9
+	overflow: hidden
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-xl)
+	background: var(--foreground)
+	font-size: clamp(5rem, 16vw, 10rem)
+	font-weight: 800
+
+	& span, & h1
+		grid-area: 1 / 1
+		margin: 0
+
+	& span
+		color: var(--background)
+		opacity: 0.12
+
+	& h1
+		color: var(--background)
+		mask-image: radial-gradient(10rem circle at var(--not-found-x) var(--not-found-y), black 20%, transparent 72%)
+
+[data-slot="not-found-stack"]
+	position: relative
+	width: 16rem
+	height: 11rem
+
+	& i, & h1
+		position: absolute
+		inset: 0
+		margin: 0
+		border: 1px solid var(--border)
+		border-radius: var(--fractal-svelte-radius-xl)
+		background: var(--card)
+		box-shadow: var(--shadow-sm)
+		transition: transform calc(300ms * var(--motion-scale)) ease-out
+
+	& h1
+		display: grid
+		place-items: center
+		font-size: 5rem
+
+	&:hover i:first-child
+		transform: translate(-1.75rem, 0.5rem) rotate(-9deg)
+
+	&:hover i:nth-child(2)
+		transform: translate(1.75rem, 0.5rem) rotate(9deg)
+
+	&:hover h1
+		transform: translateY(-0.375rem)
+
+[data-slot="not-found-terminal"]
+	width: min(28rem, 100%)
+	overflow: hidden
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-lg)
+	background: var(--foreground)
+	color: var(--background)
+	box-shadow: var(--shadow-lg)
+	text-align: left
+
+	& header
+		display: flex
+		align-items: center
+		gap: var(--fractal-svelte-space-2)
+		padding: var(--fractal-svelte-space-3) var(--fractal-svelte-space-4)
+		border-bottom: 1px solid var(--border)
+
+	& i
+		width: 0.75rem
+		height: 0.75rem
+		border-radius: var(--fractal-svelte-radius-full)
+		background: var(--muted-foreground)
+
+	& header span
+		margin-left: var(--fractal-svelte-space-2)
+		opacity: 0.6
+
+	& code
+		display: flex
+		flex-direction: column
+		gap: var(--fractal-svelte-space-2)
+		padding: var(--fractal-svelte-space-4)
+		font: inherit
+		font-family: monospace
+
+	& code span
+		animation: terminal-line calc(500ms * var(--motion-scale)) both
+
+	& code span:nth-child(2)
+		color: var(--destructive)
+		animation-delay: calc(400ms * var(--motion-scale))
+
+	& code span:nth-child(3)
+		animation-delay: calc(800ms * var(--motion-scale))
+
+	& b
+		display: inline-block
+		width: 0.5ch
+		height: 1em
+		margin-left: var(--fractal-svelte-space-1)
+		background: currentColor
+		animation: terminal-caret calc(700ms * var(--motion-scale)) infinite
+
+[data-slot="not-found-copy"]
+	& h2
+		margin: 0
+		font-size: 1.25rem
+
+	& p
+		max-width: 26rem
+		margin: var(--fractal-svelte-space-2) 0 0
+		color: var(--muted-foreground)
+		line-height: 1.5
+
+[data-slot="not-found-actions"]
+	display: flex
+	flex-wrap: wrap
+	justify-content: center
+	gap: var(--fractal-svelte-space-3)
+
+	& a
+		+focus-ring
+		display: inline-flex
+		align-items: center
+		justify-content: center
+		height: 2.75rem
+		padding: 0 var(--fractal-svelte-space-5)
+		border: 1px solid var(--border)
+		border-radius: var(--fractal-svelte-radius-full)
+		background: var(--card)
+		color: var(--foreground)
+		font-size: 0.875rem
+		font-weight: 500
+		text-decoration: none
+
+	& a:first-child
+		background: var(--primary)
+		border-color: var(--primary)
+		color: var(--primary-foreground)
+
+@keyframes not-found-glitch
+	0%, 40%
+		filter: blur(4px)
+		transform: translateX(0.15em)
+	60%
+		transform: translateX(-0.1em)
+
+@keyframes terminal-line
+	from
+		opacity: 0
+		clip-path: inset(0 100% 0 0)
+	to
+		opacity: 1
+		clip-path: inset(0)
+
+@keyframes terminal-caret
+	50%
+		opacity: 0
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot="not-found"] *, [data-slot="not-found"] *::before, [data-slot="not-found"] *::after
+		animation: none
+		transition: none

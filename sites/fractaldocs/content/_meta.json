@@ -1,0 +1,18 @@
+{
+	"items": {
+		"docs-heading": {
+			"type": "separator",
+			"title": "Docs",
+			"order": 1
+		},
+		"introduction": {
+			"order": 2
+		},
+		"public-packages": {
+			"order": 3
+		},
+		"projects-registry": {
+			"order": 4
+		}
+	}
+}

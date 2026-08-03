@@ -1,0 +1,16 @@
+{
+	"slug": "button",
+	"source": "https://beui.dev/r/button",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-03",
+	"components": ["Button", "StatefulButton", "MagneticButton"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": ["pressScale"],
+	"deviations": [
+		"Ripple effect simplified: CSS based instead of canvas",
+		"Magnetic effect uses CSS transform instead of motionValue",
+		"Icons are consumer children (no icon dependency)"
+	]
+}

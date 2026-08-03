@@ -1,0 +1,506 @@
+// comps.sass
+// Flattened from the Figma-derived component library in src/lib/comps.
+// One file: shell tokens + every comp's scoped CSS, converted to indented
+// SASS and namespaced under .appshell so bare element selectors never leak
+// into the rest of the site. Import once from the root layout after index.sass.
+
+// ——— Shell tokens (dark, default) ———
+:root,
+[data-theme='dark']
+	--shell-surface: #171717
+	--shell-text: #f2f2f4
+	--shell-border: rgba(255, 255, 255, 0.14)
+	--shell-soft: rgba(255, 255, 255, 0.08)
+	--shell-muted: #8b92a8
+	--shell-subtle: #a7a7a7
+	--shell-accent: #09c833
+
+// ——— Shell tokens (light) ———
+[data-theme='light']
+	--shell-surface: #ffffff
+	--shell-text: #121212
+	--shell-border: #e7e7e7
+	--shell-soft: #f0f2f8
+	--shell-muted: #8d8d8d
+	--shell-subtle: #656565
+	--shell-accent: #0ab930
+
+// ——— AppShell ———
+// .appshell (AppShell.svelte)
+.appshell
+	display: flex
+	flex-direction: column
+	width: 100%
+	min-height: 100dvh
+	color: var(--shell-text)
+	background: var(--shell-surface)
+
+	// .content (AppShell.svelte) — header below, sidebars + main inside
+	.content
+		display: flex
+		align-items: stretch
+		justify-content: center
+		width: 100%
+		flex: 1 1 auto
+
+	// main (AppShell.svelte) — centered article column
+	.app-shell-main
+		display: flex
+		flex: 1 1 auto
+		min-width: 0
+		justify-content: center
+		padding-bottom: 64px
+
+		// Keep real docs pages at prose width inside the centered column
+		.reference-page
+			width: 100%
+			min-width: 0
+			max-width: 58rem
+
+	// ——— Header ———
+	// AppHeader.svelte (top bar)
+	.app-header
+		display: flex
+		position: sticky
+		top: 0
+		z-index: 100
+		align-items: center
+		justify-content: space-between
+		width: 100%
+		height: 56px
+		padding: 8px 32px
+		border-bottom: 1px solid var(--shell-border)
+		background: var(--shell-surface)
+
+		@media (max-width: 640px)
+			padding-inline: 16px
+
+		// AppLogo.svelte
+		.logo
+			display: flex
+			align-items: center
+			gap: 8px
+			color: var(--shell-text)
+			text-decoration: none
+
+			img
+				width: 32px
+				height: 32px
+				object-fit: cover
+
+			.wordmark
+				display: flex
+				font-size: 16px
+				font-weight: 700
+				letter-spacing: -1px
+				line-height: 20px
+
+				.accent
+					color: var(--shell-accent)
+
+		// Nav.svelte
+		nav
+			display: flex
+			align-items: center
+			justify-content: flex-end
+			gap: 24px
+			width: min(548px, 100%)
+
+			// Links.svelte
+			.links
+				display: flex
+				flex: 1 1 auto
+				align-items: center
+				justify-content: flex-end
+				gap: 16px
+				min-width: 0
+
+				a
+					color: var(--shell-text)
+					font-size: 12px
+					font-weight: 500
+					letter-spacing: -0.33px
+					line-height: 17px
+					text-decoration: none
+					white-space: nowrap
+
+					&:hover
+						color: var(--shell-accent)
+
+				.divider
+					width: 1px
+					height: 14px
+					background: var(--shell-border)
+
+				@media (max-width: 900px)
+					display: none
+
+			// NavIcons.svelte + NavIconButton.svelte
+			.nav-icons
+				display: flex
+				align-items: center
+				justify-content: flex-end
+				gap: 16px
+
+				// Unify search / github / npm / theme controls to the shell icon button
+				.icon-button, .btn-icon, .search-trigger
+					display: grid
+					width: 20px
+					height: 20px
+					padding: 0
+					border: 0
+					place-items: center
+					color: var(--shell-text)
+					background: transparent
+					cursor: pointer
+
+					&:hover
+						color: var(--shell-accent)
+						background: transparent
+
+				svg
+					width: 18px
+					height: 18px
+					fill: currentColor
+
+	// ——— Sidebar ———
+	// AppSidebar.svelte (left rail)
+	.app-sidebar
+		display: flex
+		flex: 0 0 280px
+		flex-direction: column
+		gap: 36px
+		align-self: flex-start
+		position: sticky
+		top: 56px
+		height: calc(100dvh - 56px)
+		padding: 84px 24px 7px
+		overflow-y: auto
+		background: var(--shell-surface)
+
+		@media (max-width: 1050px)
+			flex-basis: 220px
+			padding-left: 16px
+			padding-right: 16px
+
+		@media (max-width: 760px)
+			display: none
+
+		// SidebarSection.svelte
+		section
+			display: flex
+			flex-direction: column
+			gap: 8px
+			width: 100%
+
+		// SectionLabel.svelte
+		.section-label
+			width: 100%
+			padding-left: 6px
+			color: var(--shell-muted)
+			font-size: 10px
+			font-weight: 500
+			line-height: 13px
+
+		// SidebarLinks.svelte + SidebarItem.svelte
+		.sidebar-links
+			display: flex
+			flex-direction: column
+			align-items: flex-start
+			gap: 4px
+			width: 100%
+
+			a
+				display: flex
+				align-items: center
+				width: fit-content
+				height: 24px
+				padding: 4px 8px
+				border-radius: 6px
+				color: var(--shell-text)
+				font-size: 13px
+				font-weight: 400
+				letter-spacing: -0.13px
+				line-height: 16px
+				text-decoration: none
+				white-space: nowrap
+
+				&:hover, &.active
+					background: var(--shell-soft)
+
+				&.emphasis
+					font-size: 14px
+					line-height: 18px
+
+	// ——— Right rail ———
+	// AppRight.svelte (on this page)
+	.app-right
+		display: flex
+		flex: 0 0 280px
+		flex-direction: column
+		gap: 10px
+		align-self: flex-start
+		position: sticky
+		top: 56px
+		height: calc(100dvh - 56px)
+		padding: 84px 24px 84px 0
+		overflow-y: auto
+		background: var(--shell-surface)
+
+		@media (max-width: 1180px)
+			display: none
+
+		// RightSidebarSection.svelte
+		section
+			display: flex
+			flex-direction: column
+			gap: 8px
+			width: 100%
+			padding: 8px 0 8px 24px
+			border-left: 1px solid var(--shell-border)
+
+		.label
+			color: var(--shell-muted)
+			font-size: 10px
+			font-weight: 500
+			letter-spacing: -0.12px
+			line-height: 16px
+
+		// SidebarLink.svelte
+		.links
+			display: flex
+			flex-direction: column
+			width: 100%
+
+			a
+				display: flex
+				align-items: center
+				width: 100%
+				min-height: 24px
+				color: var(--shell-text)
+				font-size: 12px
+				font-weight: 500
+				letter-spacing: -0.14px
+				line-height: 19px
+				text-decoration: none
+
+				&:hover, &.active
+					color: var(--shell-accent)
+
+	// ——— Demo article content ———
+	// Article / Body / PageTitleArea / PageHeaderArea / buttons / box / row.
+	// Scoped to a plain <article> that is NOT .doc-article so the real docs
+	// prose (which carries its own spacing and type) is never overridden.
+	article:not(.doc-article)
+		display: flex
+		flex: 0 1 600px
+		flex-direction: column
+		gap: 32px
+		width: min(600px, 100%)
+		min-width: 0
+		padding: 64px 0
+
+		@media (max-width: 900px)
+			padding: 48px 24px
+
+		@media (max-width: 600px)
+			padding: 36px 20px
+
+		// PageTitleArea.svelte
+		> header
+			display: flex
+			flex-direction: column
+			gap: 16px
+			width: 100%
+			padding-bottom: 16px
+			border-bottom: 1px solid var(--shell-border)
+
+		.breadcrumbs
+			color: var(--shell-muted)
+			font-size: 10px
+			line-height: 14px
+
+		// PageHeaderArea.svelte
+		.page-header-area
+			display: flex
+			flex-direction: column
+			justify-content: space-between
+			min-height: 108px
+
+			.headline
+				display: flex
+				width: 100%
+				min-height: 78px
+
+				.box
+					flex: 1 1 auto
+
+			h1
+				margin: 0
+				color: var(--shell-text)
+				font-size: 36px
+				font-weight: 600
+				letter-spacing: -1.31px
+				line-height: 43px
+
+				@media (max-width: 600px)
+					font-size: 30px
+					line-height: 38px
+
+			p
+				width: min(432px, 100%)
+				margin: 0
+				color: var(--shell-subtle)
+				font-size: 11px
+				letter-spacing: -0.1px
+				line-height: 15px
+
+			.actions
+				display: flex
+				align-items: center
+				gap: 8px
+				height: 16px
+
+		// Body.svelte
+		.body
+			display: flex
+			flex-direction: column
+			gap: 16px
+			width: 100%
+
+			p
+				margin: 0
+				color: var(--shell-text)
+				font-size: 15px
+				letter-spacing: -0.3px
+				line-height: 24px
+
+			.buttons
+				display: flex
+				align-items: center
+				gap: 16px
+
+		// Article.svelte chapters + bottom nav
+		.chapter
+			display: flex
+			flex-direction: column
+			gap: 12px
+			width: 100%
+			padding-bottom: 50px
+
+		h2
+			margin: 0
+			color: var(--shell-text)
+			font-size: 19px
+			font-weight: 700
+			letter-spacing: -0.38px
+			line-height: 30px
+
+		p
+			margin: 0
+			color: var(--shell-subtle)
+			font-size: 15px
+			letter-spacing: -0.3px
+			line-height: 24px
+
+		.bottom-nav
+			display: flex
+			align-items: flex-start
+			justify-content: space-between
+			width: 100%
+			min-height: 62px
+			padding: 20px 0 10px
+			border-top: 1px solid var(--shell-border)
+
+			a
+				display: flex
+				flex-direction: column
+				gap: 2px
+				color: var(--shell-text)
+				font-size: 14px
+				line-height: 15px
+				text-decoration: none
+
+			span
+				color: var(--shell-accent)
+				font-size: 15px
+
+			small
+				color: var(--shell-muted)
+				font-size: 11px
+
+			.next
+				align-items: flex-end
+
+		// Box.svelte / Row.svelte (scoped so they never fight the global .box/.row utilities)
+		.box
+			display: flex
+			flex-direction: column
+			justify-content: space-between
+			width: 100%
+
+		.row
+			display: flex
+			align-items: center
+			justify-content: space-between
+			width: 100%
+
+		// AccentButton.svelte
+		button.accent
+			min-height: 24px
+			padding: 4px 12px
+			border: 0
+			border-radius: 5px
+			color: #ffffff
+			background: var(--shell-accent)
+			font-size: 15px
+			line-height: 16px
+			cursor: pointer
+
+			&:disabled
+				cursor: not-allowed
+				opacity: 0.55
+
+		// PlainButton.svelte
+		button.plain
+			min-height: 24px
+			padding: 3px 16px
+			border: 1px solid var(--shell-border)
+			border-radius: 3px
+			color: var(--shell-text)
+			background: var(--shell-surface)
+			font-size: 15px
+			line-height: 16px
+			cursor: pointer
+
+			&:disabled
+				cursor: not-allowed
+				opacity: 0.55
+
+		// IconTextButton.svelte
+		a:has(.inner), button:has(.inner)
+			display: inline-flex
+			padding: 0
+			border: 0
+			color: var(--shell-subtle)
+			background: transparent
+			text-decoration: none
+			cursor: pointer
+
+		.inner
+			display: inline-flex
+			align-items: center
+			gap: 8px
+			font-size: 10px
+			line-height: 12px
+
+			&.reverse
+				flex-direction: row-reverse
+
+			&.accent
+				color: var(--shell-accent)
+
+			svg
+				width: 16px
+				height: 16px
+				fill: currentColor

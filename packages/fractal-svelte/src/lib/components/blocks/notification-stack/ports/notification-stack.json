@@ -1,0 +1,16 @@
+{
+	"slug": "notification-stack",
+	"source": "https://beui.dev/r/notification-stack",
+	"tier": 3,
+	"category": "blocks",
+	"portedDate": "2026-08-07",
+	"components": ["NotificationStack"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": ["autoDismiss"],
+	"deviations": [
+		"Slide+opacity enter/exit via @humanspeak/svelte-motion AnimatePresence instead of framer-motion",
+		"Auto-dismiss via prop instead of a separate timer hook",
+		"Indented SASS with data-slot pattern instead of Tailwind utility classes"
+	]
+}

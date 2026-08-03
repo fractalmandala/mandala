@@ -1,0 +1,60 @@
+[data-slot="approval-card"]
+ overflow: hidden
+ border-radius: var(--fractal-svelte-radius-lg)
+ padding: var(--fractal-svelte-space-4)
+ background: var(--muted)
+ color: var(--foreground)
+ > header
+  display: flex
+  align-items: flex-start
+  gap: var(--fractal-svelte-space-2)
+  h3
+   min-width: 0
+   flex: 1
+   margin: 0
+   font-size: 1rem
+  button
+   border: 0
+   background: transparent
+[data-slot="approval-status"]
+ border: 1px solid var(--border)
+ border-radius: 999px
+ padding: .125rem var(--fractal-svelte-space-2)
+ color: var(--muted-foreground)
+ font-size: .6875rem
+ text-transform: capitalize
+[data-slot="approval-body"]
+ margin: var(--fractal-svelte-space-2) 0 0 1.75rem
+ p
+  color: var(--muted-foreground)
+ label
+  display: flex
+  min-height: 2.25rem
+  align-items: center
+  gap: var(--fractal-svelte-space-2)
+ input[type="text"], > input
+  width: 100%
+  min-height: 2.5rem
+  border: 1px solid var(--border)
+  border-radius: var(--fractal-svelte-radius-md)
+  padding-inline: var(--fractal-svelte-space-3)
+  background: var(--background)
+ footer
+  display: flex
+  align-items: center
+  gap: var(--fractal-svelte-space-2)
+  margin-top: var(--fractal-svelte-space-4)
+  button
+   min-height: 2rem
+   border: 1px solid var(--border)
+   border-radius: 999px
+   padding-inline: var(--fractal-svelte-space-3)
+   background: var(--background)
+   color: var(--foreground)
+   &:focus-visible
+    outline: 2px solid var(--ring)
+   &:disabled
+    opacity: .5
+[data-slot="approval-result"]
+ margin: var(--fractal-svelte-space-1) 0 0 1.75rem
+ color: var(--muted-foreground)

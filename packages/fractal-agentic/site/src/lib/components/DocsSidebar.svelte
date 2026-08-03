@@ -4,30 +4,25 @@
 
 	interface Props {
 		sections: NavSection[];
-		statsLabel?: string;
 	}
 
-	let { sections,  statsLabel = '' }: Props = $props();
+	let { sections }: Props = $props();
 
 	function isActive(href: string): boolean {
 		const path = page.url.pathname.replace(/\/$/, '') || '/';
 		const target = href.replace(/\/$/, '') || '/';
 		return path === target;
 	}
-
-	function isSectionActive(section: NavSection): boolean {
-		return section.items.some((item) => isActive(item.href));
-	}
 </script>
 
-<nav class="sidebar-content box gap32" aria-label="Guide sections">
+<nav aria-label="Guide sections">
 	{#each sections as section (section.title)}
-		<div class="box gap16">
-			<span class="text-xs tt-u muted">{section.title}</span>
-			<div class="box section-list gap0">
+		<section>
+			<div class="section-label">{section.title}</div>
+			<div class="sidebar-links">
 				{#each section.items as item (item.href)}
 					<a
-						class="section-list-item"
+						class:active={isActive(item.href)}
 						href={item.href}
 						aria-current={isActive(item.href) ? 'page' : undefined}
 					>
@@ -35,6 +30,6 @@
 					</a>
 				{/each}
 			</div>
-		</div>
+		</section>
 	{/each}
 </nav>

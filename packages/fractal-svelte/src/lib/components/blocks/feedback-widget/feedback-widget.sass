@@ -1,0 +1,107 @@
+@use '../../../styles/mixins' as *
+
+[data-slot="feedback-widget"]
+	position: absolute
+	bottom: var(--fractal-svelte-space-4)
+	z-index: 30
+
+	&[data-position="bottom-right"]
+		right: var(--fractal-svelte-space-4)
+
+	&[data-position="bottom-left"]
+		left: var(--fractal-svelte-space-4)
+
+[data-slot="feedback-trigger"], [data-slot="feedback-panel"] button
+	+interactive
+	+focus-ring
+	font: inherit
+
+[data-slot="feedback-trigger"]
+	+icon-child(1.25rem)
+	display: flex
+	align-items: center
+	justify-content: center
+	width: 3rem
+	height: 3rem
+	padding: 0
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-full)
+	background: var(--card)
+	color: var(--foreground)
+	box-shadow: var(--shadow-md)
+
+	& svg
+		fill: none
+		stroke: currentColor
+		stroke-width: 2
+		stroke-linecap: round
+
+[data-slot="feedback-panel"]
+	width: min(20rem, 86vw)
+	padding: var(--fractal-svelte-space-3)
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-xl)
+	background: var(--card)
+	color: var(--foreground)
+	box-shadow: var(--shadow-lg)
+	animation: feedback-open calc(280ms * var(--motion-scale)) ease-out
+
+	& header, & footer
+		display: flex
+		align-items: center
+		gap: var(--fractal-svelte-space-2)
+
+	& header
+		justify-content: space-between
+
+	& h2
+		margin: 0
+		font-size: 0.875rem
+
+	& button
+		min-height: 2rem
+		padding: 0 var(--fractal-svelte-space-3)
+		border: 1px solid var(--border)
+		border-radius: var(--fractal-svelte-radius-md)
+		background: var(--muted)
+		color: var(--foreground)
+
+		&:disabled
+			cursor: not-allowed
+			opacity: 0.5
+
+	& textarea
+		box-sizing: border-box
+		width: 100%
+		margin: var(--fractal-svelte-space-3) 0
+		padding: var(--fractal-svelte-space-3)
+		border: 1px solid var(--border)
+		border-radius: var(--fractal-svelte-radius-md)
+		background: transparent
+		color: var(--foreground)
+		font: inherit
+		resize: vertical
+
+	& footer
+		justify-content: flex-end
+
+[data-slot="feedback-result"]
+	display: flex
+	flex-direction: column
+	align-items: center
+	gap: var(--fractal-svelte-space-2)
+	padding: var(--fractal-svelte-space-5)
+	text-align: center
+
+	& span
+		color: var(--muted-foreground)
+		font-size: 0.8125rem
+
+@keyframes feedback-open
+	from
+		opacity: 0
+		transform: translateY(0.5rem) scale(0.96)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot="feedback-panel"]
+		animation: none

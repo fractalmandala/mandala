@@ -1,0 +1,16 @@
+{
+	"slug": "bouncy-accordion",
+	"source": "https://beui.dev/r/bouncy-accordion",
+	"tier": 3,
+	"category": "blocks",
+	"portedDate": "2026-08-08",
+	"components": ["BouncyAccordion"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"Spring-animated height via @humanspeak/svelte-motion animate instead of framer-motion",
+		"ResizeObserver-based content height measurement with Svelte 5 actions",
+		"Indented SASS with data-slot pattern instead of Tailwind utility classes"
+	]
+}

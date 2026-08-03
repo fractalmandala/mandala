@@ -1,0 +1,32 @@
+@use '../../../styles/_mixins' as *
+[data-slot="switch-root"]
+	display: inline-flex
+	align-items: center
+	gap: var(--fractal-svelte-space-3)
+	&[data-disabled="true"]
+		opacity: 0.6
+[data-slot="switch"]
+	+interactive
+	+focus-ring
+	width: 3rem
+	height: 1.75rem
+	padding: 0.25rem
+	border: 0
+	border-radius: var(--fractal-svelte-radius-full)
+	background: var(--muted-foreground)
+	transition: background-color 0.2s ease
+	&[data-state="checked"]
+		background: var(--primary)
+	&:disabled
+		cursor: not-allowed
+[data-slot="switch-thumb"]
+	display: block
+	width: 1.25rem
+	height: 1.25rem
+	border-radius: 50%
+	background: var(--background)
+	box-shadow: var(--shadow-md)
+[data-slot="switch-label"]
+	cursor: pointer
+	font-size: 0.875rem
+	color: var(--foreground)

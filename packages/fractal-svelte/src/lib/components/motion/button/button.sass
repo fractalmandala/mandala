@@ -1,0 +1,81 @@
+@use '../../../styles/_mixins' as *
+[data-slot="button"]
+	+interactive
+	+focus-ring
+	position: relative
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	border: 1px solid transparent
+	border-radius: var(--fractal-svelte-radius-full)
+	font-weight: 500
+	line-height: 1
+	user-select: none
+	isolation: isolate
+	&[data-variant="primary"]
+		background: var(--primary)
+		color: var(--primary-foreground)
+	&[data-variant="secondary"]
+		border-color: var(--border)
+		background: var(--card)
+		color: var(--foreground)
+	&[data-variant="ghost"]
+		background: transparent
+		color: var(--muted-foreground)
+		&:hover
+			background: var(--muted)
+			color: var(--foreground)
+	&[data-variant="outline"]
+		border-color: var(--border)
+		background: transparent
+		color: var(--foreground)
+		&:hover
+			background: var(--muted)
+	&[data-size="sm"]
+		height: 2rem
+		padding: 0 var(--fractal-svelte-space-3)
+		font-size: 0.75rem
+	&[data-size="md"]
+		height: 2.5rem
+		padding: 0 var(--fractal-svelte-space-5)
+		font-size: 0.875rem
+	&[data-size="lg"]
+		height: 3rem
+		padding: 0 var(--fractal-svelte-space-6)
+		font-size: 1rem
+	&[data-size="icon"]
+		width: 2rem
+		height: 2rem
+		padding: 0
+		border-radius: var(--fractal-svelte-radius-lg)
+	&:disabled
+		cursor: not-allowed
+		opacity: 0.5
+[data-slot="button-content"]
+	position: relative
+	z-index: 1
+	display: inline-flex
+	align-items: center
+	gap: var(--fractal-svelte-space-2)
+[data-slot="button-ripples"]
+	position: absolute
+	inset: 0
+	overflow: hidden
+	border-radius: inherit
+	pointer-events: none
+[data-slot="button-ripple"]
+	position: absolute
+	left: var(--ripple-x)
+	top: var(--ripple-y)
+	width: var(--ripple-size)
+	height: var(--ripple-size)
+	border-radius: 50%
+	background: currentColor
+	animation: button-ripple 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards
+@keyframes button-ripple
+	from
+		transform: translate(-50%, -50%) scale(0.05)
+		opacity: 0.3
+	to
+		transform: translate(-50%, -50%) scale(1)
+		opacity: 0

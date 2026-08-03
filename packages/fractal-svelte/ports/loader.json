@@ -1,0 +1,16 @@
+{
+	"slug": "loader",
+	"source": "https://beui.dev/r/loader",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-03",
+	"components": ["Loader"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": [],
+	"propsInvented": [],
+	"deviations": [
+		"All seventeen canonical variants use component-scoped CSS animation and Svelte timers instead of Motion React",
+		"Reduced motion replaces transforms with a calm opacity pulse; terminal glyph swaps remain text updates",
+		"Metaballs use intersecting SVG circles without the upstream SVG goo filter"
+	]
+}

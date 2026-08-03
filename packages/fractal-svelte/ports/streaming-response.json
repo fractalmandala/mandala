@@ -1,0 +1,18 @@
+{
+	"slug": "streaming-response",
+	"source": "https://beui.dev/r/streaming-response",
+	"tier": 2,
+	"category": "agents",
+	"portedDate": "2026-08-02",
+	"components": ["StreamingResponse"],
+	"depsDropped": ["react", "tailwindcss"],
+	"depsAdded": [],
+	"propsInvented": [],
+	"deviations": [
+		"Svelte 5 runes and typed Snippet composition replace React context and ReactNode APIs.",
+		"Native semantic controls and inline SVG/text glyphs replace icon and headless dependencies.",
+		"Token-only indented SASS and data-slot selectors replace utility classes.",
+		"Motion is implemented with reduced-motion-aware CSS or omitted where it is nonessential.",
+		"Canonical controlled/uncontrolled state and cleanup behavior are preserved within the public Svelte API."
+	]
+}

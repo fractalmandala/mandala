@@ -1,0 +1,16 @@
+{
+	"slug": "radio",
+	"source": "https://beui.dev/r/radio",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-03",
+	"components": ["RadioGroup"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"layoutId used for shared-layout dot indicator instead of framer-motion's layoutId",
+		"Keyboard navigation: Arrow Up/Down per ARIA radiogroup pattern",
+		"AnimatePresence wraps motion.span per Svelte 5 runes pattern"
+	]
+}

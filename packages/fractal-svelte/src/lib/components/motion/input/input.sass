@@ -1,0 +1,91 @@
+[data-slot="input"]
+	display: flex
+	flex-direction: column
+	gap: var(--fractal-svelte-space-1)
+	width: 100%
+[data-slot="input-label"]
+	padding-inline: var(--fractal-svelte-space-1)
+	font-size: 0.875rem
+	font-weight: 500
+	color: var(--foreground)
+[data-slot="input-wrapper"]
+	position: relative
+	height: 2.75rem
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-full)
+	transition: border-color 0.2s ease, box-shadow 0.2s ease
+	[data-state="focused"] &
+		border-color: var(--ring)
+		box-shadow: 0 0 0 2px var(--accent)
+	[data-state="error"] &
+		border-color: var(--destructive)
+		animation: input-shake 0.45s ease
+	[data-state="success"] &
+		border-color: var(--success)
+[data-slot="input-field"]
+	width: 100%
+	height: 100%
+	padding: 0 var(--fractal-svelte-space-4)
+	border: 0
+	border-radius: inherit
+	outline: 0
+	background: transparent
+	color: var(--foreground)
+	font-size: 1rem
+	&.has-left
+		padding-left: 2.5rem
+	&.has-right
+		padding-right: 2.75rem
+	&::placeholder
+		color: var(--muted-foreground)
+	&:disabled
+		cursor: not-allowed
+		opacity: 0.6
+[data-slot="input-left-icon"], [data-slot="input-right-icon"], [data-slot="input-success"]
+	position: absolute
+	top: 50%
+	z-index: 1
+	width: 1.25rem
+	height: 1.25rem
+	transform: translateY(-50%)
+	color: var(--muted-foreground)
+[data-slot="input-left-icon"]
+	left: var(--fractal-svelte-space-3)
+	pointer-events: none
+[data-slot="input-right-icon"], [data-slot="input-success"]
+	right: var(--fractal-svelte-space-3)
+[data-slot="input-success"]
+	fill: none
+	stroke: var(--success)
+	stroke-width: 2.5
+	stroke-linecap: round
+	stroke-linejoin: round
+	path
+		stroke-dasharray: 28
+		animation: input-draw 0.35s ease-out forwards
+		&.reduced
+			animation: none
+[data-slot="input-error"]
+	margin: 0
+	padding-inline: var(--fractal-svelte-space-1)
+	font-size: 0.75rem
+	color: var(--destructive)
+@keyframes input-shake
+	0%, 100%
+		transform: translateX(0)
+	20%
+		transform: translateX(-6px)
+	40%
+		transform: translateX(6px)
+	60%
+		transform: translateX(-4px)
+	80%
+		transform: translateX(2px)
+@keyframes input-draw
+	from
+		stroke-dashoffset: 28
+	to
+		stroke-dashoffset: 0
+@media (prefers-reduced-motion: reduce)
+	[data-state="error"] [data-slot="input-wrapper"]
+		animation: none

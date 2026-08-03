@@ -1,0 +1,16 @@
+{
+	"slug": "tooltip",
+	"source": "https://beui.dev/r/tooltip",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-03",
+	"components": ["Tooltip"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge", "react-dom"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": ["position"],
+	"deviations": [
+		"The fixed-position tooltip remains inside the Svelte trigger subtree instead of using a React DOM portal",
+		"Focus is tracked with focusin/focusout on the snippet wrapper because Svelte snippets cannot clone and augment one child element",
+		"The deprecated position alias remains accepted for compatibility while side is canonical"
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"slug": "expandable-action-bar",
+	"source": "https://beui.dev/r/expandable-action-bar",
+	"tier": 3,
+	"category": "blocks",
+	"portedDate": "2026-08-08",
+	"components": ["ExpandableActionBar"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": ["orientation"],
+	"deviations": [
+		"CSS transition-based label reveal instead of framer-motion layout animations",
+		"Indented SASS with data-slot pattern instead of Tailwind utility classes",
+		"Hover/focus expansion via CSS data-expanded attribute"
+	]
+}

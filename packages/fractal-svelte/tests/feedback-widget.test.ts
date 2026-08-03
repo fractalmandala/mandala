@@ -1,0 +1,7 @@
+import { describe, expect, it, vi } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/svelte';
+import { FeedbackWidget } from '../src/lib/components/blocks/feedback-widget/index.js';
+describe('FeedbackWidget', () => {
+	it('submits trimmed feedback and reaches success', async () => { const submit = vi.fn().mockResolvedValue(undefined); render(FeedbackWidget, { props: { onSubmit: submit } }); await fireEvent.click(screen.getByRole('button', { name: 'Help us improve' })); const field = screen.getByPlaceholderText('Share an idea or report a bug'); await fireEvent.input(field, { target: { value: '  useful  ' } }); await fireEvent.click(screen.getByRole('button', { name: 'Submit' })); await waitFor(() => expect(screen.getByRole('status')).toBeTruthy()); expect(submit).toHaveBeenCalledWith({ message: 'useful' }); });
+	it('preserves text after failure and supports retry', async () => { const submit = vi.fn().mockRejectedValueOnce(new Error('no')).mockResolvedValue(undefined); render(FeedbackWidget, { props: { onSubmit: submit } }); await fireEvent.click(screen.getByRole('button', { name: 'Help us improve' })); await fireEvent.input(screen.getByRole('textbox'), { target: { value: 'Retry me' } }); await fireEvent.click(screen.getByRole('button', { name: 'Submit' })); await waitFor(() => expect(screen.getByRole('alert')).toBeTruthy()); await fireEvent.click(screen.getByRole('button', { name: 'Try again' })); await waitFor(() => expect(screen.getByRole('status')).toBeTruthy()); expect(submit).toHaveBeenCalledTimes(2); });
+});

@@ -1,0 +1,86 @@
+@use '../../../styles/mixins' as *
+
+[data-slot="notification-stack"], [data-slot="notification-empty"]
+	width: min(22rem, 100%)
+	padding: var(--fractal-svelte-space-3)
+	border-radius: var(--fractal-svelte-radius-xl)
+	background: var(--muted)
+	color: var(--foreground)
+
+[data-slot="notification-cards"]
+	display: grid
+	gap: var(--fractal-svelte-space-1)
+
+[data-slot="notification-item"]
+	display: flex
+	grid-area: 1 / 1
+	align-items: center
+	gap: var(--fractal-svelte-space-2)
+	padding: var(--fractal-svelte-space-3) var(--fractal-svelte-space-4)
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-lg)
+	background: var(--card)
+	box-shadow: var(--shadow-sm)
+	transform: translateY(calc(var(--notification-index) * 0.5rem)) scale(calc(1 - var(--notification-index) * 0.03))
+	transform-origin: bottom center
+	transition: transform calc(280ms * var(--motion-scale)), opacity calc(200ms * var(--motion-scale))
+	touch-action: pan-y
+
+	&:not(:first-child)
+		pointer-events: none
+
+[data-expanded="true"] [data-slot="notification-item"]
+	grid-area: auto
+	transform: none
+	pointer-events: auto
+
+[data-slot="notification-content"]
+	display: flex
+	flex: 1
+	flex-direction: column
+	min-width: 0
+	font-size: 0.875rem
+
+	& span
+		color: var(--muted-foreground)
+		font-size: 0.75rem
+
+[data-slot="notification-action"], [data-slot="notification-footer"]
+	+interactive
+	+focus-ring
+	border: 0
+	font: inherit
+
+[data-slot="notification-action"]
+	background: transparent
+	color: var(--primary)
+
+[data-slot="notification-footer"]
+	display: flex
+	align-items: center
+	gap: var(--fractal-svelte-space-2)
+	width: 100%
+	margin-top: var(--fractal-svelte-space-3)
+	padding: 0
+	background: transparent
+	color: var(--foreground)
+	font-size: 0.875rem
+	font-weight: 500
+
+[data-slot="notification-count"]
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	width: 1.75rem
+	height: 1.75rem
+	border-radius: var(--fractal-svelte-radius-full)
+	background: var(--primary)
+	color: var(--primary-foreground)
+
+[data-slot="notification-empty"]
+	text-align: center
+	color: var(--muted-foreground)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot="notification-item"]
+		transition: none

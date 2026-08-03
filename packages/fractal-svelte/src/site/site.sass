@@ -1,0 +1,597 @@
+@use '../lib/styles/_mixins' as *
+
+:root
+	--site-max: 78rem
+	--site-reading: 48rem
+	--site-header: 3.75rem
+	--site-sidebar: 15rem
+	--site-radius: var(--fractal-svelte-radius-sm)
+	--site-surface: var(--background)
+	--site-surface-raised: var(--popover)
+	--site-surface-muted: var(--muted)
+	--site-text: var(--foreground)
+	--site-text-muted: var(--muted-foreground)
+	--site-line: var(--border)
+	--site-line-strong: var(--border-strong)
+	--site-focus: var(--ring)
+
+*
+	box-sizing: border-box
+
+html
+	scroll-behavior: smooth
+	scroll-padding-top: calc(var(--site-header) + var(--fractal-svelte-space-4))
+
+body
+	margin: 0
+	background: var(--site-surface)
+	color: var(--site-text)
+	font-family: var(--fractal-svelte-font-sans)
+	font-size: var(--fractal-svelte-font-size-md)
+	line-height: var(--fractal-svelte-leading-normal)
+
+button, input
+	font: inherit
+
+a
+	color: inherit
+
+button, a
+	&:focus-visible
+		outline: 2px solid var(--site-focus)
+		outline-offset: 3px
+
+.sr-only
+	position: absolute
+	width: 1px
+	height: 1px
+	padding: 0
+	margin: -1px
+	overflow: hidden
+	clip: rect(0, 0, 0, 0)
+	white-space: nowrap
+	border: 0
+
+.skip-link
+	position: fixed
+	top: var(--fractal-svelte-space-2)
+	left: var(--fractal-svelte-space-2)
+	z-index: var(--fractal-svelte-z-tooltip)
+	padding: var(--fractal-svelte-space-2) var(--fractal-svelte-space-3)
+	background: var(--primary)
+	color: var(--primary-foreground)
+	transform: translateY(-200%)
+	&:focus
+		transform: translateY(0)
+
+.site-header
+	position: sticky
+	top: 0
+	z-index: var(--fractal-svelte-z-sticky)
+	display: flex
+	height: var(--site-header)
+	align-items: center
+	gap: var(--fractal-svelte-space-6)
+	padding: 0 max(var(--fractal-svelte-space-4), calc((100vw - var(--site-max)) / 2))
+	border-bottom: 1px solid var(--site-line)
+	background: color-mix(in oklab, var(--site-surface) 88%, transparent)
+	backdrop-filter: blur(var(--fractal-svelte-space-3))
+
+.brand
+	display: inline-flex
+	align-items: center
+	gap: var(--fractal-svelte-space-2)
+	font-weight: var(--fractal-svelte-font-weight-semibold)
+	text-decoration: none
+	white-space: nowrap
+	img
+		width: var(--fractal-svelte-space-7)
+		height: var(--fractal-svelte-space-7)
+		object-fit: contain
+
+.header-nav
+	display: flex
+	align-items: center
+	gap: var(--fractal-svelte-space-1)
+	a
+		padding: var(--fractal-svelte-space-2) var(--fractal-svelte-space-3)
+		border-radius: var(--site-radius)
+		color: var(--site-text-muted)
+		font-size: var(--fractal-svelte-font-size-sm)
+		text-decoration: none
+		&:hover, &[aria-current]
+			background: var(--site-surface-muted)
+			color: var(--site-text)
+
+.header-actions
+	display: flex
+	align-items: center
+	gap: var(--fractal-svelte-space-2)
+	margin-left: auto
+
+.icon-button, .search-trigger, .copy-button
+	+interactive
+	border: 1px solid var(--site-line)
+	border-radius: var(--site-radius)
+	background: var(--site-surface-raised)
+	color: var(--site-text)
+	&:hover
+		border-color: var(--site-line-strong)
+
+.icon-button
+	display: inline-grid
+	width: var(--fractal-svelte-space-9)
+	height: var(--fractal-svelte-space-9)
+	place-items: center
+	font-size: var(--fractal-svelte-font-size-lg)
+
+.search-trigger
+	display: flex
+	min-width: 11rem
+	align-items: center
+	justify-content: space-between
+	gap: var(--fractal-svelte-space-4)
+	padding: var(--fractal-svelte-space-2) var(--fractal-svelte-space-3)
+	color: var(--site-text-muted)
+	font-size: var(--fractal-svelte-font-size-sm)
+	kbd
+		font-family: var(--fractal-svelte-font-mono)
+		font-size: var(--fractal-svelte-font-size-xs)
+
+.menu-button
+	display: none
+
+.site-layout
+	display: grid
+	grid-template-columns: var(--site-sidebar) minmax(0, 1fr)
+	max-width: var(--site-max)
+	min-height: calc(100vh - var(--site-header))
+	margin: 0 auto
+
+.desktop-sidebar
+	padding: var(--fractal-svelte-space-8) var(--fractal-svelte-space-5)
+	border-right: 1px solid var(--site-line)
+	nav
+		position: sticky
+		top: calc(var(--site-header) + var(--fractal-svelte-space-6))
+		display: flex
+		flex-direction: column
+		gap: var(--fractal-svelte-space-1)
+	p
+		margin: var(--fractal-svelte-space-5) var(--fractal-svelte-space-2) var(--fractal-svelte-space-1)
+		color: var(--site-text-muted)
+		font-size: var(--fractal-svelte-font-size-xs)
+		font-weight: var(--fractal-svelte-font-weight-semibold)
+		letter-spacing: var(--fractal-svelte-tracking-wide)
+		text-transform: uppercase
+	a
+		display: flex
+		align-items: center
+		justify-content: space-between
+		padding: var(--fractal-svelte-space-2)
+		border-radius: var(--site-radius)
+		color: var(--site-text-muted)
+		font-size: var(--fractal-svelte-font-size-sm)
+		text-decoration: none
+		&:hover, &[aria-current]
+			background: var(--site-surface-muted)
+			color: var(--site-text)
+		span
+			font-size: var(--fractal-svelte-font-size-xs)
+
+main
+	min-width: 0
+
+.site-footer
+	display: flex
+	max-width: var(--site-max)
+	align-items: flex-start
+	justify-content: space-between
+	gap: var(--fractal-svelte-space-8)
+	margin: 0 auto
+	padding: var(--fractal-svelte-space-12) var(--fractal-svelte-space-6)
+	border-top: 1px solid var(--site-line)
+	p
+		margin: var(--fractal-svelte-space-1) 0 0
+		color: var(--site-text-muted)
+		font-size: var(--fractal-svelte-font-size-sm)
+	nav
+		display: flex
+		flex-wrap: wrap
+		gap: var(--fractal-svelte-space-4)
+		a
+			color: var(--site-text-muted)
+			font-size: var(--fractal-svelte-font-size-sm)
+
+.overlay
+	position: fixed
+	inset: 0
+	z-index: var(--fractal-svelte-z-modal)
+	display: flex
+	justify-content: flex-end
+	background: var(--overlay)
+
+.drawer
+	width: min(88vw, 22rem)
+	height: 100%
+	padding: var(--fractal-svelte-space-5)
+	background: var(--site-surface-raised)
+	box-shadow: var(--shadow-lg)
+	.dialog-header
+		display: flex
+		align-items: center
+		justify-content: space-between
+		margin-bottom: var(--fractal-svelte-space-5)
+	nav
+		display: flex
+		flex-direction: column
+		gap: var(--fractal-svelte-space-2)
+		a
+			padding: var(--fractal-svelte-space-3)
+			border-bottom: 1px solid var(--site-line)
+			text-decoration: none
+
+.overlay--search
+	align-items: flex-start
+	justify-content: center
+	padding: 12vh var(--fractal-svelte-space-4)
+
+.search-dialog
+	width: min(40rem, 100%)
+	overflow: hidden
+	border: 1px solid var(--site-line-strong)
+	border-radius: var(--fractal-svelte-radius-md)
+	background: var(--site-surface-raised)
+	box-shadow: var(--shadow-lg)
+
+.search-input
+	display: flex
+	align-items: center
+	gap: var(--fractal-svelte-space-3)
+	padding: var(--fractal-svelte-space-3)
+	border-bottom: 1px solid var(--site-line)
+	input
+		min-width: 0
+		flex: 1
+		border: 0
+		background: transparent
+		color: var(--site-text)
+		outline: 0
+
+.search-results
+	max-height: 25rem
+	overflow: auto
+	padding: var(--fractal-svelte-space-2)
+	a
+		display: flex
+		align-items: center
+		justify-content: space-between
+		padding: var(--fractal-svelte-space-3)
+		border-radius: var(--site-radius)
+		text-decoration: none
+		&:hover, &:focus-visible
+			background: var(--site-surface-muted)
+		span:first-child
+			display: flex
+			flex-direction: column
+		small
+			color: var(--site-text-muted)
+			text-transform: capitalize
+	p
+		padding: var(--fractal-svelte-space-5)
+		color: var(--site-text-muted)
+
+.page-shell
+	padding: var(--fractal-svelte-space-10) clamp(var(--fractal-svelte-space-5), 4vw, var(--fractal-svelte-space-12)) var(--fractal-svelte-space-16)
+
+.page-header
+	max-width: var(--site-reading)
+	margin-bottom: var(--fractal-svelte-space-8)
+	h1
+		margin: var(--fractal-svelte-space-3) 0
+		font-size: clamp(var(--fractal-svelte-font-size-3xl), 5vw, 3rem)
+		line-height: var(--fractal-svelte-leading-tight)
+		letter-spacing: var(--fractal-svelte-tracking-tight)
+	p
+		margin: 0
+		color: var(--site-text-muted)
+		font-size: var(--fractal-svelte-font-size-lg)
+		line-height: var(--fractal-svelte-leading-relaxed)
+
+.eyebrow
+	color: var(--site-text-muted)
+	font-size: var(--fractal-svelte-font-size-xs)
+	font-weight: var(--fractal-svelte-font-weight-semibold)
+	letter-spacing: var(--fractal-svelte-tracking-wide)
+	text-transform: uppercase
+
+.breadcrumbs
+	ol
+		display: flex
+		flex-wrap: wrap
+		gap: var(--fractal-svelte-space-2)
+		margin: 0
+		padding: 0
+		list-style: none
+		font-size: var(--fractal-svelte-font-size-sm)
+	li
+		display: flex
+		gap: var(--fractal-svelte-space-2)
+		color: var(--site-text-muted)
+		a:hover
+			color: var(--site-text)
+
+.component-grid
+	display: grid
+	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr))
+	gap: var(--fractal-svelte-space-3)
+
+.component-card
+	display: flex
+	min-height: 11rem
+	flex-direction: column
+	gap: var(--fractal-svelte-space-3)
+	padding: var(--fractal-svelte-space-5)
+	border: 1px solid var(--site-line)
+	border-radius: var(--site-radius)
+	background: var(--site-surface-raised)
+	color: var(--site-text-muted)
+	font-size: var(--fractal-svelte-font-size-sm)
+	text-decoration: none
+	transition: border-color var(--motion-duration-fast) var(--ease-out), transform var(--motion-duration-fast) var(--ease-out)
+	&:hover
+		border-color: var(--site-line-strong)
+		transform: translateY(-2px)
+	.component-card__top
+		display: flex
+		align-items: center
+		justify-content: space-between
+		gap: var(--fractal-svelte-space-3)
+		color: var(--site-text)
+	.component-card__meta
+		margin-top: auto
+		font-family: var(--fractal-svelte-font-mono)
+		font-size: var(--fractal-svelte-font-size-xs)
+
+.status
+	padding: var(--fractal-svelte-space-1) var(--fractal-svelte-space-2)
+	border: 1px solid var(--site-line)
+	border-radius: var(--fractal-svelte-radius-full)
+	color: var(--site-text-muted)
+	font-size: var(--fractal-svelte-font-size-xs)
+	font-weight: var(--fractal-svelte-font-weight-medium)
+	text-transform: capitalize
+	&[data-status='ready']
+		border-color: color-mix(in oklab, var(--success) 50%, var(--site-line))
+		color: var(--success)
+
+.install-command
+	display: flex
+	align-items: center
+	gap: var(--fractal-svelte-space-3)
+	max-width: 38rem
+	padding: var(--fractal-svelte-space-2) var(--fractal-svelte-space-2) var(--fractal-svelte-space-2) var(--fractal-svelte-space-4)
+	border: 1px solid var(--site-line-strong)
+	border-radius: var(--site-radius)
+	background: var(--site-surface-raised)
+	font-family: var(--fractal-svelte-font-mono)
+	font-size: var(--fractal-svelte-font-size-sm)
+	span
+		color: var(--site-text-muted)
+	code
+		min-width: 0
+		flex: 1
+		overflow: auto
+		white-space: nowrap
+
+.copy-button
+	padding: var(--fractal-svelte-space-2) var(--fractal-svelte-space-3)
+	font-size: var(--fractal-svelte-font-size-xs)
+
+.preview-frame
+	display: grid
+	min-height: 20rem
+	place-items: center
+	padding: var(--fractal-svelte-space-8)
+	border: 1px solid var(--site-line)
+	border-radius: var(--site-radius)
+	background: var(--site-surface-muted)
+	text-align: center
+	&[data-planned='true']
+		background: var(--site-surface-raised)
+
+.code-block
+	overflow: hidden
+	border: 1px solid var(--site-line)
+	border-radius: var(--site-radius)
+	background: var(--site-surface-raised)
+	.code-block__header
+		display: flex
+		align-items: center
+		justify-content: space-between
+		padding: var(--fractal-svelte-space-2) var(--fractal-svelte-space-3)
+		border-bottom: 1px solid var(--site-line)
+		color: var(--site-text-muted)
+		font-size: var(--fractal-svelte-font-size-xs)
+	pre
+		margin: 0
+		padding: var(--fractal-svelte-space-5)
+		overflow: auto
+		font: var(--fractal-svelte-font-size-sm)/var(--fractal-svelte-leading-relaxed) var(--fractal-svelte-font-mono)
+
+.docs-layout
+	display: grid
+	grid-template-columns: minmax(0, var(--site-reading)) 12rem
+	gap: var(--fractal-svelte-space-12)
+	align-items: start
+
+.docs-content
+	min-width: 0
+	section
+		padding: var(--fractal-svelte-space-8) 0
+		border-top: 1px solid var(--site-line)
+		h2
+			margin: 0 0 var(--fractal-svelte-space-3)
+			font-size: var(--fractal-svelte-font-size-xl)
+		p
+			color: var(--site-text-muted)
+	ul
+		padding-left: var(--fractal-svelte-space-5)
+
+.toc
+	position: sticky
+	top: calc(var(--site-header) + var(--fractal-svelte-space-6))
+	font-size: var(--fractal-svelte-font-size-sm)
+	ul
+		display: flex
+		flex-direction: column
+		gap: var(--fractal-svelte-space-2)
+		padding: 0
+		list-style: none
+	a
+		color: var(--site-text-muted)
+		text-decoration: none
+		&:hover
+			color: var(--site-text)
+
+.table-wrap
+	overflow: auto
+	table
+		width: 100%
+		border-collapse: collapse
+		font-size: var(--fractal-svelte-font-size-sm)
+	th, td
+		padding: var(--fractal-svelte-space-3)
+		border-bottom: 1px solid var(--site-line)
+		text-align: left
+		vertical-align: top
+	th
+		color: var(--site-text-muted)
+		font-size: var(--fractal-svelte-font-size-xs)
+		text-transform: uppercase
+	code
+		font-family: var(--fractal-svelte-font-mono)
+
+.examples-tabs
+	.tabs-list
+		display: flex
+		gap: var(--fractal-svelte-space-1)
+		margin-bottom: var(--fractal-svelte-space-3)
+		padding: var(--fractal-svelte-space-1)
+		border: 1px solid var(--site-line)
+		border-radius: var(--site-radius)
+		background: var(--site-surface-muted)
+		button
+			+interactive
+			padding: var(--fractal-svelte-space-2) var(--fractal-svelte-space-3)
+			border: 0
+			border-radius: var(--fractal-svelte-radius-xs)
+			background: transparent
+			color: var(--site-text-muted)
+			&[aria-selected='true']
+				background: var(--site-surface-raised)
+				color: var(--site-text)
+				box-shadow: var(--shadow-sm)
+
+.pager
+	display: grid
+	grid-template-columns: repeat(2, minmax(0, 1fr))
+	gap: var(--fractal-svelte-space-3)
+	margin-top: var(--fractal-svelte-space-10)
+	a
+		display: flex
+		flex-direction: column
+		padding: var(--fractal-svelte-space-4)
+		border: 1px solid var(--site-line)
+		border-radius: var(--site-radius)
+		text-decoration: none
+		span
+			color: var(--site-text-muted)
+			font-size: var(--fractal-svelte-font-size-xs)
+		&:last-child
+			text-align: right
+
+.hero
+	padding: clamp(var(--fractal-svelte-space-14), 9vw, var(--fractal-svelte-space-24)) clamp(var(--fractal-svelte-space-5), 5vw, var(--fractal-svelte-space-16))
+	border-bottom: 1px solid var(--site-line)
+	.hero__inner
+		max-width: 54rem
+	h1
+		max-width: 50rem
+		margin: var(--fractal-svelte-space-4) 0
+		font-size: clamp(2.6rem, 7vw, 5.2rem)
+		line-height: 1.02
+		letter-spacing: -0.045em
+	p
+		max-width: 42rem
+		margin: 0 0 var(--fractal-svelte-space-7)
+		color: var(--site-text-muted)
+		font-size: clamp(var(--fractal-svelte-font-size-lg), 2vw, var(--fractal-svelte-font-size-xl))
+		line-height: var(--fractal-svelte-leading-relaxed)
+
+.home-section
+	padding: var(--fractal-svelte-space-12) clamp(var(--fractal-svelte-space-5), 5vw, var(--fractal-svelte-space-16))
+	border-bottom: 1px solid var(--site-line)
+	.section-heading
+		display: flex
+		align-items: end
+		justify-content: space-between
+		gap: var(--fractal-svelte-space-5)
+		margin-bottom: var(--fractal-svelte-space-6)
+		h2
+			margin: 0
+		p
+			max-width: 35rem
+			margin: var(--fractal-svelte-space-1) 0 0
+			color: var(--site-text-muted)
+		a
+			font-size: var(--fractal-svelte-font-size-sm)
+
+.fixture-preview
+	display: flex
+	flex-wrap: wrap
+	align-items: center
+	justify-content: center
+	gap: var(--fractal-svelte-space-4)
+
+.planned-message
+	max-width: 32rem
+	h3
+		margin: 0 0 var(--fractal-svelte-space-2)
+	p
+		margin: 0
+
+@media (max-width: 64rem)
+	.site-layout
+		grid-template-columns: 1fr
+	.desktop-sidebar
+		display: none
+	.header-nav
+		display: none
+	.menu-button
+		display: inline-grid
+	.docs-layout
+		grid-template-columns: 1fr
+	.toc
+		display: none
+
+@media (max-width: 40rem)
+	.brand span, .search-trigger span, .search-trigger kbd
+		display: none
+	.search-trigger
+		min-width: auto
+		width: var(--fractal-svelte-space-9)
+		height: var(--fractal-svelte-space-9)
+		padding: 0
+		&::before
+			content: '⌕'
+	.site-header
+		gap: var(--fractal-svelte-space-2)
+	.site-footer, .section-heading
+		align-items: flex-start !important
+		flex-direction: column
+	.pager
+		grid-template-columns: 1fr
+	.preview-frame
+		min-height: 15rem
+		padding: var(--fractal-svelte-space-5)

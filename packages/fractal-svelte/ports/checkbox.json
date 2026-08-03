@@ -1,0 +1,16 @@
+{
+	"slug": "checkbox",
+	"source": "https://beui.dev/r/checkbox",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-04",
+	"components": ["Checkbox"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"Check mark draw-on animation uses CSS stroke-dasharray keyframe instead of framer-motion pathLength",
+		"Reduced motion via --beui-motion-scale CSS token and useReducedMotion store",
+		"Indeterminate state renders a horizontal line instead of minus icon"
+	]
+}

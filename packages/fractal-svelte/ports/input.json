@@ -1,0 +1,18 @@
+{
+	"slug": "input",
+	"source": "https://beui.dev/r/input",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-06",
+	"components": ["Input"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"Error shake via CSS @keyframes on [data-slot='input'][data-error='true'] gated on --beui-motion-scale",
+		"Success checkmark SVG draw-on animation via CSS stroke-dasharray keyframe instead of framer-motion pathLength",
+		"Error message enter/exit via AnimatePresence + motion.span with x animation from @humanspeak/svelte-motion",
+		"Reduced motion via --beui-motion-scale CSS token and useReducedMotion store",
+		"Indented SASS with data-slot pattern instead of Tailwind utility classes"
+	]
+}

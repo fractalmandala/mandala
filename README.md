@@ -6,7 +6,22 @@ Monorepo for everything I work on - sites, apps, packages.
 
 **morphicons-svelte**
 a porting of morphicons to svelte. 
-NPM - 
+[![npm version](https://img.shields.io/npm/v/morphicons-svelte.svg)](https://www.npmjs.com/package/morphicons-svelte)
+
+**svelte-animated-icon** and **@fractaldesign/svelte-icons**
+thousands of iconsets animated in dozens of ways. a more than complete animated icons library for sveltekit.
+[![npm version](https://img.shields.io/npm/v/svelte-animated-icon.svg)](https://www.npmjs.com/package/svelte-animated-icon)
+[![npm version](https://img.shields.io/npm/v/@fractaldesign/svelte-icons.svg)](https://www.npmjs.com/package/@fractaldesign/svelte-icons)
+
+**fractalsvelte**
+an ongoing attempt to replicate shadcn-svelte but without tailwind dependencies. also a way to learn bits ui.
+[![npm version](https://img.shields.io/npm/v/fractalsvelte.svg)](https://www.npmjs.com/package/fractalsvelte)
+
+## Fractal Agentic
+
+A must try package. The grand orchestration of 167 skills, 59 commands, 33 agents, 7 bosses all under 1 system that learns, grows, maintains a wiki and knows how to complete tasks well.
+<a href="https://fractal-agentic.vercel.app/">Take a look!</a>
+
 
 
 This is a constantly evolving monorepo. It is best to study any available AGENTS.md files inside the projects - `apps/` , `sites/` and `packages/` to get more information.  Some common monorepo features:

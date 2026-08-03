@@ -1,0 +1,79 @@
+[data-slot="message-bubble"]
+ display: flex
+ width: 100%
+ flex-direction: column
+ align-items: flex-start
+ &[data-align="end"]
+  align-items: flex-end
+ &[data-animate="true"] [data-slot="message-bubble-content"]
+  animation: bubble-enter calc(.24s * var(--motion-scale, 1)) cubic-bezier(.16,1,.3,1)
+[data-slot="message-bubble-content"]
+ position: relative
+ max-width: 82%
+ min-width: 2.25rem
+ border: 0
+ border-radius: var(--fractal-svelte-radius-lg)
+ padding: var(--fractal-svelte-space-2) var(--fractal-svelte-space-3)
+ background: var(--muted)
+ color: var(--foreground)
+ font: inherit
+ line-height: 1.5
+ text-align: left
+ &[data-variant="solid"]
+  background: var(--foreground)
+  color: var(--background)
+ &[data-variant="tint"]
+  background: color-mix(in srgb, var(--primary) 10%, transparent)
+ &[data-variant="outline"]
+  border: 1px solid var(--border)
+  background: var(--background)
+ &[data-variant="ghost"]
+  width: 100%
+  max-width: none
+  padding: 0
+  background: transparent
+ &[data-variant="danger"]
+  background: color-mix(in srgb, var(--destructive) 10%, transparent)
+  color: var(--destructive)
+ &:is(a,button)
+  cursor: pointer
+  &:focus-visible
+   outline: 2px solid var(--ring)
+   outline-offset: 2px
+ :global(p + p)
+  margin-top: var(--fractal-svelte-space-2)
+ :global(pre)
+  overflow-x: auto
+[data-slot="message-bubble-group"]
+ display: flex
+ width: 100%
+ flex-direction: column
+ gap: var(--fractal-svelte-space-1)
+ &[data-spacing="default"]
+  gap: var(--fractal-svelte-space-3)
+[data-slot="message-bubble-collapsible"]
+ width: 100%
+ &[data-state="closed"] [data-slot="message-bubble-collapsible-content"]
+  display: -webkit-box
+  overflow: hidden
+  -webkit-box-orient: vertical
+  -webkit-line-clamp: var(--collapsed-lines)
+  mask-image: linear-gradient(to bottom,var(--foreground) 68%,transparent)
+[data-slot="message-bubble-collapsible-trigger"]
+ min-height: 1.75rem
+ margin-top: var(--fractal-svelte-space-2)
+ border: 0
+ border-radius: 999px
+ padding-inline: var(--fractal-svelte-space-2)
+ background: transparent
+ color: var(--muted-foreground)
+ cursor: pointer
+ &:focus-visible
+  outline: 2px solid var(--ring)
+@keyframes bubble-enter
+ from
+  opacity: 0
+  transform: scale(.92)
+@media (prefers-reduced-motion: reduce)
+ [data-slot="message-bubble-content"]
+  animation: none !important

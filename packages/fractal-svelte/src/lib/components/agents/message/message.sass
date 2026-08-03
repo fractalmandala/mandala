@@ -1,0 +1,86 @@
+[data-slot="message"]
+ display: flex
+ width: 100%
+ align-items: flex-start
+ gap: var(--fractal-svelte-space-2)
+ &[data-from="user"]
+  flex-direction: row-reverse
+ &[data-animate="true"]
+  animation: message-enter calc(.28s * var(--motion-scale, 1)) cubic-bezier(.16,1,.3,1)
+[data-slot="message-group"]
+ display: flex
+ width: 100%
+ flex-direction: column
+ gap: var(--fractal-svelte-space-2)
+ &[data-spacing="default"]
+  gap: var(--fractal-svelte-space-4)
+[data-slot="message-avatar"]
+ display: grid
+ width: 1.75rem
+ height: 1.75rem
+ flex: 0 0 1.75rem
+ place-items: center
+ overflow: hidden
+ border-radius: 50%
+ background: var(--muted)
+ color: var(--muted-foreground)
+ &[data-placeholder="true"]
+  visibility: hidden
+ :global(svg), :global(img)
+  width: 1rem
+  height: 1rem
+[data-slot="message-content"]
+ display: flex
+ min-width: 0
+ flex: 1
+ flex-direction: column
+ align-items: flex-start
+ gap: var(--fractal-svelte-space-1)
+ &[data-from="user"]
+  align-items: flex-end
+[data-slot="message-header"], [data-slot="message-footer"]
+ display: flex
+ align-items: center
+ gap: var(--fractal-svelte-space-1)
+ padding-inline: var(--fractal-svelte-space-1)
+ color: var(--muted-foreground)
+ font-size: .6875rem
+[data-slot="message-marker"]
+ width: fit-content
+ max-width: 88%
+ margin-inline: auto
+ border-radius: 999px
+ background: var(--muted)
+ padding: var(--fractal-svelte-space-1) var(--fractal-svelte-space-2)
+ color: var(--muted-foreground)
+ font-size: .75rem
+ text-align: center
+[data-slot="message-typing"]
+ display: inline-flex
+ min-height: 1.25rem
+ align-items: center
+ gap: .25rem
+[data-slot="message-typing-dot"]
+ width: .25rem
+ height: .25rem
+ border-radius: 50%
+ background: currentColor
+ animation: typing calc(1.05s * var(--motion-scale, 1)) infinite
+ animation-delay: calc(var(--dot) * .14s)
+[data-slot="sr-only"]
+ position: absolute
+ width: 1px
+ height: 1px
+ overflow: hidden
+ clip: rect(0,0,0,0)
+@keyframes message-enter
+ from
+  opacity: 0
+  transform: translateY(8px) scale(.95)
+@keyframes typing
+ 50%
+  opacity: .3
+  transform: translateY(-2px)
+@media (prefers-reduced-motion: reduce)
+ [data-slot="message"], [data-slot="message-typing-dot"]
+  animation: none

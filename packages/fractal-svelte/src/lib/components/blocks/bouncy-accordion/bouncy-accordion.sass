@@ -1,0 +1,79 @@
+@use '../../../styles/mixins' as *
+
+[data-slot="bouncy-accordion"]
+	display: flex
+	flex-direction: column
+	width: 100%
+	gap: var(--fractal-svelte-space-1)
+
+[data-slot="bouncy-accordion-item"]
+	overflow: hidden
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-lg)
+	background: var(--card)
+	transition: margin calc(280ms * var(--motion-scale)), border-radius calc(280ms * var(--motion-scale))
+
+	&[data-state="open"]
+		margin: var(--fractal-svelte-space-2) 0
+
+[data-slot="bouncy-accordion-trigger"]
+	+interactive
+	+focus-ring
+	display: flex
+	align-items: center
+	gap: var(--fractal-svelte-space-3)
+	width: 100%
+	min-height: 3.375rem
+	padding: 0 var(--fractal-svelte-space-4)
+	border: 0
+	background: transparent
+	color: var(--foreground)
+	font: inherit
+	font-size: 0.9375rem
+	font-weight: 500
+	text-align: left
+
+	&:disabled
+		cursor: not-allowed
+		opacity: 0.5
+
+[data-slot="bouncy-accordion-icon"]
+	+icon-child
+	display: inline-flex
+	color: var(--muted-foreground)
+
+[data-slot="bouncy-accordion-title"]
+	flex: 1
+
+[data-slot="bouncy-accordion-chevron"]
+	width: 1rem
+	height: 1rem
+	fill: none
+	stroke: currentColor
+	stroke-width: 1.5
+	stroke-linecap: round
+	stroke-linejoin: round
+	transition: transform calc(280ms * var(--motion-scale))
+
+[aria-expanded="true"] [data-slot="bouncy-accordion-chevron"]
+	transform: rotate(180deg)
+
+[data-slot="bouncy-accordion-panel"]
+	overflow: hidden
+
+[data-slot="bouncy-accordion-content"]
+	padding: 0 var(--fractal-svelte-space-4) var(--fractal-svelte-space-4)
+	color: var(--muted-foreground)
+	font-size: 0.9375rem
+	line-height: 1.6
+	animation: accordion-content calc(320ms * var(--motion-scale)) ease-out
+
+@keyframes accordion-content
+	from
+		opacity: 0
+		transform: translateY(-0.5rem)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot="bouncy-accordion-item"], [data-slot="bouncy-accordion-chevron"], [data-slot="bouncy-accordion-content"]
+		animation: none
+		transition: none

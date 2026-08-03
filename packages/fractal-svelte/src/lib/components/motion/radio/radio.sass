@@ -1,0 +1,39 @@
+@use '../../../styles/_mixins' as *
+[data-slot="radio-group"]
+	display: flex
+	gap: var(--fractal-svelte-space-3)
+	&[data-orientation="vertical"]
+		flex-direction: column
+	&[data-orientation="horizontal"]
+		flex-flow: row wrap
+[data-slot="radio-item"]
+	display: inline-flex
+	align-items: center
+	gap: var(--fractal-svelte-space-3)
+	cursor: pointer
+	&[data-disabled="true"]
+		cursor: not-allowed
+		opacity: 0.6
+[data-slot="radio-control"]
+	+interactive
+	+focus-ring
+	position: relative
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	width: 1.25rem
+	height: 1.25rem
+	padding: 0
+	border: 2px solid var(--muted-foreground)
+	border-radius: 50%
+	background: transparent
+	&[aria-checked="true"]
+		border-color: var(--primary)
+[data-slot="radio-dot"]
+	position: absolute
+	inset: 0.25rem
+	border-radius: 50%
+	background: var(--primary)
+[data-slot="radio-label"]
+	font-size: 0.875rem
+	color: var(--foreground)

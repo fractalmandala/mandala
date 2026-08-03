@@ -1,0 +1,14 @@
+[data-slot="message-scroller"]
+ min-height: 0
+ height: 100%
+[data-slot="message-scroller-viewport"]
+ height: 100%
+ overflow-y: auto
+ overscroll-behavior: contain
+ overflow-anchor: none
+ outline: none
+ scrollbar-gutter: stable
+ &:focus-visible
+  box-shadow: inset 0 0 0 2px var(--ring)
+[data-slot="message-scroller-content"]
+ min-height: 100%

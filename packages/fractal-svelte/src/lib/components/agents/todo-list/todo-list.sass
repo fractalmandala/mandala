@@ -1,0 +1,49 @@
+[data-slot="todo-list"]
+ overflow: hidden
+ border: 1px solid var(--border)
+ border-radius: var(--fractal-svelte-radius-lg)
+[data-slot="todo-list-trigger"]
+ display: flex
+ width: 100%
+ min-height: 2.75rem
+ align-items: center
+ gap: var(--fractal-svelte-space-2)
+ border: 0
+ padding-inline: var(--fractal-svelte-space-3)
+ background: transparent
+ color: var(--foreground)
+ text-align: left
+ strong
+  flex: 1
+ &:focus-visible
+  outline: 2px solid var(--ring)
+  outline-offset: -2px
+[data-slot="todo-list-content"]
+ max-height: var(--max-height)
+ overflow-y: auto
+ padding: 0 var(--fractal-svelte-space-2) var(--fractal-svelte-space-2)
+ &[aria-hidden="true"]
+  display: none
+ ol
+  margin: 0
+  padding: 0
+  list-style: none
+ li
+  display: flex
+  min-height: 2.25rem
+  align-items: center
+  gap: var(--fractal-svelte-space-2)
+  padding-inline: var(--fractal-svelte-space-1)
+  color: var(--muted-foreground)
+  &[data-status="in-progress"]
+   color: var(--foreground)
+  &[data-status="completed"] [data-slot="todo-title"]
+   text-decoration: line-through
+[data-slot="todo-title"]
+ min-width: 0
+ flex: 1
+ overflow: hidden
+ text-overflow: ellipsis
+ white-space: nowrap
+[data-slot="todo-detail"]
+ color: var(--muted-foreground)

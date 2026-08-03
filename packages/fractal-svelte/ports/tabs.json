@@ -1,0 +1,16 @@
+{
+	"slug": "tabs",
+	"source": "https://beui.dev/r/tabs",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-03",
+	"components": ["Tabs"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"layoutId used for shared-layout pill indicator instead of framer-motion's layoutId",
+		"Keyboard navigation: Arrow Left/Right, Home/End per WAI-ARIA tabs pattern",
+		"Roving tabindex pattern per D8 spec"
+	]
+}

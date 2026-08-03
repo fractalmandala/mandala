@@ -1,0 +1,34 @@
+[data-slot="tooltip-trigger"]
+	display: inline-flex
+	vertical-align: middle
+[data-slot="tooltip-anchor"]
+	position: fixed
+	z-index: 9999
+	pointer-events: none
+	&[data-side="top"]
+		transform: translate(-50%, -100%)
+	&[data-side="bottom"]
+		transform: translate(-50%, 0)
+	&[data-side="left"]
+		transform: translate(-100%, -50%)
+	&[data-side="right"]
+		transform: translate(0, -50%)
+[data-slot="tooltip"]
+	display: block
+	padding: var(--fractal-svelte-space-1) var(--fractal-svelte-space-3)
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-lg)
+	background: var(--background)
+	box-shadow: var(--shadow-lg)
+	color: var(--foreground)
+	font-size: 0.75rem
+	font-weight: 500
+	white-space: nowrap
+	&[data-side="top"]
+		transform-origin: center bottom
+	&[data-side="bottom"]
+		transform-origin: center top
+	&[data-side="left"]
+		transform-origin: right center
+	&[data-side="right"]
+		transform-origin: left center

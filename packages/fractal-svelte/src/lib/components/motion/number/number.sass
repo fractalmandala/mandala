@@ -1,0 +1,30 @@
+[data-slot="number"], [data-slot="number-ticker"]
+	font-variant-numeric: tabular-nums
+	font-feature-settings: "tnum"
+[data-slot="number-ticker"]
+	display: inline-flex
+	align-items: center
+[data-slot="number-digit"]
+	position: relative
+	display: inline-block
+	overflow: hidden
+	width: 1ch
+	height: 1.1em
+[data-slot="number-column"]
+	position: absolute
+	top: 0
+	left: 0
+	display: flex
+	flex-direction: column
+	align-items: center
+	width: 100%
+	transform: translateY(calc(var(--digit) * -1.1em))
+	transition: transform var(--digit-duration) cubic-bezier(0.16, 1, 0.3, 1) var(--digit-delay), filter 0.3s ease
+	&.blur
+		filter: blur(0)
+	span
+		display: flex
+		align-items: center
+		justify-content: center
+		height: 1.1em
+		line-height: 1.1

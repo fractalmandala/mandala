@@ -1,0 +1,16 @@
+{
+	"slug": "animated-badge",
+	"source": "https://beui.dev/r/animated-badge",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-03",
+	"components": ["AnimatedBadge"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"Pulse animation uses CSS keyframes instead of framer-motion animate",
+		"Variant icons are consumer children (no icon dependency)",
+		"Reduced motion handled via --beui-motion-scale CSS custom property (animation duration scales to zero)"
+	]
+}

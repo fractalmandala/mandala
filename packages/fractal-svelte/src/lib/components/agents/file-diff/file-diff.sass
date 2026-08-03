@@ -1,0 +1,50 @@
+[data-slot="file-diff"]
+ width: 100%
+ font-size: .875rem
+[data-slot="file-diff-header"]
+ display: flex
+ width: 100%
+ min-height: 2.25rem
+ align-items: center
+ gap: var(--fractal-svelte-space-2)
+ border: 0
+ border-radius: var(--fractal-svelte-radius-md)
+ background: transparent
+ color: var(--foreground)
+ &:focus-visible
+  outline: 2px solid var(--ring)
+[data-slot="file-diff-name"]
+ min-width: 0
+ flex: 1
+ overflow: hidden
+ text-overflow: ellipsis
+ font-family: monospace
+ text-align: left
+[data-slot="diff-add"]
+ color: var(--success)
+[data-slot="diff-del"]
+ color: var(--destructive)
+[data-slot="file-diff-body"]
+ margin-left: 1.5rem
+ overflow: hidden
+ border-radius: var(--fractal-svelte-radius-md)
+ background: var(--muted)
+ &[aria-hidden="true"]
+  display: none
+[data-slot="file-diff-viewport"]
+ max-height: var(--max-height)
+ overflow: auto
+ font-family: monospace
+[data-slot="file-diff-line"]
+ display: grid
+ grid-template-columns: 2.25rem 2.25rem 1rem minmax(0,1fr)
+ &[data-type="added"]
+  background: color-mix(in srgb,var(--success) 8%,transparent)
+ &[data-type="removed"]
+  background: color-mix(in srgb,var(--destructive) 8%,transparent)
+ code
+  min-width: 0
+  white-space: pre
+[data-slot="file-diff-copy"]
+ float: right
+ margin: var(--fractal-svelte-space-1)

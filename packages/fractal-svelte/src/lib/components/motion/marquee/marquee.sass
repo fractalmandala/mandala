@@ -1,0 +1,34 @@
+[data-slot="marquee"]
+	position: relative
+	display: flex
+	overflow: hidden
+	gap: var(--marquee-gap)
+	width: 100%
+	&[data-vertical="true"]
+		flex-direction: column
+	&[data-fade="true"]
+		mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent)
+	&[data-fade="true"][data-vertical="true"]
+		mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent)
+	&:hover [data-slot="marquee-track"][data-pause="true"]
+		animation-play-state: paused
+[data-slot="marquee-track"]
+	display: flex
+	flex-shrink: 0
+	align-items: center
+	gap: var(--marquee-gap)
+	animation: marquee-horizontal var(--marquee-speed) linear infinite
+	&[data-reverse="true"]
+		animation-direction: reverse
+	&[data-vertical="true"]
+		flex-direction: column
+		animation-name: marquee-vertical
+@keyframes marquee-horizontal
+	to
+		transform: translateX(calc(-100% - var(--marquee-gap)))
+@keyframes marquee-vertical
+	to
+		transform: translateY(calc(-100% - var(--marquee-gap)))
+@media (prefers-reduced-motion: reduce)
+	[data-slot="marquee-track"]
+		animation-play-state: paused

@@ -1,0 +1,34 @@
+export const previewLoaders = {
+	button: () => import('$examples/ButtonExample.svelte'),
+	tabs: () => import('$examples/TabsExample.svelte'),
+	switch: () => import('$examples/SwitchExample.svelte'),
+	input: () => import('$examples/InputExample.svelte'),
+	checkbox: () => import('$examples/CheckboxExample.svelte'),
+	radio: () => import('$examples/RadioExample.svelte'),
+	'animated-badge': () => import('$examples/AnimatedBadgeExample.svelte'),
+	number: () => import('$examples/NumberExample.svelte'),
+	marquee: () => import('$examples/MarqueeExample.svelte'),
+	tooltip: () => import('$examples/TooltipExample.svelte'),
+	loader: () => import('$examples/LoaderExample.svelte'),
+	'text-animation': () => import('$examples/TextAnimationExample.svelte'),
+	'action-swap': () => import('$examples/ActionSwapExample.svelte'),
+	'theme-toggle': () => import('$examples/ThemeToggleExample.svelte'),
+	'bouncy-accordion': () => import('$examples/BouncyAccordionExample.svelte'),
+	'notification-stack': () => import('$examples/NotificationStackExample.svelte'),
+	'expandable-action-bar': () => import('$examples/ExpandableActionBarExample.svelte'),
+	'overflow-actions': () => import('$examples/OverflowActionsExample.svelte'),
+	'feedback-widget': () => import('$examples/FeedbackWidgetExample.svelte'),
+	'not-found': () => import('$examples/NotFoundExample.svelte'),
+	'message-bubble': () => import('$examples/MessageBubbleExample.svelte'),
+	message: () => import('$examples/MessageExample.svelte'),
+	'message-scroller': () => import('$examples/MessageScrollerExample.svelte'),
+	'prompt-input': () => import('$examples/PromptInputExample.svelte'),
+	'todo-list': () => import('$examples/TodoListExample.svelte'),
+	'approval-card': () => import('$examples/ApprovalCardExample.svelte'),
+	'file-diff': () => import('$examples/FileDiffExample.svelte'),
+	'streaming-response': () => import('$examples/StreamingResponseExample.svelte'),
+	'ai-sidebar': () => import('$examples/AISidebarExample.svelte')
+} as const;
+
+export type PreviewSlug = keyof typeof previewLoaders;
+export const previewSlugs = Object.keys(previewLoaders) as PreviewSlug[];

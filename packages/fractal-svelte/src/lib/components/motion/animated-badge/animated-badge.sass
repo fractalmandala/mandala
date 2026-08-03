@@ -1,0 +1,68 @@
+[data-slot="badge"]
+	position: relative
+	display: inline-flex
+	align-items: center
+	overflow: hidden
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-full)
+	font-weight: 500
+	white-space: nowrap
+	color: var(--muted-foreground)
+	background: var(--card)
+	&[data-size="sm"]
+		height: 1.5rem
+		gap: var(--fractal-svelte-space-1)
+		padding: 0 var(--fractal-svelte-space-2)
+		font-size: 0.6875rem
+	&[data-size="md"]
+		height: 2rem
+		gap: var(--fractal-svelte-space-2)
+		padding: 0 var(--fractal-svelte-space-3)
+		font-size: 0.75rem
+	&[data-status="info"], &[data-status="loading"]
+		border-color: var(--primary)
+		color: var(--primary)
+		background: var(--accent)
+	&[data-status="success"]
+		border-color: var(--success)
+		color: var(--success)
+	&[data-status="warning"]
+		border-color: var(--warning)
+		color: var(--warning)
+	&[data-status="danger"]
+		border-color: var(--destructive)
+		color: var(--destructive)
+[data-slot="badge-icon"], [data-slot="badge-label"]
+	position: relative
+	z-index: 1
+	display: inline-flex
+	animation: badge-roll 0.42s cubic-bezier(0.16, 1, 0.3, 1)
+[data-slot="badge-icon"]
+	align-items: center
+	justify-content: center
+[data-status="loading"] [data-slot="badge-icon"]
+	animation: badge-spin 1s linear infinite
+[data-slot="badge-pulse"]
+	position: absolute
+	inset: 0
+	border-radius: inherit
+	background: currentColor
+	animation: badge-pulse 1.6s ease-in-out infinite
+@keyframes badge-roll
+	from
+		transform: translateY(80%)
+		opacity: 0
+		filter: blur(6px)
+@keyframes badge-spin
+	to
+		transform: rotate(360deg)
+@keyframes badge-pulse
+	0%, 100%
+		opacity: 0.08
+		transform: scale(0.94)
+	50%
+		opacity: 0.16
+		transform: scale(1.08)
+@media (prefers-reduced-motion: reduce)
+	[data-slot="badge-icon"], [data-slot="badge-label"], [data-slot="badge-pulse"]
+		animation: none

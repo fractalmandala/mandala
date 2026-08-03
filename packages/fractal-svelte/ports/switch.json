@@ -1,0 +1,15 @@
+{
+	"slug": "switch",
+	"source": "https://beui.dev/r/switch",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-05",
+	"components": ["Switch"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": ["@humanspeak/svelte-motion"],
+	"propsInvented": [],
+	"deviations": [
+		"Spring-thumb motion via @humanspeak/svelte-motion instead of framer-motion's layout animations",
+		"Indented SASS with data-slot pattern instead of Tailwind utility classes"
+	]
+}

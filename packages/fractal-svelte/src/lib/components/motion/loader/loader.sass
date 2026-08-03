@@ -1,0 +1,189 @@
+[data-slot="loader"]
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	min-width: var(--loader-size)
+	height: var(--loader-size)
+	color: currentColor
+	font-style: normal
+	font-variant-numeric: tabular-nums
+	svg
+		width: var(--loader-size)
+		height: var(--loader-size)
+[data-part="spinner"]
+	fill: none
+	stroke: currentColor
+	stroke-width: 3
+	stroke-linecap: round
+	animation: loader-spin var(--loader-speed) linear infinite
+	circle
+		opacity: 0.2
+[data-part="dots"], [data-part="bars"], [data-part="newton"]
+	display: flex
+	align-items: center
+	gap: calc(var(--loader-size) * 0.1)
+	i
+		display: block
+		background: currentColor
+[data-part="dots"] i
+	width: calc(var(--loader-size) * 0.24)
+	height: calc(var(--loader-size) * 0.24)
+	border-radius: 50%
+	animation: loader-dots var(--loader-speed) ease-in-out calc(var(--i) * var(--loader-speed) * 0.16) infinite
+[data-part="bars"]
+	height: 100%
+	align-items: stretch
+	[data-part="bars"]
+		height: 100%
+	& i
+		width: calc(var(--loader-size) * 0.16)
+		border-radius: var(--fractal-svelte-radius-full)
+		animation: loader-bars var(--loader-speed) ease-in-out calc(var(--i) * var(--loader-speed) * 0.12) infinite
+[data-part="dot-matrix"], [data-part="dither"]
+	display: grid
+	grid-template-columns: repeat(3, 1fr)
+	gap: calc(var(--loader-size) * 0.1)
+	width: var(--loader-size)
+	height: var(--loader-size)
+	i
+		background: currentColor
+		border-radius: 50%
+		animation: loader-cells var(--loader-speed) ease-in-out calc(var(--i) * var(--loader-speed) * 0.06) infinite
+[data-part="dither"]
+	grid-template-columns: repeat(4, 1fr)
+	gap: max(1px, calc(var(--loader-size) * 0.05))
+	i
+		border-radius: 0
+[data-part="ascii"]
+	font-family: monospace
+	font-size: var(--loader-size)
+	line-height: 1
+[data-part="morph"]
+	width: var(--loader-size)
+	height: var(--loader-size)
+	background: currentColor
+	animation: loader-morph calc(var(--loader-speed) * 5) ease-in-out infinite
+[data-part="comet"]
+	position: relative
+	width: var(--loader-size)
+	height: var(--loader-size)
+	animation: loader-spin var(--loader-speed) linear infinite
+	i
+		position: absolute
+		top: 50%
+		left: 50%
+		width: calc(var(--loader-size) * (0.2 - var(--i) * 0.02))
+		height: calc(var(--loader-size) * (0.2 - var(--i) * 0.02))
+		border-radius: 50%
+		background: currentColor
+		opacity: calc(1 - var(--i) * 0.16)
+		transform: rotate(calc(var(--i) * -15deg)) translateY(calc(var(--loader-size) * -0.4))
+[data-part="scramble"]
+	font-family: monospace
+	font-size: calc(var(--loader-size) * 0.42)
+	font-weight: 500
+	letter-spacing: 0.2em
+[data-part="metaballs"]
+	fill: currentColor
+	circle:first-child
+		animation: loader-meta-a calc(var(--loader-speed) * 1.6) ease-in-out infinite
+	circle:last-child
+		animation: loader-meta-b calc(var(--loader-speed) * 1.6) ease-in-out infinite
+[data-part="newton"] i
+	width: calc(var(--loader-size) * 0.2)
+	height: calc(var(--loader-size) * 0.2)
+	border-radius: 50%
+	&:first-child
+		animation: loader-newton-a calc(var(--loader-speed) * 1.5) ease-in-out infinite
+	&:last-child
+		animation: loader-newton-b calc(var(--loader-speed) * 1.5) ease-in-out infinite
+[data-part="helix"]
+	position: relative
+	width: var(--loader-size)
+	height: var(--loader-size)
+	b
+		position: absolute
+		top: calc(var(--i) * 14%)
+		left: 50%
+		i
+			position: absolute
+			width: calc(var(--loader-size) * 0.14)
+			height: calc(var(--loader-size) * 0.14)
+			border-radius: 50%
+			background: currentColor
+			animation: loader-helix var(--loader-speed) ease-in-out calc(var(--i) * var(--loader-speed) / 7) infinite
+			&:last-child
+				animation-direction: reverse
+[data-part="percent"]
+	display: flex
+	flex-direction: column
+	align-items: center
+	gap: calc(var(--loader-size) * 0.14)
+	width: calc(var(--loader-size) * 1.4)
+	b
+		font-family: monospace
+		font-size: calc(var(--loader-size) * 0.42)
+		i
+			display: block
+			overflow: hidden
+			width: 100%
+			height: max(3px, calc(var(--loader-size) * 0.1))
+			border-radius: var(--fractal-svelte-radius-full)
+			background: var(--muted)
+			span
+				display: block
+				height: 100%
+				background: currentColor
+@keyframes loader-spin
+	to
+		transform: rotate(360deg)
+@keyframes loader-dots
+	50%
+		transform: translateY(calc(var(--loader-size) * -0.3))
+		opacity: 1
+@keyframes loader-bars
+	0%, 100%
+		transform: scaleY(0.3)
+	50%
+		transform: scaleY(1)
+@keyframes loader-cells
+	0%, 100%
+		opacity: 0.15
+		transform: scale(0.7)
+	50%
+		opacity: 1
+		transform: scale(1)
+@keyframes loader-morph
+	0%, 100%
+		border-radius: 50%
+	25%
+		border-radius: 0
+		transform: rotate(90deg) scale(0.88)
+	50%
+		clip-path: polygon(50% 0, 100% 100%, 0 100%)
+	75%
+		clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%)
+@keyframes loader-meta-a
+	50%
+		transform: translateX(40px)
+@keyframes loader-meta-b
+	50%
+		transform: translateX(-40px)
+@keyframes loader-newton-a
+	25%
+		transform: translateX(-110%)
+@keyframes loader-newton-b
+	75%
+		transform: translateX(110%)
+@keyframes loader-helix
+	0%, 100%
+		transform: translateX(calc(var(--loader-size) * 0.32)) scale(1)
+	50%
+		transform: translateX(calc(var(--loader-size) * -0.32)) scale(0.5)
+@keyframes loader-calm
+	50%
+		opacity: 0.4
+@media (prefers-reduced-motion: reduce)
+	[data-slot="loader"] *
+		animation: loader-calm 1.4s ease-in-out infinite
+		transform: none

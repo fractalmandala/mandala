@@ -1,0 +1,84 @@
+@use '../../../styles/mixins' as *
+
+[data-slot="expandable-action-bar"]
+	display: inline-flex
+	align-items: center
+	gap: var(--fractal-svelte-space-1)
+	padding: var(--fractal-svelte-space-1)
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-full)
+	background: var(--card)
+
+[data-slot="expandable-action-bar-item"]
+	+interactive
+	+focus-ring
+	position: relative
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	gap: 0
+	height: 2rem
+	min-width: 2rem
+	padding: 0 var(--fractal-svelte-space-2)
+	border: 0
+	border-radius: var(--fractal-svelte-radius-full)
+	background: transparent
+	color: var(--muted-foreground)
+	font: inherit
+	font-size: 0.875rem
+	transition: gap calc(220ms * var(--motion-scale)), background-color calc(160ms * var(--motion-scale))
+
+	&[data-active="true"], &:hover
+		background: var(--muted)
+		color: var(--foreground)
+
+	&:disabled
+		cursor: not-allowed
+		opacity: 0.45
+
+[data-expanded="true"] [data-slot="expandable-action-bar-item"]
+	gap: var(--fractal-svelte-space-2)
+
+[data-slot="expandable-action-bar-icon"]
+	+icon-child
+	display: inline-flex
+
+[data-slot="expandable-action-bar-label"], [data-slot="expandable-action-bar-shortcut"]
+	max-width: 0
+	margin: 0
+	overflow: hidden
+	opacity: 0
+	white-space: nowrap
+	transition: max-width calc(260ms * var(--motion-scale)), opacity calc(180ms * var(--motion-scale))
+
+[data-expanded="true"] [data-slot="expandable-action-bar-label"], [data-expanded="true"] [data-slot="expandable-action-bar-shortcut"]
+	max-width: 8rem
+	opacity: 1
+
+[data-slot="expandable-action-bar-shortcut"]
+	border: 0
+	background: transparent
+	color: var(--muted-foreground)
+	font: inherit
+	font-size: 0.625rem
+
+[data-slot="expandable-action-bar-badge"]
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	min-width: 1rem
+	height: 1rem
+	padding: 0 var(--fractal-svelte-space-1)
+	border-radius: var(--fractal-svelte-radius-full)
+	background: var(--destructive)
+	color: var(--primary-foreground)
+	font-size: 0.625rem
+
+[data-size="sm"] [data-slot="expandable-action-bar-item"]
+	height: 1.75rem
+	min-width: 1.75rem
+	font-size: 0.75rem
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot="expandable-action-bar-item"], [data-slot="expandable-action-bar-label"], [data-slot="expandable-action-bar-shortcut"]
+		transition: none

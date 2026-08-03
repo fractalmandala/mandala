@@ -1,0 +1,34 @@
+export const previewLoaders = {
+	button: () => import('../components/motion/button/index.js'),
+	marquee: () => import('../components/motion/marquee/index.js'),
+	tabs: () => import('../components/motion/tabs/index.js'),
+	switch: () => import('../components/motion/switch/index.js'),
+	input: () => import('../components/motion/input/index.js'),
+	checkbox: () => import('../components/motion/checkbox/index.js'),
+	radio: () => import('../components/motion/radio/index.js'),
+	tooltip: () => import('../components/motion/tooltip/index.js'),
+	'text-animation': () => import('../components/motion/text-animation/index.js'),
+	number: () => import('../components/motion/number/index.js'),
+	'animated-badge': () => import('../components/motion/animated-badge/index.js'),
+	'action-swap': () => import('../components/blocks/action-swap/index.js'),
+	'theme-toggle': () => import('../components/blocks/theme-toggle/index.js'),
+	'bouncy-accordion': () => import('../components/blocks/bouncy-accordion/index.js'),
+	loader: () => import('../components/motion/loader/index.js'),
+	'message-bubble': () => import('../components/agents/message-bubble/index.js'),
+	message: () => import('../components/agents/message/index.js'),
+	'message-scroller': () => import('../components/agents/message-scroller/index.js'),
+	'prompt-input': () => import('../components/agents/prompt-input/index.js'),
+	'todo-list': () => import('../components/agents/todo-list/index.js'),
+	'approval-card': () => import('../components/agents/approval-card/index.js'),
+	'file-diff': () => import('../components/agents/file-diff/index.js'),
+	'streaming-response': () => import('../components/agents/streaming-response/index.js'),
+	'ai-sidebar': () => import('../components/agents/ai-sidebar/index.js'),
+	'notification-stack': () => import('../components/blocks/notification-stack/index.js'),
+	'expandable-action-bar': () => import('../components/blocks/expandable-action-bar/index.js'),
+	'overflow-actions': () => import('../components/blocks/overflow-actions/index.js'),
+	'feedback-widget': () => import('../components/blocks/feedback-widget/index.js'),
+	'not-found': () => import('../components/blocks/not-found/index.js')
+} as const;
+
+export type PreviewSlug = keyof typeof previewLoaders;
+export const previewSlugs = Object.keys(previewLoaders) as PreviewSlug[];

@@ -1,0 +1,81 @@
+[data-slot="prompt-input"]
+ position: relative
+ width: 100%
+ border: 1px solid var(--border)
+ border-radius: var(--fractal-svelte-radius-lg)
+ padding: var(--fractal-svelte-space-2)
+ background: var(--background)
+ &:focus-within
+  border-color: var(--ring)
+ &[data-disabled="true"]
+  opacity: .6
+[data-slot="prompt-input-field"]
+ display: block
+ width: 100%
+ resize: none
+ overflow-y: auto
+ border: 0
+ padding: var(--fractal-svelte-space-1) var(--fractal-svelte-space-2)
+ background: transparent
+ color: var(--foreground)
+ font: inherit
+ line-height: 1.5rem
+ outline: 0
+[data-slot="prompt-input-toolbar"]
+ display: flex
+ min-height: 2rem
+ align-items: center
+ gap: var(--fractal-svelte-space-1)
+[data-slot="prompt-input-actions"]
+ position: relative
+[data-slot="prompt-input-tool"], [data-slot="prompt-input-submit"]
+ display: grid
+ width: 2rem
+ height: 2rem
+ place-items: center
+ border: 0
+ border-radius: 50%
+ cursor: pointer
+ &:focus-visible
+  outline: 2px solid var(--ring)
+[data-slot="prompt-input-tool"]
+ background: transparent
+ color: var(--muted-foreground)
+[data-slot="prompt-input-submit"]
+ margin-left: auto
+ background: var(--primary)
+ color: var(--primary-foreground)
+ &:disabled
+  opacity: .45
+[data-slot="prompt-input-menu"]
+ position: absolute
+ bottom: calc(100% + .5rem)
+ left: 0
+ z-index: 10
+ display: grid
+ width: 14rem
+ gap: .125rem
+ border: 1px solid var(--border)
+ border-radius: var(--fractal-svelte-radius-md)
+ padding: var(--fractal-svelte-space-1)
+ background: var(--background)
+ button
+  min-height: 2.5rem
+  border: 0
+  border-radius: var(--fractal-svelte-radius-sm)
+  padding: var(--fractal-svelte-space-2)
+  background: transparent
+  color: var(--foreground)
+  text-align: left
+  span, small
+   display: block
+  small
+   color: var(--muted-foreground)
+[data-slot="prompt-input-model"]
+ select
+  max-width: 13rem
+  min-height: 2rem
+  border: 0
+  border-radius: var(--fractal-svelte-radius-md)
+  background: transparent
+  color: var(--muted-foreground)

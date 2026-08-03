@@ -1,0 +1,16 @@
+{
+	"slug": "not-found",
+	"source": "https://beui.dev/r/not-found",
+	"tier": 3,
+	"category": "blocks",
+	"portedDate": "2026-08-07",
+	"components": ["NotFound"],
+	"depsDropped": ["framer-motion", "tailwindcss", "clsx", "tailwind-merge"],
+	"depsAdded": [],
+	"propsInvented": [],
+	"deviations": [
+		"Static component — no animation dependencies needed for a 404 page",
+		"Action button passed via Svelte Snippet (children) instead of React children",
+		"Indented SASS with data-slot pattern instead of Tailwind utility classes"
+	]
+}

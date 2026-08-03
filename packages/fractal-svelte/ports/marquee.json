@@ -1,0 +1,15 @@
+{
+	"slug": "marquee",
+	"source": "https://beui.dev/r/marquee",
+	"tier": 1,
+	"category": "motion",
+	"portedDate": "2026-08-03",
+	"components": ["Marquee"],
+	"depsDropped": ["framer-motion", "tailwindcss"],
+	"depsAdded": [],
+	"propsInvented": [],
+	"deviations": [
+		"Pure CSS animation gated on --beui-motion-scale instead of Framer Motion animation controls",
+		"Pause-on-hover via animation-play-state instead of whileHover"
+	]
+}

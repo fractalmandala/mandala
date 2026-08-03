@@ -1,0 +1,54 @@
+[data-slot="ai-sidebar"]
+ display: flex
+ min-width: 0
+ flex-direction: column
+ gap: .125rem
+ overflow-anchor: none
+[data-slot="ai-sidebar-item"]
+ display: flex
+ min-width: 0
+ min-height: 2.25rem
+ align-items: center
+ gap: var(--fractal-svelte-space-2)
+ border-radius: var(--fractal-svelte-radius-md)
+ padding-right: var(--fractal-svelte-space-2)
+ padding-left: calc(var(--fractal-svelte-space-3) + var(--depth) * 1rem)
+ color: var(--muted-foreground)
+ cursor: pointer
+ &:hover, &:focus-visible, &[aria-selected="true"]
+  background: var(--muted)
+  color: var(--foreground)
+ &:focus-visible
+  outline: 2px solid var(--ring)
+  outline-offset: -2px
+ &[aria-disabled="true"]
+  opacity: .45
+  cursor: not-allowed
+ > button
+  width: 1.75rem
+  height: 1.75rem
+  border: 0
+  border-radius: var(--fractal-svelte-radius-sm)
+  background: transparent
+  color: inherit
+  opacity: 0
+ &:hover > button, &:focus-within > button
+  opacity: 1
+ input
+  min-width: 0
+  flex: 1
+  height: 1.75rem
+  border: 1px solid var(--border)
+  border-radius: var(--fractal-svelte-radius-sm)
+  padding-inline: var(--fractal-svelte-space-2)
+  background: var(--background)
+  color: var(--foreground)
+[data-slot="ai-sidebar-label"]
+ min-width: 0
+ flex: 1
+ overflow: hidden
+ text-overflow: ellipsis
+ white-space: nowrap
+@media (max-width: 767px)
+ [data-slot="ai-sidebar-item"]
+  min-height: 2.75rem

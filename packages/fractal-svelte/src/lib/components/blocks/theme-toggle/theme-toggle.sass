@@ -1,0 +1,78 @@
+@use '../../../styles/mixins' as *
+
+[data-slot="theme-toggle"]
+	+interactive
+	+focus-ring
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	width: 2.5rem
+	height: 2.5rem
+	padding: 0
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-md)
+	background: var(--card)
+	color: var(--foreground)
+
+[data-slot="theme-toggle-icon"]
+	+icon-child(1.125rem)
+	display: inline-flex
+	animation: theme-icon calc(200ms * var(--motion-scale)) ease-out
+
+	& svg
+		stroke-width: 2
+		stroke-linecap: round
+		stroke-linejoin: round
+
+@keyframes theme-icon
+	from
+		opacity: 0
+		filter: blur(6px)
+		transform: scale(0.5) rotate(-45deg)
+
+html[data-theme-transition="rectangle"]::view-transition-old(root), html[data-theme-transition="circle"]::view-transition-old(root), html[data-theme-transition="circle-blur"]::view-transition-old(root), html[data-theme-transition="blinds"]::view-transition-old(root)
+	animation: none
+	mix-blend-mode: normal
+
+html[data-theme-transition="rectangle"]::view-transition-new(root)
+	animation: theme-rectangle 400ms ease-out
+	mix-blend-mode: normal
+
+html[data-theme-transition="circle"]::view-transition-new(root), html[data-theme-transition="circle-blur"]::view-transition-new(root)
+	animation: theme-circle 700ms ease-out
+	mix-blend-mode: normal
+
+html[data-theme-transition="circle-blur"]::view-transition-new(root)
+	animation-name: theme-circle-blur
+
+html[data-theme-transition="blinds"]::view-transition-new(root)
+	animation: theme-blinds 700ms ease-out
+	mix-blend-mode: normal
+
+@keyframes theme-rectangle
+	from
+		clip-path: var(--theme-transition-from)
+
+@keyframes theme-circle
+	from
+		clip-path: circle(0 at var(--theme-transition-origin))
+	to
+		clip-path: circle(150% at var(--theme-transition-origin))
+
+@keyframes theme-circle-blur
+	from
+		clip-path: circle(0 at var(--theme-transition-origin))
+		filter: blur(8px)
+	to
+		clip-path: circle(150% at var(--theme-transition-origin))
+		filter: blur(0)
+
+@keyframes theme-blinds
+	from
+		clip-path: polygon(0 0, 0 0, 0 100%, 0 100%, 20% 100%, 20% 0, 20% 0, 20% 100%, 40% 100%, 40% 0, 40% 0, 40% 100%, 60% 100%, 60% 0, 60% 0, 60% 100%, 80% 100%, 80% 0, 80% 0, 80% 100%, 100% 100%, 100% 0)
+	to
+		clip-path: inset(0)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot="theme-toggle-icon"]
+		animation: none

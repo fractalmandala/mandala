@@ -1,0 +1,66 @@
+@use '../../../styles/_mixins' as *
+[data-slot="tabs"]
+	display: flex
+	flex-direction: column
+	gap: var(--fractal-svelte-space-4)
+[data-slot="tabs-list"]
+	display: inline-flex
+	align-items: center
+	gap: var(--fractal-svelte-space-1)
+	align-self: flex-start
+	padding: var(--fractal-svelte-space-1)
+	border-radius: var(--fractal-svelte-radius-full)
+	background: var(--card)
+	[data-variant="segment"] &
+		gap: 0
+		padding: 0.125rem
+		border-radius: var(--fractal-svelte-radius-lg)
+	[data-variant="underline"] &
+		padding: 0
+		border-bottom: 1px solid var(--border)
+		border-radius: 0
+		background: transparent
+[data-slot="tab-trigger"]
+	+interactive
+	+focus-ring
+	position: relative
+	isolation: isolate
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	min-height: 2.5rem
+	padding: 0 var(--fractal-svelte-space-4)
+	border: 0
+	border-radius: var(--fractal-svelte-radius-full)
+	background: transparent
+	color: var(--muted-foreground)
+	font-size: 0.875rem
+	font-weight: 500
+	white-space: nowrap
+	&[aria-selected="true"]
+		color: var(--primary-foreground)
+	[data-variant="segment"] &
+		border-radius: var(--fractal-svelte-radius-md)
+	[data-variant="underline"] &
+		margin-bottom: -1px
+		border-radius: 0
+	[data-variant="underline"] &[aria-selected="true"]
+		color: var(--foreground)
+[data-slot="tab-label"]
+	position: relative
+	z-index: 1
+[data-slot="tab-indicator"]
+	position: absolute
+	inset: 0
+	z-index: -1
+	border-radius: inherit
+	background: var(--primary)
+	[data-variant="underline"] &
+		top: auto
+		height: 1px
+		border-radius: 0
+[data-slot="tab-panel"]
+	color: var(--foreground)
+	&:focus-visible
+		outline: 2px solid var(--ring)
+		outline-offset: 2px

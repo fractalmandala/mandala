@@ -1,0 +1,165 @@
+:root
+	--fractal-svelte-neutral-0: oklch(100% 0 0)
+	--fractal-svelte-neutral-50: oklch(99% 0 0)
+	--fractal-svelte-neutral-100: oklch(97% 0 0)
+	--fractal-svelte-neutral-200: oklch(92% 0 0)
+	--fractal-svelte-neutral-300: oklch(86% 0 0)
+	--fractal-svelte-neutral-400: oklch(70% 0 0)
+	--fractal-svelte-neutral-500: oklch(55% 0 0)
+	--fractal-svelte-neutral-600: oklch(44% 0 0)
+	--fractal-svelte-neutral-700: oklch(32% 0 0)
+	--fractal-svelte-neutral-800: oklch(22% 0 0)
+	--fractal-svelte-neutral-850: #1c1c1c
+	--fractal-svelte-neutral-900: #151515
+	--fractal-svelte-neutral-950: oklch(9% 0 0)
+	--fractal-svelte-neon: oklch(90% 0.25 128)
+	--fractal-svelte-violet: oklch(62% 0.24 292)
+	--fractal-svelte-red: oklch(60% 0.22 25)
+	--fractal-svelte-emerald: oklch(64% 0.17 155)
+	--fractal-svelte-amber: oklch(76% 0.17 75)
+	--fractal-svelte-space-0: 0
+	--fractal-svelte-space-1: 4px
+	--fractal-svelte-space-2: 8px
+	--fractal-svelte-space-3: 12px
+	--fractal-svelte-space-4: 16px
+	--fractal-svelte-space-5: 20px
+	--fractal-svelte-space-6: 24px
+	--fractal-svelte-space-7: 28px
+	--fractal-svelte-space-8: 32px
+	--fractal-svelte-space-9: 36px
+	--fractal-svelte-space-10: 40px
+	--fractal-svelte-space-12: 48px
+	--fractal-svelte-space-14: 56px
+	--fractal-svelte-space-16: 64px
+	--fractal-svelte-space-20: 80px
+	--fractal-svelte-space-24: 96px
+	--fractal-svelte-radius-none: 0
+	--fractal-svelte-radius-xs: 4px
+	--fractal-svelte-radius-sm: 6px
+	--fractal-svelte-radius-md: 8px
+	--fractal-svelte-radius-lg: 12px
+	--fractal-svelte-radius-xl: 16px
+	--fractal-svelte-radius-2xl: 24px
+	--fractal-svelte-radius-full: 9999px
+	--fractal-svelte-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+	--fractal-svelte-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace
+	--fractal-svelte-font-size-xs: 0.75rem
+	--fractal-svelte-font-size-sm: 0.875rem
+	--fractal-svelte-font-size-md: 1rem
+	--fractal-svelte-font-size-lg: 1.125rem
+	--fractal-svelte-font-size-xl: 1.25rem
+	--fractal-svelte-font-size-2xl: 1.5rem
+	--fractal-svelte-font-size-3xl: 1.875rem
+	--fractal-svelte-font-size-4xl: 2.25rem
+	--fractal-svelte-font-weight-normal: 400
+	--fractal-svelte-font-weight-medium: 500
+	--fractal-svelte-font-weight-semibold: 600
+	--fractal-svelte-font-weight-bold: 700
+	--fractal-svelte-leading-none: 1
+	--fractal-svelte-leading-tight: 1.25
+	--fractal-svelte-leading-normal: 1.5
+	--fractal-svelte-leading-relaxed: 1.625
+	--fractal-svelte-tracking-tight: -0.025em
+	--fractal-svelte-tracking-normal: 0
+	--fractal-svelte-tracking-wide: 0.025em
+	--fractal-svelte-z-base: 0
+	--fractal-svelte-z-raised: 10
+	--fractal-svelte-z-dropdown: 40
+	--fractal-svelte-z-sticky: 50
+	--fractal-svelte-z-overlay: 60
+	--fractal-svelte-z-modal: 70
+	--fractal-svelte-z-popover: 80
+	--fractal-svelte-z-toast: 90
+	--fractal-svelte-z-tooltip: 100
+	--fractal-svelte-breakpoint-sm: 640px
+	--fractal-svelte-breakpoint-md: 768px
+	--fractal-svelte-breakpoint-lg: 1024px
+	--fractal-svelte-breakpoint-xl: 1280px
+	--fractal-svelte-breakpoint-2xl: 1536px
+	--fractal-svelte-ease-out: cubic-bezier(0.16, 1, 0.3, 1)
+	--fractal-svelte-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1)
+	--fractal-svelte-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1)
+	--fractal-svelte-duration-instant: 1ms
+	--fractal-svelte-duration-fast: 120ms
+	--fractal-svelte-duration-normal: 200ms
+	--fractal-svelte-duration-slow: 320ms
+	--fractal-svelte-motion-scale: 1
+	--ease-out: var(--fractal-svelte-ease-out)
+	--ease-in-out: var(--fractal-svelte-ease-in-out)
+	--ease-drawer: var(--fractal-svelte-ease-drawer)
+	--motion-duration-instant: var(--fractal-svelte-duration-instant)
+	--motion-duration-fast: var(--fractal-svelte-duration-fast)
+	--motion-duration-normal: var(--fractal-svelte-duration-normal)
+	--motion-duration-slow: var(--fractal-svelte-duration-slow)
+	--motion-scale: var(--fractal-svelte-motion-scale)
+	--background: var(--fractal-svelte-neutral-50)
+	--foreground: var(--fractal-svelte-neutral-900)
+	--muted: var(--fractal-svelte-neutral-100)
+	--muted-foreground: var(--fractal-svelte-neutral-500)
+	--card: var(--fractal-svelte-neutral-100)
+	--card-foreground: var(--fractal-svelte-neutral-900)
+	--popover: var(--fractal-svelte-neutral-0)
+	--popover-foreground: var(--fractal-svelte-neutral-900)
+	--primary: var(--fractal-svelte-neutral-900)
+	--primary-foreground: var(--fractal-svelte-neutral-0)
+	--secondary: var(--fractal-svelte-neutral-200)
+	--secondary-foreground: var(--fractal-svelte-neutral-900)
+	--accent: var(--fractal-svelte-violet)
+	--accent-foreground: var(--fractal-svelte-neutral-0)
+	--destructive: var(--fractal-svelte-red)
+	--destructive-foreground: var(--fractal-svelte-neutral-0)
+	--input: var(--fractal-svelte-neutral-300)
+	--ring: var(--fractal-svelte-violet)
+	--border: color-mix(in oklab, var(--fractal-svelte-neutral-900) 12%, transparent)
+	--border-strong: color-mix(in oklab, var(--fractal-svelte-neutral-900) 24%, transparent)
+	--neon: var(--fractal-svelte-neon)
+	--violet: var(--fractal-svelte-violet)
+	--success: var(--fractal-svelte-emerald)
+	--warning: var(--fractal-svelte-amber)
+	--glass: color-mix(in oklab, var(--fractal-svelte-neutral-0) 72%, transparent)
+	--glass-border: color-mix(in oklab, var(--fractal-svelte-neutral-0) 55%, var(--border))
+	--overlay: color-mix(in oklab, var(--fractal-svelte-neutral-950) 55%, transparent)
+	--shadow-color: color-mix(in oklab, var(--fractal-svelte-neutral-950) 14%, transparent)
+	--shadow-sm: 0 1px 2px var(--shadow-color)
+	--shadow-md: 0 4px 12px var(--shadow-color)
+	--shadow-lg: 0 12px 32px var(--shadow-color)
+
+.dark
+	--background: var(--fractal-svelte-neutral-900)
+	--foreground: var(--fractal-svelte-neutral-50)
+	--muted: var(--fractal-svelte-neutral-800)
+	--muted-foreground: var(--fractal-svelte-neutral-400)
+	--card: var(--fractal-svelte-neutral-850)
+	--card-foreground: var(--fractal-svelte-neutral-50)
+	--popover: var(--fractal-svelte-neutral-850)
+	--popover-foreground: var(--fractal-svelte-neutral-50)
+	--primary: var(--fractal-svelte-neutral-50)
+	--primary-foreground: var(--fractal-svelte-neutral-900)
+	--secondary: var(--fractal-svelte-neutral-800)
+	--secondary-foreground: var(--fractal-svelte-neutral-50)
+	--accent: oklch(70% 0.2 292)
+	--accent-foreground: var(--fractal-svelte-neutral-950)
+	--destructive: oklch(68% 0.2 25)
+	--destructive-foreground: var(--fractal-svelte-neutral-950)
+	--input: var(--fractal-svelte-neutral-700)
+	--ring: oklch(70% 0.2 292)
+	--border: color-mix(in oklab, var(--fractal-svelte-neutral-50) 12%, transparent)
+	--border-strong: color-mix(in oklab, var(--fractal-svelte-neutral-50) 24%, transparent)
+	--neon: oklch(92% 0.24 128)
+	--violet: oklch(70% 0.2 292)
+	--success: oklch(72% 0.16 155)
+	--warning: oklch(82% 0.16 75)
+	--glass: color-mix(in oklab, var(--fractal-svelte-neutral-850) 78%, transparent)
+	--glass-border: color-mix(in oklab, var(--fractal-svelte-neutral-50) 14%, transparent)
+	--overlay: color-mix(in oklab, var(--fractal-svelte-neutral-950) 72%, transparent)
+	--shadow-color: color-mix(in oklab, var(--fractal-svelte-neutral-950) 40%, transparent)
+
+@media (prefers-reduced-motion: reduce)
+	:root
+		--fractal-svelte-duration-fast: var(--fractal-svelte-duration-instant)
+		--fractal-svelte-duration-normal: var(--fractal-svelte-duration-instant)
+		--fractal-svelte-duration-slow: var(--fractal-svelte-duration-instant)
+		--fractal-svelte-motion-scale: 1
+	[data-slot="approval-spinner"], [data-slot="badge"], [data-slot="loader-svg"], [data-slot="loader-bar"], [data-slot="loader-pulse"], [data-slot="loader-dot"], [data-slot="marquee-track"], [data-slot="message-cursor"], [data-slot="shimmer-overlay"], [data-slot="streaming-cursor"]
+		animation-duration: var(--fractal-svelte-duration-instant)
+		animation-iteration-count: 1

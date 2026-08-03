@@ -1,0 +1,91 @@
+@use '../../../styles/mixins' as *
+
+[data-slot="action-swap"]
+	+interactive
+	+focus-ring
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	gap: var(--fractal-svelte-space-2)
+	height: 2.5rem
+	padding: 0 var(--fractal-svelte-space-4)
+	border: 1px solid var(--border)
+	border-radius: var(--fractal-svelte-radius-full)
+	background: var(--card)
+	color: var(--foreground)
+	font: inherit
+	font-size: 0.875rem
+	font-weight: 500
+	overflow: hidden
+	transition: background-color calc(160ms * var(--motion-scale)), color calc(160ms * var(--motion-scale)), transform calc(160ms * var(--motion-scale))
+
+	&:active:not(:disabled)
+		transform: scale(0.97)
+
+	&:disabled
+		cursor: not-allowed
+		opacity: 0.5
+
+	&[data-variant="primary"]
+		background: var(--primary)
+		border-color: var(--primary)
+		color: var(--primary-foreground)
+
+	&[data-variant="outline"], &[data-variant="ghost"]
+		background: transparent
+
+	&[data-variant="ghost"]
+		border-color: transparent
+
+	&[data-size="sm"]
+		height: 2rem
+		padding: 0 var(--fractal-svelte-space-3)
+		font-size: 0.75rem
+
+	&[data-size="lg"]
+		height: 3rem
+		padding: 0 var(--fractal-svelte-space-5)
+
+	&[data-size="icon"]
+		width: 2.5rem
+		padding: 0
+
+[data-slot="action-swap-icon"], [data-slot="action-swap-text"]
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	animation: action-swap-blur calc(200ms * var(--motion-scale)) ease-out
+
+[data-animation="roll"] [data-slot="action-swap-text"], [data-animation="roll"] [data-slot="action-swap-icon"]
+	animation-name: action-swap-roll
+
+[data-slot="action-swap-icon"]
+	+icon-child
+
+[data-slot="action-swap-sr"]
+	position: absolute
+	width: 1px
+	height: 1px
+	overflow: hidden
+	clip: rect(0 0 0 0)
+
+[data-slot="action-swap-letters"] > span
+	display: inline-block
+	animation: action-swap-roll calc(260ms * var(--motion-scale)) ease-out
+	animation-delay: calc(var(--swap-index) * 25ms * var(--motion-scale))
+
+@keyframes action-swap-blur
+	from
+		opacity: 0
+		filter: blur(8px)
+		transform: scale(0.94)
+
+@keyframes action-swap-roll
+	from
+		opacity: 0
+		filter: blur(3px)
+		transform: translateY(70%)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot="action-swap-icon"], [data-slot="action-swap-text"], [data-slot="action-swap-letters"] > span
+		animation: none

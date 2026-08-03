@@ -1,0 +1,244 @@
+{
+	"name": "@fractaldesign/fractal-svelte",
+	"version": "0.1.0",
+	"description": "Spring-animated UI primitives, agent components, and product blocks for Svelte 5.",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/fractalmandala/mandala",
+		"directory": "packages/fractal-svelte"
+	},
+	"bugs": {
+		"url": "https://github.com/fractalmandala/mandala/issues"
+	},
+	"keywords": [
+		"svelte",
+		"svelte-5",
+		"components",
+		"ui",
+		"animation",
+		"motion",
+		"agents"
+	],
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build && npm run prepack",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"prepack": "svelte-kit sync && svelte-package && publint",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"lint": "prettier --check . && eslint .",
+		"format": "prettier --write .",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"generate:catalog": "tsx scripts/generate-catalog.ts",
+		"check:catalog": "tsx scripts/generate-catalog.ts --check && tsx scripts/check-catalog.ts",
+		"check:exports": "tsx scripts/check-package-exports.ts",
+		"check:components": "tsx scripts/check-component-completeness.ts",
+		"check:public": "tsx scripts/check-public-content.ts",
+		"check:styles": "tsx scripts/check-styles.ts",
+		"check:registry": "tsx scripts/check-registry.ts"
+	},
+	"files": [
+		"dist",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"sideEffects": [
+		"**/*.css",
+		"**/*.sass"
+	],
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./styles": {
+			"sass": "./dist/styles/index.sass",
+			"default": "./dist/styles/index.sass"
+		},
+		"./ease": {
+			"types": "./dist/ease.d.ts",
+			"svelte": "./dist/ease.js",
+			"default": "./dist/ease.js"
+		},
+		"./button": {
+			"types": "./dist/components/motion/button/index.d.ts",
+			"svelte": "./dist/components/motion/button/index.js",
+			"default": "./dist/components/motion/button/index.js"
+		},
+		"./tabs": {
+			"types": "./dist/components/motion/tabs/index.d.ts",
+			"svelte": "./dist/components/motion/tabs/index.js",
+			"default": "./dist/components/motion/tabs/index.js"
+		},
+		"./switch": {
+			"types": "./dist/components/motion/switch/index.d.ts",
+			"svelte": "./dist/components/motion/switch/index.js",
+			"default": "./dist/components/motion/switch/index.js"
+		},
+		"./checkbox": {
+			"types": "./dist/components/motion/checkbox/index.d.ts",
+			"svelte": "./dist/components/motion/checkbox/index.js",
+			"default": "./dist/components/motion/checkbox/index.js"
+		},
+		"./radio": {
+			"types": "./dist/components/motion/radio/index.d.ts",
+			"svelte": "./dist/components/motion/radio/index.js",
+			"default": "./dist/components/motion/radio/index.js"
+		},
+		"./animated-badge": {
+			"types": "./dist/components/motion/animated-badge/index.d.ts",
+			"svelte": "./dist/components/motion/animated-badge/index.js",
+			"default": "./dist/components/motion/animated-badge/index.js"
+		},
+		"./number": {
+			"types": "./dist/components/motion/number/index.d.ts",
+			"svelte": "./dist/components/motion/number/index.js",
+			"default": "./dist/components/motion/number/index.js"
+		},
+		"./marquee": {
+			"types": "./dist/components/motion/marquee/index.d.ts",
+			"svelte": "./dist/components/motion/marquee/index.js",
+			"default": "./dist/components/motion/marquee/index.js"
+		},
+		"./tooltip": {
+			"types": "./dist/components/motion/tooltip/index.d.ts",
+			"svelte": "./dist/components/motion/tooltip/index.js",
+			"default": "./dist/components/motion/tooltip/index.js"
+		},
+		"./input": {
+			"types": "./dist/components/motion/input/index.d.ts",
+			"svelte": "./dist/components/motion/input/index.js",
+			"default": "./dist/components/motion/input/index.js"
+		},
+		"./loader": {
+			"types": "./dist/components/motion/loader/index.d.ts",
+			"svelte": "./dist/components/motion/loader/index.js",
+			"default": "./dist/components/motion/loader/index.js"
+		},
+		"./text-animation": {
+			"types": "./dist/components/motion/text-animation/index.d.ts",
+			"svelte": "./dist/components/motion/text-animation/index.js",
+			"default": "./dist/components/motion/text-animation/index.js"
+		},
+		"./prompt-input": {
+			"types": "./dist/components/agents/prompt-input/index.d.ts",
+			"svelte": "./dist/components/agents/prompt-input/index.js",
+			"default": "./dist/components/agents/prompt-input/index.js"
+		},
+		"./message": {
+			"types": "./dist/components/agents/message/index.d.ts",
+			"svelte": "./dist/components/agents/message/index.js",
+			"default": "./dist/components/agents/message/index.js"
+		},
+		"./message-bubble": {
+			"types": "./dist/components/agents/message-bubble/index.d.ts",
+			"svelte": "./dist/components/agents/message-bubble/index.js",
+			"default": "./dist/components/agents/message-bubble/index.js"
+		},
+		"./todo-list": {
+			"types": "./dist/components/agents/todo-list/index.d.ts",
+			"svelte": "./dist/components/agents/todo-list/index.js",
+			"default": "./dist/components/agents/todo-list/index.js"
+		},
+		"./approval-card": {
+			"types": "./dist/components/agents/approval-card/index.d.ts",
+			"svelte": "./dist/components/agents/approval-card/index.js",
+			"default": "./dist/components/agents/approval-card/index.js"
+		},
+		"./file-diff": {
+			"types": "./dist/components/agents/file-diff/index.d.ts",
+			"svelte": "./dist/components/agents/file-diff/index.js",
+			"default": "./dist/components/agents/file-diff/index.js"
+		},
+		"./ai-sidebar": {
+			"types": "./dist/components/agents/ai-sidebar/index.d.ts",
+			"svelte": "./dist/components/agents/ai-sidebar/index.js",
+			"default": "./dist/components/agents/ai-sidebar/index.js"
+		},
+		"./streaming-response": {
+			"types": "./dist/components/agents/streaming-response/index.d.ts",
+			"svelte": "./dist/components/agents/streaming-response/index.js",
+			"default": "./dist/components/agents/streaming-response/index.js"
+		},
+		"./message-scroller": {
+			"types": "./dist/components/agents/message-scroller/index.d.ts",
+			"svelte": "./dist/components/agents/message-scroller/index.js",
+			"default": "./dist/components/agents/message-scroller/index.js"
+		},
+		"./notification-stack": {
+			"types": "./dist/components/blocks/notification-stack/index.d.ts",
+			"svelte": "./dist/components/blocks/notification-stack/index.js",
+			"default": "./dist/components/blocks/notification-stack/index.js"
+		},
+		"./feedback-widget": {
+			"types": "./dist/components/blocks/feedback-widget/index.d.ts",
+			"svelte": "./dist/components/blocks/feedback-widget/index.js",
+			"default": "./dist/components/blocks/feedback-widget/index.js"
+		},
+		"./not-found": {
+			"types": "./dist/components/blocks/not-found/index.d.ts",
+			"svelte": "./dist/components/blocks/not-found/index.js",
+			"default": "./dist/components/blocks/not-found/index.js"
+		},
+		"./theme-toggle": {
+			"types": "./dist/components/blocks/theme-toggle/index.d.ts",
+			"svelte": "./dist/components/blocks/theme-toggle/index.js",
+			"default": "./dist/components/blocks/theme-toggle/index.js"
+		},
+		"./expandable-action-bar": {
+			"types": "./dist/components/blocks/expandable-action-bar/index.d.ts",
+			"svelte": "./dist/components/blocks/expandable-action-bar/index.js",
+			"default": "./dist/components/blocks/expandable-action-bar/index.js"
+		},
+		"./action-swap": {
+			"types": "./dist/components/blocks/action-swap/index.d.ts",
+			"svelte": "./dist/components/blocks/action-swap/index.js",
+			"default": "./dist/components/blocks/action-swap/index.js"
+		},
+		"./bouncy-accordion": {
+			"types": "./dist/components/blocks/bouncy-accordion/index.d.ts",
+			"svelte": "./dist/components/blocks/bouncy-accordion/index.js",
+			"default": "./dist/components/blocks/bouncy-accordion/index.js"
+		},
+		"./overflow-actions": {
+			"types": "./dist/components/blocks/overflow-actions/index.d.ts",
+			"svelte": "./dist/components/blocks/overflow-actions/index.js",
+			"default": "./dist/components/blocks/overflow-actions/index.js"
+		}
+	},
+	"peerDependencies": {
+		"@humanspeak/svelte-motion": "^0.8.0",
+		"svelte": "^5.0.0"
+	},
+	"devDependencies": {
+		"@eslint/js": "^10.0.1",
+		"@humanspeak/svelte-motion": "^0.8.0",
+		"@sveltejs/adapter-auto": "^4.0.0",
+		"@sveltejs/kit": "^2.16.0",
+		"@sveltejs/package": "^2.3.0",
+		"@sveltejs/vite-plugin-svelte": "^5.0.0",
+		"@testing-library/svelte": "^5.4.2",
+		"eslint": "^9.0.0",
+		"eslint-config-prettier": "^10.0.0",
+		"eslint-plugin-svelte": "^3.0.0",
+		"globals": "^17.0.0",
+		"jsdom": "^30.0.1",
+		"prettier": "^3.5.0",
+		"prettier-plugin-svelte": "^3.3.0",
+		"publint": "^0.3.0",
+		"sass": "^1.83.0",
+		"svelte": "^5.0.0",
+		"svelte-check": "^4.1.0",
+		"tsx": "^4.19.0",
+		"typescript": "^5.7.0",
+		"typescript-eslint": "^8.0.0",
+		"vite": "^6.0.0",
+		"vitest": "^3.0.0"
+	}
+}
