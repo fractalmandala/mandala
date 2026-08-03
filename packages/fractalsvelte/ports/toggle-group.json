@@ -1,0 +1,63 @@
+{
+	"component": "toggle-group",
+	"wave": 4,
+	"source": "shadcn-registry/lib/registry/ui/toggle-group",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 14, "skinRules": 9 },
+	"dependencies": {
+		"internal": ["toggle"],
+		"external": ["bits-ui"]
+	},
+
+	"variantsConverted": {
+		"from": "toggleVariants tv() + cn-toggle-group / cn-toggle-group-item + group/toggle-group data-spacing utilities",
+		"to": "Root context (variant/size/spacing/orientation/pressed*) + Item data-* attributes; skin in toggle-group.sass",
+		"variant": ["default", "outline"],
+		"size": ["default", "sm", "lg"]
+	},
+
+	"propsInvented": [
+		{
+			"name": "pressedSurface / pressedIconTone on Root and Item",
+			"why": "Spacing demo used per-item data-[state=on] fill/stroke colour classes; props inherit from Root and override on Item.",
+			"replaces": "class=\"data-[state=on]:bg-transparent data-[state=on]:*:[svg]:fill-*\""
+		}
+	],
+
+	"deviations": [
+		{
+			"what": "Explicit data-horizontal / data-vertical on Root (bits-ui only sets data-orientation)",
+			"why": "Oracle skin and structural utilities key off data-horizontal/data-vertical",
+			"risk": "low"
+		},
+		{
+			"what": "Gap via --toggle-group-gap: spacing * 0.25rem instead of --gap + gap-[--spacing(var(--gap))]",
+			"why": "No Tailwind spacing() function; same math (spacing unit = 0.25rem)",
+			"risk": "none"
+		},
+		{
+			"what": "Joined spacing=0 selectors use parent [data-slot=toggle-group] instead of group/toggle-group",
+			"why": "No Tailwind group utilities",
+			"risk": "none"
+		},
+		{
+			"what": "Item reimplements toggle surface skin (does not compose Toggle component)",
+			"why": "Source composes toggleVariants classes on Item; same visual, independent of Toggle primitive",
+			"risk": "low — keep toggle.sass and toggle-group.sass size/variant rules in sync"
+		}
+	],
+
+	"examplesPorted": [
+		"toggle-group-demo",
+		"toggle-group-outline",
+		"toggle-group-single",
+		"toggle-group-sm",
+		"toggle-group-lg",
+		"toggle-group-spacing",
+		"toggle-group-disabled"
+	],
+	"examplesDeferred": [],
+	"promotedToCentral": [],
+	"docPage": "src/content/components/toggle-group.md",
+	"status": "ported — joined outline borders, spacing gap, pressed tones, docs with all source examples + vertical"
+}

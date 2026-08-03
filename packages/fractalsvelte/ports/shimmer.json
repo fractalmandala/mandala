@@ -1,0 +1,37 @@
+{
+	"component": "shimmer",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/shimmer",
+	"skin": "data-slot SASS keyframes + CSS vars",
+	"dependencies": {
+		"internal": [],
+		"external": []
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "contentLength camelCase instead of content_length",
+			"why": "Svelte/TS prop convention matches the rest of the library.",
+			"risk": "low"
+		},
+		{
+			"what": "Dropped runed watch import (unused in source)",
+			"why": "Dead dependency in upstream shimmer.svelte.",
+			"risk": "none"
+		},
+		{
+			"what": "Highlight uses --background over --muted-foreground base (in SASS, not inline)",
+			"why": "Source pattern; moved gradient to SASS so tokens stay themeable.",
+			"risk": "low"
+		},
+		{
+			"what": "forced-colors fallback disables animation",
+			"why": "Accessibility: solid text when high-contrast mode cannot clip backgrounds.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["basic", "duration", "as tag variants"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/shimmer.md",
+	"status": "comprehensive re-port — pure CSS shimmer, rich docs"
+}

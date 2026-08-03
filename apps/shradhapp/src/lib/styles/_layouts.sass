@@ -1,0 +1,111 @@
+@use 'mixins' as *
+
+.shell
+	height: 100vh
+	overflow: hidden
+	display: flex
+	flex-direction: column
+	background: var(--app-bg)
+
+.app-shell
+	@extend .shell
+
+.shell-main
+	flex: 1 1 auto
+	min-width: 0
+	min-height: 0
+	overflow: hidden
+	background: var(--app-bg)
+
+.app-main
+	@extend .shell-main
+
+.shell-header
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: space-between
+	height: 48px
+	padding: 0
+	border-bottom: 1px solid var(--border)
+	background: var(--surface-1)
+	width: 100%
+
+.app-header
+	@extend .shell-header
+	padding: 0 0 0 88px
+
+.viewport-page
+	display: block
+	width: 100%
+	height: 100%
+	min-width: 0
+	min-height: 0
+	overflow: auto
+	padding: 0
+
+.embedded-page
+	@extend .viewport-page
+
+.project-shell
+	height: 100vh
+	min-height: 0
+	display: flex
+	flex-direction: column
+	overflow: hidden
+
+.workspace-main
+	display: flex
+	flex: 1 1 auto
+	height: 100%
+	min-width: 0
+	min-height: 0
+	overflow: hidden
+
+.project-workspace
+	@extend .workspace-main
+	padding: 0
+
+.workspace
+	display: flex
+	min-height: 0
+	height: calc(100vh - 48px)
+	overflow: hidden
+
+.workspace-workarea
+	@extend .workspace
+
+.workspace-sidebar
+	+panel-base
+	flex: 0 0 auto
+	width: var(--sidebar-width, 160px)
+	gap: var(--space-1)
+	padding: 0
+	overflow: hidden
+	border-right: 1px solid var(--border)
+	background: var(--surface-1)
+	&:last-child
+		border-right: 0
+		border-left: 1px solid var(--border)
+
+.workspace-sidebar-content
+	+panel-content-base
+	display: grid
+	align-content: start
+	gap: var(--space-2)
+	padding: 0
+	.button
+		width: 100%
+	.rail-project-list
+		max-height: none
+		overflow: visible
+
+.workspace-resizer
+	flex: 0 0 4px
+	width: 4px
+	padding: 0
+	border: 0
+	cursor: col-resize
+	background: transparent
+	&:hover, &:focus-visible
+		background: var(--accent)

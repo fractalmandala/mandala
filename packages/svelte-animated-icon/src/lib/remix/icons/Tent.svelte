@@ -1,0 +1,17 @@
+<script lang="ts">
+	import AnimatedIcon from '../../core/AnimatedIcon.svelte';
+
+	const VARIANTS: Record<string, string> = {
+		fill: `<g fill="currentColor"><path d="M12.8659 3.00017L22.1034 19H23V21H1V19H1.89638L11.1339 3.00017C11.41 2.52187 12.0216 2.358 12.4999 2.63414C12.6519 2.72191 12.7782 2.84815 12.8659 3.00017ZM12 12.9248L8.65869 19H15.3414L12 12.9248Z"/></g>`,
+		line: `<g fill="currentColor"><path d="M22.1034 19L12.8659 3.00017C12.7782 2.84815 12.6519 2.72191 12.4999 2.63414C12.0216 2.358 11.41 2.52187 11.1339 3.00017L1.89638 19H1V21C8.33333 21 15.6667 21 23 21V19H22.1034ZM7.59991 19.0002H4.20568L11.9999 5.50017L19.7941 19.0002H16.4001L12 11L7.59991 19.0002ZM12 15.1501L14.1175 19H9.88254L12 15.1501Z"/></g>`
+	};
+
+	interface Props {
+		variant?: string;
+		[key: string]: unknown;
+	}
+
+	let { variant = 'line', ...rest }: Props = $props();
+</script>
+
+<AnimatedIcon svg={VARIANTS[variant] ?? VARIANTS['line']} viewBox="0 0 24 24" {...rest} />

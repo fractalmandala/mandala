@@ -1,0 +1,58 @@
+{
+  "name": "morphicons-svelte",
+  "version": "0.1.1",
+  "description": "Svelte 5 bindings for morphicons",
+  "type": "module",
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./MorphIcon.svelte": {
+      "types": "./dist/MorphIcon.svelte.d.ts",
+      "svelte": "./dist/MorphIcon.svelte",
+      "default": "./dist/MorphIcon.svelte"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build && svelte-package",
+    "package": "svelte-package",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run"
+  },
+  "engines": {
+    "node": ">=22.22.2"
+  },
+  "packageManager": "pnpm@11.18.0",
+  "dependencies": {
+    "morphicons": "1.1.1"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "7.0.1",
+    "@sveltejs/kit": "2.70.2",
+    "@sveltejs/package": "2.5.8",
+    "@sveltejs/vite-plugin-svelte": "7.2.0",
+    "@types/node": "22.20.1",
+    "jsdom": "30.0.1",
+    "lucide": "1.28.0",
+    "svelte": "5.56.8",
+    "svelte-check": "4.7.4",
+    "typescript": "6.0.3",
+    "vite": "8.2.0",
+    "vitest": "4.1.10"
+  }
+}

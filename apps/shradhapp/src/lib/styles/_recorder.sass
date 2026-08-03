@@ -1,0 +1,92 @@
+.recorder
+	display: flex
+	height: 100%
+	align-items: flex-start
+	justify-content: center
+	overflow-y: auto
+
+	.panel
+		display: flex
+		width: min(560px, 100%)
+		flex-direction: column
+		gap: var(--space-3)
+		padding: var(--space-4)
+
+	.center
+		display: flex
+		flex-direction: column
+		align-items: center
+		gap: var(--space-3)
+		text-align: center
+
+	.hint
+		margin: 0
+		color: var(--text-muted)
+
+	.bigrec
+		display: flex
+		width: 110px
+		height: 110px
+		align-items: center
+		justify-content: center
+		padding: 0
+		border-radius: 50%
+		background: var(--danger)
+		box-shadow: 0 6px 20px color-mix(in srgb, var(--danger) 35%, transparent)
+		font-size: var(--text-5xl)
+
+		&:hover
+			background: color-mix(in srgb, var(--danger) 84%, black)
+
+		&.recording
+			animation: pulse 1.4s infinite
+
+	.status
+		font-size: var(--text-lg)
+
+	.dot
+		display: inline-block
+		width: 10px
+		height: 10px
+		margin-right: var(--space-1)
+		border-radius: 50%
+		background: var(--danger)
+
+	h2
+		font-family: var(--font-sans)
+		font-size: var(--text-lg)
+		font-weight: 700
+
+	.take
+		padding: var(--space-3)
+		border: 1px solid var(--border)
+		border-radius: var(--radius-md)
+		background: var(--surface-2)
+
+		&.cleaned
+			border-color: var(--success)
+			background: color-mix(in srgb, var(--success) 12%, var(--surface-1))
+
+		audio
+			width: 100%
+
+		p
+			margin: var(--space-2) 0 0
+
+	.take-head
+		display: flex
+		justify-content: space-between
+		gap: var(--space-2)
+		margin-bottom: var(--space-2)
+
+	.ok
+		color: var(--success)
+
+	.err
+		color: var(--danger)
+
+@keyframes pulse
+	0%, 100%
+		box-shadow: 0 0 0 0 color-mix(in srgb, var(--danger) 45%, transparent)
+	50%
+		box-shadow: 0 0 0 18px color-mix(in srgb, var(--danger) 0%, transparent)

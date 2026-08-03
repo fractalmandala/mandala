@@ -1,0 +1,18 @@
+<script lang="ts">
+	import AnimatedIcon from '../../core/AnimatedIcon.svelte';
+
+	const VARIANTS: Record<string, string> = {
+		regular: `<g fill="currentColor"><line x1="40" y1="168" x2="216" y2="224" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="216" y1="168" x2="40" y2="224" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M152,136a24,24,0,0,1-48,0c0-24,24-40,24-40S152,112,152,136Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M180,108a52,52,0,0,1-104,0c0-44,52-76,52-76S180,64,180,108Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></g>`,
+		light: `<g fill="currentColor"><line x1="40" y1="168" x2="216" y2="224" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/><line x1="216" y1="168" x2="40" y2="224" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/><path d="M152,136a24,24,0,0,1-48,0c0-24,24-40,24-40S152,112,152,136Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/><path d="M180,108a52,52,0,0,1-104,0c0-44,52-76,52-76S180,64,180,108Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="12"/></g>`,
+		fill: `<g fill="currentColor"><path d="M132.19,25.19a8,8,0,0,0-8.38,0A156,156,0,0,0,96.24,48C77.77,67.13,68,87.9,68,108a60,60,0,0,0,120,0C188,60.08,134.47,26.59,132.19,25.19ZM128,152a24,24,0,0,1-24-24c0-24,24-40,24-40s24,16,24,40A24,24,0,0,1,128,152Zm95.62,74.42a8,8,0,0,1-10.05,5.2L128,204.39,42.43,231.62a8,8,0,1,1-4.85-15.25l64-20.37-64-20.38a8,8,0,1,1,4.85-15.24L128,187.6l85.57-27.22a8,8,0,1,1,4.85,15.24l-64,20.38,64,20.37A8,8,0,0,1,223.62,226.42Z"/></g>`
+	};
+
+	interface Props {
+		variant?: string;
+		[key: string]: unknown;
+	}
+
+	let { variant = 'regular', ...rest }: Props = $props();
+</script>
+
+<AnimatedIcon svg={VARIANTS[variant] ?? VARIANTS['regular']} viewBox="0 0 256 256" {...rest} />

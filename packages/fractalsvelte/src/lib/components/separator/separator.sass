@@ -1,0 +1,14 @@
+// Ported from shadcn-svelte ui/separator + style-luma.
+// Oracle: 7 structural utilities, 3 skin rules.
+
+[data-slot='separator']
+	flex-shrink: 0
+	background-color: var(--border)
+
+	&[data-orientation='horizontal']
+		width: 100%
+		height: 1px
+
+	&[data-orientation='vertical']
+		width: 1px
+		height: 100%

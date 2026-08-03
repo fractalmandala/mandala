@@ -1,0 +1,31 @@
+{
+  "default": "minimal",
+  "profiles": {
+    "minimal": [
+      "pre:bash:safety",
+      "pre:bash:no-verify",
+      "pre:edit:config-protection",
+      "session:start",
+      "periodic:essay-due"
+    ],
+    "standard": [
+      "pre:bash:safety",
+      "pre:bash:no-verify",
+      "pre:edit:config-protection",
+      "session:start",
+      "periodic:essay-due",
+      "stop:quality-batch",
+      "stop:console-warn"
+    ],
+    "strict": [
+      "pre:bash:safety",
+      "pre:bash:no-verify",
+      "pre:edit:config-protection",
+      "session:start",
+      "periodic:essay-due",
+      "stop:quality-batch",
+      "stop:console-warn",
+      "pre:edit:gateguard"
+    ]
+  }
+}

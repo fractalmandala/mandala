@@ -1,0 +1,186 @@
+@font-face
+	font-family: 'Google Sans'
+	src: url('/fonts/GoogleSans.woff2') format('woff2')
+	font-weight: 400 700
+	font-style: normal
+	font-display: swap
+
+@font-face
+	font-family: 'Google Sans'
+	src: url('/fonts/GoogleSans-Italic.woff2') format('woff2')
+	font-weight: 400 700
+	font-style: italic
+	font-display: swap
+
+@font-face
+	font-family: 'Cabinet Grotesk'
+	src: url('/fonts/CabinetGrotesk-Variable.woff2') format('woff2')
+	font-weight: 200 900
+	font-style: normal
+	font-display: swap
+
+.font20
+	font-family: var(--font20)
+
+.text-xs
+	font-size: var(--text-xs)
+.text-sm
+	font-size: var(--text-sm)
+.text-md
+	font-size: var(--text-md)
+.text-bs
+	font-size: var(--text-bs)
+.text-lg
+	font-size: var(--text-lg)
+.text-xl
+	font-size: var(--text-xl)
+.text-2xl
+	font-size: var(--text-2xl)
+.text-3xl
+	font-size: var(--text-3xl)
+.text-4xl
+	font-size: var(--text-4xl)
+.text-5xl
+	font-size: var(--text-5xl)
+.tt-u
+	text-transform: uppercase
+.tt-c
+	text-transform: capitalize
+.w400
+	font-weight: 400
+.w500
+	font-weight: 500
+.w600
+	font-weight: 600
+.bold
+	font-weight: bold
+.lh11
+	line-height: 1.1
+.lh125
+	line-height: 1.25
+.lh15
+	line-height: 1.5
+.lh16
+	line-height: 1.6
+
+.col1
+	color: var(--text10)
+.col2
+	color: var(--text20)
+.col3
+	color: var(--text30)
+.col-theme
+	color: var(--text100)
+
+.ls-tight
+	letter-spacing: var(--ls-tight)
+.ls-tightx
+	letter-spacing: var(--ls-tightx)
+.ls-wide
+	letter-spacing: var(--ls-wide)
+.ls-widex
+	letter-spacing: var(--ls-widex)
+
+.sidebar-accordion
+	span
+		font-weight: 500
+		font-size: var(--text-sm)
+		text-transform: uppercase
+		color: var(--text30)
+		margin-bottom: 4px
+		font-family: var(--font20)
+	a
+		text-decoration: none
+		color: var(--text10)
+		font-size: var(--text-md)
+		padding: 4px 8px
+		&:hover
+			background: var(--state20)
+
+a.pagination-card
+	text-decoration: none
+	color: inherit
+	span.text-sm
+		color: var(--text30)
+		text-transform: uppercase
+	span.text-bs
+		color: var(--text10)
+
+.breadcrumbs
+	a
+		font-size: var(--text-xs)
+		text-transform: uppercase
+		letter-spacing: 0.05rem
+		text-decoration: none
+		color: var(--text30)
+	span
+		font-size: var(--text-xs)
+		text-transform: uppercase
+		letter-spacing: 0.05rem
+		color: var(--text30)
+
+h1
+	letter-spacing: -0.05rem
+	font-size: var(--text-5xl)
+	color: var(--text10)
+	font-weight: 750
+	font-family: var(--font20)
+	@media (max-width: 1024px)
+		font-size: var(--text-2xl)
+
+article
+	.links-row
+		margin-bottom: 1.5rem
+	p
+		font-size: var(--text-bs)
+		line-height: 1.6
+		margin-bottom: 1.5rem
+	li
+		font-size: var(--text-bs)
+		line-height: 1.6
+	a
+		text-decoration: underline
+		text-decoration-color: var(--text100)
+		color: var(--text10)
+	h2
+		font-size: var(--text-xl)
+		margin-bottom: 1.5rem
+		margin-top: 3rem
+		text-transform: capitalize
+		letter-spacing: -0.02rem
+		font-weight: 600
+	h3
+		font-size: var(--text-lg)
+		margin-top: 1.5rem
+		margin-bottom: 1.5rem
+		text-transform: capitalize
+		font-weight: 600
+	pre
+		margin-bottom: 1.5rem
+		border: 1px solid var(--border10)
+		border-radius: 4px
+	blockquote
+		margin-left: 0
+		margin-right: 0
+		padding-right: 0
+	table
+		padding: 0
+		margin-bottom: 1.5rem
+		font-family: var(--font10)
+		font-size: var(--text-md)
+		text-align: left
+		border-spacing: 16px 0
+		color: var(--text10)
+		th
+			border-bottom: 1px solid var(--border20)
+			padding-bottom: 4px
+		tbody
+			td
+				padding: 4px 0
+				border-bottom: 1px solid var(--border10)
+
+.toggling
+	text-decoration: none
+	color: var(--text10)
+	&:hover
+		color: var(--text100)

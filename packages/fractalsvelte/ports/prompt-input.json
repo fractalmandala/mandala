@@ -1,0 +1,52 @@
+{
+	"component": "prompt-input",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/prompt-input",
+	"skin": "none (Tailwind utilities)",
+	"dependencies": {
+		"internal": ["button", "textarea", "dialog", "dropdown-menu", "tooltip"],
+		"external": ["runed", "bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Action menu parts added to barrel (were missing from prior port)",
+			"why": "Source demos require ActionMenu / ActionAddAttachments",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG instead of lucide/phosphor on Submit and ActionMenuTrigger",
+			"why": "Library icon policy",
+			"risk": "low"
+		},
+		{
+			"what": "Attachment remove keeps button data-slot; uses data-prompt-input-attachment-remove",
+			"why": "Preserve button skin",
+			"risk": "low"
+		},
+		{
+			"what": "Attachments default-renders Attachment tiles when children omitted",
+			"why": "Source required children snippet; default is more usable",
+			"risk": "low"
+		},
+		{
+			"what": "Image preview dialog without AspectRatio dependency",
+			"why": "object-fit contain frame is enough; fewer deps",
+			"risk": "low"
+		},
+		{
+			"what": "globalDrop + syncHiddenInput watches restored on Root",
+			"why": "Present in source, dropped in earlier port",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["basic", "action-menu", "submit-status", "custom-tools"],
+	"examplesDeferred": [
+		{
+			"name": "provider-example / live Chat",
+			"blockedBy": "optional demo wiring with PromptInputProvider"
+		}
+	],
+	"docPage": "src/content/components/prompt-input.md",
+	"status": "comprehensive re-port — action menu, attachments, status, demos"
+}

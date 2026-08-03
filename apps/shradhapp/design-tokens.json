@@ -1,0 +1,12 @@
+{
+  "theme": { "default": "dark", "modes": ["dark", "light"] },
+  "spacing": [4, 8, 16, 32, 64, 80, 128],
+  "radius": { "sm": 3, "md": 6 },
+  "typography": { "body": "Google Sans", "display": "Georgia", "base": 16, "bodyLineHeight": 1.5, "headingLineHeight": 1.1 },
+  "motion": {
+    "durationMs": { "instant": 80, "fast": 140, "normal": 200, "slow": 320 },
+    "principles": ["stateful only", "transform and opacity only", "reduced motion first"]
+  },
+  "architecture": ["tokens", "globals", "typography", "primitives", "buttonslinks", "layouts", "components", "motion"],
+  "components": ["button", "icon-button", "surface", "rail-link", "phase-link", "project-row", "choice", "repair-drawer", "timeline-track", "export-modal"]
+}

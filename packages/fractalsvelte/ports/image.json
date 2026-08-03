@@ -1,0 +1,37 @@
+{
+	"component": "image",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/image",
+	"skin": "data-slot SASS max-width + radius",
+	"dependencies": {
+		"internal": [],
+		"external": []
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Accepts bare base64 or full data: URI",
+			"why": "Source always built data:${mediaType};base64,${base64}; accepting data: avoids double-prefix bugs.",
+			"risk": "low"
+		},
+		{
+			"what": "Default alt 'Generated image' and mediaType image/png",
+			"why": "Safer defaults when AI SDK omits fields.",
+			"risk": "low"
+		},
+		{
+			"what": "uint8Array accepted but not rendered",
+			"why": "API parity with Experimental_GeneratedImage; rendering stays on base64.",
+			"risk": "none"
+		},
+		{
+			"what": "Registry uiDeps listed button but component does not use Button",
+			"why": "Upstream registry metadata; no Button in this port.",
+			"risk": "none"
+		}
+	],
+	"examplesPorted": ["basic base64", "sizes", "data URI + mediaType"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/image.md",
+	"status": "comprehensive re-port — data URI smarts, full docs"
+}

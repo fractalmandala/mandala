@@ -1,0 +1,23 @@
+// Ported from ai-elements/suggestion (Tailwind utilities → data-slot SASS).
+// Suggestion chips keep data-slot=button; pill chrome via [data-suggestion].
+
+@use '../../../styles/mixins' as *
+
+[data-slot='suggestions']
+	width: 100%
+
+[data-slot='suggestions-list']
+	display: flex
+	width: max-content
+	flex-wrap: nowrap
+	align-items: center
+	gap: 0.5rem
+	padding-block: 0.125rem
+
+// Pill chip on top of Button skin
+[data-slot='button'][data-suggestion]
+	cursor: pointer
+	border-radius: 9999px
+	padding-inline: 1rem
+	flex-shrink: 0
+	white-space: nowrap

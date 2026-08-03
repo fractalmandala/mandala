@@ -1,0 +1,237 @@
+// Ported from ai-elements/queue (Tailwind utilities → data-slot SASS).
+
+@use '../../../styles/mixins' as *
+
+[data-slot='queue']
+	border: 1px solid var(--border)
+	background-color: var(--background)
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+	border-radius: calc(var(--radius) + 4px)
+	padding-inline: 0.75rem
+	padding-block: 0.5rem
+	box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05)
+
+// Quiet muted section header (not bordered collapsible-trigger chrome)
+[data-slot='queue-section-trigger']
+	display: flex
+	width: 100%
+	align-items: center
+	justify-content: space-between
+	gap: 0.5rem
+	min-height: unset
+	padding: 0.5rem 0.75rem
+	border: none
+	border-radius: calc(var(--radius) - 2px)
+	background-color: color-mix(in oklab, var(--muted) 40%, transparent)
+	color: var(--muted-foreground)
+	font: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	text-align: left
+	cursor: pointer
+	transition: background-color 150ms, color 150ms
+	+focus-ring(3px, var(--ring), 30%)
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--muted)
+			color: var(--foreground)
+
+	// Chevron points right when closed, down when open
+	&[data-state='closed'],
+	&[data-closed],
+	&[aria-expanded='false']
+		[data-slot='queue-section-chevron']
+			transform: rotate(-90deg)
+
+	&[data-state='open'],
+	&[data-open],
+	&[aria-expanded='true']
+		[data-slot='queue-section-chevron']
+			transform: rotate(0deg)
+
+[data-slot='queue-section-label']
+	display: flex
+	align-items: center
+	gap: 0.5rem
+	min-width: 0
+
+[data-slot='queue-section-chevron']
+	display: inline-flex
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+	transition: transform 200ms ease
+
+	svg
+		width: 1rem
+		height: 1rem
+
+[data-slot='queue-section-icon']
+	display: inline-flex
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+
+	svg
+		width: 1rem
+		height: 1rem
+
+[data-slot='queue-section-label-text']
+	min-width: 0
+
+[data-slot='queue-section-content']
+	overflow: hidden
+
+// Scrollable list shell
+[data-slot='queue-list']
+	margin-top: 0.5rem
+	margin-bottom: -0.25rem
+
+[data-slot='queue-list-inner']
+	padding-right: 0.5rem
+
+[data-slot='queue-list-ul']
+	list-style: none
+	padding: 0
+	margin: 0
+
+// Item row
+[data-slot='queue-item']
+	display: flex
+	flex-direction: column
+	gap: 0.25rem
+	border-radius: calc(var(--radius) - 2px)
+	padding-inline: 0.75rem
+	padding-block: 0.25rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	transition: background-color 150ms
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--muted)
+
+			// Reveal actions on hover
+			[data-slot='button'][data-queue-item-action]
+				opacity: 1
+
+// Common horizontal row: indicator + content + actions
+[data-slot='queue-item-row']
+	display: flex
+	align-items: center
+	gap: 0.5rem
+	min-width: 0
+
+[data-slot='queue-item-indicator']
+	display: inline-block
+	flex-shrink: 0
+	width: 0.625rem
+	height: 0.625rem
+	margin-top: 0.125rem
+	border-radius: 9999px
+	border: 1px solid color-mix(in oklab, var(--muted-foreground) 50%, transparent)
+	background-color: transparent
+
+	&[data-completed]
+		border-color: color-mix(in oklab, var(--muted-foreground) 20%, transparent)
+		background-color: color-mix(in oklab, var(--muted-foreground) 10%, transparent)
+
+[data-slot='queue-item-content']
+	flex: 1
+	min-width: 0
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+	color: var(--muted-foreground)
+
+	&[data-completed]
+		color: color-mix(in oklab, var(--muted-foreground) 50%, transparent)
+		text-decoration: line-through
+
+[data-slot='queue-item-description']
+	margin-left: 1.5rem
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+	color: var(--muted-foreground)
+
+	&[data-completed]
+		color: color-mix(in oklab, var(--muted-foreground) 40%, transparent)
+		text-decoration: line-through
+
+[data-slot='queue-item-actions']
+	display: flex
+	flex-shrink: 0
+	align-items: center
+	gap: 0.25rem
+	margin-left: auto
+
+// Keep button skin; densify + hide until row hover
+[data-slot='button'][data-queue-item-action]
+	width: auto
+	height: auto
+	min-height: unset
+	padding: 0.25rem
+	border-radius: calc(var(--radius) - 4px)
+	opacity: 0
+	color: var(--muted-foreground)
+	transition: opacity 150ms, background-color 150ms, color 150ms
+
+	&:hover
+		@media (hover: hover)
+			background-color: color-mix(in oklab, var(--muted-foreground) 10%, transparent)
+			color: var(--foreground)
+
+	svg
+		width: 0.75rem
+		height: 0.75rem
+
+// Keyboard / touch: always show actions when focused inside item
+[data-slot='queue-item']:focus-within
+	[data-slot='button'][data-queue-item-action]
+		opacity: 1
+
+[data-slot='queue-item-attachment']
+	display: flex
+	flex-wrap: wrap
+	gap: 0.5rem
+	margin-top: 0.25rem
+	margin-left: 1.5rem
+
+[data-slot='queue-item-image']
+	width: 2rem
+	height: 2rem
+	object-fit: cover
+	border-radius: calc(var(--radius) - 4px)
+	border: 1px solid var(--border)
+
+[data-slot='queue-item-file']
+	display: inline-flex
+	align-items: center
+	gap: 0.25rem
+	max-width: 100%
+	padding: 0.25rem 0.5rem
+	border: 1px solid var(--border)
+	border-radius: calc(var(--radius) - 4px)
+	background-color: var(--muted)
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+	color: var(--muted-foreground)
+
+	svg
+		flex-shrink: 0
+		width: 0.75rem
+		height: 0.75rem
+
+[data-slot='queue-item-file-name']
+	max-width: 6.25rem
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap

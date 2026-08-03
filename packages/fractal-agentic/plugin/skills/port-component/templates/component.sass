@@ -1,0 +1,59 @@
+// Ported from <source path> + style-luma.
+// Oracle: N structural utilities, M skin rules.
+//
+// Note any Tailwind constant you resolved, so the next reader does not have to re-derive it:
+//   --spacing is 0.25rem, so calc(var(--spacing) * 9) is 2.25rem.
+//   --radius-2xl is a Tailwind default (1rem), NOT derived from --radius.
+
+@use '../../styles/mixins' as *
+
+[data-slot='name']
+	// Base — the structural utilities plus the skin's base rule.
+	display: flex
+	flex-direction: column
+	background-color: var(--card)
+	color: var(--card-foreground)
+	border: 1px solid var(--border)
+	+radius('lg')
+
+	// Behaviour comes from mixins. Check the oracle for the parameters — ring opacity and
+	// icon size vary by component; do not assume the defaults.
+	+interactive(pointer)
+	+icon-child(1rem)
+	+focus-ring(3px, var(--ring), 30%)
+	+invalid-ring
+
+	// ── Variants ──────────────────────────────────────────────────────────────────────
+	&[data-variant='outline']
+		background-color: transparent
+		&:hover
+			@media (hover: hover)
+				background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+		// Dark only where the source diverges beyond token substitution.
+		.dark &
+			background-color: transparent
+
+	// ── Sizes ─────────────────────────────────────────────────────────────────────────
+	&[data-size='sm']
+		padding: 0.75rem
+		font-size: var(--text-sm)
+		line-height: var(--text-sm--line-height)
+
+	&[data-size='default']
+		padding: 1rem
+
+	&[data-size='lg']
+		padding: 1.5rem
+
+	// ── Shared prop overrides ─────────────────────────────────────────────────────────
+	// MUST come last: sizes set font-size, and textSize has to win. Same specificity,
+	// so source order decides.
+	+radius-variants
+	+text-size-variants
+	+text-transform-variants
+
+// One rule per data-slot. All parts of a multi-part component share this file.
+[data-slot='name-header']
+	display: flex
+	align-items: center
+	gap: 0.5rem

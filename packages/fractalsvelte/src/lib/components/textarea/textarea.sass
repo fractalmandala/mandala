@@ -1,0 +1,43 @@
+// Ported from shadcn-svelte ui/textarea + style-luma.
+// Oracle: 8 structural utilities, 1 skin rule.
+//
+// --radius-2xl is a Tailwind default (1rem). --spacing is 0.25rem, so min-h-16 is 4rem.
+
+@use '../../styles/mixins' as *
+
+[data-slot='textarea']
+	display: flex
+	width: 100%
+	min-height: 4rem
+	padding: 0.75rem
+	border: 1px solid transparent
+	border-radius: 1rem
+	background-color: color-mix(in oklab, var(--input) 50%, transparent)
+	font-size: var(--text-base)
+	line-height: var(--text-base--line-height)
+	transition-property: color, box-shadow, background-color
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	// The skin turns off manual resizing in favour of field-sizing, which grows the box to
+	// fit its content. Browsers without field-sizing simply keep the min-height.
+	resize: none
+	field-sizing: content
+	+focus-ring(3px, var(--ring), 30%)
+	+invalid-ring
+
+	// Text drops to sm from the md breakpoint up — larger on phones to avoid iOS zoom-on-focus.
+	+bp-md
+		font-size: var(--text-sm)
+		line-height: var(--text-sm--line-height)
+
+	&::placeholder
+		color: var(--muted-foreground)
+
+	// Not +interactive: user-select: none would stop the user selecting what they typed.
+	&:disabled
+		cursor: not-allowed
+		opacity: 0.5
+
+	.dark &[aria-invalid='true']
+		border-color: color-mix(in oklab, var(--destructive) 50%, transparent)
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent)

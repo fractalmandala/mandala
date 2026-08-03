@@ -1,0 +1,39 @@
+{
+	"component": "name",
+	"wave": 0,
+	"source": "shadcn-registry/docs/lib/registry/ui/name",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 0, "skinRules": 0 },
+	"dependencies": { "internal": [], "external": [] },
+
+	"variantsConverted": {
+		"from": "tailwind-variants tv()",
+		"to": "typed props rendered as data-variant / data-size",
+		"variant": [],
+		"size": []
+	},
+
+	"propsInvented": [
+		{
+			"name": "",
+			"why": "What the examples did through class that the component otherwise cannot express.",
+			"replaces": "class=\"…\""
+		}
+	],
+
+	"deviations": [
+		{
+			"what": "",
+			"why": "",
+			"risk": "low | medium | high — and where it will surface"
+		}
+	],
+
+	"bugsFoundInTooling": [],
+
+	"examplesPorted": [],
+	"examplesDeferred": [{ "name": "", "blockedBy": "" }],
+	"promotedToCentral": [],
+	"docPage": "src/content/components/name.md",
+	"status": ""
+}

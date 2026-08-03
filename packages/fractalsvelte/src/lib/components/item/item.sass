@@ -1,0 +1,210 @@
+// Ported from shadcn-svelte ui/item + style-luma.
+// Oracle: 27 structural utilities, 19 skin rules.
+//
+// Tailwind's --spacing is 0.25rem; resolved below. --radius-2xl is a Tailwind default
+// (1rem), while calc(var(--radius) + 4px) is the component skin.
+
+@use '../../styles/mixins' as *
+
+[data-slot='item']
+	display: flex
+	flex-wrap: wrap
+	align-items: center
+	width: 100%
+	border: 1px solid transparent
+	border-radius: 1rem
+	outline: none
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke
+	transition-duration: 100ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	+focus-ring(3px, var(--ring), 50%)
+
+	&:is(a)
+		text-decoration: none
+		&:hover
+			@media (hover: hover)
+				background-color: var(--muted)
+
+	&[data-variant='default']
+		border-color: transparent
+
+	&[data-variant='outline']
+		border-color: var(--border)
+
+	&[data-variant='muted']
+		border-color: transparent
+		background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+
+	&[data-size='default']
+		gap: 0.875rem
+		padding: 0.875rem 1rem
+
+	&[data-size='sm']
+		gap: 0.875rem
+		padding: 0.75rem 0.875rem
+
+	&[data-size='xs']
+		gap: 0.625rem
+		padding: 0.625rem 0.75rem
+
+		[data-slot='dropdown-menu-content'] &
+			padding: 0
+
+[data-slot='item-group']
+	display: flex
+	flex-direction: column
+	width: 100%
+	gap: 1rem
+
+	&[data-layout='grid']
+		display: grid
+		grid-template-columns: repeat(var(--item-group-columns, 3), minmax(0, 1fr))
+
+	&[data-gap='xs']
+		gap: 0.5rem
+
+	&[data-gap='sm']
+		gap: 0.625rem
+
+	&[data-gap='lg']
+		gap: 1rem
+
+	&:has([data-size='sm'])
+		gap: 0.625rem
+
+	&:has([data-size='xs'])
+		gap: 0.5rem
+
+[data-slot='item-media']
+	display: flex
+	flex-shrink: 0
+	align-items: center
+	justify-content: center
+	gap: 0.5rem
+
+	svg
+		pointer-events: none
+
+	[data-slot='item']:has([data-slot='item-description']) &
+		align-self: flex-start
+		translate: 0 0.125rem
+
+	&[data-variant='icon']
+		+icon-child(1rem)
+
+	&[data-variant='image']
+		width: 2.5rem
+		height: 2.5rem
+		overflow: hidden
+		border-radius: calc(var(--radius) + 4px)
+
+		[data-slot='item'][data-size='sm'] &
+			width: 2rem
+			height: 2rem
+
+		[data-slot='item'][data-size='xs'] &
+			width: 1.5rem
+			height: 1.5rem
+			border-radius: var(--radius)
+
+		img
+			width: 100%
+			height: 100%
+			object-fit: cover
+
+	+radius-variants
+
+[data-slot='item-content']
+	display: flex
+	flex: 1
+	flex-direction: column
+	gap: 0.25rem
+
+	& + [data-slot='item-content']
+		flex: none
+
+	&[data-grow='false']
+		flex: none
+
+	&[data-gap='none']
+		gap: 0
+
+	&[data-gap='xs']
+		gap: 0.125rem
+
+	&[data-gap='sm']
+		gap: 0.25rem
+
+	&[data-align='center']
+		text-align: center
+
+	&[data-align='end']
+		text-align: right
+
+	[data-slot='item'][data-size='xs'] &
+		gap: 0.125rem
+
+[data-slot='item-title']
+	display: flex
+	align-items: center
+	width: fit-content
+	gap: 0.5rem
+	overflow: hidden
+	font-size: var(--text-sm)
+	line-height: 1.375
+	font-weight: 500
+
+	&[data-clamp='1'],
+	&[data-clamp='2']
+		display: -webkit-box
+		-webkit-box-orient: vertical
+
+	&[data-clamp='1']
+		-webkit-line-clamp: 1
+
+	&[data-clamp='2']
+		-webkit-line-clamp: 2
+
+[data-slot='item-description']
+	overflow: hidden
+	text-align: left
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 400
+	color: var(--muted-foreground)
+
+	&[data-clamp='1'],
+	&[data-clamp='2']
+		display: -webkit-box
+		-webkit-box-orient: vertical
+
+	&[data-clamp='1']
+		-webkit-line-clamp: 1
+
+	&[data-clamp='2']
+		-webkit-line-clamp: 2
+
+	> a
+		text-decoration: none
+
+		&:hover
+			@media (hover: hover)
+				color: var(--primary)
+				text-decoration: none
+
+[data-slot='item-actions'],
+[data-slot='item-header'],
+[data-slot='item-footer']
+	display: flex
+	flex-basis: 100%
+	align-items: center
+	justify-content: space-between
+	gap: 0.5rem
+
+[data-slot='item-actions']
+	flex-basis: auto
+
+[data-slot='item-separator']
+	margin-block: 0.5rem

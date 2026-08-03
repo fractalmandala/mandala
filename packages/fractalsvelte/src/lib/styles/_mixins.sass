@@ -1,0 +1,143 @@
+// Behavioural defaults, shared as mixins rather than classes.
+//
+// These were derived from the shadcn registry scan: utilities like `disabled:opacity-50`,
+// `[&_svg]:shrink-0` and `focus-visible:ring-[3px]` appear across 8-14 components but always
+// travel together and are never written in markup. Since this library exposes customisation
+// through props (not class strings), they belong to the stylesheet, not the class namespace.
+
+// Tailwind v4 default breakpoints, kept so ported `sm:` / `md:` / `lg:` variants map 1:1.
+=bp-sm
+	@media (min-width: 40rem)
+		@content
+
+=bp-md
+	@media (min-width: 48rem)
+		@content
+
+=bp-lg
+	@media (min-width: 64rem)
+		@content
+
+=bp-xl
+	@media (min-width: 80rem)
+		@content
+
+=bp-2xl
+	@media (min-width: 96rem)
+		@content
+
+// Below a breakpoint — for the `max-md:` style variants.
+=bp-max-md
+	@media (max-width: 47.999rem)
+		@content
+
+// Ported from: disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed
+// data-disabled:opacity-50 select-none cursor-default
+//
+// shadcn uses `cursor: default` on controls (a native-app convention). Pass `pointer` for
+// components that should feel like web controls — button does.
+=interactive($cursor: default)
+	cursor: $cursor
+	user-select: none
+	&:disabled,
+	&[data-disabled],
+	&[aria-disabled='true']
+		opacity: 0.5
+		pointer-events: none
+		cursor: not-allowed
+
+// Ported from: outline-none focus-visible:border-ring focus-visible:ring-ring/50
+// focus-visible:ring-[3px]
+// The ring opacity varies by component (luma's button uses 30%, most others 50%), so it is
+// a parameter — check the oracle output rather than assuming.
+=focus-ring($width: 3px, $color: var(--ring), $opacity: 50%)
+	outline: none
+	&:focus-visible
+		outline: none
+		border-color: $color
+		box-shadow: 0 0 0 $width color-mix(in oklab, #{$color} #{$opacity}, transparent)
+
+// Ported from: aria-invalid:border-destructive aria-invalid:ring-destructive/20
+=invalid-ring($width: 3px)
+	&[aria-invalid='true']
+		border-color: var(--destructive)
+		box-shadow: 0 0 0 $width color-mix(in oklab, var(--destructive) 20%, transparent)
+
+// Ported from: [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4
+// $size is opt-in because per-size overrides exist (button's `xs` uses 0.75rem while its base
+// uses 1rem). Check the oracle for the base rule's `& svg:not([class*='size-'])` clause — it
+// sits at the very end of the rule, after all the state selectors, and is easy to miss.
+=icon-child($size: null)
+	& svg
+		pointer-events: none
+		flex-shrink: 0
+		@if $size
+			width: $size
+			height: $size
+
+// Ported from: truncate
+=truncate
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+
+// ── Shared prop variants ─────────────────────────────────────────────────────────────────
+// These emit the [data-*] blocks for the enums in $lib/types.ts. Include them in any
+// component that accepts the matching prop, so "radius" means the same thing everywhere.
+//
+// Include AFTER a component's own size rules — sizes often set font-size, and the text-size
+// prop has to win on source order (same specificity).
+
+=radius-variants
+	&[data-radius='none']
+		border-radius: 0
+	&[data-radius='sm']
+		border-radius: calc(var(--radius) - 4px)
+	&[data-radius='md']
+		border-radius: calc(var(--radius) - 2px)
+	&[data-radius='lg']
+		border-radius: var(--radius)
+	&[data-radius='xl']
+		border-radius: calc(var(--radius) + 4px)
+	// Tailwind defaults, not derived from --radius.
+	&[data-radius='2xl']
+		border-radius: 1rem
+	&[data-radius='full']
+		border-radius: 9999px
+
+=text-size-variants
+	&[data-text-size='xs']
+		font-size: var(--text-xs)
+		line-height: var(--text-xs--line-height)
+	&[data-text-size='sm']
+		font-size: var(--text-sm)
+		line-height: var(--text-sm--line-height)
+	&[data-text-size='base']
+		font-size: var(--text-base)
+		line-height: var(--text-base--line-height)
+	&[data-text-size='lg']
+		font-size: var(--text-lg)
+		line-height: var(--text-lg--line-height)
+
+=text-transform-variants
+	&[data-transform='none']
+		text-transform: none
+	&[data-transform='uppercase']
+		text-transform: uppercase
+	&[data-transform='lowercase']
+		text-transform: lowercase
+	&[data-transform='capitalize']
+		text-transform: capitalize
+
+// shadcn derives every corner from a single --radius token.
+=radius($step: 'md')
+	@if $step == 'sm'
+		border-radius: calc(var(--radius) - 4px)
+	@else if $step == 'md'
+		border-radius: calc(var(--radius) - 2px)
+	@else if $step == 'lg'
+		border-radius: var(--radius)
+	@else if $step == 'xl'
+		border-radius: calc(var(--radius) + 4px)
+	@else
+		border-radius: $step

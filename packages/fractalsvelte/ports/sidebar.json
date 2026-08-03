@@ -1,0 +1,97 @@
+{
+	"component": "sidebar",
+	"wave": 6,
+	"source": "shadcn-registry/lib/registry/ui/sidebar",
+	"skin": "luma",
+	"oracle": {
+		"structuralUtilities": 89,
+		"skinRules": 27,
+		"notes": "oracle.mjs path fixed to shadcn-registry/lib/registry (was docs/lib/registry)"
+	},
+	"dependencies": {
+		"internal": ["button", "input", "separator", "sheet", "skeleton", "tooltip"],
+		"external": ["bits-ui"]
+	},
+
+	"variantsConverted": {
+		"from": "tailwind-variants tv() on MenuButton only; collapsible/variant/side as Root props with class ternaries",
+		"to": "typed props as data-variant / data-size / data-active / data-collapsible / data-side",
+		"variant": ["default", "outline"],
+		"size": ["default", "sm", "lg"],
+		"rootVariant": ["sidebar", "floating", "inset"],
+		"collapsible": ["offcanvas", "icon", "none"],
+		"side": ["left", "right"]
+	},
+
+	"propsInvented": [
+		{
+			"name": "contained (Provider)",
+			"why": "Desktop container is position:fixed against the viewport. Docs previews and embedded panels need absolute positioning inside a sized parent. Source demos rely on full-page layout or iframes.",
+			"replaces": "demo iframe / full-page only"
+		},
+		{
+			"name": "tooltipContent / tooltipContentProps (MenuButton)",
+			"why": "Source props kept; tooltips only when collapsed to icons and not mobile.",
+			"replaces": "tooltipContent (source)"
+		},
+		{
+			"name": "withHandle-style defaults on Trigger",
+			"why": "Source hardcodes IconPlaceholder; we ship an inline panel SVG default and accept children to override.",
+			"replaces": "IconPlaceholder / lucide PanelLeftIcon"
+		}
+	],
+
+	"deviations": [
+		{
+			"what": "Mobile Sheet.Content uses data-slot=\"sidebar\" (overrides sheet-content); full fixed/side positioning redeclared in sidebar.sass",
+			"why": "Matches source data-slot; sheet SASS keys on sheet-content so mobile styles must self-contain geometry",
+			"risk": "low — showCloseButton={false} still used; close rule is belt-and-braces"
+		},
+		{
+			"what": "Context symbol is fs-sidebar not scn-sidebar",
+			"why": "Package identity; avoids collision if both libraries mount",
+			"risk": "none"
+		},
+		{
+			"what": "IsMobile vendored into components/sidebar/",
+			"why": "Package isolation; source lives under registry/hooks",
+			"risk": "low — breakpoint still 768 to match md:"
+		},
+		{
+			"what": "Cookie write-only (no read on mount)",
+			"why": "Matches source Provider",
+			"risk": "low — document that SSR initial open comes from the prop"
+		},
+		{
+			"what": "Floating/inset shadows use Tailwind shadow-sm RGB equivalents",
+			"why": "No shared elevation token; same pattern as other ports",
+			"risk": "low"
+		},
+		{
+			"what": "package.json exports for ./sidebar and ./sheet",
+			"why": "Were missing despite registry ready status",
+			"risk": "low"
+		}
+	],
+
+	"bugsFoundInTooling": [
+		"scripts/oracle.mjs REGISTRY path pointed at shadcn-registry/docs/lib/registry; actual tree is shadcn-registry/lib/registry — fixed during this port"
+	],
+
+	"examplesPorted": [
+		"demo-sidebar (application shell)",
+		"icon collapsible + tooltips",
+		"offcanvas collapsible",
+		"floating variant",
+		"controlled bind:open"
+	],
+	"examplesDeferred": [
+		{
+			"name": "full block sidebars (sidebar-01 … sidebar-16)",
+			"blockedBy": "composition demos / blocks track — not component API"
+		}
+	],
+	"promotedToCentral": [],
+	"docPage": "src/content/components/sidebar.md",
+	"status": "re-ported — oracle-aligned SASS polish, contained prop, working collapsible demos, package export"
+}

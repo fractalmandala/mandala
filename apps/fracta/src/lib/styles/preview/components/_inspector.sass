@@ -1,0 +1,136 @@
+.prototype-inspector
+	display: grid
+	grid-template-rows: 64px minmax(0, 1fr)
+	border-right: 0
+	border-left: 1px solid var(--prototype-line)
+	background: var(--prototype-bg)
+	header
+		display: flex
+		align-items: center
+		justify-content: space-between
+		padding: 0 var(--space-2) 0 var(--space-3)
+		border-bottom: 1px solid var(--prototype-line)
+		[role='tablist']
+			display: flex
+			align-self: stretch
+			gap: var(--space-3)
+			button
+				position: relative
+				padding: 0 2px
+				background: transparent
+				color: var(--prototype-muted)
+				font-weight: 600
+				&.active
+					color: var(--prototype-primary)
+					&::after
+						position: absolute
+						right: 0
+						bottom: 0
+						left: 0
+						height: 3px
+						border-radius: var(--radius-xs) var(--radius-xs) 0 0
+						background: var(--prototype-primary)
+						content: ''
+
+.inspector-content
+	overflow: auto
+	padding: calc(var(--space-3) + var(--space-2)) calc(var(--space-3) + var(--space-2)) calc(var(--space-4) + var(--space-3))
+	h2
+		margin: 0 0 var(--space-2)
+		font-size: var(--text-lg)
+		line-height: 1.25
+		text-wrap: balance
+	p
+		margin: 0 0 var(--space-3)
+		color: var(--prototype-muted)
+		font-size: var(--text-sm)
+		line-height: 1.55
+	dl
+		display: grid
+		gap: var(--space-2)
+		margin: var(--space-4) 0
+		padding: var(--space-3) 0
+		border-top: 1px solid var(--prototype-line)
+		border-bottom: 1px solid var(--prototype-line)
+		div
+			display: flex
+			justify-content: space-between
+			gap: var(--space-3)
+		dt
+			color: var(--prototype-muted)
+		dd
+			margin: 0
+			color: var(--prototype-ink)
+			font-variant-numeric: tabular-nums
+			b
+				color: var(--prototype-primary)
+	section
+		margin-top: var(--space-4)
+	h3
+		margin: 0 0 var(--space-2)
+		font-size: var(--text-sm)
+		span
+			color: var(--prototype-muted)
+			font-weight: 500
+
+.prototype-tags
+	display: flex
+	flex-wrap: wrap
+	gap: var(--space-1)
+	button
+		display: inline-flex
+		align-items: center
+		min-height: 32px
+		padding: 0 var(--space-2)
+		border-radius: var(--radius-sm)
+		background: var(--prototype-raised)
+		color: var(--prototype-primary)
+		font-size: var(--text-sm)
+		&:hover
+			background: var(--prototype-selection)
+
+.attachment-row, .link-row
+	display: grid
+	grid-template-columns: var(--space-3) minmax(0, 1fr)
+	gap: var(--space-2)
+	width: 100%
+	padding: var(--space-2) 0
+	background: transparent
+	color: var(--prototype-muted)
+	text-align: left
+	&:hover strong
+		color: var(--prototype-primary)
+	small
+		color: var(--prototype-subtle)
+		font-size: var(--text-xs)
+
+.link-row span
+	display: grid
+	gap: 2px
+	strong
+		color: var(--prototype-ink)
+		font-size: var(--text-sm)
+	small
+		line-height: 1.4
+
+.show-more
+	margin: var(--space-2) 0 2px
+	padding: 0
+	background: transparent
+	color: var(--prototype-primary)
+	font-size: var(--text-sm)
+	font-weight: 650
+
+.prototype-outline
+	display: grid
+	gap: var(--space-1)
+	button
+		padding: var(--space-2)
+		border-radius: var(--radius-sm)
+		background: transparent
+		color: var(--prototype-muted)
+		text-align: left
+		&.active
+			background: var(--prototype-selection)
+			color: var(--prototype-primary)
+			font-weight: 650

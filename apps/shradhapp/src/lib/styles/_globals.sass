@@ -1,0 +1,46 @@
+@font-face
+	font-family: 'Google Sans'
+	src: url('/fonts/GoogleSansFlex.woff2') format('woff2')
+	font-weight: 400 700
+	font-style: normal
+	font-display: swap
+
+html
+	box-sizing: border-box
+	background: var(--app-bg)
+	-webkit-font-smoothing: antialiased
+	-moz-osx-font-smoothing: grayscale
+
+*, *::before, *::after
+	box-sizing: inherit
+
+body
+	margin: 0
+	min-width: 320px
+	min-height: 100vh
+	background: var(--app-bg)
+	color: var(--text)
+	font-family: var(--font-sans)
+	line-height: 1.5
+
+button, input, select, textarea
+	font: inherit
+
+button, a, input, select, textarea
+	-webkit-app-region: no-drag
+
+button:focus-visible, input:focus-visible, select:focus-visible
+	outline: 3px solid var(--accent)
+	outline-offset: 2px
+
+img
+	display: block
+	max-width: 100%
+	outline: 1px solid rgba(255, 255, 255, .12)
+	outline-offset: -1px
+
+@media (prefers-reduced-motion: reduce)
+	*, *::before, *::after
+		animation-duration: .01ms !important
+		transition-duration: .01ms !important
+		scroll-behavior: auto !important

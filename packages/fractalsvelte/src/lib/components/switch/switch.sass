@@ -1,0 +1,93 @@
+// Ported from shadcn-svelte ui/switch + style-luma.
+// Oracle: 15 structural utilities, 2 skin rules.
+//
+// Tailwind's --spacing is 0.25rem, so 11 units is 2.75rem and 5 units is 1.25rem.
+
+@use '../../styles/mixins' as *
+
+[data-slot='switch']
+	position: relative
+	display: inline-flex
+	align-items: center
+	flex-shrink: 0
+	border: 2px solid transparent
+	border-radius: 9999px
+	outline: none
+	transition-property: all
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	+interactive(pointer)
+	+focus-ring(3px, var(--ring), 30%)
+
+	&::after
+		content: ''
+		position: absolute
+		inset-inline: -0.75rem
+		inset-block: -0.5rem
+
+	&[data-checked],
+	&[data-state='checked'],
+	&[aria-checked='true']
+		border-color: var(--primary)
+		background-color: var(--primary)
+
+	&[data-unchecked],
+	&[data-state='unchecked'],
+	&[aria-checked='false']
+		border-color: transparent
+		background-color: color-mix(in oklab, var(--input) 90%, transparent)
+
+	&[aria-invalid='true']
+		border-color: var(--destructive)
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent)
+
+		.dark &
+			border-color: color-mix(in oklab, var(--destructive) 50%, transparent)
+			box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent)
+
+	&[data-size='default']
+		width: 2.75rem
+		height: 1.25rem
+
+	&[data-size='sm']
+		width: 1.75rem
+		height: 1rem
+
+[data-slot='switch-thumb']
+	display: block
+	pointer-events: none
+	border-radius: 9999px
+	background-color: var(--background)
+	background-clip: padding-box
+	box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)
+	transition-property: transform, translate, scale, rotate
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+
+	[data-slot='switch'][data-size='default'] &
+		width: 1.5rem
+		height: 1rem
+
+	[data-slot='switch'][data-size='sm'] &
+		width: 1rem
+		height: 0.75rem
+
+	&[data-checked],
+	&[data-state='checked']
+		translate: calc(100% - 8px) 0
+
+		:where(:dir(rtl), [dir='rtl'] *) &
+			translate: -100% 0
+
+	&[data-unchecked],
+	&[data-state='unchecked']
+		translate: 0 0
+
+	.dark &
+		&[data-checked],
+		&[data-state='checked']
+			background-color: var(--primary-foreground)
+
+		&[data-unchecked],
+		&[data-state='unchecked']
+			background-color: var(--foreground)

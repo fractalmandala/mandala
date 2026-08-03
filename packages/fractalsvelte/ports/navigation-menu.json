@@ -1,0 +1,91 @@
+{
+	"component": "navigation-menu",
+	"wave": 3,
+	"source": "shadcn-registry/lib/registry/ui/navigation-menu",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 36, "skinRules": 12 },
+	"dependencies": {
+		"internal": [],
+		"external": ["bits-ui"]
+	},
+
+	"variantsConverted": {
+		"from": "cn() + navigationMenuTriggerStyle() tv() + IconPlaceholder chevron",
+		"to": "typed props on List/Trigger/Content/Link + inline SVG chevron",
+		"variant": {
+			"Trigger": ["default", "muted"],
+			"Link": ["default", "trigger", "panel", "hero"]
+		},
+		"size": [],
+		"layout": {
+			"Content": ["default", "simple", "grid", "feature"]
+		},
+		"width": {
+			"Content": ["auto", "xs", "sm", "md", "lg", "xl"]
+		}
+	},
+
+	"propsInvented": [
+		{
+			"name": "viewport (Root)",
+			"why": "Upstream boolean; kept. Controls shared viewport + data-viewport skin branch.",
+			"replaces": "viewport prop (source)"
+		},
+		{
+			"name": "wrap (List)",
+			"why": "Demo uses class=\"flex-wrap\". No class merge.",
+			"replaces": "class=\"flex-wrap\""
+		},
+		{
+			"name": "variant / icon (Trigger)",
+			"why": "Muted open tone and custom/hidden chevron without IconPlaceholder or class strings.",
+			"replaces": "IconPlaceholder + cn-navigation-menu-trigger-icon class"
+		},
+		{
+			"name": "layout / width (Content)",
+			"why": "Source demos size/layout panels with Tailwind grid + arbitrary widths on nested ul.",
+			"replaces": "class=\"grid md:w-[…] lg:grid-cols-[…]\""
+		},
+		{
+			"name": "variant (Link)",
+			"why": "Top-level links use triggerStyle(); panel/hero links use one-off layout classes.",
+			"replaces": "navigationMenuTriggerStyle() + list-item class strings"
+		}
+	],
+
+	"deviations": [
+		{
+			"what": "Docs Preview/Examples use overflow=\"visible\" + tall min-height wrappers",
+			"why": ".doc-preview defaults to overflow:hidden which clips absolute viewport/content panels",
+			"risk": "low — consumers outside docs have no clip; only docs chrome needed the escape hatch"
+		},
+		{
+			"what": "viewport=false content is always position:absolute (source is md:absolute)",
+			"why": "Without absolute, top:100% does nothing and the popover skin cannot float under the item on small screens",
+			"risk": "low — improves mobile no-viewport mode"
+		},
+		{
+			"what": "Separate enter/exit keyframes for viewport motion vs popover scale",
+			"why": "Oracle applies scale only when data-viewport=false; motion uses translate/opacity",
+			"risk": "low"
+		},
+		{
+			"what": "No cn-navigation-menu-positioner / popup slots",
+			"why": "bits-ui NavigationMenu uses Viewport + Content, not a separate positioner/popup API in this version",
+			"risk": "low"
+		}
+	],
+
+	"bugsFoundInTooling": [],
+
+	"examplesPorted": [
+		"navigation-menu-demo (feature + grid + trigger link)",
+		"no-viewport simple list",
+		"top-level links",
+		"custom trigger icon"
+	],
+	"examplesDeferred": [],
+	"promotedToCentral": [],
+	"docPage": "src/content/components/navigation-menu.md",
+	"status": "ready"
+}

@@ -1,0 +1,54 @@
+@use '../../styles/mixins' as *
+
+[data-slot='form-item']
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+
+[data-slot='form-fieldset']
+	display: flex
+	min-width: 0
+	flex-direction: column
+	gap: 0.5rem
+	border: 0
+	padding: 0
+	margin: 0
+
+[data-slot='form-label']
+	&[data-fs-error]
+		color: var(--destructive)
+
+[data-slot='form-description']
+	color: var(--muted-foreground)
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+
+	> a
+		color: inherit
+		text-decoration: none
+		transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke
+		transition-duration: 150ms
+
+		&:hover
+			color: var(--primary)
+			text-decoration: none
+
+[data-slot='form-field-errors']
+	display: flex
+	flex-direction: column
+	gap: 0.25rem
+	color: var(--destructive)
+	font-size: var(--text-sm)
+	font-weight: 500
+	line-height: var(--text-sm--line-height)
+
+[data-slot='form-field-error']
+	color: inherit
+
+[data-slot='form-legend']
+	font-size: var(--text-sm)
+	font-weight: 500
+	line-height: 1
+
+	&[data-fs-error]
+		color: var(--destructive)

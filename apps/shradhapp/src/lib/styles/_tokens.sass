@@ -1,0 +1,123 @@
+:root
+	--font-sans: "Google Sans Flex", "Avenir Next", Avenir, sans-serif
+	--font-display: Georgia, "Times New Roman", serif
+	--space-1: 4px
+	--space-2: 8px
+	--space-3: 16px
+	--space-4: 32px
+	--space-5: 64px
+	--space-6: 80px
+	--space-7: 128px
+	--radius-sm: 3px
+	--radius-md: 6px
+	--radius-lg: 6px
+	--radius-xl: 6px
+	--dur-instant: 80ms
+	--dur-fast: 140ms
+	--dur-base: 200ms
+	--dur-slow: 320ms
+	--dur-00: 80ms
+	--dur-10: 150ms
+	--dur-20: 300ms
+	--dur-30: 500ms
+	--ease-out: cubic-bezier(.2, .8, .2, 1)
+	--easeIn-10: cubic-bezier(0.35, 0, 0.7, 0.5)
+	--easeIn-20: cubic-bezier(0.5, 0, 0.75, 0)
+	--easeIn-30: cubic-bezier(0.7, 0, 0.84, 0)
+	--easeOut-10: cubic-bezier(0.3, 0.5, 0.65, 1)
+	--easeOut-20: cubic-bezier(0.25, 1, 0.5, 1)
+	--easeOut-30: cubic-bezier(0.16, 1, 0.3, 1)
+	--motion-fast: var(--dur-fast)
+	--motion-base: var(--dur-base)
+	--shadow-raised: 0 16px 32px rgba(0, 0, 0, .16)
+	--tooltip-bg: #181818
+	--tooltip-foreground: #ffffff
+	--tooltip-border: rgba(255, 255, 255, .13)
+	--tooltip-key-bg: rgba(255, 255, 255, .1)
+	--tooltip-key-border: rgba(255, 255, 255, .12)
+	--text-scaling: 1.2
+	--text-xs: 10px
+	--text-sm: 12px
+	--text-md: 14px
+	--text-bs: 1rem
+	--text-lg: calc(var(--text-bs) * var(--text-scaling))
+	--text-xl: calc(var(--text-lg) * var(--text-scaling))
+	--text-2xl: calc(var(--text-xl) * var(--text-scaling))
+	--text-3xl: calc(var(--text-2xl) * var(--text-scaling))
+	--text-4xl: calc(var(--text-3xl) * var(--text-scaling))
+	--text-5xl: calc(var(--text-4xl) * var(--text-scaling))
+
+[data-theme="light"]
+	color-scheme: light
+	--app-bg: #FFFFFF
+	--surface-1: #FFFFFF
+	--surface-2: #eaeaea
+	--surface-3: #e6e1d8
+	--surface-hover: #f2f2f2
+	--text: #191816
+	--text-mid: #575757
+	--text-muted: #7f7f7f
+	--border: #E7e7e7
+	--border-strong: #a7a7a7
+	--accent: #0e6dd9
+	--accent-strong: #853b20
+	--accent-ink: #fffdf8
+	--success: #237257
+	--danger: #b23d32
+	--wave: #4564aa
+	--music: #775096
+	--preview-bg: #1a1a18
+	--tooltip-bg: #202020
+	--tooltip-border: rgba(255, 255, 255, .16)
+	--tooltip-key-bg: rgba(255, 255, 255, .12)
+	--tooltip-key-border: rgba(255, 255, 255, .12)
+	--background: var(--app-bg)
+	--foreground: var(--text)
+	--sidebar: var(--surface-1)
+	--sidebar-foreground: var(--text)
+	--sidebar-accent: var(--surface-hover)
+	--sidebar-accent-foreground: var(--text)
+	--sidebar-border: var(--border)
+	--sidebar-ring: var(--accent)
+	--popover: var(--surface-2)
+
+:root:not([data-theme="light"]), [data-theme="dark"]
+	color-scheme: dark
+	--app-bg: #0a1115
+	--surface-1: #10191e
+	--surface-2: #17232a
+	--surface-3: #213038
+	--surface-hover: #2a3b45
+	--text: #f7f5f0
+	--text-mid: #575757
+	--text-muted: #656565
+	--border: rgba(220, 230, 230, .14)
+	--border-strong: rgba(220, 230, 230, .3)
+	--accent: #f4ae64
+	--accent-strong: #ffd095
+	--accent-ink: #20170f
+	--success: #86d3b2
+	--danger: #f08e7d
+	--wave: #91abe7
+	--music: #c3a2df
+	--preview-bg: #071015
+	--background: var(--app-bg)
+	--foreground: var(--text)
+	--sidebar: var(--surface-1)
+	--sidebar-foreground: var(--text)
+	--sidebar-accent: var(--surface-hover)
+	--sidebar-accent-foreground: var(--text)
+	--sidebar-border: var(--border)
+	--sidebar-ring: var(--accent)
+	--color00: var(--app-bg)
+	--color10: var(--surface-1)
+	--color20: var(--surface-2)
+	--color30: var(--surface-3)
+	--color40: var(--surface-hover)
+	--color60: var(--border-strong)
+	--color100: var(--text)
+	--accent10: var(--accent)
+	--text-primary: var(--text)
+	--text-secondary: var(--text-muted)
+	--border-primary: var(--border)
+	--border-secondary: var(--border-strong)

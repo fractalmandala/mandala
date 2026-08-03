@@ -1,0 +1,42 @@
+{
+	"component": "action",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/action",
+	"skin": "Button + Tooltip; muted resting colour via data-action",
+	"dependencies": {
+		"internal": ["button", "tooltip"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Keep data-slot=button; chrome via data-action",
+			"why": "Source used className on Button; we cannot rename data-slot without losing skin.",
+			"risk": "low"
+		},
+		{
+			"what": "Default size icon-sm instead of sm",
+			"why": "Source fixed size-9 / p-1.5 ≈ 2rem icon button; icon-sm matches Message.Action.",
+			"risk": "low"
+		},
+		{
+			"what": "TooltipTrigger props cleaned of data-slot/variant/size before merge",
+			"why": "bits-ui trigger attrs would clobber Button.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG in docs only — component accepts children icons",
+			"why": "No phosphor/lucide dependency.",
+			"risk": "low"
+		},
+		{
+			"what": "sr-only label uses data-slot=action-label instead of .sr-only only",
+			"why": "Consistent with message-action-label pattern; works even if .sr-only is tree-shaken.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["basic tooltips", "message toolbar", "without tooltip"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/action.md",
+	"status": "comprehensive re-port — button skin, tooltip merge, rich demos"
+}

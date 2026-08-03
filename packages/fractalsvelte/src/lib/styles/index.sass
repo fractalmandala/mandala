@@ -1,0 +1,129 @@
+// Single entry point for the library's styles.
+//   import 'fractalsvelte/styles'      (npm consumers)
+//   @use '$lib/styles/index.sass'      (inside this repo)
+//
+// Order matters: tokens define the custom properties every later rule reads.
+
+@forward 'mixins'
+
+@use 'tokens'
+@use 'typography'
+@use 'reset'
+@use 'globals'
+@use 'layouts'
+
+// Component styles live beside their component (so a folder can be copy-pasted whole)
+// and are registered here as each one is ported.
+@use '../components/skeleton/skeleton'
+@use '../components/button/button'
+@use '../components/card/card'
+@use '../components/input/input'
+@use '../components/kbd/kbd'
+@use '../components/spinner/spinner'
+@use '../components/textarea/textarea'
+@use '../components/native-select/native-select'
+@use '../components/table/table'
+@use '../components/breadcrumb/breadcrumb'
+@use '../components/accordion/accordion'
+@use '../components/checkbox/checkbox'
+@use '../components/collapsible/collapsible'
+@use '../components/context-menu/context-menu'
+@use '../components/dropdown-menu/dropdown-menu'
+@use '../components/hover-card/hover-card'
+@use '../components/label/label'
+@use '../components/menubar/menubar'
+@use '../components/navigation-menu/navigation-menu'
+@use '../components/popover/popover'
+@use '../components/progress/progress'
+@use '../components/radio-group/radio-group'
+@use '../components/scroll-area/scroll-area'
+@use '../components/separator/separator'
+@use '../components/slider/slider'
+@use '../components/switch/switch'
+@use '../components/tabs/tabs'
+@use '../components/toggle/toggle'
+@use '../components/tooltip/tooltip'
+@use '../components/button-group/button-group'
+@use '../components/dialog/dialog'
+@use '../components/field/field'
+@use '../components/form/form'
+@use '../components/item/item'
+@use '../components/select/select'
+@use '../components/toggle-group/toggle-group'
+@use '../components/alert-dialog/alert-dialog'
+@use '../components/carousel/carousel'
+@use '../components/command/command'
+@use '../components/pagination/pagination'
+@use '../components/alert/alert'
+@use '../components/badge/badge'
+@use '../components/empty/empty'
+@use '../components/input-group/input-group'
+@use '../components/aspect-ratio/aspect-ratio'
+@use '../components/avatar/avatar'
+@use '../components/input-otp/input-otp'
+@use '../components/sheet/sheet'
+
+
+
+
+
+
+
+
+
+
+
+
+
+@use '../components/sidebar/sidebar'
+
+// AI-elements — a higher-order layer composing the core components above. Registered after
+// them so an ai-element's own overrides (e.g. action's `[data-action]` colour) win on cascade
+// order when specificity ties with the core component's own rules.
+@use '../components/ai-elements/action/action'
+@use '../components/ai-elements/artifact/artifact'
+@use '../components/ai-elements/chain-of-thought/chain-of-thought'
+@use '../components/ai-elements/checkpoint/checkpoint'
+@use '../components/ai-elements/confirmation/confirmation'
+@use '../components/ai-elements/context/context'
+@use '../components/ai-elements/conversation/conversation'
+@use '../components/ai-elements/copy-button/copy-button'
+@use '../components/ai-elements/image/image'
+@use '../components/ai-elements/inline-citation/inline-citation'
+@use '../components/ai-elements/loader/loader'
+@use '../components/ai-elements/message/message'
+@use '../components/ai-elements/model-selector/model-selector'
+@use '../components/ai-elements/open-in-chat/open-in-chat'
+@use '../components/ai-elements/prompt-input/prompt-input'
+@use '../components/ai-elements/queue/queue'
+@use '../components/ai-elements/response/response'
+@use '../components/ai-elements/shimmer/shimmer'
+@use '../components/ai-elements/sources/sources'
+@use '../components/ai-elements/suggestion/suggestion'
+@use '../components/ai-elements/task/task'
+@use '../components/ai-elements/web-preview/web-preview'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@use '../components/ai-elements/reasoning/reasoning'
+@use '../components/ai-elements/plan/plan'
+@use '../components/ai-elements/code/code'
+@use '../components/ai-elements/tool/tool'
+@use '../components/resizable/resizable'
+@use '../components/sonner/sonner'
+@use '../components/drawer/drawer'

@@ -1,0 +1,214 @@
+// Ported from shadcn-svelte ui/select + style-luma.
+// Oracle: 43 structural utilities, 14 select skin rules; cn-menu-translucent inspected through --skin-all.
+//
+// Tailwind's --spacing is 0.25rem. --radius-2xl is 1rem; --radius-3xl is 1.5rem.
+
+@use '../../styles/mixins' as *
+
+[data-slot='select-trigger']
+	display: flex
+	width: fit-content
+	align-items: center
+	justify-content: space-between
+	gap: 0.375rem
+	height: 2.25rem
+	border: 1px solid transparent
+	border-radius: 1.5rem
+	background-color: color-mix(in oklab, var(--input) 50%, transparent)
+	padding: 0.5rem 0.75rem
+	color: var(--foreground)
+	font: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	white-space: nowrap
+	transition-property: color, box-shadow, background-color
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	outline: none
+	+focus-ring(3px, var(--ring), 30%)
+	+invalid-ring
+	+icon-child(1rem)
+
+	&[data-size='sm']
+		height: 2rem
+
+	&[data-placeholder]
+		color: var(--muted-foreground)
+
+	&:disabled,
+	&[aria-disabled='true']
+		cursor: not-allowed
+		opacity: 0.5
+
+	.dark &[aria-invalid='true']
+		border-color: color-mix(in oklab, var(--destructive) 50%, transparent)
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent)
+
+[data-slot='select-value']
+	display: flex
+	flex: 1
+	align-items: center
+	gap: 0.375rem
+	overflow: hidden
+	text-align: left
+	text-overflow: ellipsis
+	white-space: nowrap
+
+[data-slot='select-trigger-icon']
+	display: inline-flex
+	width: 1rem
+	height: 1rem
+	color: var(--muted-foreground)
+	pointer-events: none
+	flex-shrink: 0
+
+[data-slot='select-content']
+	position: relative
+	isolation: isolate
+	z-index: 50
+	min-width: 9rem
+	overflow-x: hidden
+	overflow-y: auto
+	border-radius: 1.5rem
+	background-color: color-mix(in oklab, var(--popover) 70%, transparent)
+	color: var(--popover-foreground)
+	outline: none
+	box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), 0 10px 15px -3px color-mix(in oklab, var(--foreground) 10%, transparent), 0 4px 6px -4px color-mix(in oklab, var(--foreground) 10%, transparent)
+	transition-duration: 100ms
+
+	&::before
+		content: ''
+		position: absolute
+		inset: 0
+		z-index: -1
+		border-radius: inherit
+		pointer-events: none
+		backdrop-filter: blur(40px) saturate(150%)
+
+	.dark &
+		box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 10px 15px -3px color-mix(in oklab, var(--foreground) 10%, transparent), 0 4px 6px -4px color-mix(in oklab, var(--foreground) 10%, transparent)
+
+	&[data-closed],
+	&[data-state='closed']
+		animation: select-exit 150ms ease
+
+	&[data-open],
+	&[data-state='open']
+		animation: select-enter 150ms ease
+
+	&[data-side='bottom']
+		--select-enter-y: -0.5rem
+	&[data-side='top']
+		--select-enter-y: 0.5rem
+	&[data-side='left']
+		--select-enter-x: 0.5rem
+	&[data-side='right']
+		--select-enter-x: -0.5rem
+	&[data-side='inline-end']
+		--select-enter-x: -0.5rem
+	&[data-side='inline-start']
+		--select-enter-x: 0.5rem
+
+[data-slot='select-viewport']
+	width: 100%
+	min-width: var(--bits-select-anchor-width)
+	height: var(--bits-select-anchor-height)
+	scroll-margin-block: 0.25rem
+
+[data-slot='select-group']
+	scroll-margin-block: 0.375rem
+	padding: 0.375rem
+
+[data-slot='select-label']
+	padding: 0.625rem 0.75rem
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+	color: var(--muted-foreground)
+
+[data-slot='select-group-heading']
+	padding: 0.375rem 0.5rem
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+	color: var(--muted-foreground)
+
+[data-slot='select-item']
+	position: relative
+	display: flex
+	width: 100%
+	align-items: center
+	gap: 0.625rem
+	border-radius: 1rem
+	padding: 0.5rem 2rem 0.5rem 0.75rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	cursor: default
+	user-select: none
+	outline: none
+	+icon-child(1rem)
+
+	&:focus,
+	&[data-highlighted]
+		background-color: color-mix(in oklab, var(--foreground) 10%, transparent)
+		color: var(--accent-foreground)
+
+	&[data-disabled],
+	&[aria-disabled='true']
+		pointer-events: none
+		opacity: 0.5
+
+[data-slot='select-item-indicator']
+	position: absolute
+	right: 0.5rem
+	display: flex
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+	pointer-events: none
+
+[data-slot='select-item-text']
+	display: flex
+	flex: 1
+	gap: 0.5rem
+	white-space: nowrap
+
+[data-slot='select-separator']
+	height: 1px
+	margin: 0.375rem -0.375rem
+	background-color: color-mix(in oklab, var(--foreground) 5%, transparent)
+	pointer-events: none
+
+[data-slot='select-scroll-up-button'],
+[data-slot='select-scroll-down-button']
+	position: sticky
+	z-index: 10
+	display: flex
+	width: 100%
+	cursor: default
+	align-items: center
+	justify-content: center
+	background-color: var(--popover)
+	padding-block: 0.25rem
+	color: var(--popover-foreground)
+	+icon-child(1rem)
+
+[data-slot='select-scroll-up-button']
+	top: 0
+
+[data-slot='select-scroll-down-button']
+	bottom: 0
+
+@keyframes select-enter
+	from
+		opacity: 0
+		transform: translate3d(var(--select-enter-x, 0), var(--select-enter-y, 0), 0) scale(0.95)
+
+@keyframes select-exit
+	to
+		opacity: 0
+		transform: scale(0.95)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='select-content']
+		animation-duration: 1ms

@@ -1,0 +1,99 @@
+// Geometry only: regions change immediately; entered content is animated locally.
+.design-workbench
+	display: grid
+	grid-template-rows: var(--window-topbar) minmax(0, 1fr) var(--window-status)
+	height: 100vh
+	background: var(--prototype-bg)
+	color: var(--prototype-ink)
+	font-family: var(--font-sans)
+	font-size: var(--text-md)
+	line-height: 1.5
+	-webkit-font-smoothing: antialiased
+	-moz-osx-font-smoothing: grayscale
+	&--compact
+		--nav-size: 0px !important
+		--ledger-size: 0px !important
+		--inspector-size: 0px !important
+
+.workbench-topbar
+	display: grid
+	grid-template-columns: var(--prototype-pane-nav) 1fr minmax(260px, 360px) auto
+	align-items: center
+	min-width: 0
+	border-bottom: 1px solid var(--prototype-line)
+	background: color-mix(in srgb, var(--prototype-bg) 96%, transparent)
+	padding-right: var(--space-3)
+
+.workbench-body
+	display: grid
+	grid-template-columns: var(--nav-size) var(--ledger-size) minmax(0, 1fr) var(--inspector-size)
+	min-height: 0
+
+.prototype-navigator, .prototype-ledger, .prototype-inspector, .prototype-ask-pane
+	min-width: 0
+	overflow: hidden
+	border-right: 1px solid var(--prototype-line)
+	background: var(--prototype-raised)
+
+.prototype-navigator
+	grid-column: 1
+
+.prototype-ledger
+	grid-column: 2
+
+.prototype-canvas
+	grid-column: 3
+
+.prototype-inspector
+	grid-column: 4
+
+.prototype-ask-pane
+	grid-column: 4
+	border-right: 0
+	border-left: 1px solid var(--prototype-line)
+	background: var(--prototype-bg)
+
+// The medium desktop still keeps every pane in flow. It becomes dense, but never
+// places the ledger over the document it is meant to navigate.
+@media (max-width: 1280px) and (min-width: 961px)
+	.design-workbench
+		--prototype-pane-nav: 192px
+		--prototype-pane-ledger: 288px
+		--prototype-pane-inspector: 244px
+		--prototype-pane-ask: 320px
+	.workbench-topbar
+		grid-template-columns: 192px 1fr auto
+	.workbench-topbar .workbench-search
+		display: none
+
+@media (max-width: 960px)
+	.design-workbench
+		grid-template-rows: var(--space-5) minmax(0, 1fr) var(--window-status)
+	.workbench-topbar
+		grid-template-columns: 1fr auto
+		min-height: var(--space-5)
+	.workbench-topbar .workbench-brand
+		display: none
+	.workbench-topbar .workbench-crumbs
+		padding-left: var(--space-3)
+	.workbench-body
+		grid-template-columns: minmax(0, 1fr)
+	.prototype-canvas
+		grid-column: 1
+	.prototype-navigator, .prototype-inspector, .prototype-ask-pane
+		position: fixed
+		z-index: calc(var(--prototype-z-sheet) + 1)
+		top: var(--space-5)
+		bottom: var(--window-status)
+		width: min(310px, 88vw)
+		box-shadow: var(--shadow-float)
+	.prototype-navigator
+		left: 0
+	.prototype-inspector
+		right: 0
+	.prototype-ask-pane
+		right: 0
+	.prototype-ledger
+		top: var(--space-5)
+		left: 0
+		width: min(336px, 92vw)

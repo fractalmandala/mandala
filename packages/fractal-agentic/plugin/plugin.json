@@ -1,0 +1,30 @@
+{
+  "name": "fractal-agentic",
+  "version": "2.4.0",
+  "description": "Progressive one-boss discovery, /orchestrate delivery runtime, and vendored skills for coding agents. Capability lanes, verify, ship|fix-first|rethink review.",
+  "author": {
+    "name": "Amrit"
+  },
+  "homepage": "https://github.com/fractalmandala/fractal-agentic",
+  "repository": "https://github.com/fractalmandala/fractal-agentic",
+  "license": "MIT",
+  "interface": {
+    "displayName": "Fractal Agentic",
+    "shortDescription": "Progressive boss discovery + orchestration",
+    "longDescription": "Fractal Agentic uses a compact startup router to select exactly one of seven nested boss playbooks, then runs boss-orchestration: capability routing, primary verification, and ship|fix-first|rethink review. Host-agnostic with optional hooks and multi-host install.",
+    "defaultPrompt": [
+      "Use the startup router, read exactly one boss playbook, then /orchestrate this change.",
+      "Activate the Svelte Boss and orchestrate this feature end-to-end.",
+      "Preflight Fractal Agentic custom agents, route implementation, and require a fresh review before done."
+    ]
+  },
+  "skills": "./skills/",
+  "keywords": [
+    "orchestration",
+    "bosses",
+    "svelte",
+    "multi-agent",
+    "multi-host",
+    "hooks"
+  ]
+}

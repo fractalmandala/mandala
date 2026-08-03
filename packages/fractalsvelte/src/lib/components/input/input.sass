@@ -1,0 +1,43 @@
+// Ported from shadcn-svelte ui/input + style-luma.
+// Oracle: 11 structural utilities, 1 skin rule.
+//
+// --radius-3xl is a Tailwind default (1.5rem), not derived from --radius.
+
+@use '../../styles/mixins' as *
+
+[data-slot='input']
+	width: 100%
+	min-width: 0
+	height: 2.25rem
+	padding-inline: 0.75rem
+	padding-block: 0.25rem
+	border: 1px solid transparent
+	border-radius: 1.5rem
+	background-color: color-mix(in oklab, var(--input) 50%, transparent)
+	font-size: var(--text-base)
+	line-height: var(--text-base--line-height)
+	transition-property: color, box-shadow, background-color
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	+focus-ring(3px, var(--ring), 30%)
+	+invalid-ring
+
+	&::placeholder
+		color: var(--muted-foreground)
+
+	// Disabled only — an input must keep its text cursor and remain selectable, so
+	// +interactive (which sets user-select: none) is deliberately not used here.
+	&:disabled
+		pointer-events: none
+		cursor: not-allowed
+		opacity: 0.5
+
+	&::file-selector-button
+		display: inline-flex
+		height: 1.75rem
+		border: 0
+		background-color: transparent
+		color: var(--foreground)
+		font-size: var(--text-sm)
+		line-height: var(--text-sm--line-height)
+		font-weight: 500

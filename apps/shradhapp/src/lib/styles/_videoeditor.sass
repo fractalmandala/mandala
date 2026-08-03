@@ -1,0 +1,61 @@
+.video-workspace
+	min-height: calc(100vh - 112px)
+	gap: 20px
+
+.video-workspace-header
+	flex: 0 0 auto
+	gap: 16px
+	padding-bottom: 2px
+
+.video-workspace-tabs
+	gap: 0
+	width: max-content
+	border: 1px solid var(--border-primary)
+	background: var(--color10)
+
+	.btn-std
+		min-height: 34px
+		padding: 0 12px
+		border: 0
+		border-right: 1px solid var(--border-primary)
+		background: transparent
+		color: var(--text-secondary)
+		font-weight: 600
+		transition: background-color 140ms ease, color 140ms ease
+
+		&:last-child
+			border-right: 0
+
+		&:hover
+			background: var(--color20)
+			color: var(--text-primary)
+
+		&.active
+			background: var(--color100)
+			color: var(--color00)
+
+.video-workspace-note
+	color: var(--text-secondary)
+	font-weight: 500
+
+.video-workspace .sectioned
+	min-width: 0
+	border: 1px solid var(--border-primary)
+	background: var(--color00)
+
+	&.active
+		border-color: var(--color100)
+
+.video-editor-shell
+	height: min(760px, calc(100vh - 172px))
+	min-height: 0
+
+.video-editor-status
+	color: var(--text-secondary)
+	padding: 6px 8px
+	border-bottom: 1px solid var(--border-tertiary)
+	background: var(--color10)
+
+.video-editor-frame
+	height: 100%
+	min-height: 0

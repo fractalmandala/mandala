@@ -1,0 +1,135 @@
+// Ported from ai-elements/tool. Single-tab indented SASS.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='collapsible'][data-tool]
+	margin-bottom: 1rem
+	width: 100%
+	border: 1px solid var(--border)
+	+radius('md')
+	background-color: var(--background)
+
+	&[data-state='open']
+		[data-slot='tool-chevron']
+			transform: rotate(180deg)
+
+[data-slot='tool-header']
+	display: flex
+	width: 100%
+	align-items: center
+	justify-content: space-between
+	gap: 1rem
+	padding: 0.75rem
+	background: none
+	border: none
+	cursor: pointer
+	font: inherit
+	color: var(--foreground)
+	text-align: left
+
+	&:focus-visible
+		outline: 2px solid var(--ring)
+		outline-offset: -2px
+
+[data-slot='tool-header-info']
+	display: flex
+	align-items: center
+	gap: 0.5rem
+	min-width: 0
+
+[data-slot='tool-wrench']
+	width: 1rem
+	height: 1rem
+	flex-shrink: 0
+	color: var(--muted-foreground)
+
+[data-slot='tool-name']
+	font-size: var(--text-sm)
+	font-weight: 500
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+
+[data-slot='tool-chevron']
+	width: 1rem
+	height: 1rem
+	flex-shrink: 0
+	color: var(--muted-foreground)
+	transition: transform 200ms ease
+
+[data-slot='badge'][data-tool-badge]
+	display: inline-flex
+	align-items: center
+	gap: 0.375rem
+	border-radius: 9999px
+	font-size: var(--text-xs)
+	flex-shrink: 0
+
+[data-slot='tool-status-icon']
+	width: 0.875rem
+	height: 0.875rem
+	flex-shrink: 0
+
+	&[data-tool-state='input-available']
+		animation: tool-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite
+
+	&[data-tool-state='output-available']
+		color: oklch(0.63 0.17 149)
+
+	&[data-tool-state='output-error']
+		color: var(--destructive)
+
+@keyframes tool-pulse
+	50%
+		opacity: 0.5
+
+[data-slot='tool-content']
+	// collapsible content shell — sections provide their own padding
+
+[data-slot='tool-input'], [data-slot='tool-output']
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+	padding: 1rem
+
+[data-slot='tool-input']
+	overflow: hidden
+	border-top: 1px solid var(--border)
+
+[data-slot='tool-output']
+	border-top: 1px solid var(--border)
+
+[data-slot='tool-section-label']
+	color: var(--muted-foreground)
+	font-size: var(--text-xs)
+	font-weight: 500
+	letter-spacing: 0.05em
+	text-transform: uppercase
+	margin: 0
+
+[data-slot='tool-code-frame']
+	+radius('md')
+	background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+	overflow: hidden
+
+	[data-slot='code']
+		border: none
+		+radius('md')
+
+[data-slot='tool-output-frame']
+	overflow-x: auto
+	+radius('md')
+	font-size: var(--text-xs)
+	background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+	color: var(--foreground)
+
+	&[data-error='true']
+		background-color: color-mix(in oklab, var(--destructive) 10%, transparent)
+		color: var(--destructive)
+
+	[data-slot='code']
+		border: none
+		background: transparent
+
+[data-slot='tool-output-text']
+	padding: 0.75rem

@@ -1,0 +1,227 @@
+// Ported from shadcn-svelte ui/dialog + style-luma.
+// Oracle: 17 structural utilities, 7 skin rules.
+//
+// Tailwind's --spacing is 0.25rem. --radius-4xl is 2rem.
+
+@use '../../styles/mixins' as *
+
+[data-slot='dialog-trigger'],
+[data-slot='dialog-close']
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	flex-shrink: 0
+	white-space: nowrap
+	border: 1px solid transparent
+	border-radius: 2rem
+	background-clip: padding-box
+	font: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	transition-property: all
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	+interactive(pointer)
+	+icon-child(1rem)
+	+focus-ring(3px, var(--ring), 30%)
+
+	&[data-variant='default']
+		background-color: var(--primary)
+		color: var(--primary-foreground)
+		&:hover
+			@media (hover: hover)
+				background-color: color-mix(in oklab, var(--primary) 80%, transparent)
+
+	&[data-variant='outline']
+		border-color: var(--border)
+		background-color: var(--background)
+		color: var(--foreground)
+		&:hover
+			@media (hover: hover)
+				background-color: var(--muted)
+		.dark &
+			background-color: transparent
+			&:hover
+				@media (hover: hover)
+					background-color: color-mix(in oklab, var(--input) 30%, transparent)
+
+	&[data-variant='secondary']
+		background-color: var(--secondary)
+		color: var(--secondary-foreground)
+		&:hover
+			@media (hover: hover)
+				background-color: color-mix(in oklab, var(--secondary) 80%, transparent)
+
+	&[data-variant='ghost']
+		color: var(--foreground)
+		&:hover
+			@media (hover: hover)
+				background-color: var(--muted)
+		.dark &
+			&:hover
+				@media (hover: hover)
+					background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+
+	&[data-size='sm']
+		height: 2rem
+		gap: 0.25rem
+		padding-inline: 0.75rem
+
+	&[data-size='default']
+		height: 2.25rem
+		gap: 0.375rem
+		padding-inline: 0.75rem
+
+	&[data-size='lg']
+		height: 2.5rem
+		gap: 0.375rem
+		padding-inline: 1rem
+
+[data-slot='dialog-close']
+	&[data-size='icon-sm']
+		width: 2rem
+		height: 2rem
+		padding: 0
+
+	&[data-position='content']
+		position: absolute
+		top: 1rem
+		right: 1rem
+		background-color: var(--secondary)
+
+[data-slot='dialog-close-icon']
+	display: inline-flex
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+	pointer-events: none
+
+	svg
+		width: 1rem
+		height: 1rem
+
+[data-slot='dialog-close-label']
+	position: absolute
+	width: 1px
+	height: 1px
+	margin: -1px
+	overflow: hidden
+	clip: rect(0, 0, 0, 0)
+	white-space: nowrap
+
+[data-slot='dialog-overlay']
+	position: fixed
+	inset: 0
+	z-index: 50
+	isolation: isolate
+	background-color: color-mix(in oklab, var(--foreground) 30%, transparent)
+	backdrop-filter: blur(4px)
+	transition-duration: 100ms
+
+	&[data-state='closed'],
+	&[data-closed]
+		animation: dialog-overlay-exit 150ms ease
+
+	&[data-state='open'],
+	&[data-open]
+		animation: dialog-overlay-enter 150ms ease
+
+[data-slot='dialog-content']
+	position: fixed
+	top: 50%
+	left: 50%
+	z-index: 50
+	display: grid
+	width: 100%
+	min-width: var(--dialog-content-min-width, 0)
+	max-width: min(var(--dialog-content-max-width, var(--container-md)), calc(100% - 2rem))
+	gap: 1.5rem
+	border-radius: 2rem
+	background-color: var(--popover)
+	padding: 1.5rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	color: var(--popover-foreground)
+	outline: none
+	box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)
+	translate: -50% -50%
+	transition-duration: 100ms
+
+	.dark &
+		box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)
+
+	&[data-state='closed'],
+	&[data-closed]
+		animation: dialog-content-exit 150ms ease
+
+	&[data-state='open'],
+	&[data-open]
+		animation: dialog-content-enter 150ms ease
+
+[data-slot='dialog-header']
+	display: flex
+	flex-direction: column
+	gap: 0.375rem
+
+[data-slot='dialog-footer']
+	display: flex
+	flex-direction: column-reverse
+	gap: 0.5rem
+
+	+bp-sm
+		flex-direction: row
+
+	&[data-align='end']
+		+bp-sm
+			justify-content: flex-end
+
+	&[data-align='start']
+		+bp-sm
+			justify-content: flex-start
+
+	&[data-align='between']
+		+bp-sm
+			justify-content: space-between
+
+[data-slot='dialog-title']
+	font-size: var(--text-base)
+	line-height: 1
+	font-weight: 500
+
+[data-slot='dialog-description']
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	color: var(--muted-foreground)
+
+	> a
+		text-decoration: none
+
+		&:hover
+			@media (hover: hover)
+				color: var(--foreground)
+				text-decoration: none
+
+@keyframes dialog-overlay-enter
+	from
+		opacity: 0
+
+@keyframes dialog-overlay-exit
+	to
+		opacity: 0
+
+@keyframes dialog-content-enter
+	from
+		opacity: 0
+		transform: scale(0.95)
+
+@keyframes dialog-content-exit
+	to
+		opacity: 0
+		transform: scale(0.95)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='dialog-overlay'],
+	[data-slot='dialog-content']
+		animation-duration: 1ms

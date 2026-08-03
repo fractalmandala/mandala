@@ -1,0 +1,154 @@
+@use 'mixins' as *
+
+.surface
+	+surface-base
+
+.surface-raised
+	@extend .surface
+	box-shadow: var(--shadow-raised)
+
+.panel
+	+panel-base
+
+.panel-header
+	+panel-header-base
+
+.panel-content
+	+panel-content-base
+
+.sidebar
+	@extend .panel
+	flex: 0 0 auto
+	width: var(--sidebar-width, 160px)
+	background: var(--surface-1)
+
+.sidebar-header
+	@extend .panel-header
+	flex: 0 0 48px
+
+.sidebar-content
+	@extend .panel-content
+	display: grid
+	align-content: start
+	gap: var(--space-2)
+	padding: var(--space-2)
+
+.drawer
+	@extend .surface
+
+.drawer-content
+	padding: var(--space-3)
+
+.empty-state
+	display: grid
+	place-items: center
+	gap: var(--space-3)
+	padding: var(--space-4)
+	color: var(--text-muted)
+	text-align: center
+
+.notice
+	padding: var(--space-3)
+	color: var(--text-muted)
+
+[data-slot='alert-dialog-overlay']
+	position: fixed
+	inset: 0
+	z-index: 1000
+	background: rgba(0, 0, 0, .46)
+	backdrop-filter: blur(4px)
+
+[data-slot='alert-dialog-content']
+	position: fixed
+	top: 50%
+	left: 50%
+	z-index: 1001
+	display: grid
+	width: min(420px, calc(100vw - var(--space-4)))
+	max-height: calc(100vh - var(--space-4))
+	overflow: auto
+	gap: var(--space-4)
+	padding: var(--space-4)
+	transform: translate(-50%, -50%)
+	border: 1px solid var(--border)
+	border-radius: var(--radius-md)
+	background: var(--surface-1)
+	color: var(--text)
+	box-shadow: 0 24px 64px rgba(0, 0, 0, .32)
+
+[data-slot='alert-dialog-header']
+	display: grid
+	gap: var(--space-2)
+
+[data-slot='alert-dialog-title']
+	margin: 0
+	font-size: var(--text-lg)
+	font-weight: 700
+
+[data-slot='alert-dialog-description']
+	margin: 0
+	color: var(--text-muted)
+	font-size: var(--text-sm)
+
+[data-slot='alert-dialog-footer']
+	display: flex
+	justify-content: flex-end
+	gap: var(--space-2)
+
+[data-slot='alert-dialog-action'], [data-slot='alert-dialog-cancel']
+	display: inline-flex
+	min-height: 36px
+	align-items: center
+	justify-content: center
+	padding: 0 var(--space-3)
+	border: 1px solid var(--border)
+	border-radius: var(--radius-sm)
+	font-weight: 700
+
+[data-slot='alert-dialog-cancel']
+	background: var(--surface-2)
+	color: var(--text)
+
+[data-slot='alert-dialog-action']
+	border-color: var(--danger)
+	background: var(--danger)
+	color: var(--accent-ink)
+
+[data-slot='tooltip-content'][data-tooltip='action']
+	display: flex
+	min-height: 24px
+	align-items: center
+	gap: var(--space-2)
+	padding: 8px
+	border: 1px solid var(--tooltip-border)
+	border-radius: 3px
+	background: var(--tooltip-bg)
+	box-shadow: 0 10px 22px rgba(0, 0, 0, .24)
+	color: var(--tooltip-foreground)
+	font-size: var(--text-sm)
+	line-height: 1
+	white-space: nowrap
+
+[data-slot='tooltip-content'][data-tooltip='action'] kbd
+	display: inline-flex
+	min-height: 30px
+	align-items: center
+	justify-content: center
+	padding: 0 9px
+	border: 1px solid var(--tooltip-key-border)
+	border-radius: 11px
+	background: var(--tooltip-key-bg)
+	color: inherit
+	font-family: var(--font-sans)
+	font-size: var(--text-sm)
+	font-weight: 700
+
+[data-slot='tooltip-arrow']
+	display: none
+
+[data-slot='tooltip-content'][data-tooltip='action'][data-open],
+[data-slot='tooltip-content'][data-tooltip='action'][data-state='delayed-open']
+	animation: tooltip-enter var(--dur-00) var(--easeOut-10)
+
+[data-slot='tooltip-content'][data-tooltip='action'][data-closed]
+	animation: tooltip-exit var(--dur-00) var(--easeIn-10)

@@ -1,0 +1,379 @@
+// Ported from shadcn-svelte ui/navigation-menu + style-luma.
+// Oracle: 36 structural utilities, 12 skin rules.
+//
+// Tailwind's --spacing is 0.25rem. --radius-2xl is 1rem; --radius-3xl is 1.5rem.
+
+@use '../../styles/mixins' as *
+
+[data-slot='navigation-menu']
+	position: relative
+	display: flex
+	align-items: center
+	justify-content: center
+	flex: 1
+	max-width: max-content
+
+[data-slot='navigation-menu-list']
+	display: flex
+	flex: 1
+	align-items: center
+	justify-content: center
+	gap: 0
+	list-style-type: none
+
+	&[data-wrap='wrap']
+		flex-wrap: wrap
+
+[data-slot='navigation-menu-item']
+	position: relative
+
+[data-slot='navigation-menu-trigger']
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	width: max-content
+	height: 2.25rem
+	border: 0
+	border-radius: 1.5rem
+	background-color: transparent
+	padding: 0.625rem 1.125rem
+	color: var(--foreground)
+	font: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	outline: none
+	transition-property: all
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	+interactive(pointer)
+	+focus-ring(3px, var(--ring), 30%)
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--muted)
+
+	&:focus
+		background-color: var(--muted)
+
+	&[data-open],
+	&[data-popup-open],
+	&[data-variant='muted']
+		background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+
+		&:hover
+			@media (hover: hover)
+				background-color: var(--muted)
+
+		&:focus
+			background-color: var(--muted)
+
+[data-slot='navigation-menu-trigger-icon']
+	position: relative
+	top: 1px
+	display: inline-flex
+	margin-left: 0.25rem
+	width: 0.75rem
+	height: 0.75rem
+	transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, translate, scale, rotate, filter, backdrop-filter, display, content-visibility, overlay, pointer-events
+	transition-duration: 300ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+
+	[data-slot='navigation-menu-trigger'][data-open] &,
+	[data-slot='navigation-menu-trigger'][data-popup-open] &
+		rotate: 180deg
+
+	svg
+		width: 100%
+		height: 100%
+		flex-shrink: 0
+
+[data-slot='navigation-menu-content']
+	top: 0
+	left: 0
+	width: 100%
+	padding: 0.625rem 0.75rem 0.625rem 0.625rem
+	transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1)
+
+	// When no shared viewport, each content panel is a floating popover under its item.
+	[data-slot='navigation-menu'][data-viewport='false'] &
+		position: absolute
+		top: 100%
+		margin-top: 0.375rem
+		overflow: hidden
+		border-radius: 1.5rem
+		background-color: var(--popover)
+		color: var(--popover-foreground)
+		box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+		transition-duration: 300ms
+
+		.dark &
+			box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+
+		// Popover enter/exit uses scale (viewport mode uses horizontal motion only).
+		&[data-open]
+			animation: navigation-menu-popover-enter 150ms cubic-bezier(0.22, 1, 0.36, 1)
+		&[data-closed]
+			animation: navigation-menu-popover-exit 150ms cubic-bezier(0.22, 1, 0.36, 1)
+
+	// Inside the shared viewport, content is absolute from md up.
+	+bp-md
+		position: absolute
+		width: auto
+
+	// Plain :focus ring is suppressed inside panels; :focus-visible still rings via the link mixin.
+	& [data-slot='navigation-menu-link']:focus:not(:focus-visible)
+		box-shadow: none
+		outline: none
+
+	// Horizontal motion when swapping panels inside the shared viewport.
+	// Popover open/closed scale is handled under [data-viewport='false'] above.
+	&[data-motion^='from-']
+		animation: navigation-menu-enter 150ms cubic-bezier(0.22, 1, 0.36, 1)
+
+	&[data-motion^='to-']
+		animation: navigation-menu-exit 150ms cubic-bezier(0.22, 1, 0.36, 1)
+
+	&[data-motion='from-end']
+		--navigation-menu-enter-x: 13rem
+
+	&[data-motion='from-start']
+		--navigation-menu-enter-x: -13rem
+
+	&[data-motion='to-end']
+		--navigation-menu-exit-x: 13rem
+
+	&[data-motion='to-start']
+		--navigation-menu-exit-x: -13rem
+
+	&[data-width='xs']
+		width: 12.5rem
+
+	&[data-width='sm']
+		width: 18.75rem
+
+	&[data-width='md']
+		width: 25rem
+
+	&[data-width='lg']
+		width: 31.25rem
+
+	&[data-width='xl']
+		width: 37.5rem
+
+	&[data-layout='simple'] > ul,
+	&[data-layout='grid'] > ul,
+	&[data-layout='feature'] > ul
+		display: grid
+		gap: 0.5rem
+		margin: 0
+		padding: 0
+		list-style: none
+
+	&[data-layout='grid'] > ul
+		+bp-md
+			grid-template-columns: repeat(2, minmax(0, 1fr))
+
+	&[data-layout='feature'] > ul
+		+bp-lg
+			grid-template-columns: 0.75fr 1fr
+
+			> li:first-child
+				grid-row: span 3 / span 3
+
+[data-slot='navigation-menu-link']
+	display: flex
+	align-items: center
+	gap: 0.375rem
+	border-radius: 1.5rem
+	padding: 0.75rem
+	color: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	text-decoration: none
+	outline: none
+	transition-property: all
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	+focus-ring(3px, var(--ring), 30%)
+	+icon-child(1rem)
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--muted)
+
+	&:focus
+		background-color: var(--muted)
+
+	[data-slot='navigation-menu-content'] &
+		border-radius: 1rem
+
+	&[data-active='true'],
+	&[data-active]
+		background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+
+		&:hover
+			@media (hover: hover)
+				background-color: var(--muted)
+
+		&:focus
+			background-color: var(--muted)
+
+	&[data-variant='trigger']
+		display: inline-flex
+		justify-content: center
+		width: max-content
+		height: 2.25rem
+		padding: 0.625rem 1.125rem
+		border-radius: 1.5rem
+		font-weight: 500
+
+	&[data-variant='panel']
+		display: block
+		user-select: none
+		line-height: 1
+
+	&[data-variant='hero']
+		display: flex
+		flex-direction: column
+		justify-content: flex-end
+		width: 100%
+		height: 100%
+		min-height: 11rem
+		border-radius: 1rem
+		background: linear-gradient(to bottom, color-mix(in oklab, var(--muted) 50%, transparent), var(--muted))
+		padding: 1rem
+		user-select: none
+
+		+bp-md
+			padding: 1.5rem
+
+[data-slot='navigation-menu-link-title']
+	display: block
+	font-size: var(--text-sm)
+	line-height: 1
+	font-weight: 500
+
+[data-slot='navigation-menu-link-description']
+	display: -webkit-box
+	margin-top: 0.25rem
+	overflow: hidden
+	-webkit-box-orient: vertical
+	-webkit-line-clamp: 2
+	color: var(--muted-foreground)
+	font-size: var(--text-sm)
+	line-height: 1.375
+
+[data-slot='navigation-menu-link'][data-variant='hero'] [data-slot='navigation-menu-link-title']
+	margin-top: 1rem
+	margin-bottom: 0.5rem
+	font-size: var(--text-lg)
+	line-height: var(--text-lg--line-height)
+
+[data-slot='navigation-menu-link'][data-variant='hero'] [data-slot='navigation-menu-link-description']
+	margin-top: 0
+	line-height: 1.25
+
+[data-slot='navigation-menu-viewport-wrapper']
+	position: absolute
+	inset-inline-start: 0
+	top: 100%
+	isolation: isolate
+	z-index: 50
+	display: flex
+	justify-content: center
+
+[data-slot='navigation-menu-viewport']
+	position: relative
+	width: 100%
+	height: calc(var(--bits-navigation-menu-viewport-height) + 1rem)
+	margin-top: 0.375rem
+	overflow: hidden
+	border-radius: 1.5rem
+	background-color: var(--popover)
+	color: var(--popover-foreground)
+	transform-origin: top center
+	box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+	transition-duration: 100ms
+
+	.dark &
+		box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+
+	+bp-md
+		width: calc(var(--bits-navigation-menu-viewport-width) + 1rem)
+
+	&[data-open]
+		animation: navigation-menu-viewport-enter 150ms ease
+
+	&[data-closed]
+		animation: navigation-menu-viewport-exit 150ms ease
+
+[data-slot='navigation-menu-indicator']
+	top: 100%
+	z-index: 1
+	display: flex
+	height: 0.375rem
+	align-items: flex-end
+	justify-content: center
+	overflow: hidden
+
+	&[data-state='visible']
+		animation: navigation-menu-fade-in 150ms ease
+
+	&[data-state='hidden']
+		animation: navigation-menu-fade-out 150ms ease
+
+[data-slot='navigation-menu-indicator-arrow']
+	position: relative
+	top: 60%
+	width: 0.5rem
+	height: 0.5rem
+	rotate: 45deg
+	border-top-left-radius: calc(var(--radius) - 4px)
+	background-color: var(--border)
+	box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)
+
+// Horizontal motion for content swapping inside the shared viewport.
+@keyframes navigation-menu-enter
+	from
+		opacity: 0
+		transform: translate3d(var(--navigation-menu-enter-x, 0), 0, 0)
+
+@keyframes navigation-menu-exit
+	to
+		opacity: 0
+		transform: translate3d(var(--navigation-menu-exit-x, 0), 0, 0)
+
+// Scale pop for per-item panels when viewport={false}.
+@keyframes navigation-menu-popover-enter
+	from
+		opacity: 0
+		transform: scale(0.95)
+
+@keyframes navigation-menu-popover-exit
+	to
+		opacity: 0
+		transform: scale(0.95)
+
+@keyframes navigation-menu-viewport-enter
+	from
+		transform: scale(0.9)
+
+@keyframes navigation-menu-viewport-exit
+	to
+		transform: scale(0.9)
+
+@keyframes navigation-menu-fade-in
+	from
+		opacity: 0
+
+@keyframes navigation-menu-fade-out
+	to
+		opacity: 0
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='navigation-menu-content'],
+	[data-slot='navigation-menu-viewport'],
+	[data-slot='navigation-menu-indicator']
+		animation-duration: 1ms
+		transition-duration: 1ms

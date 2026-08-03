@@ -1,0 +1,25 @@
+// Ported from shadcn-svelte ui/sonner.
+// svelte-sonner draws the toasts; we bridge CSS vars on the toaster and spin the loading icon.
+// Luma's cn-toast uses rounded-2xl — apply when sonner exposes data-sonner-toast.
+
+[data-slot='sonner-toaster']
+	// Bridge already set via style attr; keep a hook for consumers.
+	font-family: inherit
+
+// svelte-sonner marks each toast with data-sonner-toast
+:global([data-sonner-toast])
+	border-radius: 1rem
+
+:global([data-sonner-toaster][data-sonner-theme='dark'])
+	// tokens already switch with mode-watcher theme prop
+
+[data-slot='sonner-spinner']
+	animation: sonner-spin 1s linear infinite
+
+@keyframes sonner-spin
+	to
+		transform: rotate(360deg)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='sonner-spinner']
+		animation-duration: 2s

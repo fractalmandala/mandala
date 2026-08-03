@@ -1,0 +1,42 @@
+{
+	"component": "reasoning",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/reasoning",
+	"skin": "none (Tailwind utilities only)",
+	"dependencies": {
+		"internal": ["collapsible"],
+		"ai-elements": ["response"],
+		"external": ["bits-ui", "runed", "streamdown-svelte"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Trigger data-slot=reasoning-trigger overrides collapsible-trigger chrome",
+			"why": "Source uses muted text row, not bordered button.",
+			"risk": "low"
+		},
+		{
+			"what": "Content data-slot=reasoning-content redeclares height animation",
+			"why": "Own data-slot opts out of collapsible-content keyframes.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG brain + chevron defaults",
+			"why": "No phosphor/lucide dependency.",
+			"risk": "low"
+		},
+		{
+			"what": "Uses Response component as-is for markdown",
+			"why": "Another agent owns response; Reasoning demos depend on existing export.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": [
+		"registry preview (token stream)",
+		"static duration",
+		"collapsed default",
+		"custom trigger children"
+	],
+	"docPage": "src/content/components/reasoning.md",
+	"status": "comprehensive re-port"
+}

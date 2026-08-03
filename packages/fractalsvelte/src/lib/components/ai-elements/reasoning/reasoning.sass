@@ -1,0 +1,109 @@
+// Ported from ai-elements/reasoning (Tailwind utilities → data-slot SASS).
+
+@use '../../../styles/mixins' as *
+
+[data-slot='reasoning']
+	margin-bottom: 1rem
+	width: 100%
+
+// Quiet text trigger (not bordered collapsible-trigger chrome)
+[data-slot='reasoning-trigger']
+	display: flex
+	width: 100%
+	align-items: center
+	gap: 0.5rem
+	min-height: unset
+	padding: 0
+	border: none
+	border-radius: 0
+	background-color: transparent
+	color: var(--muted-foreground)
+	font: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 400
+	cursor: pointer
+	transition: color 150ms
+	+focus-ring(3px, var(--ring), 30%)
+
+	&:hover
+		@media (hover: hover)
+			background-color: transparent
+			color: var(--foreground)
+
+	&[data-open],
+	&[data-state='open'],
+	&[aria-expanded='true']
+		[data-slot='reasoning-chevron']
+			transform: rotate(180deg)
+
+[data-slot='reasoning-icon']
+	display: inline-flex
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+
+	svg
+		width: 1rem
+		height: 1rem
+
+[data-slot='reasoning-trigger-label']
+	margin: 0
+	flex: 1
+	text-align: left
+
+[data-slot='reasoning-chevron']
+	display: inline-flex
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+	transition: transform 200ms ease
+
+	svg
+		width: 1rem
+		height: 1rem
+
+// Collapsible body — own data-slot redeclares height animation
+[data-slot='reasoning-content']
+	overflow: hidden
+	margin-top: 1rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	color: var(--muted-foreground)
+	outline: none
+
+	&[data-state='open'],
+	&[data-open]
+		animation: reasoning-content-down 200ms ease-out
+
+	&[data-state='closed'],
+	&[data-closed]
+		animation: reasoning-content-up 200ms ease-out
+
+[data-slot='reasoning-response']
+	display: grid
+	gap: 0.5rem
+
+@keyframes reasoning-content-down
+	from
+		height: 0
+		opacity: 0
+	to
+		height: var(--bits-collapsible-content-height, auto)
+		opacity: 1
+
+@keyframes reasoning-content-up
+	from
+		height: var(--bits-collapsible-content-height, auto)
+		opacity: 1
+	to
+		height: 0
+		opacity: 0
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='reasoning-content']
+		animation-duration: 1ms

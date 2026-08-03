@@ -1,0 +1,27 @@
+{
+	"component": "inline-citation",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/inline-citation",
+	"skin": "data-slot SASS (inline-citation.sass)",
+	"dependencies": {
+		"internal": ["hover-card", "badge", "carousel"],
+		"external": ["bits-ui", "embla-carousel-svelte"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Carousel prev/next use inline SVG arrows",
+			"why": "No lucide/phosphor.",
+			"risk": "low"
+		},
+		{
+			"what": "CardTrigger keeps Badge data-slot + data-slot=inline-citation-card-trigger",
+			"why": "Badge chrome + citation pill styling.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["carousel multi-source", "single source"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/inline-citation.md",
+	"status": "comprehensive re-port — hover card + carousel demos"
+}

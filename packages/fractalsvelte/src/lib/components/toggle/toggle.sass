@@ -1,0 +1,93 @@
+// Ported from registry ui/toggle + style-luma.
+// Oracle: 12 structural utilities, 6 skin rules.
+//
+// Tailwind's --spacing is 0.25rem, so `calc(var(--spacing) * 9)` is 2.25rem.
+// --radius-3xl resolves to 1.5rem.
+
+@use '../../styles/mixins' as *
+
+[data-slot='toggle']
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	flex-shrink: 0
+	gap: 0.25rem
+	white-space: nowrap
+	border: 1px solid transparent
+	border-radius: 1.5rem
+	background-color: transparent
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke
+	transition-timing-function: var(--default-transition-timing-function)
+	transition-duration: var(--default-transition-duration)
+	+interactive(pointer)
+	+icon-child(1rem)
+	+focus-ring(3px, var(--ring), 30%)
+	+invalid-ring
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--muted)
+			color: var(--foreground)
+
+	// bits-ui sets both aria-pressed and data-state on/off
+	&[aria-pressed='true'],
+	&[data-state='on']
+		background-color: var(--muted)
+
+	&[aria-pressed='true'][data-pressed-surface='transparent'],
+	&[data-state='on'][data-pressed-surface='transparent']
+		background-color: transparent
+
+	&[aria-pressed='true'][data-pressed-icon-tone='primary'] svg,
+	&[data-state='on'][data-pressed-icon-tone='primary'] svg
+		color: var(--primary)
+		fill: currentColor
+		stroke: currentColor
+
+	&[aria-pressed='true'][data-pressed-icon-tone='accent'] svg,
+	&[data-state='on'][data-pressed-icon-tone='accent'] svg
+		color: var(--accent-foreground)
+		fill: currentColor
+		stroke: currentColor
+
+	&[aria-pressed='true'][data-pressed-icon-tone='destructive'] svg,
+	&[data-state='on'][data-pressed-icon-tone='destructive'] svg
+		color: var(--destructive)
+		fill: currentColor
+		stroke: currentColor
+
+	&[data-variant='outline']
+		border-color: var(--input)
+		&:hover
+			@media (hover: hover)
+				background-color: var(--muted)
+
+	&[data-size='default']
+		height: 2.25rem
+		min-width: 2.25rem
+		padding-inline: 0.75rem
+		&:has(*[data-icon='inline-end'])
+			padding-right: 0.625rem
+		&:has(*[data-icon='inline-start'])
+			padding-left: 0.625rem
+
+	&[data-size='sm']
+		height: 2rem
+		min-width: 2rem
+		padding-inline: 0.75rem
+		&:has(*[data-icon='inline-end'])
+			padding-right: 0.5rem
+		&:has(*[data-icon='inline-start'])
+			padding-left: 0.5rem
+
+	&[data-size='lg']
+		height: 2.5rem
+		min-width: 2.5rem
+		padding-inline: 1rem
+		&:has(*[data-icon='inline-end'])
+			padding-right: 0.75rem
+		&:has(*[data-icon='inline-start'])
+			padding-left: 0.75rem

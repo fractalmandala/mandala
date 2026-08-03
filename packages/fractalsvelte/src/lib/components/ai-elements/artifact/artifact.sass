@@ -1,0 +1,53 @@
+// Ported from ai-elements/artifact. Single-tab indented SASS.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='artifact']
+	display: flex
+	flex-direction: column
+	overflow: hidden
+	border: 1px solid var(--border)
+	background-color: var(--background)
+	box-shadow: 0 1px 2px 0 color-mix(in oklab, var(--foreground) 6%, transparent)
+	+radius('lg')
+
+[data-slot='artifact-header']
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: 0.75rem
+	border-bottom: 1px solid var(--border)
+	background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+	padding-inline: 1rem
+	padding-block: 0.75rem
+
+[data-slot='artifact-title']
+	color: var(--foreground)
+	font-size: var(--text-sm)
+	font-weight: 500
+	margin: 0
+
+[data-slot='artifact-description']
+	color: var(--muted-foreground)
+	font-size: var(--text-sm)
+	margin: 0
+
+[data-slot='artifact-actions']
+	display: flex
+	align-items: center
+	gap: 0.25rem
+	flex-shrink: 0
+
+// Keep Button's data-slot=button so button.sass still applies.
+[data-slot='button'][data-artifact-action],
+[data-slot='button'][data-artifact-close]
+	color: var(--muted-foreground)
+	&:hover
+		@media (hover: hover)
+			color: var(--foreground)
+
+[data-slot='artifact-content']
+	flex: 1
+	overflow: auto
+	padding: 1rem
+	min-height: 0

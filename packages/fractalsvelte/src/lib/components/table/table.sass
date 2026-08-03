@@ -1,0 +1,71 @@
+// Ported from shadcn-svelte ui/table + style-luma.
+// Oracle: 8 skin rules. --spacing is 0.25rem.
+
+[data-slot='table-container']
+	position: relative
+	width: 100%
+	overflow-x: auto
+
+[data-slot='table']
+	width: 100%
+	caption-side: bottom
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+
+[data-slot='table-header']
+	tr
+		border-bottom: 1px solid var(--border)
+
+[data-slot='table-body']
+	// The last row's rule would double up with whatever follows the table.
+	tr:last-child
+		border-width: 0
+
+[data-slot='table-footer']
+	border-top: 1px solid var(--border)
+	background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+	font-weight: 500
+
+	> tr:last-child
+		border-bottom-width: 0
+
+[data-slot='table-row']
+	border-bottom: 1px solid var(--border)
+	transition-property: color, background-color, border-color
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+
+	&:hover
+		@media (hover: hover)
+			background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+
+	// Set by data-table libraries to mark a selected row.
+	&[data-state='selected']
+		background-color: var(--muted)
+
+[data-slot='table-head']
+	height: 3rem
+	padding-inline: 0.75rem
+	text-align: left
+	vertical-align: middle
+	white-space: nowrap
+	font-weight: 500
+	color: var(--foreground)
+
+	// A checkbox column carries its own padding.
+	&:has([role='checkbox'])
+		padding-right: 0
+
+[data-slot='table-cell']
+	padding: 0.75rem
+	vertical-align: middle
+	white-space: nowrap
+
+	&:has([role='checkbox'])
+		padding-right: 0
+
+[data-slot='table-caption']
+	margin-top: 1rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	color: var(--muted-foreground)

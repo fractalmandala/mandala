@@ -1,0 +1,34 @@
+{
+	"component": "sonner",
+	"wave": 7,
+	"source": "shadcn-registry/lib/registry/ui/sonner",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 2, "skinRules": 0 },
+	"dependencies": {
+		"internal": [],
+		"external": ["svelte-sonner", "mode-watcher", "phosphor-svelte"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Status icons are Phosphor, not IconPlaceholder / lucide",
+			"why": "Library ships phosphor-svelte; no multi-icon registry dependency",
+			"risk": "low"
+		},
+		{
+			"what": "CSS vars use --popover / --border tokens (not --color-popover)",
+			"why": "Matches fractalsvelte token names in _tokens.sass",
+			"risk": "low"
+		},
+		{
+			"what": "data-slot=sonner-toaster and data-slot=sonner-spinner",
+			"why": "Spinner spin animation lives in sonner.sass; no Tailwind animate-spin",
+			"risk": "low"
+		}
+	],
+	"bugsFoundInTooling": [],
+	"examplesPorted": ["sonner-demo", "sonner-types", "loading", "action"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/sonner.md",
+	"status": "complete — toaster + toast API, interactive docs, package export ./sonner"
+}

@@ -1,0 +1,87 @@
+{
+	"component": "resizable",
+	"wave": 7,
+	"source": "shadcn-registry/lib/registry/ui/resizable",
+	"skin": "luma",
+	"oracle": {
+		"structuralUtilities": 28,
+		"skinRules": 1,
+		"notes": "scripts/oracle.mjs missing in package; compiled utilities via @tailwindcss/cli @source on the component class strings + style-luma .cn-resizable-handle-icon"
+	},
+	"dependencies": {
+		"internal": [],
+		"external": ["paneforge"]
+	},
+
+	"variantsConverted": {
+		"from": "no tv(); direction comes from paneforge data-direction; skin only styles the grip",
+		"to": "typed geometry/chrome props on PaneGroup + withHandle on Handle",
+		"variant": [],
+		"size": []
+	},
+
+	"propsInvented": [
+		{
+			"name": "bordered",
+			"why": "Every documented example wraps the group in class=\"… border\". Without class merging the group cannot express a frame.",
+			"replaces": "class=\"border\""
+		},
+		{
+			"name": "radius",
+			"why": "Examples use rounded-lg on the group frame.",
+			"replaces": "class=\"rounded-lg\""
+		},
+		{
+			"name": "maxWidth / minHeight / maxHeight",
+			"why": "Examples size the group through class (max-w-md, min-h-[200px]). Only props that survive paneforge's mergeProps (which always writes height/width: 100% last) are exposed.",
+			"replaces": "class=\"max-w-md min-h-[200px]\""
+		},
+		{
+			"name": "withHandle",
+			"why": "Present upstream on Handle; kept as the only visual toggle for the grip pill.",
+			"replaces": "withHandle prop (source)"
+		}
+	],
+
+	"deviations": [
+		{
+			"what": "No height/width props on PaneGroup",
+			"why": "paneforge PaneGroupState always emits style height/width 100% and mergeProps lets that win over consumer style. Source demos use min-h / max-w classes (or h-[200px] on pane content) instead.",
+			"risk": "medium — consumers expecting height= will need minHeight or a sized parent"
+		},
+		{
+			"what": "Handle grip uses data-slot='resizable-handle-icon' instead of a bare div + cn-resizable-handle-icon class",
+			"why": "data-slot is the library styling hook; no cn() / skin class namespace",
+			"risk": "low"
+		},
+		{
+			"what": "Focus ring is box-shadow 1px offset + 1px ring instead of Tailwind --tw-ring-* plumbing",
+			"why": "oracle rule: never copy --tw-*; ring-1 + ring-offset-1 + ring-ring resolves to background offset then ring colour",
+			"risk": "low — matches intent; offset colour uses --background"
+		},
+		{
+			"what": "Pane is re-exported raw from paneforge (no wrapper)",
+			"why": "Matches source index.ts; no data-slot or skin on Pane",
+			"risk": "low"
+		},
+		{
+			"what": "package.json export for ./resizable added",
+			"why": "Component was ready in registry/docs but unpublished via package exports",
+			"risk": "low"
+		}
+	],
+
+	"bugsFoundInTooling": [
+		"scripts/oracle.mjs is not present in this package; had to compile utilities manually with @tailwindcss/cli"
+	],
+
+	"examplesPorted": [
+		"resizable-demo (nested)",
+		"resizable-vertical",
+		"resizable-handle"
+	],
+	"examplesDeferred": [],
+	"promotedToCentral": [],
+	"docPage": "src/content/components/resizable.md",
+	"status": "re-ported — geometry props, full docs with live previews, focus ring + grip skin corrected"
+}

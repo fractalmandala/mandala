@@ -1,0 +1,196 @@
+.logomotif, .logotype
+	object-fit: contain
+
+.logomotif
+	height: 36px
+	width: 36px
+	animation: rotationing 8s linear infinite
+	transform-origin: center center
+
+.logotype
+	height: 20px
+
+@keyframes rotationing
+	0%
+		transform: rotate(0deg)
+	100%
+		transform: rotate(360deg)
+
+.the-grid-three
+	display: grid
+	grid-auto-flow: row
+	grid-template-columns: minmax(280px, 360px) 1fr 240px
+	grid-template-areas: "aside-left the-grid-center aside-right"
+	padding-right: var(--site-cushion)
+	padding-left: var(--site-cushion)
+	// Allow columns to shrink so overflow-y on asides actually scrolls (grid default min-height: auto blocks it)
+	align-items: start
+	.the-grid-center
+		grid-area: the-grid-center
+		min-width: 0
+	.aside-left
+		grid-area: aside-left
+		min-width: 0
+		min-height: 0
+	.aside-right
+		grid-area: aside-right
+		min-width: 0
+		min-height: 0
+	@media (max-width: 1200px)
+		grid-template-columns: 280px 1fr
+		grid-template-areas: "aside-left the-grid-center"
+		.aside-right
+			display: none
+	@media (max-width: 1024px)
+		grid-template-columns: 1fr
+		grid-template-areas: " "
+		.aside-left
+			display: none
+
+// Shared by left nav + right TOC — same on Components, AI Elements, and Blocks
+.asider
+	// Match sticky app-header height (64px), not a stale 56px
+	--asider-offset: var(--doc-header-h, 64px)
+	height: calc(100vh - var(--asider-offset))
+	max-height: calc(100vh - var(--asider-offset))
+	position: sticky
+	top: var(--asider-offset)
+	// Keep the sticky column from growing with long nav lists (would disable internal scroll)
+	overflow: hidden
+	.inside-asider
+		box-sizing: border-box
+		height: 100%
+		max-height: 100%
+		overflow-x: hidden
+		overflow-y: auto
+		padding: 32px 8px 32px 0
+		// Firefox
+		scrollbar-width: thin
+		scrollbar-color: transparent transparent
+		// WebKit / Chromium
+		&::-webkit-scrollbar
+			width: 4px
+			background: transparent
+		&::-webkit-scrollbar-track
+			background: transparent
+		&::-webkit-scrollbar-thumb
+			background: transparent
+			border-radius: 4px
+
+.asider
+	&:hover
+		.inside-asider
+			scrollbar-color: var(--accent) transparent
+			&::-webkit-scrollbar-thumb
+				background: var(--accent)
+
+.the-grid-center
+	.fitted-box
+		width: 100%
+	@media (min-width: 1200px)
+		.fitted-box
+			max-width: 720px
+			margin-left: auto
+			margin-right: auto
+
+a.sidebar-link
+	font-size: var(--text-sm)
+	padding: 4px 8px
+	background: var(--background)
+	color: var(--foreground)
+	text-decoration: none
+	&:hover
+		background: var(--muted)
+		color: var(--primary)
+		text-decoration: none
+	&.active
+		color: var(--primary)
+		font-weight: 600
+		text-decoration: none
+
+a.header-link
+	text-decoration: none
+	&:hover,
+	&:focus,
+	&.active
+		text-decoration: none
+
+// Colour swatches used by ThemeSwitcher. Not nested under .theme-switcher — dropdown content
+// is portaled out of the header, so it would miss nested rules.
+.theme-swatch
+	display: block
+	width: 16px
+	height: 16px
+	border-radius: 50%
+	flex-shrink: 0
+
+.theme-switcher
+	// Override the default dropdown trigger chrome — just a compact hit target around the circle.
+	[data-slot='dropdown-menu-trigger'].theme-swatch-trigger
+		min-height: 0
+		min-width: 0
+		padding: 0
+		border-radius: 999px
+		border-color: transparent
+		background-color: transparent
+		&:hover
+			@media (hover: hover)
+				background-color: var(--muted)
+		&:focus-visible
+			border-color: var(--ring)
+
+.theme-menu
+	min-width: 10rem
+
+	.theme-option
+		// Radio item already lays out indicator + children; keep the label row tight.
+		flex: 1 1 auto
+
+// Left docs nav — open group lists (no accordion)
+.doc-sidebar-nav
+	display: flex
+	flex-direction: column
+	gap: 1.25rem
+
+.doc-sidebar-group
+	display: flex
+	flex-direction: column
+	gap: 0.25rem
+	min-width: 0
+
+.doc-sidebar-heading
+	margin: 0
+	padding: 0.25rem 0.5rem
+	font-size: 0.6875rem
+	font-weight: 600
+	letter-spacing: 0.06em
+	text-transform: uppercase
+	color: var(--muted-foreground)
+
+.doc-sidebar-list
+	list-style: none
+	margin: 0
+	padding: 0
+	display: flex
+	flex-direction: column
+	gap: 1px
+
+.aside-left
+	a, a.sidebar-link
+		text-decoration: none
+		&:hover
+			text-decoration: none
+
+.cushioned
+	padding-left: var(--site-cushion)
+	padding-right: var(--site-cushion)
+
+.cushioned-left
+	padding-left: var(--site-cushion)
+
+.cushioned-right
+	padding-right: var(--site-cushion)
+
+.cushioned-top
+	margin-top: 7.5%
+

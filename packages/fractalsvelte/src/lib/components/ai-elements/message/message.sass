@@ -1,0 +1,306 @@
+// Ported from ai-elements/message (Tailwind utilities → data-slot SASS).
+// Role styling uses parent [data-role] instead of group-[.is-user] classes.
+
+@use '../../../styles/mixins' as *
+
+// ── Shell ─────────────────────────────────────────────────────────────────────
+[data-slot='message']
+	display: flex
+	width: 100%
+	max-width: 95%
+	flex-direction: column
+	gap: 0.5rem
+
+	&[data-role='user']
+		margin-left: auto
+		justify-content: flex-end
+		align-items: flex-end
+
+	&[data-role='assistant'],
+	&[data-role='system'],
+	&[data-role='tool'],
+	&[data-role='function'],
+	&[data-role='data']
+		align-items: flex-start
+
+// ── Body ──────────────────────────────────────────────────────────────────────
+[data-slot='message-content']
+	display: flex
+	width: fit-content
+	max-width: 100%
+	min-width: 0
+	flex-direction: column
+	gap: 0.5rem
+	overflow: hidden
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+
+	// User bubble (source: group-[.is-user]:bg-secondary rounded-lg px-4 py-3)
+	[data-slot='message'][data-role='user'] &
+		background-color: var(--secondary)
+		color: var(--foreground)
+		margin-left: auto
+		border-radius: var(--radius)
+		padding-inline: 1rem
+		padding-block: 0.75rem
+
+	[data-slot='message'][data-role='assistant'] &
+		color: var(--foreground)
+
+// ── Actions / toolbar ─────────────────────────────────────────────────────────
+[data-slot='message-actions']
+	display: flex
+	align-items: center
+	gap: 0.25rem
+
+// Compact icon actions (source size-7) while keeping button skin
+[data-slot='button'][data-message-action]
+	width: 1.75rem
+	height: 1.75rem
+	flex-shrink: 0
+
+[data-slot='message-action-label']
+	position: absolute
+	width: 1px
+	height: 1px
+	padding: 0
+	margin: -1px
+	overflow: hidden
+	clip-path: inset(50%)
+	white-space: nowrap
+	border-width: 0
+
+[data-slot='message-toolbar']
+	margin-top: 1rem
+	display: flex
+	width: 100%
+	align-items: center
+	justify-content: space-between
+	gap: 1rem
+
+// ── Attachments ───────────────────────────────────────────────────────────────
+[data-slot='message-attachments']
+	margin-left: auto
+	display: flex
+	width: fit-content
+	flex-wrap: wrap
+	align-items: flex-start
+	gap: 0.5rem
+
+[data-slot='message-attachment']
+	position: relative
+	width: 6rem
+	height: 6rem
+	overflow: hidden
+	border-radius: var(--radius)
+
+	// Remove button appears on hover
+	&:hover [data-slot='button'][data-attachment-remove]
+		opacity: 1
+
+[data-slot='button'][data-attachment-remove]
+	position: absolute
+	top: 0.5rem
+	right: 0.5rem
+	z-index: 10
+	width: 1.5rem
+	height: 1.5rem
+	min-width: 1.5rem
+	border-radius: 9999px
+	padding: 0
+	opacity: 0
+	transition: opacity 150ms
+	backdrop-filter: blur(4px)
+	background-color: color-mix(in oklab, var(--background) 80%, transparent)
+
+	svg
+		width: 0.75rem
+		height: 0.75rem
+
+[data-slot='message-attachment-file']
+	display: flex
+	width: 100%
+	height: 100%
+	flex-shrink: 0
+	align-items: center
+	justify-content: center
+	border-radius: var(--radius)
+	background-color: var(--muted)
+	color: var(--muted-foreground)
+	cursor: default
+
+[data-slot='message-attachment-preview-trigger']
+	display: block
+	width: 100%
+	height: 100%
+	cursor: zoom-in
+	overflow: hidden
+	border: none
+	border-radius: var(--radius)
+	padding: 0
+	background: none
+
+[data-slot='message-attachment-preview-thumb']
+	width: 100%
+	height: 100%
+	object-fit: cover
+	object-position: center
+	transition: transform 200ms
+
+	[data-slot='message-attachment-preview-trigger']:hover &
+		transform: scale(1.03)
+
+// Fullscreen-ish preview dialog chrome (dialog keeps data-slot=dialog-content)
+[data-slot='dialog-content'][data-message-attachment-preview]
+	background-color: transparent
+	border: none
+	box-shadow: none
+	max-width: none
+	width: auto
+	padding: 0
+
+[data-slot='message-attachment-preview-sr']
+	position: absolute
+	width: 1px
+	height: 1px
+	padding: 0
+	margin: -1px
+	overflow: hidden
+	clip-path: inset(50%)
+	white-space: nowrap
+	border-width: 0
+
+[data-slot='message-attachment-preview-body']
+	display: flex
+	min-height: 40vh
+	width: min(94vw, 1100px)
+	align-items: center
+	justify-content: center
+
+[data-slot='message-attachment-preview-frame']
+	display: flex
+	align-items: center
+	justify-content: center
+	overflow: hidden
+	border-radius: 1rem
+	background-color: rgb(0 0 0 / 0.95)
+
+[data-slot='message-attachment-preview-full']
+	width: 100%
+	height: 100%
+	object-fit: contain
+	object-position: center
+
+// ── Branching ─────────────────────────────────────────────────────────────────
+[data-slot='message-branch']
+	display: grid
+	width: 100%
+	gap: 0.5rem
+
+[data-slot='message-branch-selector']
+	// Joined control look for prev / page / next
+	& > [data-slot='button']:not(:first-child)
+		border-top-left-radius: calc(var(--radius) - 2px)
+		border-bottom-left-radius: calc(var(--radius) - 2px)
+
+	& > [data-slot='button']:not(:last-child)
+		border-top-right-radius: calc(var(--radius) - 2px)
+		border-bottom-right-radius: calc(var(--radius) - 2px)
+
+[data-slot='button'][data-message-branch-nav]
+	width: 1.75rem
+	height: 1.75rem
+	flex-shrink: 0
+
+	svg
+		width: 0.875rem
+		height: 0.875rem
+
+[data-slot='message-branch-page']
+	color: var(--muted-foreground)
+	border: none
+	background: transparent
+	box-shadow: none
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+
+[data-slot='message-branch-content']
+	display: grid
+	gap: 0.5rem
+	overflow: hidden
+
+	&:not([data-active])
+		display: none
+
+	&[data-active]
+		display: block
+
+// ── Streamed markdown ─────────────────────────────────────────────────────────
+[data-slot='message-response']
+	width: 100%
+	height: 100%
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	color: inherit
+
+	// Tame streamdown first/last margins
+	& > *:first-child
+		margin-top: 0
+
+	& > *:last-child
+		margin-bottom: 0
+
+	// Light prose defaults for common markdown
+	p
+		margin: 0 0 0.75rem
+
+	h1, h2, h3, h4
+		margin: 1rem 0 0.5rem
+		font-weight: 600
+		line-height: 1.3
+
+	h2
+		font-size: 1.125rem
+
+	h3
+		font-size: 1rem
+
+	ul, ol
+		margin: 0 0 0.75rem
+		padding-inline-start: 1.25rem
+
+	li
+		margin-bottom: 0.25rem
+
+	code
+		font-size: 0.85em
+		border-radius: calc(var(--radius) - 2px)
+		background-color: color-mix(in oklab, var(--muted) 80%, transparent)
+		padding: 0.1em 0.35em
+
+	pre
+		margin: 0 0 0.75rem
+		overflow-x: auto
+		border-radius: var(--radius)
+		padding: 0.75rem 1rem
+		background-color: var(--muted)
+		font-size: 0.8125rem
+
+		code
+			background: none
+			padding: 0
+
+	pre.shiki
+		background-color: var(--muted)
+
+		code
+			background: none
+
+	hr
+		margin: 1rem 0
+		border: none
+		border-top: 1px solid var(--border)
+
+	a
+		color: var(--primary)
+		text-decoration: none

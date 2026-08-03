@@ -1,0 +1,96 @@
+// Ported from shadcn-svelte ui/button-group + style-luma.
+// Oracle: 22 structural utilities, 12 skin rules.
+//
+// Tailwind's --spacing is 0.25rem, so `calc(var(--spacing) * 2)` is resolved to 0.5rem.
+// --radius-4xl is a Tailwind default (2rem), not derived from --radius.
+
+@use '../../styles/mixins' as *
+
+[data-slot='button-group']
+	display: flex
+	align-items: stretch
+	width: fit-content
+
+	&:has(> [data-slot='button-group'])
+		gap: 0.5rem
+
+	&:has(> [data-variant='outline']) > [data-slot='input'],
+	&:has(> [data-variant='outline']) > [data-slot='input-group'],
+	&:has(> [data-variant='outline']) > [data-slot='select-trigger']
+		border-color: var(--border)
+
+	&:has(> [data-variant='outline']) > [data-slot='input']:focus-visible,
+	&:has(> [data-variant='outline']) > [data-slot='input-group']:has(:focus-visible),
+	&:has(> [data-variant='outline']) > [data-slot='select-trigger']:focus-visible
+		border-color: var(--ring)
+
+	&:has(:is(select[aria-hidden='true']:last-child)) > [data-slot='select-trigger']:last-of-type
+		border-top-right-radius: 2rem
+		border-bottom-right-radius: 2rem
+
+	& > *:focus-visible
+		position: relative
+		z-index: 10
+
+	& > [data-slot='select-trigger']:not([class*='w-'])
+		width: fit-content
+
+	& > input,
+	& > [data-slot='input']
+		flex: 1
+
+	&[data-orientation='horizontal']
+		& > [data-slot]
+			border-top-right-radius: 0
+			border-bottom-right-radius: 0
+
+		& > [data-slot] ~ [data-slot]
+			border-left-width: 0
+			border-top-left-radius: 0
+			border-bottom-left-radius: 0
+
+		& > [data-slot]:not(:has(~ [data-slot]))
+			border-top-right-radius: 2rem !important
+			border-bottom-right-radius: 2rem !important
+
+	&[data-orientation='vertical']
+		flex-direction: column
+
+		& > [data-slot]
+			border-bottom-right-radius: 0
+			border-bottom-left-radius: 0
+
+		& > [data-slot] ~ [data-slot]
+			border-top-width: 0
+			border-top-left-radius: 0
+			border-top-right-radius: 0
+
+		& > [data-slot]:not(:has(~ [data-slot]))
+			border-bottom-right-radius: 2rem !important
+			border-bottom-left-radius: 2rem !important
+
+[data-slot='button-group-text']
+	display: flex
+	align-items: center
+	gap: 0.5rem
+	border: 1px solid var(--border)
+	border-radius: 2rem
+	background-color: var(--muted)
+	padding-inline: 0.625rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	+icon-child(1rem)
+
+[data-slot='button-group-separator']
+	position: relative
+	align-self: stretch
+	background-color: var(--input)
+
+	&[data-orientation='horizontal']
+		width: auto
+		margin-inline: 1px
+
+	&[data-orientation='vertical']
+		height: auto
+		margin-block: 1px

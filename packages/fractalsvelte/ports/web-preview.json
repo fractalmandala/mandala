@@ -1,0 +1,32 @@
+{
+	"component": "web-preview",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/web-preview",
+	"skin": "data-slot SASS (web-preview.sass)",
+	"dependencies": {
+		"internal": ["button", "tooltip", "collapsible"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Inline SVG console chevron instead of phosphor",
+			"why": "Library icon policy.",
+			"risk": "low"
+		},
+		{
+			"what": "NavigationButton keeps data-slot=button + data-web-preview-nav-button",
+			"why": "TooltipTrigger merge strips foreign data-slot so button skin remains.",
+			"risk": "low"
+		},
+		{
+			"what": "Stable log ids from timestamp+index instead of crypto.randomUUID()",
+			"why": "Avoids re-randomizing on every derive during SSR/hydration.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["full chrome + console", "URL + body only"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/web-preview.md",
+	"status": "comprehensive re-port — nav, iframe, console, phosphor removed"
+}

@@ -1,0 +1,112 @@
+// Ported from ai-elements conversation.
+// Stick-to-bottom: Content is the scroll root (overflow-y: auto + height 100%).
+// Source only had flex/gap/padding utilities; overflow is required for the scroll contract.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='conversation']
+	position: relative
+	display: flex
+	height: 100%
+	min-height: 0
+	flex-direction: column
+	overflow: hidden
+	// Isolate scroll + absolute scroll button
+	isolation: isolate
+
+[data-slot='conversation-content']
+	display: flex
+	flex: 1 1 0%
+	min-height: 0
+	flex-direction: column
+	// Source: gap-8 (2rem). Compact demo uses gap-4.
+	gap: 2rem
+	padding: 1rem
+	overflow-x: hidden
+	overflow-y: auto
+	// Smooth scroll when user clicks the scroll button / programmatic jumps
+	scroll-behavior: smooth
+	// iOS momentum
+	-webkit-overflow-scrolling: touch
+
+	&[data-gap='compact']
+		gap: 1rem
+
+	&[data-gap='loose']
+		gap: 2.5rem
+
+	// Hide native scrollbar chrome slightly for a chat feel (still scrollable)
+	scrollbar-width: thin
+	scrollbar-color: color-mix(in oklab, var(--muted-foreground) 35%, transparent) transparent
+
+[data-slot='conversation-empty-state']
+	display: flex
+	width: 100%
+	// Fill the scrollport when empty so the empty state is centered in the pane
+	min-height: 100%
+	flex: 1 1 auto
+	flex-direction: column
+	align-items: center
+	justify-content: center
+	gap: 0.75rem
+	padding: 2rem
+	text-align: center
+
+[data-slot='conversation-empty-icon']
+	display: flex
+	align-items: center
+	justify-content: center
+	color: var(--muted-foreground)
+
+	svg
+		width: 1.5rem
+		height: 1.5rem
+
+[data-slot='conversation-empty-text']
+	display: flex
+	flex-direction: column
+	gap: 0.25rem
+	max-width: 22rem
+
+[data-slot='conversation-empty-title']
+	margin: 0
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	color: var(--foreground)
+
+[data-slot='conversation-empty-description']
+	margin: 0
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	color: var(--muted-foreground)
+
+// Floating scroll-to-bottom control (absolute over the conversation shell)
+[data-slot='conversation-scroll-button-container']
+	position: absolute
+	bottom: 1rem
+	left: 50%
+	z-index: 10
+	transform: translateX(-50%)
+	pointer-events: none
+
+	// Re-enable pointer events on the button itself
+	& > *
+		pointer-events: auto
+
+// Glass pill on top of button skin
+[data-slot='button'][data-conversation-scroll-button]
+	border-radius: 9999px
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+	backdrop-filter: blur(4px)
+	background-color: color-mix(in oklab, var(--background) 80%, transparent)
+	border-color: color-mix(in oklab, var(--border) 50%, transparent)
+
+	&:hover
+		@media (hover: hover)
+			background-color: color-mix(in oklab, var(--background) 90%, transparent)
+			box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)
+
+[data-slot='conversation-sentinel']
+	// Created by StickToBottomContext for IntersectionObserver
+	flex-shrink: 0

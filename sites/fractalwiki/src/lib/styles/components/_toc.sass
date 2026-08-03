@@ -1,0 +1,44 @@
+@use '../mixins' as bp
+
+.toc-panel
+	width: 240px
+	min-width: 240px
+	flex-shrink: 0
+	position: sticky
+	top: 80px
+	align-self: flex-start
+	padding: 20px
+	background: var(--bg-card)
+	border: 1px solid var(--border-primary)
+	border-radius: 12px
+	+bp.bp-sm
+		display: none
+
+.toc-list
+	list-style: none
+	padding: 0
+	margin: 0
+	display: flex
+	flex-direction: column
+	gap: 8px
+
+.toc-item
+	&.level-1
+		font-weight: 600
+	&.level-2
+		padding-left: 8px
+	&.level-3
+		padding-left: 16px
+
+.toc-link
+	background: transparent
+	border: none
+	color: var(--text-secondary)
+	cursor: pointer
+	padding: 2px 0
+	font-size: 13px
+	line-height: 1.4
+	text-align: left
+	transition: color 0.15s ease
+	&:hover
+		color: var(--accent10)

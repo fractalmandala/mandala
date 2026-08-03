@@ -1,0 +1,32 @@
+{
+	"component": "tool",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/tool",
+	"skin": "data-slot SASS (tool.sass)",
+	"dependencies": {
+		"internal": ["collapsible", "badge", "code"],
+		"external": ["shiki", "@shikijs/langs", "@shikijs/themes", "dompurify", "runed"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Inline SVG status/wrench/chevron instead of lucide/phosphor",
+			"why": "Library icon policy — no phosphor-svelte / @lucide.",
+			"risk": "low"
+		},
+		{
+			"what": "Chevron rotate via parent collapsible [data-state=open]",
+			"why": "Trigger no longer relies on group-data classes.",
+			"risk": "low"
+		},
+		{
+			"what": "bindable open on Root",
+			"why": "Docs and demos need controlled open for completed examples.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["preview success", "all states", "error"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/tool.md",
+	"status": "comprehensive re-port — states, Code input/output, phosphor removed"
+}

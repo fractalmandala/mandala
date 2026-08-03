@@ -1,0 +1,50 @@
+# Recall probes for run_probes.py.
+#
+# Each probe asks a question smriti should be able to answer if the
+# harness is doing its job, and states what the top-scoring result ought
+# to contain. Probes are meant to be edited per project — the ones below
+# are a starter set: two generic ones that work against any store that
+# has been set up at all, plus commented-out templates for the three
+# behavioral categories from the original Phase 0 plan (duplicate-work,
+# convention-recall, conflict). Fill those in with your own project's
+# real recurring tasks and known standing conventions.
+#
+# category must be one of: recall | duplicate-work | convention-recall | conflict
+# (only "recall" probes are scored by run_probes.py directly; the other
+# three categories are exercised by scripts/behavioral_probes.py instead —
+# they're listed here too so one file documents the whole probe set.)
+
+probes:
+  - id: harness-self-check
+    category: recall
+    description: >
+      Sanity probe — confirms the store can recall its own install event.
+      Fails only if smriti is empty or install.sh never wrote the
+      installation entry (see scripts/install.sh).
+    query: "skaa package installed"
+    expect_contains: "installed"
+    top_k: 3
+
+  - id: schema-decision
+    category: recall
+    description: >
+      Confirms the ADR documenting the schema decision was actually
+      logged to smriti (install.sh does this) and is recallable.
+    query: "smriti schema decision SQLite"
+    expect_contains: "schema"
+    top_k: 3
+
+  # --- Add project-specific probes below this line -----------------------
+  # - id: my-standing-convention
+  #   category: convention-recall
+  #   description: "Does the store recall our formatting convention for X?"
+  #   query: "how should Y be formatted"
+  #   expect_contains: "some distinctive phrase from the real convention"
+  #   top_k: 3
+  #
+  # - id: my-recurring-task
+  #   category: duplicate-work
+  #   description: "Would a new request for task X find the prior attempt?"
+  #   query: "keywords describing the recurring task"
+  #   expect_contains: "keywords that should be in the prior entry"
+  #   top_k: 5

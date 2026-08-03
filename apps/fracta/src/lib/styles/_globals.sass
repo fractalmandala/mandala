@@ -1,0 +1,66 @@
+html
+	-webkit-font-smoothing: antialiased
+	-moz-osx-font-smoothing: grayscale
+	text-rendering: optimizeLegibility
+
+body, html
+	box-sizing: border-box
+	padding: 0
+	margin: 0
+	color: var(--text-primary)
+	font-family: var(--font-sans)
+	background: var(--color00)
+
+:root
+	box-sizing: border-box
+*
+	box-sizing: border-box
+	scrollbar-width: none
+
+*::-webkit-scrollbar
+	width: 0
+	height: 0
+	display: none
+
+// Prefer quiet motion; kill decorative motion when requested
+@media (prefers-reduced-motion: reduce)
+	*, *::before, *::after
+		animation-duration: 0.01ms !important
+		animation-iteration-count: 1 !important
+		transition-duration: 0.01ms !important
+
+.bdr
+	border: 1px solid red
+
+button.blank
+	background: none
+	border: none
+	cursor: pointer
+	padding: 0
+
+p, h6, h5, h4, h3, h2, h1
+	margin: 0
+
+// Short titles / captions — avoid ugly orphans
+h1, h2, h3, .text-balance
+	text-wrap: balance
+
+.ask-panel__empty p,
+.gate__hint,
+.organize__empty,
+.rules-modal__sub
+	text-wrap: pretty
+
+.w100
+	width: 100%
+.h100
+	height: 100%
+
+// Focus rings — visible keyboard path without fighting the quiet chrome
+:focus-visible
+	outline: 2px solid var(--accent10)
+	outline-offset: 2px
+
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible)
+	outline: none

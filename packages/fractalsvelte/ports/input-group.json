@@ -1,0 +1,59 @@
+{
+	"component": "input-group",
+	"wave": 2,
+	"source": "shadcn-registry/lib/registry/ui/input-group",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 17, "skinRules": 13 },
+	"dependencies": {
+		"internal": ["button", "input", "textarea"],
+		"external": []
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "InputGroup.Button no longer overrides data-slot; keeps button skin",
+			"why": "Overriding to input-group-button stripped all button.sass rules. Source adds cn- classes on top of Button, not instead of it.",
+			"risk": "low"
+		},
+		{
+			"what": "Control uses data-slot=input-group-control with full transparent field styles",
+			"why": "Matches source opt-out of input skin; shell owns border/bg/focus ring",
+			"risk": "low"
+		},
+		{
+			"what": "Oracle &>input padding selectors use [data-slot=input-group-control]",
+			"why": "Covers both Input and Textarea; source also sets data-slot on both",
+			"risk": "low"
+		},
+		{
+			"what": "kbd margin nudge on inline addons",
+			"why": "Oracle cn-input-group-addon-align-inline-* has &:has(>kbd) negative margin",
+			"risk": "low"
+		}
+	],
+	"bugsFoundInTooling": [
+		"Shared-component data-slot override pattern systematically unstyles Button/Input wrappers"
+	],
+	"examplesPorted": [
+		"input-group-demo",
+		"input-group-icon-demo",
+		"input-group-button-demo",
+		"input-group-text-demo",
+		"input-group-textarea-demo",
+		"input-group-label-demo",
+		"input-group-spinner-demo",
+		"input-group-dropdown-demo"
+	],
+	"examplesDeferred": [
+		{
+			"name": "input-group-tooltip-demo / popover-in-button",
+			"blockedBy": "Trigger data-slot can override button skin when using child snippet; docs avoid that path"
+		},
+		{
+			"name": "input-group-button-group-demo",
+			"blockedBy": "optional composition demo"
+		}
+	],
+	"docPage": "src/content/components/input-group.md",
+	"status": "complete — skin verified, full docs with Examples tabs, package export ./input-group"
+}

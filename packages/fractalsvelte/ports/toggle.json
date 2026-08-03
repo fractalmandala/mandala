@@ -1,0 +1,55 @@
+{
+	"component": "toggle",
+	"wave": 3,
+	"source": "shadcn-registry/lib/registry/ui/toggle",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 12, "skinRules": 6 },
+	"dependencies": {
+		"internal": [],
+		"external": ["bits-ui"]
+	},
+
+	"variantsConverted": {
+		"from": "tv() toggleVariants → cn-toggle / cn-toggle-variant-* / cn-toggle-size-*",
+		"to": "typed props variant/size + data-variant/data-size; skin in toggle.sass",
+		"variant": ["default", "outline"],
+		"size": ["default", "sm", "lg"]
+	},
+
+	"propsInvented": [
+		{
+			"name": "pressedSurface",
+			"why": "Demo (and apps) need transparent pressed fill for icon-colour toggles without class merge.",
+			"replaces": "class=\"data-[state=on]:bg-transparent\""
+		},
+		{
+			"name": "pressedIconTone",
+			"why": "Token-backed icon colour on press (primary/accent/destructive) without one-off fill/stroke classes.",
+			"replaces": "class=\"data-[state=on]:*:[svg]:fill-blue-500 data-[state=on]:*:[svg]:stroke-blue-500\""
+		}
+	],
+
+	"deviations": [
+		{
+			"what": "data-slot + data-variant/data-size instead of cn()/tv() class strings",
+			"why": "Library rule: no cn, customisation via props",
+			"risk": "none"
+		},
+		{
+			"what": "Pressed styles key off both aria-pressed and data-state=on",
+			"why": "bits-ui sets both; oracle only listed aria-pressed",
+			"risk": "low"
+		},
+		{
+			"what": "Focus ring opacity 30% via +focus-ring mixin (oracle skin ring-mix 30%)",
+			"why": "Matches luma toggle, not the default mixin 50%",
+			"risk": "none"
+		}
+	],
+
+	"examplesPorted": ["toggle-demo", "toggle-outline", "toggle-with-text", "toggle-sm", "toggle-lg", "toggle-disabled"],
+	"examplesDeferred": [],
+	"promotedToCentral": [],
+	"docPage": "src/content/components/toggle.md",
+	"status": "ported — skin from oracle, pressedSurface/pressedIconTone for demo colour classes, docs complete"
+}

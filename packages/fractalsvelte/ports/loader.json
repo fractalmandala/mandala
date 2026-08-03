@@ -1,0 +1,42 @@
+{
+	"component": "loader",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/loader",
+	"skin": "data-slot SASS spin + inline SVG bars",
+	"dependencies": {
+		"internal": [],
+		"external": []
+	},
+	"propsInvented": [
+		{
+			"name": "children",
+			"why": "Allow custom spinner; default remains LoaderIcon."
+		}
+	],
+	"deviations": [
+		{
+			"what": "role=status + aria-label=Loading on root",
+			"why": "Accessible live region without requiring consumers to set it every time.",
+			"risk": "low"
+		},
+		{
+			"what": "Unique clipPath id per instance",
+			"why": "Source hard-coded clip0_2393_1490 collides when multiple loaders mount.",
+			"risk": "low"
+		},
+		{
+			"what": "prefers-reduced-motion disables spin",
+			"why": "Accessibility.",
+			"risk": "low"
+		},
+		{
+			"what": "Default color --muted-foreground",
+			"why": "Readable on light/dark without inheriting wrong body color.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["basic", "sizes", "inline / card context"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/loader.md",
+	"status": "comprehensive re-port — a11y, unique ids, full docs"
+}

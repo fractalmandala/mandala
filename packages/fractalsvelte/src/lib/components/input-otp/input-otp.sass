@@ -1,0 +1,84 @@
+// Ported from shadcn-svelte ui/input-otp + style-luma.
+// Oracle: 13 structural utilities, 5 skin rules.
+
+@use '../../styles/mixins' as *
+
+@keyframes caret-blink
+	0%, 70%, 100%
+		opacity: 1
+	20%, 50%
+		opacity: 0
+
+[data-slot='input-otp']
+	display: flex
+	align-items: center
+	gap: 0.5rem
+
+	&:disabled
+		cursor: not-allowed
+
+	&:has(:disabled)
+		opacity: 0.5
+
+[data-slot='input-otp-group']
+	display: flex
+	align-items: center
+	border-radius: var(--radius-3xl)
+
+	&:has(*[aria-invalid='true'])
+		border-color: var(--destructive)
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent)
+
+[data-slot='input-otp-slot']
+	position: relative
+	display: flex
+	align-items: center
+	justify-content: center
+	width: 2.25rem
+	height: 2.25rem
+	border: 1px solid var(--input)
+	background-color: color-mix(in oklab, var(--input) 50%, transparent)
+	font-size: var(--text-sm)
+	transition: all 150ms
+	outline: none
+
+	&:first-child
+		border-top-left-radius: var(--radius-3xl)
+		border-bottom-left-radius: var(--radius-3xl)
+
+	&:last-child
+		border-top-right-radius: var(--radius-3xl)
+		border-bottom-right-radius: var(--radius-3xl)
+
+	&[aria-invalid='true']
+		border-color: var(--destructive)
+
+	&[data-active='true']
+		z-index: 10
+		border-color: var(--ring)
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 30%, transparent)
+
+		&[aria-invalid='true']
+			box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent)
+
+[data-slot='input-otp-caret']
+	pointer-events: none
+	position: absolute
+	inset: 0
+	display: flex
+	align-items: center
+	justify-content: center
+
+[data-slot='input-otp-caret-line']
+	height: 1rem
+	width: 1px
+	background-color: var(--foreground)
+	animation: caret-blink 1.25s ease-out infinite
+
+[data-slot='input-otp-separator']
+	display: flex
+	align-items: center
+
+	svg:not([class*='size-'])
+		width: 1rem
+		height: 1rem

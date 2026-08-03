@@ -1,0 +1,36 @@
+{
+	"component": "checkpoint",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/checkpoint",
+	"skin": "none (Tailwind utilities only)",
+	"dependencies": {
+		"internal": ["button", "separator", "tooltip"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Trigger keeps data-slot=button + data-checkpoint-trigger",
+			"why": "Overriding data-slot stripped button skin; tooltip child props cleaned the same way as MessageAction.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG bookmark default",
+			"why": "No phosphor/lucide dependency.",
+			"risk": "low"
+		},
+		{
+			"what": "Separator marked data-checkpoint-separator for flex-grow rule",
+			"why": "Source relied on flex parent + separator default width; explicit chrome attr for the grow rule.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": [
+		"registry preview (chat restore)",
+		"basic label",
+		"stacked checkpoints",
+		"custom icon"
+	],
+	"docPage": "src/content/components/checkpoint.md",
+	"status": "comprehensive re-port"
+}

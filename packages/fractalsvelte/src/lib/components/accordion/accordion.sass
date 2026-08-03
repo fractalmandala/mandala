@@ -1,0 +1,164 @@
+// Ported from shadcn-svelte ui/accordion + style-luma.
+// Oracle: 23 structural utilities, 6 skin rules.
+//
+// --spacing is 0.25rem → p-4 = 1rem, gap-6 = 1.5rem.
+// --radius-2xl is a Tailwind default (1rem), not derived from --radius.
+
+@use '../../styles/mixins' as *
+
+[data-slot='accordion']
+	display: flex
+	flex-direction: column
+	width: 100%
+	// Skin: overflow-hidden + border + rounded-2xl — clips item backgrounds and open panels.
+	overflow: hidden
+	border: 1px solid var(--border)
+	border-radius: 1rem
+
+	&[data-variant='plain']
+		border-color: transparent
+		border-radius: 0
+
+	&[data-variant='card']
+		background-color: var(--card)
+		color: var(--card-foreground)
+		box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)
+
+		.dark &
+			box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)
+
+	&[data-size='sm']
+		[data-slot='accordion-trigger']
+			gap: 1rem
+			padding: 0.75rem 1rem
+		[data-slot='accordion-content']
+			padding-inline: 1rem
+		[data-slot='accordion-content-inner']
+			padding-bottom: 0.75rem
+
+	// Shared prop mixins last — they must beat base radius on source order.
+	+radius-variants
+	+text-size-variants
+	+text-transform-variants
+
+// ── Item ──────────────────────────────────────────────────────────────────────────────────
+[data-slot='accordion-item']
+	&:not(:last-child)
+		border-bottom: 1px solid var(--border)
+
+	// bits-ui: data-state="open" | "closed" (oracle skin used [data-open]; same intent)
+	&[data-state='open']
+		background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+
+	&[data-inset]
+		padding: 0.25rem
+
+// ── Header / Trigger ──────────────────────────────────────────────────────────────────────
+[data-slot='accordion-header']
+	display: flex
+
+[data-slot='accordion-trigger']
+	position: relative
+	display: flex
+	flex: 1
+	align-items: flex-start
+	justify-content: space-between
+	width: 100%
+	// Skin: gap-6 p-4 text-sm font-medium text-left
+	gap: 1.5rem
+	border: 1px solid transparent
+	padding: 1rem
+	background-color: transparent
+	color: inherit
+	text-align: left
+	font: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	transition-property: all
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	outline-style: none
+	+interactive(pointer)
+	+focus-ring(3px, var(--ring), 50%)
+
+// Chevron pair: closed by default, swap on aria-expanded (source: group-aria-expanded)
+[data-slot='accordion-trigger-icon']
+	display: inline-flex
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	margin-left: auto
+	color: var(--muted-foreground)
+	pointer-events: none
+
+	svg
+		width: 1rem
+		height: 1rem
+
+	// Open chevron hidden until expanded
+	&[data-state='open']
+		display: none
+
+	[aria-expanded='true'] > &
+		&[data-state='closed']
+			display: none
+		&[data-state='open']
+			display: inline-flex
+
+// ── Content ───────────────────────────────────────────────────────────────────────────────
+// CRITICAL: overflow:hidden clips the height animation so panels do not bleed.
+[data-slot='accordion-content']
+	overflow: hidden
+	padding-inline: 1rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+
+	&[data-tone='muted']
+		color: var(--muted-foreground)
+
+	&[data-state='closed']
+		animation: accordion-up 200ms ease-out
+
+	&[data-state='open']
+		animation: accordion-down 200ms ease-out
+
+[data-slot='accordion-content-inner']
+	padding-top: 0
+	padding-bottom: 1rem
+
+	// Nested anchors: colour only — no underlines (site policy).
+	a
+		text-decoration: none
+
+		&:hover
+			@media (hover: hover)
+				color: var(--foreground)
+				text-decoration: none
+
+	// Source: [&_p:not(:last-child)]:mb-4
+	p:not(:last-child)
+		margin-bottom: 1rem
+
+// Text-size override on root should cascade into trigger + content (beats local text-sm).
+[data-slot='accordion'][data-text-size]
+	[data-slot='accordion-trigger'],
+	[data-slot='accordion-content']
+		font-size: inherit
+		line-height: inherit
+
+@keyframes accordion-down
+	from
+		height: 0
+	to
+		height: var(--bits-accordion-content-height)
+
+@keyframes accordion-up
+	from
+		height: var(--bits-accordion-content-height)
+	to
+		height: 0
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='accordion-content']
+		animation-duration: 1ms

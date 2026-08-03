@@ -1,0 +1,82 @@
+.prototype-overlay
+	position: fixed
+	z-index: var(--prototype-z-dialog)
+	inset: 0
+	display: grid
+	place-items: center
+	padding: var(--space-4)
+	background: rgb(17 28 20 / .36)
+
+.prototype-ask-pane
+	display: grid
+	grid-template-rows: auto minmax(260px, 1fr) auto
+	min-height: 0
+	overflow: hidden
+	background: var(--prototype-bg)
+	> header, .ask-composer
+		padding: var(--space-3) calc(var(--space-3) + var(--space-2))
+	> header
+		display: flex
+		justify-content: space-between
+		border-bottom: 1px solid var(--prototype-line)
+		h2
+			margin: var(--space-3) 0 var(--space-1)
+			font-size: var(--text-xl)
+			letter-spacing: -.03em
+		p
+			margin: 0
+			color: var(--prototype-muted)
+	.ask-badge
+		display: inline-flex
+		align-items: center
+		gap: var(--space-2)
+		color: var(--prototype-primary)
+		font-size: var(--text-sm)
+		font-weight: 700
+
+.ask-thread
+	display: grid
+	align-content: start
+	gap: var(--space-3)
+	padding: calc(var(--space-3) + var(--space-2))
+	overflow: auto
+
+.ask-message
+	max-width: 84%
+	padding: var(--space-3)
+	border: 1px solid var(--prototype-line)
+	border-radius: var(--radius-md) var(--radius-md) var(--radius-md) var(--radius-xs)
+	background: var(--prototype-raised)
+	color: var(--prototype-ink)
+	line-height: 1.55
+	p
+		margin: 0 0 var(--space-2)
+	a
+		font-size: var(--text-sm)
+		font-weight: 650
+	&--user
+		justify-self: end
+		border-color: color-mix(in srgb, var(--prototype-primary) 26%, var(--prototype-line))
+		border-radius: var(--radius-md) var(--radius-md) var(--radius-xs) var(--radius-md)
+		background: var(--prototype-selection)
+	&[data-presence-wait-hidden]
+		display: block !important
+		visibility: visible !important
+
+.ask-composer
+	border-top: 1px solid var(--prototype-line)
+	textarea
+		width: 100%
+		min-height: 80px
+		padding: 0
+		resize: none
+		border: 0
+		outline: 0
+		background: transparent
+		color: var(--prototype-ink)
+		line-height: 1.5
+	> div
+		display: flex
+		justify-content: space-between
+		gap: var(--space-2)
+		margin-top: var(--space-2)

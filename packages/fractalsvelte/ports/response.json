@@ -1,0 +1,32 @@
+{
+	"component": "response",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/response",
+	"skin": "data-slot SASS prose baseline + Streamdown/Shiki",
+	"dependencies": {
+		"internal": [],
+		"external": ["streamdown-svelte", "mode-watcher", "@shikijs/themes"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "No cn()/class merge — skin via data-slot=ai-response",
+			"why": "Library policy: no Tailwind, no class-string merging.",
+			"risk": "low"
+		},
+		{
+			"what": "Light prose defaults for p/h*/lists/code/pre/table/blockquote/a",
+			"why": "Streamdown alone is sparse without skin; matches MessageResponse readability.",
+			"risk": "medium — may interact with streamdown baseTheme styles"
+		},
+		{
+			"what": "Shiki theme follows mode-watcher light/dark",
+			"why": "Source does the same; kept for parity.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["static markdown", "token stream", "tables"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/response.md",
+	"status": "comprehensive re-port — prose skin, streaming demo, theming"
+}

@@ -1,0 +1,95 @@
+// Ported from shadcn-svelte ui/checkbox + style-luma.
+// Oracle: 12 structural utilities, 2 skin rules.
+//
+// Tailwind's --spacing is 0.25rem, so 4 units is 1rem and 3.5 units is 0.875rem.
+
+@use '../../styles/mixins' as *
+
+[data-slot='checkbox']
+	position: relative
+	display: flex
+	align-items: center
+	justify-content: center
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	border: 1px solid transparent
+	border-radius: 5px
+	background-color: color-mix(in oklab, var(--input) 90%, transparent)
+	color: currentcolor
+	transition-property: box-shadow
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+	+interactive(pointer)
+	+focus-ring(3px, var(--ring), 30%)
+
+	&::after
+		content: ''
+		position: absolute
+		inset-inline: -0.75rem
+		inset-block: -0.5rem
+
+	&[aria-invalid='true']
+		border-color: var(--destructive)
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent)
+
+		.dark &
+			border-color: color-mix(in oklab, var(--destructive) 50%, transparent)
+			box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent)
+
+	&[data-checked],
+	&[data-state='checked'],
+	&[aria-checked='true'],
+	&[data-indeterminate],
+	&[data-state='indeterminate'],
+	&[aria-checked='mixed']
+		border-color: var(--primary)
+		background-color: var(--primary)
+		color: var(--primary-foreground)
+
+	&[aria-invalid='true'][data-checked],
+	&[aria-invalid='true'][data-state='checked'],
+	&[aria-invalid='true'][aria-checked='true']
+		border-color: var(--primary)
+
+	&[data-tone='accent']
+		&[data-checked],
+		&[data-state='checked'],
+		&[aria-checked='true'],
+		&[data-indeterminate],
+		&[data-state='indeterminate'],
+		&[aria-checked='mixed']
+			border-color: var(--accent)
+			background-color: var(--accent)
+			color: var(--accent-foreground)
+
+	&[data-size='sm']
+		width: 0.875rem
+		height: 0.875rem
+
+		[data-slot='checkbox-indicator'] > svg
+			width: 0.75rem
+			height: 0.75rem
+
+	&[data-size='lg']
+		width: 1.25rem
+		height: 1.25rem
+
+		[data-slot='checkbox-indicator'] > svg
+			width: 1rem
+			height: 1rem
+
+	+radius-variants
+
+[data-slot='checkbox-indicator']
+	display: grid
+	place-content: center
+	color: currentcolor
+	transition-property: none
+	pointer-events: none
+
+	> svg
+		width: 0.875rem
+		height: 0.875rem
+		flex-shrink: 0
+		pointer-events: none

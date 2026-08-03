@@ -1,0 +1,52 @@
+{
+	"component": "queue",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/queue",
+	"skin": "none (Tailwind utilities only)",
+	"dependencies": {
+		"internal": ["button", "collapsible", "scroll-area"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [
+		{
+			"name": "data-slot=queue-item-row (styling hook, not a component)",
+			"why": "Source demos use flex utility classes on a plain div; no class merge in this library.",
+			"replaces": "class=\"flex items-center gap-2\""
+		}
+	],
+	"deviations": [
+		{
+			"what": "ItemAction keeps data-slot=button + data-queue-item-action",
+			"why": "Overriding data-slot stripped button skin; chrome densifies via data attr.",
+			"risk": "low"
+		},
+		{
+			"what": "SectionTrigger sets data-slot=queue-section-trigger (no nested button)",
+			"why": "Source nested button inside CollapsibleTrigger; single trigger avoids invalid HTML and matches CoT pattern.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG paperclip / chevron defaults",
+			"why": "No phosphor/lucide dependency in component code.",
+			"risk": "low"
+		},
+		{
+			"what": "ItemIndicator is completed?: boolean (not status enum)",
+			"why": "Match source API; earlier port invented status=completed|in_progress|pending.",
+			"risk": "low"
+		},
+		{
+			"what": "QueueTodo uses title + status pending|completed",
+			"why": "Align types.ts with registry source.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": [
+		"registry preview (messages + todos + attachments + actions)",
+		"todos completed states",
+		"collapsed section",
+		"attachments only"
+	],
+	"docPage": "src/content/components/queue.md",
+	"status": "comprehensive re-port"
+}

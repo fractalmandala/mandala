@@ -1,0 +1,120 @@
+// Ported from ai-elements/web-preview. Single-tab indented SASS.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='web-preview']
+	display: flex
+	width: 100%
+	min-height: 20rem
+	flex-direction: column
+	+radius('lg')
+	border: 1px solid var(--border)
+	background-color: var(--card)
+	overflow: hidden
+
+[data-slot='web-preview-navigation']
+	display: flex
+	align-items: center
+	gap: 0.25rem
+	border-bottom: 1px solid var(--border)
+	padding: 0.5rem
+	background-color: color-mix(in oklab, var(--muted) 40%, transparent)
+
+[data-slot='button'][data-web-preview-nav-button]
+	width: 2rem
+	height: 2rem
+	padding: 0
+	flex-shrink: 0
+	color: var(--muted-foreground)
+
+	&:hover
+		@media (hover: hover)
+			color: var(--foreground)
+
+[data-slot='web-preview-url']
+	display: flex
+	flex: 1
+	min-width: 0
+	height: 2rem
+	+radius('md')
+	border: 1px solid var(--input)
+	background-color: var(--background)
+	padding: 0.5rem 0.75rem
+	font-size: var(--text-sm)
+	color: var(--foreground)
+
+	&::placeholder
+		color: var(--muted-foreground)
+
+	&:focus-visible
+		outline: none
+		box-shadow: 0 0 0 2px var(--ring)
+
+	&:disabled
+		cursor: not-allowed
+		opacity: 0.5
+
+[data-slot='web-preview-body']
+	flex: 1
+	min-height: 0
+	position: relative
+
+[data-slot='web-preview-iframe']
+	width: 100%
+	height: 100%
+	min-height: 16rem
+	border: 0
+	background: var(--background)
+
+[data-slot='web-preview-console']
+	border-top: 1px solid var(--border)
+	background-color: color-mix(in oklab, var(--muted) 50%, transparent)
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace
+	font-size: var(--text-sm)
+
+[data-slot='button'][data-web-preview-console-trigger]
+	display: flex
+	width: 100%
+	align-items: center
+	justify-content: space-between
+	padding: 0.75rem 1rem
+	text-align: left
+	font-weight: 500
+	border-radius: 0
+	height: auto
+
+[data-slot='web-preview-console-chevron']
+	transition: transform 200ms ease
+	flex-shrink: 0
+
+	&[data-open='true']
+		transform: rotate(180deg)
+
+[data-slot='web-preview-console-logs']
+	max-height: 12rem
+	overflow-y: auto
+	padding: 0 1rem 1rem
+
+	& > * + *
+		margin-top: 0.25rem
+
+[data-slot='console-empty']
+	color: var(--muted-foreground)
+	margin: 0
+
+[data-slot='console-log-entry']
+	font-size: var(--text-xs)
+	line-height: 1.5
+
+	&[data-level='error']
+		color: var(--destructive)
+
+	&[data-level='warn']
+		color: oklch(0.65 0.15 85)
+
+	&[data-level='log']
+		color: var(--foreground)
+
+[data-slot='console-log-time']
+	color: var(--muted-foreground)
+	margin-right: 0.5rem

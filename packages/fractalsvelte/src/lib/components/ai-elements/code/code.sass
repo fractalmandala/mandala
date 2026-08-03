@@ -1,0 +1,95 @@
+// AI Code element — shell + overflow/copy. Dual-theme token CSS is global (highlight/shiki.sass).
+
+@use '../../../styles/mixins' as *
+
+[data-slot='code']
+	position: relative
+	height: 100%
+	overflow: auto
+	border: 1px solid var(--border)
+	+radius('lg')
+	background-color: var(--card)
+
+	&[data-variant='secondary']
+		background-color: color-mix(in oklab, var(--secondary) 50%, transparent)
+		border-color: transparent
+
+[data-slot='code-wrapper']
+	:global(pre.shiki)
+		overflow-x: auto
+		+radius('lg')
+		background-color: inherit
+		padding: 1rem 0
+		font-size: var(--text-sm)
+		margin: 0
+
+	:global(pre.shiki code)
+		display: grid
+		min-width: 100%
+		border: 0
+		background: transparent
+		padding: 0
+		overflow-wrap: break-word
+		counter-reset: line
+		box-decoration-break: clone
+
+	:global(pre.line-numbers)
+		counter-reset: step
+		counter-increment: step 0
+
+	:global(pre.line-numbers .line::before)
+		content: counter(step)
+		counter-increment: step
+		display: inline-block
+		width: 1.8rem
+		margin-right: 1.4rem
+		text-align: right
+		color: var(--muted-foreground)
+
+	:global(pre .line.line--highlighted)
+		background-color: var(--secondary)
+
+	:global(pre .line)
+		display: inline-block
+		min-height: 1rem
+		width: 100%
+		padding: 0.125rem 1rem
+
+	:global(pre.line-numbers .line)
+		padding-inline: 0.5rem
+
+// code-overflow
+[data-slot='code-overflow']
+	position: relative
+	overflow-y: hidden
+
+	&[data-collapsed='true']
+		max-height: 300px
+
+[data-slot='code-overflow-fade']
+	position: absolute
+	bottom: 0
+	left: 0
+	z-index: 10
+	height: 100%
+	width: 100%
+	pointer-events: none
+	background: linear-gradient(to top, var(--background), transparent)
+
+[data-slot='button'][data-code-overflow-toggle]
+	position: absolute
+	left: 50%
+	transform: translateX(-50%)
+	z-index: 20
+	width: fit-content
+	bottom: 0.5rem
+
+	&[data-collapsed='false']
+		bottom: 1.5rem
+
+// code-copy-button — anchored to the code container's top-right
+[data-slot='button'][data-code-copy]
+	position: absolute
+	top: 0.5rem
+	right: 0.5rem
+	z-index: 20

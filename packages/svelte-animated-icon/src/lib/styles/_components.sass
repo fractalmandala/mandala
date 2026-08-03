@@ -1,0 +1,273 @@
+.dark .animated-icon
+	color: inherit
+
+.light .animated-icon
+	color: inherit
+
+.tabs-row
+	display: flex
+	flex-direction: row
+	flex-wrap: wrap
+	background: var(--state10)
+	gap: 1px
+	border: 1px solid var(--state10)
+	border-radius: 5px
+	overflow: hidden
+	width: max-content
+	.tab-item
+		background: var(--background10)
+		padding: 6px 16px
+		text-decoration: none
+		color: var(--text10)
+		min-width: 88px
+		text-align: center
+		font-size: var(--text-md)
+		&:hover
+			background: var(--background50)
+
+.toggling-button
+	background: none
+	border: 1px solid var(--border10)
+	cursor: pointer
+	&.active
+		background: var(--background50)
+
+.sidebar-accordion
+	display: flex
+	flex-direction: column
+	gap: 4px
+
+.pagination
+	border-top: 1px solid var(--border10)
+	padding-top: var(--size32)
+
+.pagination-card
+	border: 1px solid var(--border10)
+	padding: var(--size16)
+	min-width: 200px
+	&:hover
+		background: var(--background20)
+
+.breadcrumbs
+	margin-bottom: var(--size16)
+
+.icon-cell
+	background: none
+	border: none
+	min-width: 128px
+	height: 80px
+	display: flex
+	flex-direction: column
+	align-items: center
+	justify-content: center
+	cursor: pointer
+	color: inherit
+	text-decoration: none
+
+.control-search
+	border: 1px solid var(--border20)
+	border-radius: 2px
+	padding: 8px 12px
+	font-family: var(--font20)
+	color: var(--text10)
+	font-size: var(--text-bs)
+
+.sliders-box
+	input
+		-webkit-appearance: none
+		appearance: none
+		background: transparent
+		cursor: pointer
+		&::-webkit-slider-runnable-track
+			background: var(--border20)
+			height: 6px
+			border-radius: 3px
+		&::-webkit-slider-thumb
+			-webkit-appearance: none
+			appearance: none
+			margin-top: -5px
+			background-color: var(--text100)
+			border-radius: 50%
+			height: 16px
+			width: 16px
+			&:hover
+				transform: scale(1.125)
+
+.checkboxes-box
+	input[type="checkbox"]
+		-webkit-appearance: none
+		appearance: none
+		background-color: transparent
+		margin: 0
+		font: inherit
+		color: var(--text100)
+		width: 16px
+		height: 16px
+		border: 2px solid var(--border20)
+		border-radius: 2px
+		display: grid
+		place-content: center
+		cursor: pointer
+		transition: border-color 0.15s ease, background-color 0.15s ease
+		&::before
+			content: ""
+			width: 10px
+			height: 10px
+			transform: scale(0)
+			transition: transform 0.1s ease-in-out
+			background-color: var(--text100)
+			clip-path: polygon(14% 44%, 0 58%, 38% 96%, 100% 16%, 84% 4%, 38% 70%)
+		&:hover
+			border-color: var(--text100)
+		&:checked
+			border-color: var(--text100)
+			&::before
+				transform: scale(1)
+		&:focus-visible
+			outline: 2px solid var(--text100)
+			outline-offset: 2px
+
+.usage-bar
+	gap: 0
+	border: 1px solid transparent
+	border-radius: 4px
+	&.active
+		border: 1px solid var(--border20)
+	.row
+		border-bottom: 1px solid var(--border20)
+		padding: 4px
+		background: var(--state10)
+	pre
+		box-sizing: border-box
+		white-space: pre-wrap
+		overflow-wrap: break-word
+		overflow: hidden
+		padding: 8px 16px
+		code
+			font-size: var(--text-sm)
+
+.slider
+	input::-webkit-slider-track, input::-moz-range-thumb
+		background: var(--text100)
+
+.nav-link
+	position: relative
+	color: var(--text10)
+	font-family: var(--font20)
+	&::after
+		position: absolute
+		bottom: 0
+		right: 0
+		height: 2px
+		width: 0
+		background: var(--text100)
+		content: ''
+		transition: all 190ms ease
+	&:hover
+		&::after
+			width: 100%
+			left: 0
+	&.col-theme
+		color: var(--text100)
+	@media (max-width: 1024px)
+		display: none
+
+.theme-toggler
+	@media (max-width: 1024px)
+		display: none
+
+.mobile-menu
+	@media (min-width: 1025px)
+		display: none
+
+.standard-btn
+	background: var(--text100)
+	border: 1px solid transparent
+	color: var(--colfff)
+	padding: 8px 16px
+	border-radius: 4px
+	cursor: pointer
+	transform-origin: center center
+	transition: all 90ms ease-out
+	&:hover
+		transform: scale(0.96)
+	&.small
+		padding: 4px 8px
+		border-radius: 3px
+		text-transform: uppercase
+		font-family: var(--font20)
+		font-weight: 650
+		letter-spacing: 0.03rem
+		background: var(--background10)
+		border: 1px solid var(--text20)
+		color: var(--text20)
+		&.active
+			background: var(--text100)
+			color: var(--colfff)
+
+select.styled-select
+	appearance: base-select
+	border: 1px solid var(--border30)
+	background: var(--background20)
+	font-size: var(--text-md)
+	font-family: var(--font20)
+	padding: 8px 12px
+	color: var(--text10)
+	cursor: pointer
+	&:hover
+		border: 1px solid var(--border20)
+	button
+		outline: none
+		border: 1px solid transparent
+
+.border-box
+	border: 1px solid var(--border30)
+	padding: 24px
+	border-radius: 4px
+	background: var(--background20)
+
+.graph-box
+	justify-content: flex-start
+
+.bezier-editor-inputs
+	display: flex
+	gap: 8px
+    
+.bezier-editor-num
+	display: flex
+	align-items: center
+	gap: 6px
+	font-size: 12px
+	font-weight: 500
+	color: var(--text100)
+	cursor: pointer
+	input[type="number"]
+		-webkit-appearance: none
+		-moz-appearance: textfield /* Hides arrows in Firefox */
+		appearance: none
+		background: transparent
+		color: var(--text100)
+		border: 1px solid var(--border20)
+		border-radius: 4px
+		padding: 4px 6px
+		width: 48px /* Compact size perfect for 0.00 to 1.00 values */
+		font-family: inherit
+		font-size: 13px
+		text-align: center
+		transition: border-color 0.15s ease, background-color 0.15s ease
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button
+			-webkit-appearance: none
+			margin: 0
+		&:hover
+			border-color: var(--text100)
+		&:focus
+			outline: none
+			border-color: var(--text100)
+			background-color: rgba(255, 255, 255, 0.03) // Subtle hint of active state
+
+.page-header
+	@media (min-width: 1025px)
+		padding-bottom: 32px
+		padding-left: 64px
+		border-bottom: 1px solid var(--border10)

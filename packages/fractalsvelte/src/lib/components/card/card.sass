@@ -1,0 +1,100 @@
+// Ported from shadcn-svelte ui/card + style-luma.
+// Oracle: 14 structural utilities, 6 skin rules.
+//
+// --radius-4xl is a Tailwind default (2rem), not derived from --radius.
+// --spacing is 0.25rem, so 6 units is 1.5rem and 1.5 units is 0.375rem.
+
+[data-slot='card']
+	// --card-spacing is a public custom property: header, content and footer all read it,
+	// and consumers use it to bleed content to the card edge with
+	// `margin-inline: calc(var(--card-spacing) * -1)`. Do not inline its value.
+	--card-spacing: 1.5rem
+
+	display: flex
+	flex-direction: column
+	gap: var(--card-spacing)
+	overflow: hidden
+	padding-block: var(--card-spacing)
+	border-radius: 2rem
+	background-color: var(--card)
+	color: var(--card-foreground)
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	// Oracle emits this as --tw-shadow plus a 1px --tw-ring-shadow. Resolved into one
+	// box-shadow: the hairline ring first, then the drop shadow.
+	box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)
+
+	.dark &
+		box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)
+
+	&[data-size='sm']
+		--card-spacing: 1rem
+
+	// An image flush to the top edge removes the card's own top padding.
+	&:has(> img:first-child)
+		padding-top: 0
+
+	> img:first-child
+		border-top-left-radius: 2rem
+		border-top-right-radius: 2rem
+
+	> img:last-child
+		border-bottom-left-radius: 2rem
+		border-bottom-right-radius: 2rem
+
+[data-slot='card-header']
+	display: grid
+	grid-auto-rows: min-content
+	align-items: start
+	gap: 0.375rem
+	padding-inline: var(--card-spacing)
+	border-top-left-radius: 2rem
+	border-top-right-radius: 2rem
+	// Lets consumers write container queries against the header width.
+	container-type: inline-size
+	container-name: card-header
+
+	// The header becomes two columns only when an action is present, and two rows only
+	// when there is a description. Ported from has-data-[slot=…] variants.
+	&:has([data-slot='card-action'])
+		grid-template-columns: 1fr auto
+
+	&:has([data-slot='card-description'])
+		grid-template-rows: auto auto
+
+	// Upstream keys this off a `border-b` class the consumer passes. With no class API it
+	// is the `bordered` prop.
+	&[data-bordered]
+		padding-bottom: var(--card-spacing)
+		border-bottom: 1px solid var(--border)
+
+[data-slot='card-title']
+	font-size: var(--text-base)
+	line-height: var(--text-base--line-height)
+	font-weight: 500
+
+[data-slot='card-description']
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	color: var(--muted-foreground)
+
+[data-slot='card-content']
+	padding-inline: var(--card-spacing)
+
+[data-slot='card-footer']
+	display: flex
+	align-items: center
+	padding-inline: var(--card-spacing)
+	border-bottom-left-radius: 2rem
+	border-bottom-right-radius: 2rem
+
+	&[data-bordered]
+		padding-top: var(--card-spacing)
+		border-top: 1px solid var(--border)
+
+[data-slot='card-action']
+	grid-column-start: 2
+	grid-row: span 2 / span 2
+	grid-row-start: 1
+	align-self: start
+	justify-self: end

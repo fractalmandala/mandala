@@ -1,0 +1,72 @@
+body, html
+	box-sizing: border-box
+	font-family: 'Google Sans', sans-serif
+	padding: 0
+	margin: 0
+	color: var(--text10)
+
+:root
+	box-sizing: border-box
+*
+	box-sizing: border-box
+
+.bdr
+	border: 1px solid red
+
+a, button, pre, span
+	font-family: 'Google Sans', sans-serif
+
+button
+	color: var(--text10)
+
+button.blank
+	background: none
+	border: none
+	cursor: pointer
+	padding: 0
+
+button.icon-btn
+	background: none
+	border: none
+	padding: 0
+	display: flex
+	align-items: center
+
+footer, header
+	a
+		color: var(--text100)
+		text-decoration: none
+
+p, h6, h5, h4, h3, h2, h1, li
+	margin: 0
+	color: var(--text10)
+
+#motif
+	object-fit: contain
+	height: 32px
+	transform-origin: center center
+	animation: rotationing 8s linear infinite
+
+@keyframes rotationing
+	0%
+		transform: rotate(0deg)
+	100%
+		transform: rotate(360deg)
+
+#logotype
+	object-fit: contain
+	height: 16px
+
+.site-name
+	text-decoration: none
+	color: inherit
+
+.site-name-text
+	text-transform: uppercase
+	font-family: var(--font20)
+	font-weight: 700
+	color: var(--text10)
+	letter-spacing: 0.03rem
+	font-size: var(--text-bs)
+	@media (min-width: 1025px)
+		font-size: var(--text-bs)

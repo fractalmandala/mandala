@@ -1,0 +1,37 @@
+{
+	"component": "copy-button",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/copy-button",
+	"skin": "Button chrome via data-copy-button + inline SVG status icons",
+	"dependencies": {
+		"internal": ["button"],
+		"external": []
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Keep data-slot=button; chrome via data-copy-button + data-status",
+			"why": "Overriding data-slot strips button skin.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG instead of @lucide check/copy/x",
+			"why": "Library icon policy — no phosphor/lucide.",
+			"risk": "low"
+		},
+		{
+			"what": "effectiveSize via $derived instead of mutating size",
+			"why": "Source mutated size when children present; runes-safe derived is correct.",
+			"risk": "low"
+		},
+		{
+			"what": "Uses shared UseClipboard hook under src/lib/hooks",
+			"why": "Vendored for copy-paste; same behaviour as source.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["icon only", "with label", "custom icon + onCopy"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/copy-button.md",
+	"status": "comprehensive re-port — button slot preserved, inline icons, full docs"
+}

@@ -1,0 +1,53 @@
+{
+	"component": "plan",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/plan",
+	"skin": "none (Tailwind utilities + card shell)",
+	"dependencies": {
+		"internal": ["card", "collapsible", "button"],
+		"ai-elements": ["shimmer"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [
+		{
+			"name": "data-slot=plan-body (styling hook)",
+			"why": "Source demos use space-y / list utility classes; optional layout hook for outline prose.",
+			"replaces": "class=\"space-y-4 text-sm\""
+		}
+	],
+	"deviations": [
+		{
+			"what": "isStreaming context uses a reactive getter",
+			"why": "Source froze isStreaming with untrack; demos need streaming toggle to re-shimmer.",
+			"risk": "low"
+		},
+		{
+			"what": "PlanTrigger uses CollapsibleTrigger child snippet → Button",
+			"why": "Avoid nested buttons; keep data-slot=button + data-plan-trigger.",
+			"risk": "low"
+		},
+		{
+			"what": "Card parts keep card-* data-slots + data-plan-* chrome",
+			"why": "Overriding data-slot would strip card.sass.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG chevrons-up-down default",
+			"why": "No phosphor/lucide dependency.",
+			"risk": "low"
+		},
+		{
+			"what": "Uses existing Shimmer as-is (contentLength prop)",
+			"why": "Another agent owns shimmer; Plan demos work with current API.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": [
+		"registry preview (collapsed plan + footer action)",
+		"open plan",
+		"streaming shimmer toggle",
+		"controlled open"
+	],
+	"docPage": "src/content/components/plan.md",
+	"status": "comprehensive re-port"
+}

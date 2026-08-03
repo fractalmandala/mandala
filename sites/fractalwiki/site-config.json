@@ -1,0 +1,78 @@
+{
+	"site": {
+		"title": "Fractalwiki",
+		"subtitle": "Multi-Bank Digital Garden & Documentation",
+		"description": "Structured documentation and research vault across civilization, history, philosophy, and code.",
+		"vaultRootPath": "/Users/amrit/100cabinet/10wiki",
+		"defaultTheme": "light",
+		"githubUrl": ""
+	},
+	"features": {
+		"enableSearch": true,
+		"enableTableOfContents": true,
+		"enableFrontmatterInspector": true,
+		"enableWikiLinks": true,
+		"showTimestamp": true,
+		"showSources": true
+	},
+	"groups": [
+		{
+			"id": "fractal-wiki/wiki",
+			"title": "AI Built Wiki",
+			"icon": "feather",
+			"description": "Wiki Second Brain from AI Usage",
+			"order": 1,
+			"sections": [
+				{
+					"id": "sources",
+					"title": "Sources",
+					"icon": "edit-3",
+					"description": "Wiki Sources",
+					"sourcePath": "fractal-wiki/wiki/sources",
+					"indexFile": "fractal-wiki/wiki/INDEX.md",
+					"showInSidebar": true,
+					"order": 1
+				},
+				{
+					"id": "concepts",
+					"title": "Concepts",
+					"icon": "edit-3",
+					"description": "Wiki Concepts",
+					"sourcePath": "fractal-wiki/wiki/concepts",
+					"indexFile": "fractal-wiki/wiki/INDEX.md",
+					"showInSidebar": true,
+					"order": 2
+				}
+			]
+		},
+		{
+			"id": "tech-engineering",
+			"title": "Dev and Design",
+			"icon": "code",
+			"description": "Web frameworks, SvelteKit, and UI motion design",
+			"order": 2,
+			"sections": [
+				{
+					"id": "sveltekit",
+					"title": "SvelteKit",
+					"icon": "code",
+					"description": "SvelteKit architecture, components, and notes",
+					"sourcePath": "wiki/10-sveltekit",
+					"indexFile": "INDEX.md",
+					"showInSidebar": true,
+					"order": 1
+				},
+				{
+					"id": "svelte-motion",
+					"title": "Svelte Motion",
+					"icon": "sparkles",
+					"description": "Animations, motion design, and UI interactions",
+					"sourcePath": "wiki/12-svelte-motion",
+					"indexFile": "INDEX.md",
+					"showInSidebar": true,
+					"order": 2
+				}
+			]
+		}
+	]
+}

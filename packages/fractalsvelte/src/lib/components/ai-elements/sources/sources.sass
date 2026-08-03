@@ -1,0 +1,120 @@
+// Ported from ai-elements/sources (Tailwind utilities → data-slot SASS).
+
+@use '../../../styles/mixins' as *
+
+[data-slot='sources']
+	margin-bottom: 1rem
+	color: var(--primary)
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+
+// Quiet text trigger (not bordered collapsible-trigger chrome)
+[data-slot='sources-trigger']
+	display: flex
+	align-items: center
+	gap: 0.5rem
+	min-height: unset
+	padding: 0
+	border: none
+	border-radius: 0
+	background-color: transparent
+	color: inherit
+	font: inherit
+	font-size: inherit
+	line-height: inherit
+	cursor: pointer
+	+focus-ring(3px, var(--ring), 30%)
+
+	&:hover
+		@media (hover: hover)
+			background-color: transparent
+			opacity: 0.85
+
+	&[data-state='open'],
+	&[data-open],
+	&[aria-expanded='true']
+		[data-slot='sources-chevron']
+			transform: rotate(180deg)
+
+[data-slot='sources-trigger-title']
+	margin: 0
+	font-weight: 500
+
+[data-slot='sources-chevron']
+	display: inline-flex
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+	transition: transform 200ms ease
+
+	svg
+		width: 1rem
+		height: 1rem
+
+// Collapsible body
+[data-slot='sources-content']
+	overflow: hidden
+	margin-top: 0.75rem
+	display: flex
+	width: fit-content
+	flex-direction: column
+	gap: 0.5rem
+	outline: none
+
+	&[data-state='open'],
+	&[data-open]
+		animation: sources-content-down 200ms ease-out
+
+	&[data-state='closed'],
+	&[data-closed]
+		animation: sources-content-up 200ms ease-out
+
+[data-slot='source']
+	display: flex
+	align-items: center
+	gap: 0.5rem
+	color: inherit
+	text-decoration: none
+
+	&:hover
+		@media (hover: hover)
+			text-decoration: none
+			color: var(--foreground)
+
+[data-slot='source-icon']
+	display: inline-flex
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+
+	svg
+		width: 1rem
+		height: 1rem
+
+[data-slot='source-title']
+	display: block
+	font-weight: 500
+
+@keyframes sources-content-down
+	from
+		height: 0
+		opacity: 0
+	to
+		height: var(--bits-collapsible-content-height, auto)
+		opacity: 1
+
+@keyframes sources-content-up
+	from
+		height: var(--bits-collapsible-content-height, auto)
+		opacity: 1
+	to
+		height: 0
+		opacity: 0
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='sources-content']
+		animation-duration: 1ms

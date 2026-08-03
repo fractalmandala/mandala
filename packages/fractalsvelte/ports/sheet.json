@@ -1,0 +1,25 @@
+{
+	"component": "sheet",
+	"wave": 5,
+	"source": "shadcn-registry/lib/registry/ui/sheet",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 19, "skinRules": 7 },
+	"dependencies": {
+		"internal": [],
+		"external": ["bits-ui"]
+	},
+	"deviations": [
+		{
+			"what": "Close is native SheetPrimitive.Close with full control skin (like dialog-close), not Button asChild",
+			"why": "Button + data-slot=sheet-close overrode button skin leaving an unstyled positioned box",
+			"risk": "low"
+		},
+		{
+			"what": "Side slide enter/exit animations added via data-state",
+			"why": "Source used tw-animate slide-in utilities; port only had a generic transform transition",
+			"risk": "low"
+		}
+	],
+	"docPage": "src/content/components/sheet.md",
+	"status": "close skin + slide animations restored"
+}

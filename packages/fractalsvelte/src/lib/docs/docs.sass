@@ -1,0 +1,360 @@
+.app-header
+	position: sticky
+	top: 0
+	z-index: 40
+	height: var(--doc-header-h, 64px)
+	background-color: color-mix(in oklab, var(--background) 85%, transparent)
+	backdrop-filter: blur(8px)
+	padding-left: var(--site-cushion)
+	padding-right: var(--site-cushion)
+
+// ── Docs search (header icon + command palette) ──────────────────────────────
+.doc-search-icon
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	width: 2rem
+	height: 2rem
+	padding: 0
+	border: none
+	border-radius: var(--doc-r)
+	background: transparent
+	color: var(--muted-foreground)
+	cursor: pointer
+	flex-shrink: 0
+	transition: background-color 150ms, color 150ms
+
+	svg
+		display: block
+
+	&:hover
+		background-color: var(--muted)
+		color: var(--foreground)
+
+	&:focus-visible
+		outline: none
+		box-shadow: 0 0 0 2px var(--background), 0 0 0 4px color-mix(in oklab, var(--ring) 50%, transparent)
+
+// Command items are flex; ensure title/meta sit on one row.
+[data-slot='command-item']
+	.doc-search-item-title
+		flex: 1 1 auto
+		min-width: 0
+		overflow: hidden
+		text-overflow: ellipsis
+		white-space: nowrap
+
+	.doc-search-item-meta
+		flex-shrink: 0
+		margin-left: auto
+		padding-left: 0.75rem
+		font-size: var(--text-xs)
+		color: var(--muted-foreground)
+
+.doc-nav-toggle
+	display: none
+	width: 2rem
+	height: 2rem
+	align-items: center
+	justify-content: center
+	border-radius: var(--doc-r)
+	cursor: pointer
+	color: var(--muted-foreground)
+	margin-right: 0.25rem
+	svg
+		width: 1.125rem
+		height: 1.125rem
+	&:hover
+		background-color: var(--muted)
+		color: var(--foreground)
+
+.app-shell
+	--doc-r: 3px
+	--doc-r-lg: 6px
+	// Keep header + sticky asides in sync (was 3.25rem / 56px mismatch)
+	--doc-header-h: 64px
+	--doc-aside-w: 15rem
+	--doc-toc-w: 13rem
+	min-height: 100vh
+	background-color: var(--background)
+	color: var(--foreground)
+
+
+.doc-nav-bar
+	background-color: var(--muted)
+	overflow: hidden
+	span
+		display: block
+		height: 100%
+
+.doc-nav-group
+	ul
+		list-style: none
+		padding: 0
+		margin: 0
+
+.doc-nav-heading
+	text-transform: uppercase
+
+.doc-nav-link
+	display: block
+	&:hover
+		color: var(--foreground)
+		background-color: var(--muted)
+	&[data-active='true']
+		color: var(--foreground)
+		background-color: var(--muted)
+	&[data-status='planned']
+		opacity: 0.5
+
+// ── On this page ─────────────────────────────────────────────────────────────
+.doc-toc
+	font-size: 0.75rem
+	ul
+		list-style: none
+		padding: 0
+		margin: 0
+		border-left: 1px solid var(--border)
+
+.doc-toc-heading
+	font-size: 0.6875rem
+	text-transform: uppercase
+	letter-spacing: 0.06em
+	color: var(--muted-foreground)
+	margin-bottom: 0.5rem
+
+.doc-toc-link
+	display: block
+	padding: 0.25rem 0.75rem
+	margin-left: -1px
+	border-left: 1px solid transparent
+	color: var(--muted-foreground)
+	&[data-level='3']
+		padding-left: 1.5rem
+	&:hover
+		color: var(--foreground)
+	&[data-active='true']
+		color: var(--foreground)
+		border-left-color: var(--primary)
+
+// ── Article prose ────────────────────────────────────────────────────────────
+
+.doc-lede
+	color: var(--foreground)
+	font-size: var(--text-lg)
+	margin-top: 0.5rem
+
+.doc-article
+	padding-top: var(--doc-header-h, 64px)
+	h2
+		font-size: 1.1875rem
+		font-weight: 600
+		margin: 2.75rem 0 0.75rem
+		padding-bottom: 0.5rem
+		border-bottom: 1px solid var(--border)
+		scroll-margin-top: calc(var(--doc-header-h) + 1rem)
+	h3
+		font-size: 0.9375rem
+		font-weight: 600
+		margin: 1.75rem 0 0.5rem
+		scroll-margin-top: calc(var(--doc-header-h) + 1rem)
+	// Prose styling must never reach a rendered component. `:not([data-slot], [data-slot] *)`
+	// excludes both the component root and everything inside it — Card.Description is a <p>
+	// and was inheriting the prose margin; a <Button href> is an <a> and was inheriting the
+	// underline. Every prose rule below needs this guard.
+	p:not([data-slot], [data-slot] *)
+		margin: 0.75rem 0
+		line-height: 1.7
+	// Prose links use colour only — never underline (site-wide policy).
+	a:not([data-slot], [data-slot] *, .doc-index-card, .doc-index-card *)
+		color: var(--primary)
+		text-decoration: none
+	ul:not([data-slot], [data-slot] *)
+		margin: 0.75rem 0
+		padding-left: 1.25rem
+		list-style: disc
+	li:not([data-slot], [data-slot] *)
+		margin: 0.375rem 0
+		line-height: 1.65
+	code:not([data-slot], [data-slot] *)
+		font-size: 0.8125em
+		background-color: var(--muted)
+		padding: 0.15em 0.4em
+		border-radius: var(--doc-r)
+
+.doc-note
+	border: 1px solid var(--border)
+	border-radius: var(--doc-r-lg)
+	padding: 0.875rem 1rem
+	margin: 1rem 0
+	font-size: 0.875rem
+	color: var(--muted-foreground)
+
+// ── Preview ──────────────────────────────────────────────────────────────────
+.doc-preview
+	margin: 1.25rem 0 1.5rem
+	border: 1px solid var(--border)
+	border-radius: var(--doc-r-lg)
+	overflow: hidden
+
+	// Navigation menus and similar overlays need to paint outside the frame.
+	&[data-overflow='visible']
+		overflow: visible
+
+.doc-preview-bar
+	padding: 0.5rem 0.75rem
+	border-bottom: 1px solid var(--border)
+	min-height: 2.5rem
+	.doc-preview-caption
+		font-size: 0.8125rem
+		color: var(--muted-foreground)
+		margin: 0
+
+.doc-tabs
+	gap: 0.25rem
+
+.doc-tab
+	font-size: 0.75rem
+	padding: 0.25rem 0.625rem
+	border-radius: var(--doc-r)
+	cursor: pointer
+	color: var(--muted-foreground)
+	&[data-active='true']
+		background-color: var(--muted)
+		color: var(--foreground)
+
+.doc-stage
+	padding: 2rem 1.5rem
+	gap: 0.5rem
+	min-height: 7rem
+	&[data-align='center']
+		justify-content: center
+	// Allow absolute panels (navigation menu viewport) to paint outside the stage.
+	// Pair with a tall demo wrapper (min-height on the children) so panels have room.
+	&[data-overflow='visible']
+		overflow: visible
+		min-height: 16rem
+		align-items: flex-start
+		position: relative
+
+
+// ── Examples (tabbed) ────────────────────────────────────────────────────────
+.doc-examples
+	margin: 1.25rem 0 1.5rem
+
+.doc-example-tabs
+	gap: 0.25rem
+	border-bottom: 1px solid var(--border)
+	padding-bottom: 0.5rem
+
+.doc-example-tab
+	font-size: 0.8125rem
+	padding: 0.3125rem 0.75rem
+	border-radius: var(--doc-r)
+	cursor: pointer
+	color: var(--muted-foreground)
+	white-space: nowrap
+	transition: color 150ms, background-color 150ms
+	&:hover
+		color: var(--foreground)
+	&:focus-visible
+		outline: none
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 40%, transparent)
+	&[data-active='true']
+		background-color: var(--primary)
+		color: var(--primary-foreground)
+
+.doc-examples .doc-preview
+	margin-top: 0
+
+// ── Code (Shiki dual-theme via $lib/highlight) ───────────────────────────────
+.doc-code
+	position: relative
+	border: 1px solid var(--border)
+	border-radius: var(--doc-r-lg)
+	background-color: var(--muted)
+	overflow: hidden
+
+.doc-code-body
+	// Shared dual-theme token rules live in highlight/shiki.sass
+	pre.shiki
+		padding: 1.25rem 1rem 1rem
+		font-size: 0.8125rem
+		line-height: 1.65
+		// Room for copy + lang badge
+		padding-top: 2.25rem
+
+.doc-code-lang
+	position: absolute
+	top: 0.5rem
+	left: 0.75rem
+	z-index: 1
+	font-size: 0.625rem
+	font-weight: 600
+	letter-spacing: 0.06em
+	text-transform: uppercase
+	color: var(--muted-foreground)
+	pointer-events: none
+
+.doc-code-copy
+	position: absolute
+	top: 0.5rem
+	right: 0.5rem
+	z-index: 2
+	font-size: 0.6875rem
+	padding: 0.25rem 0.5rem
+	border-radius: var(--doc-r)
+	border: 1px solid var(--border)
+	background-color: var(--background)
+	color: var(--muted-foreground)
+	cursor: pointer
+	&:hover
+		color: var(--foreground)
+
+// ── Tables ───────────────────────────────────────────────────────────────────
+.doc-table-wrap
+	overflow-x: auto
+	border: 1px solid var(--border)
+	border-radius: var(--doc-r-lg)
+	margin: 1rem 0
+
+// Covers both <PropsTable> and plain markdown tables in a .md page.
+.doc-table,
+.doc-table-wrap table
+	width: 100%
+	font-size: 0.8125rem
+	border-collapse: collapse
+	th, td
+		text-align: left
+		padding: 0.625rem 0.875rem
+		border-bottom: 1px solid var(--border)
+		vertical-align: top
+	th
+		font-weight: 600
+		color: var(--muted-foreground)
+		white-space: nowrap
+	tr:last-child td
+		border-bottom: 0
+	.doc-type
+		color: var(--muted-foreground)
+		white-space: pre-wrap
+
+.doc-dim
+	color: var(--muted-foreground)
+
+// ── Index page ───────────────────────────────────────────────────────────────
+.doc-index-grid
+	display: grid
+	grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr))
+	gap: 0.625rem
+	margin: 1rem 0 2rem
+
+.doc-index-card, a.doc-index-card
+	border: 1px solid var(--border)
+	border-radius: var(--doc-r-lg)
+	padding: 0.75rem 0.875rem
+	text-decoration: none
+	&:hover
+		border-color: var(--muted-foreground)
+	&[data-status='planned']
+		opacity: 0.55

@@ -1,0 +1,41 @@
+{
+	"component": "task",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/task",
+	"skin": "none (Tailwind utilities only)",
+	"dependencies": {
+		"internal": ["collapsible"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Trigger data-slot=task-trigger overrides collapsible-trigger chrome",
+			"why": "Source uses muted text row, not bordered button.",
+			"risk": "low"
+		},
+		{
+			"what": "Content data-slot=task-content redeclares height animation",
+			"why": "Own data-slot opts out of collapsible-content keyframes.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG search + chevron defaults",
+			"why": "No phosphor/lucide dependency.",
+			"risk": "low"
+		},
+		{
+			"what": "title is required on TaskTrigger (matches source)",
+			"why": "Default layout needs a label; children can still fully replace it.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": [
+		"registry preview (file search + chips)",
+		"simple list",
+		"collapsed",
+		"custom trigger"
+	],
+	"docPage": "src/content/components/task.md",
+	"status": "comprehensive re-port"
+}

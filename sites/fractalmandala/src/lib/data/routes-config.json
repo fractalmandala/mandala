@@ -1,0 +1,59 @@
+[
+	{
+		"bank name": "Civilization",
+		"route": "civilization",
+		"content links": [
+			"/wiki/01-civilization"
+		]
+	},
+	{
+		"bank name": "Comparative Civilization",
+		"route": "comparative-civilization",
+		"content links": [
+			"/wiki/02-comparative-civilization"
+		]
+	},
+	{
+		"bank name": "History",
+		"route": "history",
+		"content links": [
+			"/wiki/03-history"
+		]
+	},
+	{
+		"bank name": "Shri Ram Swarup and Shri Sita Ram Goel",
+		"route": "srg-srs",
+		"content links": [
+			"/wiki/04-srg-srs"
+		]
+	},
+	{
+		"bank name": "Sri Aurobindo",
+		"route": "sri-aurobindo",
+		"content links": [
+			"/wiki/05-aurobindo"
+		]
+	},
+	{
+		"bank name": "Archaeology",
+		"route": "archaeology",
+		"content links": [
+			"/wiki/07-archaeology"
+		]
+	},
+	{
+		"bank name": "Writings",
+		"route": "writings",
+		"content links": [
+			"/raw/09-writings",
+			"/wiki/09-writings"
+		]
+	},
+	{
+		"bank name": "Sveltekit",
+		"route": "sveltekit",
+		"content links": [
+			"/wiki/10-sveltekit"
+		]
+	}
+]

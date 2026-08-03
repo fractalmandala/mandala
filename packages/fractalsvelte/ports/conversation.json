@@ -1,0 +1,66 @@
+{
+	"component": "conversation",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/conversation",
+	"skin": "none (utilities only; glass scroll button from class strings)",
+	"oracle": {
+		"notes": "AI elements use plain Tailwind utilities, not cn-* skins. Structural classes converted to data-slot SASS."
+	},
+	"dependencies": {
+		"internal": ["button", "message (docs demos)"],
+		"external": ["runed"]
+	},
+	"propsInvented": [
+		{
+			"name": "height / maxHeight (Root)",
+			"why": "Demos and chat shells need a bounded scrollport; source used class h-full / h-*.",
+			"replaces": "class=\"h-full\""
+		},
+		{
+			"name": "threshold (Root)",
+			"why": "Expose the 200px stick-to-bottom threshold used in context.",
+			"replaces": "hardcoded threshold in StickToBottomContext"
+		},
+		{
+			"name": "gap (Content)",
+			"why": "Source demos switch gap-8 → gap-4 via class; no class merge in this library.",
+			"replaces": "class=\"gap-4\""
+		},
+		{
+			"name": "initial / resize (Root)",
+			"why": "Declared in source but unused; now wired into StickToBottomContext for mount and resize scroll behaviors.",
+			"replaces": "dead props in upstream Conversation"
+		}
+	],
+	"deviations": [
+		{
+			"what": "Content has overflow-y: auto + flex:1 (source only had flex flex-col gap p)",
+			"why": "Without a scrollport, stick-to-bottom cannot function. Root stays overflow:hidden; Content is the scroll root.",
+			"risk": "low — required for the advertised behaviour"
+		},
+		{
+			"what": "Scroll button uses inline SVG, not phosphor/lucide",
+			"why": "Library ships no icon dependency; keeps Button data-slot for full button skin.",
+			"risk": "low"
+		},
+		{
+			"what": "Empty state data-slots renamed to conversation-empty-*",
+			"why": "Avoid generic empty-title colliding with other empty surfaces.",
+			"risk": "low"
+		},
+		{
+			"what": "aria-live=polite on Root",
+			"why": "role=log alone is weak for SR; polite live region improves streaming announcements.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": [
+		"registry preview streaming chat",
+		"empty state with icon",
+		"scroll-button reveal",
+		"static preloaded thread"
+	],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/conversation.md",
+	"status": "comprehensive re-port — stick-to-bottom wired, streaming docs demos"
+}

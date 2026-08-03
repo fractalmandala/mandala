@@ -1,0 +1,102 @@
+// Ported from shadcn-svelte ui/avatar + style-luma.
+// Oracle: 35 structural utilities, 5 skin rules.
+
+@use '../../styles/mixins' as *
+
+[data-slot='avatar']
+	position: relative
+	display: flex
+	flex-shrink: 0
+	user-select: none
+	border-radius: 9999px
+	width: 2rem
+	height: 2rem
+
+	&[data-size='sm']
+		width: 1.5rem
+		height: 1.5rem
+
+	&[data-size='lg']
+		width: 2.5rem
+		height: 2.5rem
+
+	&::after
+		content: ''
+		position: absolute
+		inset: 0
+		border-radius: 9999px
+		border: 1px solid var(--border)
+		mix-blend-mode: darken
+
+		.dark &
+			mix-blend-mode: lighten
+
+[data-slot='avatar-image']
+	aspect-ratio: 1 / 1
+	width: 100%
+	height: 100%
+	object-fit: cover
+	border-radius: 9999px
+
+[data-slot='avatar-fallback']
+	display: flex
+	width: 100%
+	height: 100%
+	align-items: center
+	justify-content: center
+	border-radius: 9999px
+	background-color: var(--muted)
+	color: var(--muted-foreground)
+	font-size: var(--text-sm)
+
+	[data-slot='avatar'][data-size='sm'] &
+		font-size: var(--text-xs)
+
+[data-slot='avatar-badge']
+	position: absolute
+	right: 0
+	bottom: 0
+	z-index: 10
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	border-radius: 9999px
+	background-color: var(--primary)
+	color: var(--primary-foreground)
+	box-shadow: 0 0 0 2px var(--background)
+
+	[data-slot='avatar'][data-size='sm'] &
+		width: 0.5rem
+		height: 0.5rem
+
+	[data-slot='avatar'][data-size='default'] &
+		width: 0.625rem
+		height: 0.625rem
+
+	[data-slot='avatar'][data-size='lg'] &
+		width: 0.75rem
+		height: 0.75rem
+
+[data-slot='avatar-group']
+	display: flex
+
+	> [data-slot='avatar']
+		box-shadow: 0 0 0 2px var(--background)
+
+		&:not(:first-child)
+			margin-inline-start: -0.5rem
+
+[data-slot='avatar-group-count']
+	position: relative
+	display: flex
+	flex-shrink: 0
+	align-items: center
+	justify-content: center
+	border-radius: 9999px
+	background-color: var(--muted)
+	color: var(--muted-foreground)
+	width: 2rem
+	height: 2rem
+	font-size: var(--text-sm)
+	box-shadow: 0 0 0 2px var(--background)
+	margin-inline-start: -0.5rem

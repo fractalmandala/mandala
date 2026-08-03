@@ -1,0 +1,62 @@
+{
+	"component": "drawer",
+	"wave": 7,
+	"source": "shadcn-registry/lib/registry/ui/drawer",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 11, "skinRules": 7 },
+	"dependencies": {
+		"internal": ["button", "input", "label"],
+		"external": ["vaul-svelte"]
+	},
+
+	"variantsConverted": {
+		"from": "cn() skin classes cn-drawer-* + buttonVariants on Trigger/Close",
+		"to": "data-slot skin in drawer.sass; demos compose Button via child snippet",
+		"variant": [],
+		"size": []
+	},
+
+	"propsInvented": [],
+
+	"deviations": [
+		{
+			"what": "No built-in corner close button on Content (unlike dialog/sheet)",
+			"why": "Upstream drawer has no showCloseButton; demos put Cancel in Footer via Drawer.Close",
+			"risk": "low"
+		},
+		{
+			"what": "Trigger/Close are unstyled primitives; docs compose Button via child snippet",
+			"why": "No class merge / buttonVariants; same pattern as Sheet.Trigger",
+			"risk": "low"
+		},
+		{
+			"what": "Overlay/content enter/exit motion left to vaul-svelte global keyframes",
+			"why": "vaul injects slideFrom*/fadeIn on [data-vaul-drawer]/[data-vaul-overlay]; reimplementing would fight the library",
+			"risk": "low"
+		},
+		{
+			"what": "Drawer demo chart (layerchart BarChart) replaced with +/- goal controls",
+			"why": "Avoid layerchart / d3-scale as a docs dependency",
+			"risk": "low — structure and gesture behaviour unchanged"
+		},
+		{
+			"what": "Responsive drawer-dialog example simplified to a form drawer only",
+			"why": "MediaQuery branch needs both Dialog and Drawer; form drawer covers the content pattern",
+			"risk": "low"
+		}
+	],
+
+	"bugsFoundInTooling": [],
+
+	"examplesPorted": [
+		"drawer-demo (move goal, no chart)",
+		"drawer-direction",
+		"drawer form (from drawer-dialog mobile branch)"
+	],
+	"examplesDeferred": [
+		"drawer-dialog desktop Dialog branch"
+	],
+	"promotedToCentral": [],
+	"docPage": "src/content/components/drawer.md",
+	"status": "ready"
+}

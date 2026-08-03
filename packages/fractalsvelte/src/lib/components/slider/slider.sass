@@ -1,0 +1,78 @@
+// Ported from shadcn-svelte ui/slider + style-luma.
+// Oracle: 21 structural utilities, 4 skin rules.
+//
+// Tailwind's --spacing is 0.25rem, so 2 units is 0.5rem, 4 units is 1rem,
+// 6 units is 1.5rem and 40 units is 10rem.
+
+[data-slot='slider']
+	position: relative
+	display: flex
+	width: 100%
+	touch-action: none
+	align-items: center
+	user-select: none
+
+	&[data-disabled]
+		opacity: 0.5
+
+	&[data-vertical]
+		width: auto
+		min-height: 10rem
+		height: 100%
+		flex-direction: column
+
+[data-slot='slider-track']
+	position: relative
+	flex-grow: 1
+	overflow: hidden
+	border-radius: calc(infinity * 1px)
+	background-color: color-mix(in oklab, var(--input) 90%, transparent)
+
+	&[data-horizontal]
+		width: 100%
+		height: 0.5rem
+
+	&[data-vertical]
+		width: 0.5rem
+		height: 100%
+
+[data-slot='slider-range']
+	position: absolute
+	background-color: var(--primary)
+	user-select: none
+
+	&[data-horizontal]
+		height: 100%
+
+	&[data-vertical]
+		width: 100%
+
+[data-slot='slider-thumb']
+	display: block
+	flex-shrink: 0
+	width: 1.5rem
+	height: 1rem
+	border-radius: calc(infinity * 1px)
+	background-color: var(--background)
+	background-clip: padding-box
+	box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 4px 6px -1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 2px 4px -2px color-mix(in oklab, var(--foreground) 10%, transparent)
+	outline: none
+	user-select: none
+	transition-property: color, box-shadow, background-color
+	transition-duration: 150ms
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1)
+
+	&:disabled
+		pointer-events: none
+		opacity: 0.5
+
+	&:hover
+		@media (hover: hover)
+			box-shadow: 0 0 0 4px color-mix(in oklab, var(--ring) 30%, transparent), 0 4px 6px -1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 2px 4px -2px color-mix(in oklab, var(--foreground) 10%, transparent)
+
+	&:focus-visible
+		box-shadow: 0 0 0 4px color-mix(in oklab, var(--ring) 30%, transparent), 0 4px 6px -1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 2px 4px -2px color-mix(in oklab, var(--foreground) 10%, transparent)
+
+	&[data-vertical]
+		width: 1rem
+		height: 1.5rem

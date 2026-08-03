@@ -1,0 +1,136 @@
+.prototype-settings
+	display: grid
+	grid-template-columns: 240px minmax(440px, 700px)
+	width: min(940px, 100%)
+	max-height: min(720px, calc(100vh - var(--window-topbar)))
+	padding: 0
+	overflow: hidden
+	border: 1px solid var(--prototype-line-strong)
+	border-radius: var(--radius-xl)
+	background: var(--prototype-bg)
+	box-shadow: var(--prototype-shadow)
+	> aside
+		display: flex
+		flex-direction: column
+		padding: var(--space-3) var(--space-2) var(--space-2)
+		border-right: 1px solid var(--prototype-line)
+		background: var(--prototype-raised)
+		nav
+			display: grid
+			gap: 2px
+			margin-top: var(--space-4)
+			button
+				display: flex
+				align-items: center
+				gap: var(--space-2)
+				min-height: var(--control-size)
+				padding: 0 var(--space-2)
+				border-radius: var(--radius-sm)
+				background: transparent
+				color: var(--prototype-ink)
+				text-align: left
+				&.active, &:hover
+					background: var(--prototype-selection)
+					color: var(--prototype-primary)
+	> section
+		overflow: auto
+		> header
+			display: flex
+			align-items: center
+			justify-content: space-between
+			padding: var(--space-4) calc(var(--space-4) + var(--space-1)) var(--space-3)
+			border-bottom: 1px solid var(--prototype-line)
+			p
+				margin: 0 0 var(--space-1)
+				color: var(--prototype-muted)
+				font-size: var(--text-sm)
+				font-weight: 650
+				text-transform: uppercase
+			h2
+				margin: 0
+				font-size: var(--text-2xl)
+				letter-spacing: -.04em
+
+.settings-identity
+	display: flex
+	align-items: center
+	gap: var(--space-2)
+	color: var(--prototype-primary)
+	font-size: var(--text-lg)
+
+.settings-close
+	display: flex
+	align-items: center
+	gap: var(--space-2)
+	margin-top: auto
+	min-height: var(--control-size)
+	padding: 0 var(--space-2)
+	border-radius: var(--radius-sm)
+	background: transparent
+	color: var(--prototype-muted)
+	text-align: left
+
+.settings-body
+	padding: calc(var(--space-3) + var(--space-2)) calc(var(--space-4) + var(--space-1)) calc(var(--space-4) + var(--space-2))
+	h3
+		margin: 0 0 var(--space-1)
+		font-size: var(--text-lg)
+	p
+		margin: 0 0 var(--space-3)
+		color: var(--prototype-muted)
+		line-height: 1.55
+	hr
+		margin: var(--space-4) 0
+		border: 0
+		border-top: 1px solid var(--prototype-line)
+
+.settings-choice, .switch-row
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: var(--space-3)
+	padding: var(--space-3)
+	border: 1px solid var(--prototype-line)
+	border-radius: var(--radius-md)
+	background: var(--prototype-raised)
+	span
+		display: grid
+		gap: 2px
+	small
+		color: var(--prototype-muted)
+	input
+		width: var(--control-primary-size)
+		height: calc(var(--space-3) + var(--space-2))
+		accent-color: var(--prototype-primary)
+
+.switch-row
+	margin-top: var(--space-2)
+
+.hotkeys
+	display: grid
+	gap: var(--space-3)
+	margin: 0
+	div
+		display: flex
+		justify-content: space-between
+	dt
+		color: var(--prototype-muted)
+	dd
+		margin: 0
+		padding: 2px var(--space-2)
+		border: 1px solid var(--prototype-line-strong)
+		border-radius: var(--radius-xs)
+		font-family: var(--font-mono)
+		font-size: var(--text-sm)
+
+@media (max-width: 960px)
+	.prototype-settings
+		grid-template-columns: 1fr
+		> aside
+			display: none
+		> section > header
+			padding: var(--space-3) calc(var(--space-3) + var(--space-2))
+	.settings-body
+		padding: calc(var(--space-3) + var(--space-2))
+	.prototype-overlay
+		padding: var(--space-3)

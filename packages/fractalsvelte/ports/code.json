@@ -1,0 +1,27 @@
+{
+	"component": "code",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/code",
+	"skin": "data-slot SASS (code.sass) replacing postcss @apply",
+	"dependencies": {
+		"internal": ["copy-button", "button"],
+		"external": ["shiki", "@shikijs/langs", "@shikijs/themes", "dompurify", "svelte-toolbelt", "runed"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "codeVariants tv() dropped; variant via data-variant",
+			"why": "No tailwind-variants / class merge.",
+			"risk": "low"
+		},
+		{
+			"what": "Code.CopyButton uses existing CopyButton + data-code-copy positioning",
+			"why": "Dual distribution / shared chrome.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["default TS", "line highlight", "secondary JSON", "overflow"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/code.md",
+	"status": "comprehensive re-port — Shiki dual theme, overflow, copy"
+}

@@ -1,0 +1,41 @@
+{
+	"component": "sources",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/sources",
+	"skin": "none (Tailwind utilities only)",
+	"dependencies": {
+		"internal": ["collapsible"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Trigger data-slot=sources-trigger overrides collapsible-trigger chrome",
+			"why": "Source uses quiet text row, not bordered button.",
+			"risk": "low"
+		},
+		{
+			"what": "Content data-slot=sources-content redeclares height animation",
+			"why": "Own data-slot opts out of collapsible-content keyframes.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG book + chevron defaults",
+			"why": "No phosphor/lucide dependency.",
+			"risk": "low"
+		},
+		{
+			"what": "count is required on SourcesTrigger (matches source)",
+			"why": "Default label needs the number; children can still replace the whole row.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": [
+		"registry preview (3 API docs)",
+		"open default",
+		"custom trigger + link children",
+		"many sources"
+	],
+	"docPage": "src/content/components/sources.md",
+	"status": "comprehensive re-port"
+}

@@ -1,0 +1,32 @@
+// Ported from ai-elements/checkpoint (Tailwind utilities → data-slot SASS).
+
+@use '../../../styles/mixins' as *
+
+[data-slot='checkpoint']
+	display: flex
+	align-items: center
+	gap: 0.125rem
+	overflow: hidden
+	width: 100%
+	color: var(--muted-foreground)
+
+// Separator stretches after the trigger
+[data-slot='separator'][data-checkpoint-separator]
+	flex: 1
+	min-width: 1rem
+	margin-left: 0.25rem
+
+[data-slot='checkpoint-icon']
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	flex-shrink: 0
+
+	svg
+		width: 1rem
+		height: 1rem
+
+// Keep button skin; densify gap for icon + label
+[data-slot='button'][data-checkpoint-trigger]
+	gap: 0.25rem
+	flex-shrink: 0

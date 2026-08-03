@@ -1,0 +1,217 @@
+// Ported from shadcn-svelte ui/dropdown-menu + style-luma.
+// Oracle: 27 structural utilities, 356 skin rules; relevant cn-dropdown-menu-* and cn-menu-* rules copied locally.
+//
+// Tailwind's --spacing is 0.25rem. --radius-2xl is 1rem; --radius-3xl is 1.5rem.
+
+[data-slot='dropdown-menu-trigger']
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	gap: 0.375rem
+	min-height: 2rem
+	border: 1px solid var(--border)
+	border-radius: var(--radius)
+	background-color: var(--background)
+	color: var(--foreground)
+	padding: 0.375rem 0.75rem
+	font: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	cursor: pointer
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--muted)
+
+	&:focus-visible
+		outline: none
+		border-color: var(--ring)
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 30%, transparent)
+
+	&[aria-disabled='true'],
+	&:disabled
+		pointer-events: none
+		opacity: 0.5
+
+	svg
+		width: 1rem
+		height: 1rem
+		flex-shrink: 0
+
+[data-slot='dropdown-menu-content'],
+[data-slot='dropdown-menu-sub-content']
+	position: relative
+	z-index: 50
+	width: var(--bits-dropdown-menu-anchor-width, auto)
+	min-width: 12rem
+	overflow-x: hidden
+	overflow-y: auto
+	border-radius: 1.5rem
+	background-color: color-mix(in oklab, var(--popover) 70%, transparent)
+	padding: 0.375rem
+	color: var(--popover-foreground)
+	outline: none
+	box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+	transition-duration: 100ms
+
+	&::before
+		content: ''
+		position: absolute
+		inset: 0
+		z-index: -1
+		border-radius: inherit
+		pointer-events: none
+		backdrop-filter: blur(40px) saturate(150%)
+
+	.dark &
+		box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)
+
+	&[data-state='closed'],
+	&[data-closed]
+		overflow: hidden
+		animation: dropdown-menu-exit 150ms ease
+
+	&[data-state='open'],
+	&[data-open]
+		animation: dropdown-menu-enter 150ms ease
+
+	&[data-side='bottom']
+		--dropdown-menu-enter-y: -0.5rem
+	&[data-side='top']
+		--dropdown-menu-enter-y: 0.5rem
+	&[data-side='left']
+		--dropdown-menu-enter-x: 0.5rem
+	&[data-side='right']
+		--dropdown-menu-enter-x: -0.5rem
+	&[data-side='inline-end']
+		--dropdown-menu-enter-x: -0.5rem
+	&[data-side='inline-start']
+		--dropdown-menu-enter-x: 0.5rem
+
+[data-slot='dropdown-menu-sub-content']
+	width: auto
+	min-width: 9rem
+
+[data-slot='dropdown-menu-item'],
+[data-slot='dropdown-menu-checkbox-item'],
+[data-slot='dropdown-menu-radio-item'],
+[data-slot='dropdown-menu-sub-trigger']
+	position: relative
+	display: flex
+	align-items: center
+	gap: 0.625rem
+	border-radius: 1rem
+	padding: 0.5rem 0.75rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	cursor: default
+	user-select: none
+	outline: none
+
+	&[data-disabled],
+	&[aria-disabled='true']
+		pointer-events: none
+		opacity: 0.5
+
+	&:focus,
+	&[data-highlighted]
+		background-color: color-mix(in oklab, var(--foreground) 10%, transparent)
+		color: var(--accent-foreground)
+
+	svg
+		width: 1rem
+		height: 1rem
+		flex-shrink: 0
+		pointer-events: none
+
+[data-slot='dropdown-menu-item']
+	&[data-inset]
+		padding-left: 2.375rem
+
+	&[data-variant='destructive']
+		color: var(--destructive)
+
+		&:focus,
+		&[data-highlighted]
+			background-color: color-mix(in oklab, var(--destructive) 10%, transparent)
+			color: var(--destructive)
+
+		.dark &
+			&:focus,
+			&[data-highlighted]
+				background-color: color-mix(in oklab, var(--destructive) 20%, transparent)
+
+[data-slot='dropdown-menu-checkbox-item'],
+[data-slot='dropdown-menu-radio-item']
+	padding-right: 2rem
+
+	&[data-inset]
+		padding-left: 2.375rem
+
+[data-slot='dropdown-menu-checkbox-item-indicator'],
+[data-slot='dropdown-menu-radio-item-indicator']
+	position: absolute
+	right: 0.5rem
+	display: flex
+	align-items: center
+	justify-content: center
+	pointer-events: none
+
+[data-slot='dropdown-menu-label'],
+[data-slot='dropdown-menu-group-heading']
+	padding: 0.625rem 0.75rem
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+	color: var(--muted-foreground)
+
+	&[data-inset]
+		padding-left: 2.375rem
+
+[data-slot='dropdown-menu-group-heading']
+	color: var(--foreground)
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 600
+
+[data-slot='dropdown-menu-separator']
+	height: 1px
+	margin: 0.375rem -0.375rem
+	background-color: color-mix(in oklab, var(--border) 50%, transparent)
+
+[data-slot='dropdown-menu-shortcut']
+	margin-left: auto
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+	letter-spacing: 0.1em
+	color: var(--muted-foreground)
+
+[data-slot='dropdown-menu-sub-trigger']
+	gap: 0.5rem
+
+	&[data-inset]
+		padding-left: 2.375rem
+
+	&[data-open],
+	&[data-state='open']
+		background-color: color-mix(in oklab, var(--foreground) 10%, transparent)
+		color: var(--accent-foreground)
+
+[data-slot='dropdown-menu-sub-trigger-icon']
+	display: inline-flex
+	margin-left: auto
+
+@keyframes dropdown-menu-enter
+	from
+		opacity: 0
+		transform: translate3d(var(--dropdown-menu-enter-x, 0), var(--dropdown-menu-enter-y, 0), 0) scale(0.95)
+
+@keyframes dropdown-menu-exit
+	to
+		opacity: 0
+		transform: scale(0.95)
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='dropdown-menu-content'],
+	[data-slot='dropdown-menu-sub-content']
+		animation-duration: 1ms

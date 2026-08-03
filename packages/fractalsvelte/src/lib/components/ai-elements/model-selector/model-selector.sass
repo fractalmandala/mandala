@@ -1,0 +1,75 @@
+// Ported from ai-elements/model-selector. Single-tab indented SASS.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='model-selector-trigger']
+	display: inline-flex
+	align-items: center
+	gap: 0.5rem
+
+[data-slot='model-selector-content']
+	padding: 0
+	overflow: hidden
+	gap: 0
+
+	// Drop default dialog chrome padding; command fills the shell
+	[data-slot='dialog-header']
+		display: none
+
+[data-slot='model-selector-command']
+	// command root fills dialog content
+	border: none
+	border-radius: inherit
+
+[data-slot='model-selector-input']
+	height: auto
+	padding-block: 0.875rem
+
+[data-slot='model-selector-list']
+	max-height: 20rem
+
+[data-slot='model-selector-item']
+	display: flex
+	align-items: center
+	gap: 0.5rem
+
+[data-slot='model-selector-logo']
+	display: inline-block
+	width: 0.75rem
+	height: 0.75rem
+	flex-shrink: 0
+	object-fit: contain
+
+	:global(.dark) &
+		filter: invert(1)
+
+[data-slot='model-selector-logo-group']
+	display: flex
+	align-items: center
+	flex-shrink: 0
+	margin-left: auto
+
+	[data-slot='model-selector-logo']
+		margin-left: -0.25rem
+		+radius('full')
+		padding: 1px
+		background-color: var(--background)
+		box-shadow: 0 0 0 1px var(--border)
+
+		&:first-child
+			margin-left: 0
+
+[data-slot='model-selector-name']
+	flex: 1
+	min-width: 0
+	font-weight: 500
+	text-align: left
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+
+[data-slot='model-selector-empty']
+	padding: 1.5rem 1rem
+	text-align: center
+	color: var(--muted-foreground)
+	font-size: var(--text-sm)

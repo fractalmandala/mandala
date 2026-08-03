@@ -1,0 +1,79 @@
+// Ported from shadcn-svelte ui/carousel + style-luma.
+// Oracle: 26 structural utilities, 2 skin rules.
+//
+// Prev/Next keep data-slot="button" so button.sass applies. Positioning uses
+// data-carousel-nav. Source places arrows at -3rem outside the root; we place them
+// just inside (0.5rem) so they do not clip in overflow:hidden parents (docs previews).
+
+@use '../../styles/mixins' as *
+
+[data-slot='carousel']
+	position: relative
+	width: 100%
+
+[data-slot='carousel-viewport']
+	overflow: hidden
+
+[data-slot='carousel-content']
+	display: flex
+
+	&[data-orientation='horizontal']
+		margin-inline-start: -1rem
+
+	&[data-orientation='vertical']
+		margin-top: -1rem
+		flex-direction: column
+
+[data-slot='carousel-item']
+	min-width: 0
+	flex-shrink: 0
+	flex-grow: 0
+	flex-basis: 100%
+
+	&[data-orientation='horizontal']
+		padding-inline-start: 1rem
+
+	&[data-orientation='vertical']
+		padding-top: 1rem
+
+// Nav buttons: full button skin + absolute placement inside the carousel
+[data-slot='button'][data-carousel-nav]
+	position: absolute
+	z-index: 1
+	border-radius: 9999px
+	touch-action: manipulation
+
+[data-slot='button'][data-carousel-nav='previous']
+	&[data-orientation='horizontal']
+		inset-block: 0
+		margin-block: auto
+		inset-inline-start: 0.5rem
+
+	&[data-orientation='vertical']
+		inset-inline-start: 50%
+		top: 0.5rem
+		translate: -50% 0
+		rotate: 90deg
+
+[data-slot='button'][data-carousel-nav='next']
+	&[data-orientation='horizontal']
+		inset-block: 0
+		margin-block: auto
+		inset-inline-end: 0.5rem
+
+	&[data-orientation='vertical']
+		inset-inline-start: 50%
+		bottom: 0.5rem
+		translate: -50% 0
+		rotate: 90deg
+
+[data-slot='carousel-nav-label']
+	position: absolute
+	width: 1px
+	height: 1px
+	padding: 0
+	margin: -1px
+	overflow: hidden
+	clip-path: inset(50%)
+	white-space: nowrap
+	border-width: 0

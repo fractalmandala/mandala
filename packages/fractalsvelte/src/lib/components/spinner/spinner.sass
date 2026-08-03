@@ -1,0 +1,18 @@
+// Ported from shadcn-svelte ui/spinner + style-luma.
+// Oracle: 2 structural utilities (size-4, animate-spin), 0 skin rules.
+//
+// --animate-spin resolves to `spin 1s linear infinite` plus Tailwind's @keyframes spin.
+// Inlined so the component owns its animation and can be copy-pasted.
+
+@keyframes spinner-spin
+	to
+		transform: rotate(360deg)
+
+[data-slot='spinner']
+	// size-4. Overridable through the `size` prop, which writes an inline style.
+	width: 1rem
+	height: 1rem
+	animation: spinner-spin 1s linear infinite
+
+	@media (prefers-reduced-motion: reduce)
+		animation-duration: 2.4s

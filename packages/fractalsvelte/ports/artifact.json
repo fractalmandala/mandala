@@ -1,0 +1,27 @@
+{
+	"component": "artifact",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/artifact",
+	"skin": "data-slot SASS (artifact.sass)",
+	"dependencies": {
+		"internal": ["button", "tooltip"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Action icon is Snippet only (not lucide Component type)",
+			"why": "No icon package; children or icon snippet with inline SVG.",
+			"risk": "low"
+		},
+		{
+			"what": "Action/Close keep data-slot=button + data-artifact-action/close",
+			"why": "Button skin must keep applying; extra data-* for chrome.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["basic header/actions", "with Code", "document body"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/artifact.md",
+	"status": "comprehensive re-port — shell, actions, Code composition demos"
+}

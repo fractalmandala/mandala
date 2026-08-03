@@ -1,0 +1,223 @@
+// Ported from shadcn-svelte ui/field + style-luma.
+// Oracle: 38 structural utilities, 11 skin rules.
+//
+// Tailwind's --spacing is 0.25rem, so field gaps resolve to fixed rem values.
+// --radius-2xl is a Tailwind default (1rem), not derived from --radius.
+
+[data-slot='field-set']
+	display: flex
+	flex-direction: column
+	gap: 1.5rem
+	min-width: 0
+	border: 0
+	padding: 0
+	margin: 0
+
+	&:has(> [data-slot='checkbox-group']),
+	&:has(> [data-slot='radio-group']),
+	&:has(> [data-gap='compact'])
+		gap: 0.75rem
+
+[data-slot='field-legend']
+	margin-bottom: 0.75rem
+	font-weight: 500
+
+	&[data-variant='label']
+		font-size: var(--text-sm)
+		line-height: var(--text-sm--line-height)
+
+	&[data-variant='legend']
+		font-size: var(--text-base)
+		line-height: var(--text-base--line-height)
+
+[data-slot='field-group'],
+[data-slot='checkbox-group'],
+[data-slot='radio-group']
+	display: flex
+	width: 100%
+	flex-direction: column
+	gap: 1.75rem
+	container-type: inline-size
+	container-name: field-group
+
+	&[data-gap='compact'],
+	&[data-slot='checkbox-group'],
+	&[data-slot='radio-group']
+		gap: 0.75rem
+
+	> [data-slot='field-group']
+		gap: 1rem
+
+[data-slot='field']
+	display: flex
+	width: 100%
+	gap: 0.75rem
+
+	&[data-invalid='true']
+		color: var(--destructive)
+
+	&[data-orientation='vertical']
+		flex-direction: column
+
+		> *
+			width: 100%
+
+		> .sr-only
+			width: auto
+
+	&[data-orientation='horizontal']
+		flex-direction: row
+		align-items: center
+
+		&:has(> [data-slot='field-content'])
+			align-items: flex-start
+
+			> [role='checkbox'],
+			> [role='radio']
+				margin-top: 1px
+
+		> [data-slot='field-label']
+			flex: auto
+
+	&[data-orientation='responsive']
+		flex-direction: column
+
+		> *
+			width: 100%
+
+		> .sr-only
+			width: auto
+
+		@container field-group (width >= 28rem)
+			flex-direction: row
+			align-items: center
+
+			> *
+				width: auto
+
+			&:has(> [data-slot='field-content'])
+				align-items: flex-start
+
+				> [role='checkbox'],
+				> [role='radio']
+					margin-top: 1px
+
+			> [data-slot='field-label']
+				flex: auto
+
+[data-slot='field-content']
+	display: flex
+	flex: 1
+	flex-direction: column
+	gap: 0.25rem
+	line-height: var(--leading-snug)
+
+[data-slot='field-label']
+	display: flex
+	width: fit-content
+	align-items: center
+	gap: 0.5rem
+	line-height: var(--leading-snug)
+
+	&[data-weight='normal']
+		font-weight: 400
+
+	&[data-weight='medium']
+		font-weight: 500
+
+	&:is(:where([data-slot='field'])[data-disabled='true'] *)
+		opacity: 0.5
+
+	&:has(*[data-checked])
+		background-color: color-mix(in oklab, var(--input) 30%, transparent)
+
+	&:has(> [data-slot='field'])
+		width: 100%
+		flex-direction: column
+		border: 1px solid var(--border)
+		border-radius: 1rem
+
+		> [data-slot='field']
+			padding: 1rem
+
+[data-slot='field-title']
+	display: flex
+	width: fit-content
+	align-items: center
+	gap: 0.5rem
+	font-size: var(--text-sm)
+	line-height: var(--leading-snug)
+	font-weight: 500
+
+	&:is(:where([data-slot='field'])[data-disabled='true'] *)
+		opacity: 0.5
+
+[data-slot='field-description']
+	text-align: left
+	text-wrap: pretty
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 400
+	color: var(--muted-foreground)
+
+	[data-orientation='horizontal'] &
+		text-wrap: balance
+
+	[data-slot='field-legend'][data-variant='legend'] + &
+		margin-top: -0.375rem
+
+	&:last-child
+		margin-top: 0
+
+	&:nth-last-child(2)
+		margin-top: -0.25rem
+
+	> a
+		text-decoration: none
+
+		&:hover
+			color: var(--primary)
+			text-decoration: none
+
+[data-slot='field-separator']
+	position: relative
+	display: block
+	height: 1.25rem
+	margin-block: -0.5rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+
+	[data-slot='field-group'][data-variant='outline'] &
+		margin-bottom: -0.5rem
+
+[data-slot='field-separator-line']
+	position: absolute
+	inset: 0
+	top: 50%
+	width: 100%
+	height: 1px
+	background-color: var(--border)
+
+[data-slot='field-separator-content']
+	position: relative
+	display: block
+	width: fit-content
+	margin-inline: auto
+	padding-inline: 0.5rem
+	background-color: var(--background)
+	color: var(--muted-foreground)
+
+[data-slot='field-error']
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 400
+	color: var(--destructive)
+
+[data-slot='field-error-list']
+	display: flex
+	flex-direction: column
+	gap: 0.25rem
+	margin: 0
+	margin-left: 1rem
+	padding: 0
+	list-style-type: disc

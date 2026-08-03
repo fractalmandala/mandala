@@ -1,0 +1,132 @@
+.box, .col, .row, .flex
+	display: flex
+
+.box, .col
+	flex-direction: column
+	&.xcenter
+		align-items: center
+	&.xleft
+		align-items: flex-start
+		text-align: left
+	&.xright
+		align-items: flex-end
+		text-align: right
+	&.ycenter
+		justify-content: center
+	&.ytop
+		justify-content: flex-start
+	&.ybot
+		justify-content: flex-end
+	&.xbetween
+		justify-content: space-between
+	&.xevenly
+		justify-content: space-evenly
+	@media (max-width: 720px)
+		&.xright.mleft
+			align-items: flex-start
+			text-align: left
+
+.row
+	flex-direction: row
+	&.wrap
+		flex-wrap: wrap
+	&.ycenter
+		align-items: center
+	&.ytop
+		align-items: flex-start
+	&.ybot
+		align-items: flex-end
+	&.xbetween
+		justify-content: space-between
+	&.xevenly
+		justify-content: space-evenly
+	&.xright
+		justify-content: flex-end
+	&.xleft
+		justify-content: flex-start
+	@media (max-width: 720px)
+		&.mwrap
+			flex-wrap: wrap
+
+.grid
+	display: grid
+	grid-auto-flow: row
+	@media (min-width: 721px)
+		&.grid-cols-2
+			grid-template-columns: repeat(2, minmax(0, 1fr))
+		&.grid-cols-3
+			grid-template-columns: repeat(3, minmax(0, 1fr))
+		&.grid-cols-4
+			grid-template-columns: repeat(4, minmax(0, 1fr))
+		&.grid-cols-5
+			grid-template-columns: repeat(5, minmax(0, 1fr))
+		&.grid-cols-6
+			grid-template-columns: repeat(6, minmax(0, 1fr))
+
+.border-grid
+	gap: 1px
+	border: 1px solid var(--border)
+	background: var(--border)
+
+.border
+	border: 1px solid var(--border)
+.border-transparent
+	border: 1px solid transparent
+.bordtop
+	border-top: 1px solid var(--border)
+.bordbot
+	border-bottom: 1px solid var(--border)
+.bordleft
+	border-left: 1px solid var(--border)
+.bordright
+	border-right: 1px solid var(--border)
+
+.radius-sm
+	border-radius: var(--radius-sm)
+.radius-md
+	border-radius: var(--radius-md)
+
+.icon-sm
+	height: 16px
+	width: 16px
+.icon-md
+	height: 24px
+	width: 24px
+.icon-lg
+	height: 32px
+	width: 32px
+
+.nav-item, .pill
+	display: inline-flex
+	align-items: center
+	gap: 8px
+	padding: 4px 8px
+	border-radius: var(--radius-sm)
+
+.list-item, .section-item
+	display: flex
+	align-items: center
+	gap: 16px
+	padding: 8px 16px
+	border-radius: var(--radius-sm)
+
+.section
+	gap: 32px
+
+.sidebar-item
+	min-height: 48px
+
+.height64
+	height: 64px
+
+.bordered
+	border: 1px solid var(--border)
+
+.badge
+	text-decoration: none
+	color: var(--text-primary)
+	font-size: var(--text-bs)
+	font-weight: 400
+	transition: transform 110ms var(--easeOut-10)
+	&:hover
+		transform: scale(1.035)

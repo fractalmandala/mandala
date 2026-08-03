@@ -1,0 +1,18 @@
+// Ported from shadcn-svelte ui/skeleton + style-luma.
+// Oracle: 1 structural utility (animate-pulse), 1 skin rule (rounded-2xl, bg-muted).
+
+@use '../../styles/mixins' as *
+
+@keyframes skeleton-pulse
+	50%
+		opacity: 0.5
+
+[data-slot='skeleton']
+	// --radius-2xl is a Tailwind default (1rem), not derived from --radius.
+	border-radius: 1rem
+	background-color: var(--muted)
+	animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite
+
+	// The `radius` prop replaces shadcn's `class="rounded-full"` / `rounded-xl` usage.
+	// Shared scale, so "xl" means the same thing here as on Button.
+	+radius-variants

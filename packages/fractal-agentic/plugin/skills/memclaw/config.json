@@ -1,0 +1,10 @@
+{
+	"mcpServers": {
+		"memclaw": {
+			"url": "https://your-memclaw-instance.example.com/mcp",
+			"headers": {
+				"X-API-Key": "mc_your_api_key_here"
+			}
+		}
+	}
+}

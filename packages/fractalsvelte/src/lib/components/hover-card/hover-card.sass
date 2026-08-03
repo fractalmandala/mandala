@@ -1,0 +1,89 @@
+// Ported from shadcn-svelte ui/hover-card + style-luma.
+// Oracle: 3 structural utilities, 3 skin rules. Tailwind's --spacing is 0.25rem;
+// --radius-3xl resolves to 1.5rem.
+
+[data-slot='hover-card-trigger']
+	color: inherit
+	text-decoration: none
+	border-radius: calc(var(--radius) - 2px)
+	outline: none
+	cursor: pointer
+	transition-property: color, box-shadow
+	transition-duration: 150ms
+
+	&:hover
+		@media (hover: hover)
+			text-decoration: none
+			color: var(--primary)
+
+	&:focus-visible
+		box-shadow: 0 0 0 2px var(--background), 0 0 0 4px color-mix(in oklab, var(--ring) 50%, transparent)
+
+	&[aria-disabled='true'],
+	&[data-disabled],
+	&:disabled
+		pointer-events: none
+		opacity: 0.5
+
+[data-slot='hover-card-content']
+	z-index: 50
+	width: 18rem
+	border-radius: 1.5rem
+	background-color: var(--popover)
+	padding: 1rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	color: var(--popover-foreground)
+	transform-origin: var(--transform-origin)
+	outline: none
+	box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 5%, transparent), 0 10px 15px -3px color-mix(in oklab, var(--foreground) 10%, transparent), 0 4px 6px -4px color-mix(in oklab, var(--foreground) 10%, transparent)
+	transition-duration: 100ms
+
+	@media (forced-colors: active)
+		outline: 2px solid transparent
+		outline-offset: 2px
+
+	.dark &
+		box-shadow: 0 0 0 1px color-mix(in oklab, var(--foreground) 10%, transparent), 0 10px 15px -3px color-mix(in oklab, var(--foreground) 10%, transparent), 0 4px 6px -4px color-mix(in oklab, var(--foreground) 10%, transparent)
+
+	&[data-closed],
+	&[data-state='closed']
+		animation: hover-card-exit 150ms ease
+
+	&[data-open],
+	&[data-state='open']
+		animation: hover-card-enter 150ms ease
+
+	&[data-side='bottom']
+		--hover-card-enter-y: -0.5rem
+
+	&[data-side='top']
+		--hover-card-enter-y: 0.5rem
+
+	&[data-side='left']
+		--hover-card-enter-x: 0.5rem
+
+	&[data-side='right']
+		--hover-card-enter-x: -0.5rem
+
+	&[data-side='inline-end']
+		--hover-card-enter-x: -0.5rem
+
+	&[data-side='inline-start']
+		--hover-card-enter-x: 0.5rem
+
+@keyframes hover-card-enter
+	from
+		opacity: 0
+		transform: translate3d(var(--hover-card-enter-x, 0), var(--hover-card-enter-y, 0), 0) scale(0.95)
+	to
+		opacity: 1
+		transform: translate3d(0, 0, 0) scale(1)
+
+@keyframes hover-card-exit
+	from
+		opacity: 1
+		transform: translate3d(0, 0, 0) scale(1)
+	to
+		opacity: 0
+		transform: scale(0.95)

@@ -1,0 +1,58 @@
+{
+	"component": "message",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/message",
+	"skin": "none (Tailwind utilities + streamdown themes)",
+	"dependencies": {
+		"internal": ["button", "button-group", "dialog", "tooltip"],
+		"external": ["streamdown-svelte", "mode-watcher", "@shikijs/themes", "bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Role styling via data-role on Message instead of group is-user / is-assistant classes",
+			"why": "No class merge; data-role is the styling contract for Content descendants.",
+			"risk": "low"
+		},
+		{
+			"what": "MessageAction / branch nav / remove keep data-slot=button",
+			"why": "Overriding data-slot stripped button skin; use data-message-action / data-message-branch-nav / data-attachment-remove.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG defaults instead of lucide/phosphor",
+			"why": "Library icon policy.",
+			"risk": "low"
+		},
+		{
+			"what": "Attachment preview keeps dialog-content slot + data-message-attachment-preview",
+			"why": "Preserves dialog positioning while allowing transparent shell overrides.",
+			"risk": "low"
+		},
+		{
+			"what": "MessageResponse adds light prose defaults for common markdown",
+			"why": "Streamdown alone is sparse without skin; improves chat readability.",
+			"risk": "medium — may interact with streamdown baseTheme styles"
+		},
+		{
+			"what": "Live Chat + PromptInput example deferred",
+			"why": "Depends on full Prompt Input + @ai-sdk/svelte demo stack.",
+			"risk": "low for component completeness"
+		}
+	],
+	"examplesPorted": [
+		"preview markdown assistant",
+		"roles",
+		"actions with tooltips",
+		"branch-example",
+		"file-attachment-example"
+	],
+	"examplesDeferred": [
+		{
+			"name": "usage.svelte live Chat",
+			"blockedBy": "prompt-input + @ai-sdk/svelte demo wiring"
+		}
+	],
+	"docPage": "src/content/components/message.md",
+	"status": "comprehensive re-port — roles, markdown, actions, branches, attachments"
+}

@@ -1,0 +1,631 @@
+// Ported from shadcn-svelte ui/sidebar + style-luma.
+// Oracle: 89 structural utilities, 27 skin rules.
+//
+// The desktop sidebar's group-data / peer relationships are keyed off the outer
+// [data-slot='sidebar'] element (which carries data-state / data-collapsible / data-variant /
+// data-side) as the ancestor, rather than Tailwind `group`/`peer` marker classes.
+
+@use '../../styles/mixins' as *
+
+// ── Provider wrapper ───────────────────────────────────────────────────────────────────────
+[data-slot='sidebar-wrapper']
+	display: flex
+	min-height: 100svh
+	width: 100%
+
+	&:has([data-variant='inset'])
+		background-color: var(--sidebar)
+
+	// Embedded shells (docs previews, split panels): fill the parent instead of the viewport.
+	&[data-contained]
+		position: relative
+		min-height: 0
+		height: 100%
+		overflow: hidden
+
+// ── Mobile (Sheet.Content, data-slot overridden to "sidebar" to match source) ────────────────
+// Sheet chrome is re-applied here because restProps data-slot replaces sheet-content.
+[data-slot='sidebar'][data-mobile='true']
+	position: fixed
+	z-index: 50
+	display: flex
+	flex-direction: column
+	inset-block: 0
+	height: 100%
+	width: var(--sidebar-width)
+	max-width: var(--sidebar-width)
+	padding: 0
+	background-color: var(--sidebar)
+	color: var(--sidebar-foreground)
+	box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)
+	transition: transform 200ms ease-in-out
+
+	&[data-side='left']
+		left: 0
+		border-right: 1px solid var(--sidebar-border)
+
+	&[data-side='right']
+		right: 0
+		border-left: 1px solid var(--sidebar-border)
+
+	// Sheet close is already suppressed via showCloseButton={false}; belt-and-braces.
+	& > [data-slot='sheet-close'],
+	& > button[data-slot='sheet-close']
+		display: none
+
+[data-slot='sidebar-mobile-header']
+	position: absolute
+	width: 1px
+	height: 1px
+	padding: 0
+	margin: -1px
+	overflow: hidden
+	clip-path: inset(50%)
+	white-space: nowrap
+	border-width: 0
+
+[data-slot='sidebar-mobile-inner']
+	display: flex
+	height: 100%
+	width: 100%
+	flex-direction: column
+
+// ── Root, non-collapsible ("none") ───────────────────────────────────────────────────────────
+[data-slot='sidebar'][data-collapsible='none']
+	display: flex
+	height: 100%
+	width: var(--sidebar-width)
+	flex-direction: column
+	background-color: var(--sidebar)
+	color: var(--sidebar-foreground)
+
+// ── Root, desktop (the group/peer element) ───────────────────────────────────────────────────
+[data-slot='sidebar'][data-variant]
+	color: var(--sidebar-foreground)
+	display: none
+	+bp-md
+		display: block
+
+// The gap that reserves horizontal space beside the fixed sidebar.
+[data-slot='sidebar-gap']
+	position: relative
+	width: var(--sidebar-width)
+	background-color: transparent
+	transition-property: width
+	transition-duration: 200ms
+	transition-timing-function: linear
+
+	[data-slot='sidebar'][data-side='right'] &
+		transform: rotate(180deg)
+	[data-slot='sidebar'][data-collapsible='offcanvas'] &
+		width: 0
+	[data-slot='sidebar'][data-variant='sidebar'][data-collapsible='icon'] &
+		width: var(--sidebar-width-icon)
+	[data-slot='sidebar'][data-variant='floating'][data-collapsible='icon'] &,
+	[data-slot='sidebar'][data-variant='inset'][data-collapsible='icon'] &
+		width: calc(var(--sidebar-width-icon) + 1rem)
+
+// The fixed container holding the visible sidebar.
+[data-slot='sidebar-container']
+	position: fixed
+	inset-block: 0
+	z-index: 10
+	display: none
+	height: 100svh
+	width: var(--sidebar-width)
+	transition-property: left, right, width
+	transition-duration: 200ms
+	transition-timing-function: linear
+	+bp-md
+		display: flex
+
+	// Contained provider: pin to the wrapper, not the viewport.
+	[data-slot='sidebar-wrapper'][data-contained] &
+		position: absolute
+		height: 100%
+
+	[data-slot='sidebar'][data-side='left'] &
+		inset-inline-start: 0
+	[data-slot='sidebar'][data-side='left'][data-collapsible='offcanvas'] &
+		inset-inline-start: calc(var(--sidebar-width) * -1)
+	[data-slot='sidebar'][data-side='right'] &
+		inset-inline-end: 0
+	[data-slot='sidebar'][data-side='right'][data-collapsible='offcanvas'] &
+		inset-inline-end: calc(var(--sidebar-width) * -1)
+
+	// sidebar variant — a divider border and the narrow icon width
+	[data-slot='sidebar'][data-variant='sidebar'][data-side='left'] &
+		border-inline-end: 1px solid var(--sidebar-border)
+	[data-slot='sidebar'][data-variant='sidebar'][data-side='right'] &
+		border-inline-start: 1px solid var(--sidebar-border)
+	[data-slot='sidebar'][data-variant='sidebar'][data-collapsible='icon'] &
+		width: var(--sidebar-width-icon)
+
+	// floating & inset variants — padding and a slightly wider icon width
+	[data-slot='sidebar'][data-variant='floating'] &,
+	[data-slot='sidebar'][data-variant='inset'] &
+		padding: 0.5rem
+	[data-slot='sidebar'][data-variant='floating'][data-collapsible='icon'] &,
+	[data-slot='sidebar'][data-variant='inset'][data-collapsible='icon'] &
+		width: calc(var(--sidebar-width-icon) + 1rem + 2px)
+
+[data-slot='sidebar-inner']
+	display: flex
+	height: 100%
+	width: 100%
+	flex-direction: column
+	background-color: var(--sidebar)
+
+	[data-slot='sidebar'][data-variant='floating'] &
+		border: 1px solid var(--sidebar-border)
+		border-radius: 1rem
+		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)
+
+// ── Inset (main content beside an inset sidebar) ─────────────────────────────────────────────
+[data-slot='sidebar-inset']
+	position: relative
+	display: flex
+	width: 100%
+	flex: 1 1 0%
+	flex-direction: column
+	background-color: var(--background)
+
+	+bp-md
+		[data-slot='sidebar'][data-variant='inset'] ~ &
+			margin: 0.5rem
+			margin-left: 0
+			border-radius: 1rem
+			box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)
+		[data-slot='sidebar'][data-variant='inset'][data-state='collapsed'] ~ &
+			margin-left: 0.5rem
+
+// ── Header / Footer ──────────────────────────────────────────────────────────────────────────
+// Skin sets --radius: var(--radius-xl) so child rounded tokens resolve larger in these regions.
+[data-slot='sidebar-header'],
+[data-slot='sidebar-footer']
+	--radius: calc(var(--radius) + 4px)
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+	padding: 0.5rem
+
+// ── Content ──────────────────────────────────────────────────────────────────────────────────
+[data-slot='sidebar-content']
+	--radius: calc(var(--radius) + 4px)
+	display: flex
+	min-height: 0
+	flex: 1 1 0%
+	flex-direction: column
+	gap: 0.5rem
+	overflow: auto
+	-ms-overflow-style: none
+	scrollbar-width: none
+
+	&::-webkit-scrollbar
+		display: none
+
+	[data-slot='sidebar'][data-collapsible='icon'] &
+		overflow: hidden
+
+// ── Group ──────────────────────────────────────────────────────────────────────────────────
+[data-slot='sidebar-group']
+	position: relative
+	display: flex
+	width: 100%
+	min-width: 0
+	flex-direction: column
+	padding: 0.5rem
+
+[data-slot='sidebar-group-content']
+	width: 100%
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+
+[data-slot='sidebar-group-label']
+	display: flex
+	height: 2rem
+	flex-shrink: 0
+	align-items: center
+	border-radius: calc(var(--radius) + 4px)
+	padding-inline: 0.75rem
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+	font-weight: 500
+	color: color-mix(in oklab, var(--sidebar-foreground) 70%, transparent)
+	outline: none
+	transition-property: margin, opacity
+	transition-duration: 200ms
+	transition-timing-function: linear
+
+	& > svg
+		width: 1rem
+		height: 1rem
+		flex-shrink: 0
+
+	&:focus-visible
+		box-shadow: 0 0 0 2px var(--sidebar-ring)
+
+	[data-slot='sidebar'][data-collapsible='icon'] &
+		margin-top: -2rem
+		opacity: 0
+
+[data-slot='sidebar-group-action']
+	position: absolute
+	top: 0.875rem
+	right: 0.75rem
+	display: flex
+	aspect-ratio: 1 / 1
+	width: 1.25rem
+	align-items: center
+	justify-content: center
+	border-radius: calc(var(--radius) + 4px)
+	padding: 0
+	color: var(--sidebar-foreground)
+	outline: none
+	transition-property: transform, translate, scale, rotate
+	cursor: pointer
+
+	& > svg
+		width: 1rem
+		height: 1rem
+		flex-shrink: 0
+
+	// Enlarge the hit target on touch, hide it on desktop.
+	&::after
+		content: ''
+		position: absolute
+		inset: -0.5rem
+	+bp-md
+		&::after
+			display: none
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--sidebar-accent)
+			color: var(--sidebar-accent-foreground)
+
+	&:focus-visible
+		box-shadow: 0 0 0 2px var(--sidebar-ring)
+
+	[data-slot='sidebar'][data-collapsible='icon'] &
+		display: none
+
+// ── Menu ──────────────────────────────────────────────────────────────────────────────────
+[data-slot='sidebar-menu']
+	display: flex
+	width: 100%
+	min-width: 0
+	flex-direction: column
+	gap: 0.125rem
+
+[data-slot='sidebar-menu-item']
+	position: relative
+
+[data-slot='sidebar-menu-button']
+	display: flex
+	width: 100%
+	align-items: center
+	gap: 0.5rem
+	overflow: hidden
+	border-radius: calc(var(--radius) + 4px)
+	padding-inline: 0.75rem
+	padding-block: 0.5rem
+	text-align: left
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	outline: none
+	cursor: pointer
+	transition-property: width, height, padding
+	transition-duration: 200ms
+	transition-timing-function: linear
+	+icon-child(1rem)
+
+	& > span:last-child
+		+truncate
+
+	&:disabled,
+	&[aria-disabled='true']
+		pointer-events: none
+		opacity: 0.5
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--sidebar-accent)
+			color: var(--sidebar-accent-foreground)
+
+	&:active
+		background-color: var(--sidebar-accent)
+		color: var(--sidebar-accent-foreground)
+
+	&:focus-visible
+		box-shadow: 0 0 0 2px var(--sidebar-ring)
+
+	&[data-active]
+		background-color: var(--sidebar-accent)
+		color: var(--sidebar-accent-foreground)
+		font-weight: 500
+
+	// Open rows (e.g. a dropdown trigger) keep the accent on hover.
+	&[data-open]
+		&:hover
+			@media (hover: hover)
+				background-color: var(--sidebar-accent)
+				color: var(--sidebar-accent-foreground)
+
+	// A neighbouring menu-action reserves room on the right.
+	[data-slot='sidebar-menu-item']:has([data-slot='sidebar-menu-action']) &
+		padding-right: 2rem
+
+	// Collapsed-to-icon: square the button.
+	[data-slot='sidebar'][data-collapsible='icon'] &
+		width: 2rem !important
+		height: 2rem !important
+		padding: 0.5rem !important
+
+	// Variants
+	&[data-variant='outline']
+		background-color: var(--background)
+		box-shadow: 0 0 0 1px var(--sidebar-border)
+		&:hover
+			@media (hover: hover)
+				background-color: var(--sidebar-accent)
+				color: var(--sidebar-accent-foreground)
+				box-shadow: 0 0 0 1px var(--sidebar-accent)
+
+	// Sizes
+	&[data-size='default']
+		height: 2.25rem
+	&[data-size='sm']
+		height: 2rem
+		font-size: var(--text-xs)
+		line-height: var(--text-xs--line-height)
+	&[data-size='lg']
+		height: 3.5rem
+		padding-inline: 0.75rem
+		[data-slot='sidebar'][data-collapsible='icon'] &
+			padding: 0 !important
+
+[data-slot='sidebar-menu-action']
+	position: absolute
+	top: 0.375rem
+	right: 0.25rem
+	display: flex
+	aspect-ratio: 1 / 1
+	width: 1.25rem
+	align-items: center
+	justify-content: center
+	border-radius: calc(var(--radius) + 4px)
+	padding: 0
+	color: var(--sidebar-foreground)
+	outline: none
+	cursor: pointer
+	transition-property: transform, translate, scale, rotate
+
+	& > svg
+		width: 1rem
+		height: 1rem
+		flex-shrink: 0
+
+	&::after
+		content: ''
+		position: absolute
+		inset: -0.5rem
+	+bp-md
+		&::after
+			display: none
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--sidebar-accent)
+			color: var(--sidebar-accent-foreground)
+
+	&:focus-visible
+		box-shadow: 0 0 0 2px var(--sidebar-ring)
+
+	// peer/menu-button:hover → action text tracks the accent
+	[data-slot='sidebar-menu-button']:hover ~ &
+		@media (hover: hover)
+			color: var(--sidebar-accent-foreground)
+	[data-slot='sidebar-menu-button'][data-active] ~ &
+		color: var(--sidebar-accent-foreground)
+
+	// Vertical offset tracks the sibling menu-button's size.
+	[data-slot='sidebar-menu-button'][data-size='sm'] ~ &
+		top: 0.25rem
+	[data-slot='sidebar-menu-button'][data-size='default'] ~ &
+		top: 0.5rem
+	[data-slot='sidebar-menu-button'][data-size='lg'] ~ &
+		top: 0.625rem
+
+	[data-slot='sidebar'][data-collapsible='icon'] &
+		display: none
+
+	// showOnHover — hidden until the row is interacted with (desktop only).
+	&[data-show-on-hover]
+		+bp-md
+			opacity: 0
+		[data-slot='sidebar-menu-item']:hover &,
+		[data-slot='sidebar-menu-item']:focus-within &
+			opacity: 1
+		&[data-open]
+			opacity: 1
+
+[data-slot='sidebar-menu-badge']
+	pointer-events: none
+	position: absolute
+	right: 0.25rem
+	display: flex
+	height: 1.25rem
+	min-width: 1.25rem
+	align-items: center
+	justify-content: center
+	border-radius: calc(var(--radius) + 4px)
+	padding-inline: 0.25rem
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+	font-weight: 500
+	color: var(--sidebar-foreground)
+	user-select: none
+	font-variant-numeric: tabular-nums
+
+	[data-slot='sidebar-menu-button']:hover ~ &
+		@media (hover: hover)
+			color: var(--sidebar-accent-foreground)
+	[data-slot='sidebar-menu-button'][data-active] ~ &
+		color: var(--sidebar-accent-foreground)
+	[data-slot='sidebar-menu-button'][data-size='sm'] ~ &
+		top: 0.25rem
+	[data-slot='sidebar-menu-button'][data-size='default'] ~ &
+		top: 0.375rem
+	[data-slot='sidebar-menu-button'][data-size='lg'] ~ &
+		top: 0.625rem
+
+	[data-slot='sidebar'][data-collapsible='icon'] &
+		display: none
+
+[data-slot='sidebar-menu-skeleton']
+	display: flex
+	height: 2rem
+	align-items: center
+	gap: 0.5rem
+	border-radius: calc(var(--radius) + 4px)
+	padding-inline: 0.5rem
+
+[data-slot='sidebar-menu-sub']
+	display: flex
+	min-width: 0
+	flex-direction: column
+	gap: 0.25rem
+	margin-inline: 0.875rem
+	transform: translateX(1px)
+	border-left: 1px solid var(--sidebar-border)
+	padding-inline: 0.625rem
+	padding-block: 0.125rem
+
+	[data-slot='sidebar'][data-collapsible='icon'] &
+		display: none
+
+[data-slot='sidebar-menu-sub-item']
+	position: relative
+
+[data-slot='sidebar-menu-sub-button']
+	display: flex
+	height: 1.75rem
+	min-width: 0
+	align-items: center
+	gap: 0.5rem
+	overflow: hidden
+	transform: translateX(-1px)
+	border-radius: calc(var(--radius) + 4px)
+	padding-inline: 0.75rem
+	color: var(--sidebar-foreground)
+	outline: none
+	cursor: pointer
+
+	& > span:last-child
+		+truncate
+	& > svg
+		width: 1rem
+		height: 1rem
+		flex-shrink: 0
+		color: var(--sidebar-accent-foreground)
+
+	&:disabled,
+	&[aria-disabled='true']
+		pointer-events: none
+		opacity: 0.5
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--sidebar-accent)
+			color: var(--sidebar-accent-foreground)
+	&:active
+		background-color: var(--sidebar-accent)
+		color: var(--sidebar-accent-foreground)
+	&:focus-visible
+		box-shadow: 0 0 0 2px var(--sidebar-ring)
+	&[data-active]
+		background-color: var(--sidebar-accent)
+		color: var(--sidebar-accent-foreground)
+
+	&[data-size='sm']
+		font-size: var(--text-xs)
+		line-height: var(--text-xs--line-height)
+	&[data-size='md']
+		font-size: var(--text-sm)
+		line-height: var(--text-sm--line-height)
+
+	[data-slot='sidebar'][data-collapsible='icon'] &
+		display: none
+
+// ── Rail ──────────────────────────────────────────────────────────────────────────────────
+[data-slot='sidebar-rail']
+	position: absolute
+	inset-block: 0
+	z-index: 20
+	display: none
+	width: 1rem
+	transform: translateX(-50%)
+	transition-property: all
+	transition-timing-function: linear
+	+bp-sm
+		display: flex
+
+	&::after
+		content: ''
+		position: absolute
+		inset-block: 0
+		left: 50%
+		width: 2px
+
+	&:hover::after
+		@media (hover: hover)
+			background-color: var(--sidebar-border)
+
+	[data-slot='sidebar'][data-side='left'] &
+		right: -1rem
+		cursor: w-resize
+	[data-slot='sidebar'][data-side='right'] &
+		left: 0
+		cursor: e-resize
+	[data-slot='sidebar'][data-side='left'][data-state='collapsed'] &
+		cursor: e-resize
+	[data-slot='sidebar'][data-side='right'][data-state='collapsed'] &
+		cursor: w-resize
+
+	// Offcanvas — the rail becomes a thin full-height hover strip.
+	[data-slot='sidebar'][data-collapsible='offcanvas'] &
+		transform: translateX(0)
+		&::after
+			left: 100%
+		&:hover
+			@media (hover: hover)
+				background-color: var(--sidebar)
+	[data-slot='sidebar'][data-side='left'][data-collapsible='offcanvas'] &
+		right: -0.5rem
+	[data-slot='sidebar'][data-side='right'][data-collapsible='offcanvas'] &
+		left: -0.5rem
+
+// ── Trigger ──────────────────────────────────────────────────────────────────────────────────
+[data-slot='sidebar-trigger-label']
+	position: absolute
+	width: 1px
+	height: 1px
+	padding: 0
+	margin: -1px
+	overflow: hidden
+	clip-path: inset(50%)
+	white-space: nowrap
+	border-width: 0
+
+// ── Input / Separator (layered on top of the base component styling) ─────────────────────────
+[data-slot='input'][data-sidebar='input']
+	height: 2rem
+	width: 100%
+	background-color: color-mix(in oklab, var(--input) 50%, transparent)
+	box-shadow: none
+
+[data-slot='separator'][data-sidebar='separator']
+	width: auto
+	margin-inline: 0.5rem
+	background-color: var(--sidebar-border)

@@ -1,0 +1,41 @@
+{
+  "name": "fractal-agentic",
+  "version": "2.4.0",
+  "description": "Progressive one-boss discovery, /orchestrate delivery runtime, and vendored skills for AI coding agents.",
+  "main": "plugin/plugin.json",
+  "bin": {
+    "fractal-agentic": "./bin/cli.js"
+  },
+  "files": [
+    "plugin",
+    "bin",
+    ".claude-plugin",
+    ".agents",
+    "AGENTS.md",
+    "SOUL.md",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "sh plugin/scripts/verify.sh",
+    "check": "sh plugin/scripts/check-armory.sh"
+  },
+  "keywords": [
+    "antigravity",
+    "claude-code",
+    "codex",
+    "agentic",
+    "orchestration",
+    "skills",
+    "bosses"
+  ],
+  "author": "Amrit",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fractalmandala/fractal-agentic.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fractalmandala/fractal-agentic/issues"
+  },
+  "homepage": "https://github.com/fractalmandala/fractal-agentic#readme"
+}

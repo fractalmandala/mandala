@@ -1,0 +1,32 @@
+{
+	"component": "context",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/context",
+	"skin": "data-slot SASS (context.sass)",
+	"dependencies": {
+		"internal": ["hover-card", "button", "progress"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "estimateCost is a simple local heuristic, not live pricing API",
+			"why": "Source uses tokenlens-style estimates; keep zero-deps portable copy.",
+			"risk": "medium — costs are illustrative only"
+		},
+		{
+			"what": "Live Chat + PromptInput usage example deferred",
+			"why": "Depends on prompt-input + @ai-sdk/svelte demo stack.",
+			"risk": "low for component completeness"
+		}
+	],
+	"examplesPorted": ["full breakdown hover", "low vs high usage"],
+	"examplesDeferred": [
+		{
+			"name": "usage.svelte live Chat",
+			"blockedBy": "prompt-input + @ai-sdk/svelte demo wiring"
+		}
+	],
+	"docPage": "src/content/components/context.md",
+	"status": "comprehensive re-port — token ring trigger, usage rows, costs"
+}

@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "../apps/fractalknow"
+		}
+	],
+	"settings": {
+		"svelte.enable-ts-plugin": true
+	}
+}

@@ -1,0 +1,69 @@
+{
+	"component": "accordion",
+	"wave": 3,
+	"source": "shadcn-registry/lib/registry/ui/accordion",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 23, "skinRules": 6 },
+	"dependencies": {
+		"internal": [],
+		"external": ["bits-ui"]
+	},
+
+	"variantsConverted": {
+		"from": "no tv(); skin classes cn-accordion*",
+		"to": "typed props on Root (variant/size/radius/textSize/textTransform) + Content tone",
+		"variant": ["default", "plain", "card"],
+		"size": ["default", "sm"]
+	},
+
+	"propsInvented": [
+		{
+			"name": "variant / size / radius / textSize / textTransform (Root)",
+			"why": "No class merge; demos and app chrome need frame, density and type control.",
+			"replaces": "class on Root"
+		},
+		{
+			"name": "tone (Content)",
+			"why": "Muted body copy appears in FAQ-style demos.",
+			"replaces": "class=\"text-muted-foreground\""
+		},
+		{
+			"name": "inset (Item)",
+			"why": "Compact demos inset items slightly from the frame.",
+			"replaces": "class padding on Item"
+		},
+		{
+			"name": "closedIcon / openIcon (Trigger)",
+			"why": "Source hardcodes IconPlaceholder chevrons; library ships no icon dep.",
+			"replaces": "IconPlaceholder lucide/tabler chevrons"
+		}
+	],
+
+	"deviations": [
+		{
+			"what": "FIXED: data-slot was 'accordion-content8' and 'accordion-content-inner|' (corruption)",
+			"why": "Typos meant zero content SASS matched — no overflow:hidden, no padding, no height animation. Panels 'bled' and looked unstyled.",
+			"risk": "was critical — now fixed"
+		},
+		{
+			"what": "Open item uses data-state=open (bits-ui) not data-open (oracle skin attribute)",
+			"why": "bits-ui getDataOpenClosed emits data-state; skin's [data-open] is Tailwind v4 open variant alias for the same state",
+			"risk": "low"
+		},
+		{
+			"what": "Chevron swap via aria-expanded + dual icons instead of group-aria-expanded classes",
+			"why": "No Tailwind group utilities; same UX",
+			"risk": "low"
+		}
+	],
+
+	"bugsFoundInTooling": [
+		"Corrupted data-slot strings (trailing digit / pipe) — likely a bad edit or generation glitch; scanned other components for the same pattern"
+	],
+
+	"examplesPorted": ["accordion-demo", "multiple", "variants", "compact", "in-card", "disabled", "custom-icons"],
+	"examplesDeferred": [],
+	"promotedToCentral": [],
+	"docPage": "src/content/components/accordion.md",
+	"status": "re-ported — critical data-slot fix; content overflow/animation restored; Item children explicit"
+}

@@ -1,0 +1,42 @@
+header
+	height: var(--header-height)
+	border-bottom: 1px solid var(--border-primary)
+	background: var(--background10)
+	position: sticky
+	top: 0
+	z-index: 800
+
+footer
+	height: var(--footer-height)
+	border-top: 1px solid var(--border-primary)
+
+main
+	min-height: calc(100dvh - var(--header-height) - var(--footer-height))
+
+.site-padding
+	padding-left: 1rem
+	padding-right: 1rem
+	@media (min-width: 1025px)
+		padding-left: 2rem
+		padding-right: 2rem
+
+.homepage
+	border-top: 1px solid var(--border-secondary)
+	padding-top: 32px
+
+.limited
+	@media (min-width: 1025px)
+		width: 512px
+		margin-left: auto
+		margin-right: auto
+	@media (min-width: 1201px)
+		width: 600px
+	@media (min-width: 1441px)
+		width: 720px
+	@media (min-width: 1601px)
+		width: 800px
+
+.post-header
+	padding-bottom: 32px
+	border-bottom: 1px solid var(--border-primary)
+	margin-bottom: 32px

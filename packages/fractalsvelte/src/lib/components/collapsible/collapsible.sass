@@ -1,0 +1,66 @@
+// Ported from shadcn-svelte ui/collapsible.
+// Oracle: 363 structural utilities, 0 component skin rules.
+//
+// The source has no visual skin of its own; styling happens in composition.
+
+[data-slot='collapsible-content']
+	overflow: hidden
+
+	&[data-state='open'],
+	&[data-open]
+		animation: collapsible-down 200ms ease-out
+
+	&[data-state='closed'],
+	&[data-closed]
+		animation: collapsible-up 200ms ease-out
+
+@keyframes collapsible-down
+	from
+		height: 0
+	to
+		height: var(--bits-collapsible-content-height, auto)
+
+@keyframes collapsible-up
+	from
+		height: var(--bits-collapsible-content-height, auto)
+	to
+		height: 0
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='collapsible-content']
+		animation-duration: 1ms
+
+[data-slot='collapsible-trigger']
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	gap: 0.375rem
+	min-height: 2rem
+	border: 1px solid var(--border)
+	border-radius: var(--radius)
+	background-color: var(--background)
+	color: var(--foreground)
+	padding: 0.375rem 0.75rem
+	font: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	cursor: pointer
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--muted)
+
+	&:focus-visible
+		outline: none
+		border-color: var(--ring)
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 30%, transparent)
+
+	&[aria-disabled='true'],
+	&:disabled
+		pointer-events: none
+		opacity: 0.5
+
+	svg
+		width: 1rem
+		height: 1rem
+		flex-shrink: 0

@@ -1,0 +1,58 @@
+{
+	"component": "chain-of-thought",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/chain-of-thought",
+	"skin": "none (Tailwind utilities only)",
+	"dependencies": {
+		"internal": ["collapsible", "badge"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [
+		{
+			"name": "icon snippet on Header (or false)",
+			"why": "Source hardcodes BrainIcon from lucide; library has no icon dep.",
+			"replaces": "lucide BrainIcon"
+		},
+		{
+			"name": "icon Snippet on Step (not lucide component type)",
+			"why": "Source used typeof Icon from lucide; snippets match library icon policy.",
+			"replaces": "icon?: typeof IconType"
+		}
+	],
+	"deviations": [
+		{
+			"what": "SearchResult keeps data-slot=badge + data-chain-search-result",
+			"why": "Overriding to chain-of-thought-search-result stripped all badge skin.",
+			"risk": "low"
+		},
+		{
+			"what": "Header overrides collapsible-trigger chrome via data-slot=chain-of-thought-header",
+			"why": "Source uses a quiet text trigger, not bordered collapsible button.",
+			"risk": "low"
+		},
+		{
+			"what": "Content height open/close animation redeclared on chain-of-thought-content",
+			"why": "Own data-slot opts out of collapsible-content keyframes.",
+			"risk": "low"
+		},
+		{
+			"what": "Inline SVG brain/chevron/dot defaults",
+			"why": "No phosphor/lucide dependency in component code.",
+			"risk": "low"
+		},
+		{
+			"what": "bind:open syncs both directions",
+			"why": "Source only pushed open → context; we also write open from context for true controlled mode.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": [
+		"registry preview (research + image + search)",
+		"basic steps",
+		"status pipeline",
+		"controlled open",
+		"collapsed default"
+	],
+	"docPage": "src/content/components/chain-of-thought.md",
+	"status": "comprehensive re-port"
+}

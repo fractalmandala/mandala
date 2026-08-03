@@ -1,0 +1,19 @@
+// Ported from ai-elements/copy-button.
+// Keeps data-slot=button; chrome via [data-copy-button] so button variants still apply.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='button'][data-copy-button]
+	display: inline-flex
+	align-items: center
+	gap: 0.5rem
+
+[data-slot='copy-status-icon']
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	flex-shrink: 0
+
+	svg
+		width: 1rem
+		height: 1rem

@@ -1,0 +1,11 @@
+// Ported from ai-elements/image (h-auto max-w-full overflow-hidden rounded-md).
+
+@use '../../../styles/mixins' as *
+
+[data-slot='ai-image']
+	display: block
+	height: auto
+	max-width: 100%
+	overflow: hidden
+	border-radius: var(--radius)
+	background-color: var(--muted)

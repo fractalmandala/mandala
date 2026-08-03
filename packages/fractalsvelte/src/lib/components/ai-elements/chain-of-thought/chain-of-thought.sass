@@ -1,0 +1,223 @@
+// Ported from ai-elements chain-of-thought (Tailwind utilities → data-slot SASS).
+// Collapsible height animation lives here because Content uses its own data-slot
+// (overrides collapsible-content).
+
+@use '../../../styles/mixins' as *
+
+[data-slot='chain-of-thought']
+	width: 100%
+	display: flex
+	flex-direction: column
+	gap: 1rem
+
+// Quiet text trigger (not the bordered collapsible-trigger chrome)
+[data-slot='chain-of-thought-header']
+	display: flex
+	width: 100%
+	align-items: center
+	gap: 0.5rem
+	min-height: unset
+	padding: 0
+	border: none
+	border-radius: 0
+	background-color: transparent
+	color: var(--muted-foreground)
+	font: inherit
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 400
+	cursor: pointer
+	transition: color 150ms
+	+focus-ring(3px, var(--ring), 30%)
+
+	&:hover
+		@media (hover: hover)
+			background-color: transparent
+			color: var(--foreground)
+
+	&[data-open],
+	&[data-state='open'],
+	&[aria-expanded='true']
+		[data-slot='chain-of-thought-header-chevron']
+			transform: rotate(180deg)
+
+[data-slot='chain-of-thought-header-icon']
+	display: inline-flex
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+
+	svg
+		width: 1rem
+		height: 1rem
+
+[data-slot='chain-of-thought-header-title']
+	flex: 1
+	text-align: left
+
+[data-slot='chain-of-thought-header-chevron']
+	display: inline-flex
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	align-items: center
+	justify-content: center
+	transition: transform 200ms ease
+
+	svg
+		width: 1rem
+		height: 1rem
+
+// Collapsible body
+[data-slot='chain-of-thought-content']
+	overflow: hidden
+	margin-top: 0.5rem
+	display: flex
+	flex-direction: column
+	gap: 0.75rem
+	color: var(--popover-foreground)
+	outline: none
+
+	&[data-state='open'],
+	&[data-open]
+		animation: cot-content-down 200ms ease-out
+
+	&[data-state='closed'],
+	&[data-closed]
+		animation: cot-content-up 200ms ease-out
+
+// Steps with staggered enter when chain opens
+[data-slot='chain-of-thought-step']
+	display: flex
+	gap: 0.5rem
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	transition-property: transform, opacity
+	transition-duration: 500ms
+	transition-timing-function: ease-out
+	transform: translateY(0.75rem)
+	opacity: 0
+
+	&[data-visible]
+		transform: translateY(0)
+		opacity: 1
+
+	&[data-status='complete']
+		color: var(--muted-foreground)
+
+	&[data-status='active']
+		color: var(--foreground)
+
+	&[data-status='pending']
+		color: color-mix(in oklab, var(--muted-foreground) 50%, transparent)
+
+	// Hide connector on the last step
+	&:last-child [data-slot='chain-of-thought-step-line']
+		display: none
+
+[data-slot='chain-of-thought-step-icon']
+	position: relative
+	margin-top: 0.125rem
+	display: flex
+	flex-shrink: 0
+	width: 1rem
+	justify-content: center
+
+	svg
+		width: 1rem
+		height: 1rem
+		flex-shrink: 0
+
+[data-slot='chain-of-thought-step-line']
+	position: absolute
+	top: 1.75rem
+	bottom: 0
+	left: 50%
+	width: 1px
+	margin-left: -0.5px
+	background-color: var(--border)
+
+[data-slot='chain-of-thought-step-body']
+	flex: 1
+	min-width: 0
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+
+[data-slot='chain-of-thought-step-label']
+	font-weight: 500
+
+[data-slot='chain-of-thought-step-description']
+	color: var(--muted-foreground)
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+
+// Search result chips
+[data-slot='chain-of-thought-search-results']
+	display: flex
+	flex-wrap: wrap
+	align-items: center
+	gap: 0.5rem
+
+// Badge keeps data-slot=badge; this tightens density for CoT chips
+[data-slot='badge'][data-chain-search-result]
+	gap: 0.25rem
+	padding-inline: 0.5rem
+	padding-block: 0.125rem
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+	font-weight: 400
+
+// Intermediate image frame
+[data-slot='chain-of-thought-image']
+	margin-top: 0.5rem
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+
+[data-slot='chain-of-thought-image-frame']
+	position: relative
+	display: flex
+	max-height: 22rem
+	align-items: center
+	justify-content: center
+	overflow: hidden
+	border-radius: 0.5rem
+	background-color: var(--muted)
+	padding: 0.75rem
+
+	img
+		max-height: 100%
+		max-width: 100%
+		object-fit: contain
+		border-radius: calc(var(--radius) - 2px)
+
+[data-slot='chain-of-thought-image-caption']
+	margin: 0
+	color: var(--muted-foreground)
+	font-size: var(--text-xs)
+	line-height: var(--text-xs--line-height)
+
+@keyframes cot-content-down
+	from
+		height: 0
+		opacity: 0
+	to
+		height: var(--bits-collapsible-content-height, auto)
+		opacity: 1
+
+@keyframes cot-content-up
+	from
+		height: var(--bits-collapsible-content-height, auto)
+		opacity: 1
+	to
+		height: 0
+		opacity: 0
+
+@media (prefers-reduced-motion: reduce)
+	[data-slot='chain-of-thought-content']
+		animation-duration: 1ms
+	[data-slot='chain-of-thought-step']
+		transition-duration: 1ms

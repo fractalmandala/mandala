@@ -1,0 +1,126 @@
+// Chrome for Blocks demos — mini app frames inside doc previews.
+// Kept in docs/ so blocks stay copy-paste patterns, not a parallel component system.
+
+[data-slot='block-frame']
+	display: flex
+	flex-direction: column
+	width: 100%
+	min-height: 18rem
+	height: 22rem
+	overflow: hidden
+	border: 1px solid var(--border)
+	border-radius: var(--doc-r-lg, 6px)
+	background-color: var(--background)
+	color: var(--foreground)
+
+	&[data-tall]
+		height: 26rem
+		min-height: 22rem
+
+// ── Basic shell ───────────────────────────────────────────────────────────────
+[data-slot='block-basic']
+	display: flex
+	flex: 1
+	flex-direction: column
+	min-height: 0
+	width: 100%
+	height: 100%
+
+[data-slot='block-basic-header'],
+[data-slot='block-basic-footer']
+	display: flex
+	flex-shrink: 0
+	align-items: center
+	justify-content: space-between
+	gap: 0.75rem
+	padding: 0.625rem 0.875rem
+	border-color: var(--border)
+	background-color: color-mix(in oklab, var(--muted) 55%, var(--background))
+	font-size: var(--text-sm)
+	font-weight: 500
+
+[data-slot='block-basic-header']
+	border-bottom: 1px solid var(--border)
+
+[data-slot='block-basic-footer']
+	border-top: 1px solid var(--border)
+	color: var(--muted-foreground)
+	font-weight: 400
+
+[data-slot='block-basic-main']
+	flex: 1
+	min-height: 0
+	overflow: auto
+	padding: 1rem 0.875rem
+	font-size: var(--text-sm)
+	line-height: 1.5
+	color: var(--foreground)
+
+// ── Shared labels / placeholders inside demos ─────────────────────────────────
+[data-slot='block-label']
+	margin: 0
+	font-size: var(--text-xs)
+	font-weight: 600
+	letter-spacing: 0.04em
+	text-transform: uppercase
+	color: var(--muted-foreground)
+
+[data-slot='block-title']
+	margin: 0
+	font-size: var(--text-sm)
+	font-weight: 600
+
+[data-slot='block-body-text']
+	margin: 0.5rem 0 0
+	font-size: var(--text-sm)
+	line-height: 1.55
+	color: var(--muted-foreground)
+
+[data-slot='block-pane']
+	display: flex
+	flex-direction: column
+	height: 100%
+	min-height: 0
+	overflow: auto
+	padding: 0.75rem
+	background-color: var(--background)
+
+[data-slot='block-pane'][data-tone='muted']
+	background-color: color-mix(in oklab, var(--muted) 40%, var(--background))
+
+[data-slot='block-pane'][data-tone='sidebar']
+	background-color: var(--sidebar, var(--muted))
+	color: var(--sidebar-foreground, var(--foreground))
+
+// Keep sidebar previews inside the frame
+[data-slot='block-frame'] [data-slot='sidebar-wrapper'][data-contained]
+	height: 100%
+	min-height: 0
+
+[data-slot='block-frame'] [data-slot='sidebar-inset']
+	overflow: auto
+
+// Resizable demos fill the frame
+[data-slot='block-frame'] [data-slot='resizable-pane-group']
+	flex: 1
+	min-height: 0
+	height: 100% !important
+	border: none
+	border-radius: 0
+
+// Accordion in sidebar — drop outer chrome when nested
+[data-slot='block-frame'] [data-slot='sidebar'] [data-slot='accordion'][data-variant='plain']
+	width: 100%
+	border: none
+	background: transparent
+
+[data-slot='block-nav-link']
+	display: block
+	padding: 0.35rem 0.5rem
+	border-radius: calc(var(--radius) - 2px)
+	font-size: var(--text-sm)
+	color: inherit
+	text-decoration: none
+
+	&:hover
+		background-color: color-mix(in oklab, var(--sidebar-accent, var(--accent)) 80%, transparent)

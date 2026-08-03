@@ -1,0 +1,150 @@
+header
+	padding-left: var(--site-padding)
+	padding-right: var(--site-padding)
+
+header
+	height: 56px
+	position: sticky
+	top: 0
+	background: var(--background10)
+	border-bottom: 1px solid var(--border10)
+	z-index: 900
+	nav
+		a
+			text-decoration: none
+
+.site-wrapper
+	background: var(--background10)
+
+.site-shell
+	min-height: calc(100vh - 56px)
+	padding-left: var(--site-padding)
+	display: grid
+	grid-template-columns: 1fr
+	grid-template-areas: "article" "sidebar"
+	row-gap: 32px
+	.sidebar
+		grid-area: sidebar
+		padding-top: 16px
+		padding-bottom: 16px
+	.content
+		grid-area: article
+	@media (max-width: 1024px)
+		padding-right: var(--site-padding)
+	@media (min-width: 1025px)
+		grid-template-columns: 20rem 1fr
+		grid-template-areas: "sidebar article"
+		padding-right: 8px
+		padding-bottom: 8px
+		padding-left: var(--site-padding)
+		.sidebar
+			height: calc(100vh - 64px)
+			overflow-y: scroll
+			position: sticky
+			top: 56px
+		.sidebar
+			padding-top: 32px
+			padding-bottom: 32px
+		.content
+			.article
+				padding-top: 32px
+				padding-bottom: 32px
+
+.sidebar
+	@media (min-width: 1025px)
+		&::-webkit-scrollbar
+			width: 2px
+			height: 16px
+		&::-webkit-scrollbar-thumb
+			background: var(--background20)
+		&::-webkit-scrollbar-track
+			background: var(--background10)
+
+.content
+	background: var(--background10)
+	border-radius: 12px
+	@media (min-width: 1025px)
+		border-radius: 23px
+
+.page-wrapper
+	@media (max-width: 1024px)
+		padding-top: 32px
+	@media (min-width: 1025px)
+		padding-left: 64px
+		padding-right: 0
+		.content-container
+			width: 100%
+	@media (min-width: 1201px)
+		padding-left: 128px
+		.content-container
+			width: 750px
+	@media (min-width: 1441px)
+		padding-left: 240px
+		.content-container
+			width: 800px
+
+.doc-header
+	border-bottom: 1px solid var(--border20)
+	padding-bottom: 32px
+
+.icon-grid
+	display: grid
+	grid-template-columns: repeat(auto-fill, minmax(128px, 1fr))
+	gap: 16px
+	@media (min-width: 1025px)
+		grid-template-columns: repeat(auto-fill, minmax(104px, 1fr))
+	@media (min-width: 1201px)
+		grid-template-columns: repeat(auto-fill, minmax(128px, 1fr))
+
+.display-grid
+	display: grid
+	grid-template-columns: 1fr
+	grid-template-areas: "controls" "displays"
+	row-gap: 32px
+	.controls
+		grid-area: controls
+	.display-area
+		grid-area: displays
+		display: flex
+		flex-direction: column
+		row-gap: 32px
+	@media (min-width: 1025px)
+		grid-template-columns: 17rem 1fr
+		grid-template-areas: "controls displays"
+		padding: 32px 64px 64px 64px
+		.controls
+			position: sticky
+			height: max-content
+			top: 56px
+			overflow-y: scroll
+		.display-area
+			padding-left: 16px
+	@media (min-width: 1201px)
+		grid-template-columns: 20rem 1fr
+		.display-area
+			padding-left: 32px
+	@media (min-width: 1441px)
+		grid-template-columns: 22rem 1fr
+		.display-area
+			padding-left: 64px
+
+.mobile-navigation
+	position: fixed
+	top: 56px
+	z-index: 900
+	width: 100vw
+	right: 0
+	height: calc(100vh - 56px)
+	overflow-y: scroll
+	background: var(--background10)
+	color: var(--text10)
+	text-align: right
+	padding: 16px
+	span
+		font-size: var(--text-sm)
+		color: var(--text30)
+	a
+		font-size: var(--text-lg)
+		padding: 4px 0
+		text-decoration: none
+		color: inherit

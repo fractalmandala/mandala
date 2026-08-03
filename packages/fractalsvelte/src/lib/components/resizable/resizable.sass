@@ -1,0 +1,67 @@
+// Ported from shadcn-svelte ui/resizable + style-luma.
+// Oracle (manual tw v4 compile): structural utilities + 1 skin rule (.cn-resizable-handle-icon).
+// --spacing is 0.25rem → w-1 / after:w-1 / after:h-1 = 0.25rem; h-6 = 1.5rem.
+// focus-visible:ring-1 + ring-offset-1 + ring-ring → 1px offset + 1px ring (not the 3px default).
+
+@use '../../styles/mixins' as *
+
+[data-slot='resizable-pane-group']
+	display: flex
+	height: 100%
+	width: 100%
+
+	&[data-direction='vertical']
+		flex-direction: column
+
+	&[data-bordered]
+		border: 1px solid var(--border)
+
+	+radius-variants
+
+[data-slot='resizable-handle']
+	position: relative
+	display: flex
+	width: 1px
+	align-items: center
+	justify-content: center
+	background-color: var(--border)
+
+	// Wider invisible hit area (after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2)
+	&::after
+		content: ""
+		position: absolute
+		inset-block: 0
+		left: 50%
+		width: 0.25rem
+		translate: -50% 0
+
+	// focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-ring
+	&:focus-visible
+		outline: none
+		box-shadow: 0 0 0 1px var(--background), 0 0 0 2px var(--ring)
+
+	// data-[direction=vertical]:h-px w-full + after overrides
+	&[data-direction='vertical']
+		height: 1px
+		width: 100%
+
+		&::after
+			left: 0
+			height: 0.25rem
+			width: 100%
+			translate: 0 -50%
+
+		// [&[data-direction=vertical]>div]:rotate-90
+		[data-slot='resizable-handle-icon']
+			rotate: 90deg
+
+[data-slot='resizable-handle-icon']
+	// Skin: .cn-resizable-handle-icon { @apply bg-border h-6 w-1 rounded-lg }
+	// Structural: z-10 flex shrink-0
+	z-index: 10
+	display: flex
+	flex-shrink: 0
+	height: 1.5rem
+	width: 0.25rem
+	background-color: var(--border)
+	+radius('lg')

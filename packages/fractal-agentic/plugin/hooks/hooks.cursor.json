@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "description": "Fractal Agentic optional Cursor hooks. Point commands at your FRACTAL_AGENTIC_ROOT. Profile via FRACTAL_HOOK_PROFILE (minimal default).",
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "node ${FRACTAL_AGENTIC_ROOT}/hooks/scripts/session-start.js",
+        "description": "Bounded Fractal session bootstrap"
+      },
+      {
+        "command": "node ${FRACTAL_AGENTIC_ROOT}/hooks/scripts/periodic-essay-due.js",
+        "description": "Mark scheduled essay work due without starting an agent"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "node ${FRACTAL_AGENTIC_ROOT}/hooks/scripts/pre-no-verify.js",
+        "description": "Block git --no-verify / hook bypass"
+      },
+      {
+        "command": "node ${FRACTAL_AGENTIC_ROOT}/hooks/scripts/pre-bash-safety.js",
+        "description": "Block destructive/high-risk shell patterns"
+      }
+    ],
+    "beforeReadFile": [],
+    "afterFileEdit": [
+      {
+        "command": "node ${FRACTAL_AGENTIC_ROOT}/hooks/scripts/pre-config-protection.js",
+        "description": "Note: maps best on pre-edit; Cursor after-edit is warn-oriented — config-protection also safe as no-op if no path"
+      }
+    ],
+    "stop": [
+      {
+        "command": "node ${FRACTAL_AGENTIC_ROOT}/hooks/scripts/stop-console-warn.js",
+        "description": "Warn on console.log/debugger in diff"
+      },
+      {
+        "command": "node ${FRACTAL_AGENTIC_ROOT}/hooks/scripts/stop-quality-batch.js",
+        "description": "Best-effort typecheck when project script exists"
+      },
+      {
+        "command": "node ${FRACTAL_AGENTIC_ROOT}/hooks/scripts/periodic-essay-due.js",
+        "description": "Mark scheduled essay work due without starting an agent"
+      }
+    ]
+  }
+}

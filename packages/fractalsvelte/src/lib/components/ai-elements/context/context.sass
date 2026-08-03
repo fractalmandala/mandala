@@ -1,0 +1,66 @@
+// Ported from ai-elements/context. Single-tab indented SASS.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='button'][data-context-trigger]
+	[data-slot='context-trigger-percent']
+		color: var(--muted-foreground)
+		font-weight: 500
+
+[data-slot='context-content']
+	min-width: 15rem
+	padding: 0
+
+	> * + *
+		border-top: 1px solid var(--border)
+
+[data-slot='context-content-header']
+	width: 100%
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+	padding: 0.75rem
+
+[data-slot='context-header-info']
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: 0.75rem
+	font-size: var(--text-xs)
+
+[data-slot='context-header-tokens']
+	color: var(--muted-foreground)
+	font-family: monospace
+
+[data-slot='context-content-body']
+	width: 100%
+	padding: 0.75rem
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+
+[data-slot='context-content-footer']
+	background-color: var(--secondary)
+	display: flex
+	width: 100%
+	align-items: center
+	justify-content: space-between
+	gap: 0.75rem
+	padding: 0.75rem
+	font-size: var(--text-xs)
+
+[data-slot='context-footer-label']
+	color: var(--muted-foreground)
+
+[data-slot='context-usage-row']
+	display: flex
+	align-items: center
+	justify-content: space-between
+	font-size: var(--text-xs)
+
+[data-slot='context-usage-label']
+	color: var(--muted-foreground)
+
+[data-slot='tokens-cost-text']
+	color: var(--muted-foreground)
+	margin-left: 0.5rem

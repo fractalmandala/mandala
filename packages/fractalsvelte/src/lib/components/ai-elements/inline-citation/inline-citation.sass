@@ -1,0 +1,106 @@
+// Ported from ai-elements/inline-citation. Single-tab indented SASS.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='inline-citation']
+	display: inline
+	align-items: center
+	gap: 0.25rem
+
+[data-slot='inline-citation-text']
+	transition: background-color 150ms
+
+[data-slot='inline-citation-card-trigger']
+	margin-left: 0.25rem
+	border-radius: 9999px
+
+[data-slot='inline-citation-card-body']
+	position: relative
+	width: 20rem
+	padding: 0
+
+[data-slot='inline-citation-carousel']
+	width: 100%
+
+[data-slot='inline-citation-carousel-content']
+	display: flex
+
+[data-slot='inline-citation-carousel-header']
+	background-color: var(--secondary)
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: 0.5rem
+	border-top-left-radius: var(--radius-md)
+	border-top-right-radius: var(--radius-md)
+	padding: 0.5rem
+
+[data-slot='inline-citation-carousel-item']
+	width: 100%
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+	padding: 1rem
+
+[data-slot='inline-citation-carousel-index']
+	color: var(--muted-foreground)
+	display: flex
+	flex: 1
+	align-items: center
+	justify-content: flex-end
+	padding-inline: 0.75rem
+	padding-block: 0.25rem
+	font-size: var(--text-xs)
+
+[data-slot='inline-citation-carousel-prev'], [data-slot='inline-citation-carousel-next']
+	flex-shrink: 0
+	background: none
+	border: none
+	padding: 0
+	cursor: pointer
+
+	svg
+		color: var(--muted-foreground)
+		width: 1rem
+		height: 1rem
+
+[data-slot='inline-citation-source']
+	display: flex
+	flex-direction: column
+	gap: 0.25rem
+
+[data-slot='source-title']
+	font-size: var(--text-sm)
+	line-height: 1.25
+	font-weight: 500
+	margin: 0
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+
+[data-slot='source-url']
+	color: var(--muted-foreground)
+	font-size: var(--text-xs)
+	margin: 0
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+	word-break: break-all
+
+[data-slot='source-description']
+	color: var(--muted-foreground)
+	font-size: var(--text-sm)
+	line-height: 1.625
+	margin: 0
+	display: -webkit-box
+	-webkit-line-clamp: 3
+	-webkit-box-orient: vertical
+	overflow: hidden
+
+[data-slot='inline-citation-quote']
+	border-left: 2px solid var(--muted)
+	color: var(--muted-foreground)
+	padding-left: 0.75rem
+	font-size: var(--text-sm)
+	font-style: italic
+	margin: 0

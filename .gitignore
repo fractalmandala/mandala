@@ -1,0 +1,24 @@
+apps/fractalknow
+apps/fractalengine
+apps/fractalai
+deposits
+sites/fractaldharma/
+
+# Dependencies
+node_modules/
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Build/runtime outputs
+dist/
+.svelte-kit/
+build/
+.electron-runtime/
+target/
+
+# System files
+.DS_Store
+Thumbs.db

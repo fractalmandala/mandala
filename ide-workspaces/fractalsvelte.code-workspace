@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../packages/fractalsvelte"
+		},
+		{
+			"path": "../apps/fracta"
+		}
+	],
+	"settings": {
+		"editor.glyphMargin": false
+	}
+}

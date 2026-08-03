@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "target": "claude",
+  "profile": "standard",
+  "plugin_root": "/Users/amrit/fractal-agentic/plugin",
+  "claude_settings": "/Users/amrit/.claude/settings.json",
+  "materialized": "/Users/amrit/fractal-agentic/.fractal-agentic/hooks.claude.json"
+}

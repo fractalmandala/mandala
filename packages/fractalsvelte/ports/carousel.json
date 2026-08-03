@@ -1,0 +1,25 @@
+{
+	"component": "carousel",
+	"wave": 5,
+	"source": "shadcn-registry/lib/registry/ui/carousel",
+	"skin": "luma",
+	"oracle": { "structuralUtilities": 26, "skinRules": 2 },
+	"dependencies": {
+		"internal": ["button"],
+		"external": ["embla-carousel-svelte"]
+	},
+	"deviations": [
+		{
+			"what": "Prev/Next keep data-slot=button; positioning via data-carousel-nav",
+			"why": "Overriding data-slot stripped button skin leaving pure absolute boxes",
+			"risk": "low"
+		},
+		{
+			"what": "Nav arrows inset 0.5rem inside root instead of -3rem outside",
+			"why": "Source places arrows outside; overflow:hidden parents (docs previews) clip them. Inside placement fixes bleed/clip.",
+			"risk": "medium — visual difference from source demos"
+		}
+	],
+	"docPage": "src/content/components/carousel.md",
+	"status": "nav skin + bleed fix; package export added"
+}

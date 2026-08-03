@@ -1,0 +1,58 @@
+// Escape hatch for scoping YOUR OWN custom classes to a breakpoint, the same way
+// `virtual:fractals-styler.css` scopes the package's own utilities via `.class-sm` etc.
+// The JIT engine can only clone classes whose declarations it knows statically (its own
+// utilities) — for anything else, wrap the rule yourself with one of these mixins:
+//
+//   .card
+//   	padding: 8px
+//   	+bp-sm
+//   		padding: 4px
+=bp-xs
+	@media (max-width: 720px)
+		@content
+=bp-sm
+	@media (max-width: 1024px)
+		@content
+=bp-bs
+	@media (min-width: 721px)
+		@content
+=bp-lg
+	@media (min-width: 1025px)
+		@content
+=bp-xl
+	@media (min-width: 1201px)
+		@content
+
+=control-base
+	border: 1px solid transparent
+	border-radius: var(--radius-sm)
+	cursor: pointer
+	transition-property: background-color, border-color, color, box-shadow, transform
+	transition-duration: var(--motion-fast)
+	transition-timing-function: var(--ease-out)
+
+=surface-base
+	border: 1px solid var(--border)
+	border-radius: var(--radius-md)
+	background: var(--surface-1)
+
+=panel-base
+	display: flex
+	min-width: 0
+	min-height: 0
+	flex-direction: column
+
+=panel-header-base
+	display: flex
+	min-height: 48px
+	align-items: center
+	justify-content: space-between
+	gap: var(--space-2)
+	padding-inline: var(--space-3)
+	border-bottom: 1px solid var(--border)
+
+=panel-content-base
+	min-width: 0
+	min-height: 0
+	flex: 1 1 auto
+	overflow: auto

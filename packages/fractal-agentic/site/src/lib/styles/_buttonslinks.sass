@@ -1,0 +1,150 @@
+.control
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	border-radius: var(--radius-sm)
+	font-family: var(--font-sans)
+	font-size: var(--text-sm)
+	font-weight: 500
+	cursor: pointer
+	transition: all 0.15s ease-in-out
+	outline: none
+	text-decoration: none
+
+button, input, select
+	font-family: inherit
+
+button.blank
+	background: none
+	border: none
+	cursor: pointer
+	padding: 0
+
+a.blank
+	text-decoration: none
+	color: inherit
+
+.link
+	color: var(--accent)
+	text-decoration: none
+	&:hover
+		color: var(--accent-strong)
+		text-decoration: underline
+
+.button, .btn
+	@extend .control
+	height: 32px
+	padding: 0 16px
+	border: 1px solid var(--border-strong)
+	background: var(--bg-raised)
+	color: var(--text-primary)
+	&:hover
+		background: var(--bg-panel-hover)
+
+.button-primary, .btn--primary
+	@extend .control
+	height: 32px
+	padding: 0 16px
+	border: 1px solid var(--accent-strong)
+	background: var(--accent)
+	color: var(--btn-primary-fg)
+	&:hover
+		opacity: 0.9
+
+.button-quiet, .btn--ghost
+	@extend .control
+	height: 32px
+	padding: 0 12px
+	border: 1px solid transparent
+	background: transparent
+	color: var(--text-secondary)
+	&:hover
+		background: var(--bg-panel-hover)
+		color: var(--text-primary)
+
+.icon-button
+	@extend .control
+	height: 32px
+	width: 32px
+	padding: 0
+	background: transparent
+	border: 1px solid transparent
+	color: var(--text-primary)
+	&:hover
+		background: var(--bg-panel-hover)
+		color: var(--text-primary)
+		svg
+			transform: scale(1.05)
+
+.btn-icon
+	display: flex
+	flex-direction: row
+	height: 32px
+	color: var(--text-secondary)
+	gap: 4px
+	align-items: center
+	text-decoration: none
+	font-size: var(--text-xs)
+	font-weight: 500
+	padding: 4px 8px
+	border-radius: 5px
+	border: none
+	background: var(--bg-canvas)
+	transition: background 80ms var(--easeOut-20)
+	span
+		color: var(--text-muted)
+	&:hover
+		background: var(--bg-raised)
+		color: var(--text-primary)
+		svg, span
+			transform: scale(0.96)
+
+.btn-sm
+	height: 16px
+	padding: 0 8px
+	font-size: var(--text-xs)
+
+.btn-md
+	height: 24px
+	padding: 0 12px
+	font-size: var(--text-sm)
+
+.btn-lg
+	height: 32px
+	padding: 0 16px
+	font-size: var(--text-bs)
+
+.section-list-item, .sidebar-item
+	display: flex
+	align-items: center
+	border-radius: var(--radius-sm)
+	padding: 4px 8px
+	text-decoration: none
+	color: var(--text-primary)
+	font-size: var(--text-sm)
+	font-weight: 400
+	transition: all 0.15s ease-in-out
+	width: max-content
+	&:hover, &[aria-current="page"]
+		background: var(--bg-panel-hover)
+		color: var(--text-primary)
+
+.nav-link
+	font-size: var(--text-sm)
+	text-decoration: none
+	color: var(--text-primary)
+	font-weight: 600
+	transition: font-variation-settings 0.2s ease
+	background: transparent
+	padding: 4px 8px
+	border-radius: 5px
+	&:hover
+		background: var(--bg-panel-hover)
+
+.border-grid-child
+	background: var(--bg-canvas)
+	text-decoration: none
+	align-items: flex-start
+	justify-content: center
+	&.home-boss
+		padding: 32px

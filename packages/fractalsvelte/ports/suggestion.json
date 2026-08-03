@@ -1,0 +1,32 @@
+{
+	"component": "suggestion",
+	"wave": 0,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/suggestion",
+	"skin": "data-slot SASS pill chips on Button + ScrollArea",
+	"dependencies": {
+		"internal": ["button", "scroll-area"],
+		"external": []
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "onSelect(suggestion) instead of source onclick(suggestion)",
+			"why": "Avoid colliding with Button's native onclick HTML attribute typing; clearer API.",
+			"risk": "low"
+		},
+		{
+			"what": "Keep data-slot=button; chrome via data-suggestion",
+			"why": "Overriding data-slot strips button skin.",
+			"risk": "low"
+		},
+		{
+			"what": "Suggestions uses ported ScrollArea whitespace=nowrap + width=100%",
+			"why": "Source used Tailwind whitespace-nowrap and scrollbarXClasses; ported ScrollArea has first-class whitespace prop.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["basic onSelect", "overflow scroll", "variants / selected"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/suggestion.md",
+	"status": "comprehensive re-port — pill chips, scroll row, full docs"
+}

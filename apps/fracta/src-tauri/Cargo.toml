@@ -1,0 +1,43 @@
+[package]
+name = "fracta"
+version = "0.1.0"
+default-run = "fracta"
+description = "fracta"
+authors = ["Fractal Mandala"]
+edition = "2021"
+rust-version = "1.77.2"
+
+[lib]
+name = "fracta_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.6.2", features = [] }
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+csv = "1.3"
+lopdf = "0.35"
+quick-xml = "0.37"
+rusqlite = { version = "0.32", features = ["bundled"] }
+zip = { version = "2.2", default-features = false, features = ["deflate"] }
+tauri = { version = "2.11.2", features = [] }
+rfd = "0.15"
+trash = "5"
+notify = "8"
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-window-state = "2"
+
+# Clipboard-source detection: poll NSPasteboard.changeCount and read the frontmost
+# app (NSWorkspace) at the moment of a copy. macOS-only; other platforms get a no-op
+# watcher so the crate still builds.
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.5"
+objc2-foundation = { version = "0.2", features = ["NSString"] }
+objc2-app-kit = { version = "0.2", features = [
+    "NSPasteboard",
+    "NSWorkspace",
+    "NSRunningApplication",
+] }

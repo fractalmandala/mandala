@@ -1,0 +1,27 @@
+{
+	"component": "model-selector",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/model-selector",
+	"skin": "data-slot SASS (model-selector.sass)",
+	"dependencies": {
+		"internal": ["dialog", "command", "button"],
+		"external": ["bits-ui"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Logo uses models.dev SVG URLs (same as source) with dark invert",
+			"why": "Match source logos without shipping assets.",
+			"risk": "low — network dependency for logos"
+		},
+		{
+			"what": "Added LogoGroup + Dialog exports missing from earlier port",
+			"why": "Parity with source composition (multi-provider stack, Command.Dialog).",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["searchable multi-chef picker", "selection state"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/model-selector.md",
+	"status": "comprehensive re-port — command dialog, logos, logo group"
+}

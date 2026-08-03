@@ -1,0 +1,28 @@
+// Ported from ai-elements/shimmer (Tailwind animate-shimmer → data-slot SASS).
+// Highlight band uses --background over a --muted-foreground base (source pattern).
+
+@use '../../../styles/mixins' as *
+
+@keyframes shimmer-anim
+	from
+		background-position: 100% center
+	to
+		background-position: 0% center
+
+[data-slot='shimmer']
+	position: relative
+	display: inline-block
+	// Base fill = muted foreground; sliding highlight = background (reads as light sweep)
+	background-image: linear-gradient(90deg, transparent calc(50% - var(--spread, 60px)), var(--background), transparent calc(50% + var(--spread, 60px))), linear-gradient(var(--muted-foreground), var(--muted-foreground))
+	background-size: 250% 100%, auto
+	background-repeat: no-repeat, padding-box
+	background-clip: text
+	-webkit-background-clip: text
+	color: transparent
+	background-position: 100% center
+	animation: shimmer-anim var(--shimmer-duration, 2s) linear infinite
+	// Fallback if background-clip unsupported
+	@media (forced-colors: active)
+		color: CanvasText
+		background: none
+		animation: none

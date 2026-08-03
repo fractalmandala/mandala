@@ -1,0 +1,44 @@
+// Ported from ai-elements/open-in-chat. Single-tab indented SASS.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='open-in-trigger']
+	display: inline-flex
+
+[data-slot='button'][data-open-in-trigger-button]
+	gap: 0.5rem
+
+[data-slot='open-in-content']
+	width: 13.125rem
+	min-width: 13.125rem
+	box-shadow: none
+
+[data-slot='open-in-item'],
+[data-slot='dropdown-menu-item'][data-provider]
+	display: flex
+	align-items: center
+	gap: 0.5rem
+	cursor: pointer
+	width: 100%
+
+[data-slot='open-in-item-icon']
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	flex-shrink: 0
+	width: 1em
+	height: 1em
+	color: var(--muted-foreground)
+
+	svg
+		width: 1em
+		height: 1em
+
+[data-slot='open-in-item-label']
+	flex: 1
+	min-width: 0
+
+[data-slot='open-in-provider-icon']
+	display: block
+	width: 1em
+	height: 1em

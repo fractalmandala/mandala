@@ -1,0 +1,148 @@
+// Ported from registry ui/toggle-group + style-luma.
+// Oracle: 14 structural utilities, 9 skin rules.
+//
+// Items re-skin the toggle surface (variant/size/pressed) so a group does not
+// need to import toggle.sass. Joined outline groups (spacing=0) share borders
+// and outer radius via parent [data-horizontal]/[data-vertical] + first/last.
+
+@use '../../styles/mixins' as *
+
+[data-slot='toggle-group']
+	display: flex
+	width: fit-content
+	flex-direction: row
+	align-items: center
+	flex-shrink: 0
+	gap: var(--toggle-group-gap, 0)
+
+	&[data-vertical]
+		flex-direction: column
+		align-items: stretch
+
+	&[data-spacing='0'][data-variant='outline']
+		border-radius: 1.5rem
+
+[data-slot='toggle-group-item']
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	flex-shrink: 0
+	gap: 0.25rem
+	white-space: nowrap
+	border: 1px solid transparent
+	border-radius: 1.5rem
+	background-color: transparent
+	font-size: var(--text-sm)
+	line-height: var(--text-sm--line-height)
+	font-weight: 500
+	transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke
+	transition-timing-function: var(--default-transition-timing-function)
+	transition-duration: var(--default-transition-duration)
+	+interactive(pointer)
+	+icon-child(1rem)
+	+focus-ring(3px, var(--ring), 30%)
+	+invalid-ring
+
+	&:focus,
+	&:focus-visible
+		z-index: 10
+
+	&:hover
+		@media (hover: hover)
+			background-color: var(--muted)
+			color: var(--foreground)
+
+	&[data-state='on'],
+	&[aria-pressed='true']
+		background-color: var(--muted)
+
+	&[data-state='on'][data-pressed-surface='transparent'],
+	&[aria-pressed='true'][data-pressed-surface='transparent']
+		background-color: transparent
+
+	&[data-state='on'][data-pressed-icon-tone='primary'] svg,
+	&[aria-pressed='true'][data-pressed-icon-tone='primary'] svg
+		color: var(--primary)
+		fill: currentColor
+		stroke: currentColor
+
+	&[data-state='on'][data-pressed-icon-tone='accent'] svg,
+	&[aria-pressed='true'][data-pressed-icon-tone='accent'] svg
+		color: var(--accent-foreground)
+		fill: currentColor
+		stroke: currentColor
+
+	&[data-state='on'][data-pressed-icon-tone='destructive'] svg,
+	&[aria-pressed='true'][data-pressed-icon-tone='destructive'] svg
+		color: var(--destructive)
+		fill: currentColor
+		stroke: currentColor
+
+	&[data-variant='outline']
+		border-color: var(--input)
+		&:hover
+			@media (hover: hover)
+				background-color: var(--muted)
+
+	&[data-size='default']
+		height: 2.25rem
+		min-width: 2.25rem
+		padding-inline: 0.75rem
+		&:has(*[data-icon='inline-end'])
+			padding-right: 0.625rem
+		&:has(*[data-icon='inline-start'])
+			padding-left: 0.625rem
+
+	&[data-size='sm']
+		height: 2rem
+		min-width: 2rem
+		padding-inline: 0.75rem
+		&:has(*[data-icon='inline-end'])
+			padding-right: 0.5rem
+		&:has(*[data-icon='inline-start'])
+			padding-left: 0.5rem
+
+	&[data-size='lg']
+		height: 2.5rem
+		min-width: 2.5rem
+		padding-inline: 1rem
+		&:has(*[data-icon='inline-end'])
+			padding-right: 0.75rem
+		&:has(*[data-icon='inline-start'])
+			padding-left: 0.75rem
+
+	// spacing=0 — join items into one control
+	[data-slot='toggle-group'][data-spacing='0'] &
+		border-radius: 0
+		padding-inline: 0.75rem
+		box-shadow: none
+		&:has(*[data-icon='inline-end'])
+			padding-right: 0.625rem
+		&:has(*[data-icon='inline-start'])
+			padding-left: 0.625rem
+
+	[data-slot='toggle-group'][data-horizontal][data-spacing='0'] &[data-variant='outline']
+		border-left-width: 0
+		&:first-child
+			border-left-width: 1px
+
+	[data-slot='toggle-group'][data-vertical][data-spacing='0'] &[data-variant='outline']
+		border-top-width: 0
+		&:first-child
+			border-top-width: 1px
+
+	[data-slot='toggle-group'][data-horizontal][data-spacing='0'] &:first-child
+		border-top-left-radius: 1.5rem
+		border-bottom-left-radius: 1.5rem
+
+	[data-slot='toggle-group'][data-horizontal][data-spacing='0'] &:last-child
+		border-top-right-radius: 1.5rem
+		border-bottom-right-radius: 1.5rem
+
+	[data-slot='toggle-group'][data-vertical][data-spacing='0'] &:first-child
+		border-top-left-radius: 1.5rem
+		border-top-right-radius: 1.5rem
+
+	[data-slot='toggle-group'][data-vertical][data-spacing='0'] &:last-child
+		border-bottom-right-radius: 1.5rem
+		border-bottom-left-radius: 1.5rem

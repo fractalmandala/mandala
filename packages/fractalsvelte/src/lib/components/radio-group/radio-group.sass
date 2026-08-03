@@ -1,0 +1,74 @@
+// Ported from shadcn-svelte ui/radio-group + style-luma.
+// Oracle: 11 structural utilities, 4 skin rules.
+//
+// Tailwind's --spacing is 0.25rem, so 2 units is 0.5rem, 2.5 units is 0.625rem,
+// 3 units is 0.75rem and 4 units is 1rem.
+
+@use '../../styles/mixins' as *
+
+[data-slot='radio-group']
+	display: grid
+	width: 100%
+	gap: 0.75rem
+
+[data-slot='radio-group-item']
+	position: relative
+	display: flex
+	align-items: center
+	justify-content: center
+	flex-shrink: 0
+	width: 1rem
+	height: 1rem
+	aspect-ratio: 1 / 1
+	border: 1px solid transparent
+	border-radius: 9999px
+	background-color: color-mix(in oklab, var(--input) 90%, transparent)
+	color: currentcolor
+	outline: none
+	+interactive(pointer)
+	+focus-ring(3px, var(--ring), 30%)
+
+	&::after
+		content: ''
+		position: absolute
+		inset-inline: -0.75rem
+		inset-block: -0.5rem
+
+	&[aria-invalid='true']
+		border-color: var(--destructive)
+		box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent)
+
+		.dark &
+			border-color: color-mix(in oklab, var(--destructive) 50%, transparent)
+			box-shadow: 0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent)
+
+	&[data-checked],
+	&[data-state='checked'],
+	&[aria-checked='true']
+		background-color: var(--primary)
+		color: var(--primary-foreground)
+
+[data-slot='radio-group-indicator']
+	display: flex
+	align-items: center
+	justify-content: center
+	width: 1rem
+	height: 1rem
+	pointer-events: none
+
+	> svg
+		position: absolute
+		top: 50%
+		left: 50%
+		width: 0.5rem
+		height: 0.5rem
+		translate: -50% -50%
+		border-radius: 9999px
+		fill: currentcolor
+		color: var(--primary-foreground)
+		flex-shrink: 0
+		pointer-events: none
+
+		.dark &
+			width: 0.625rem
+			height: 0.625rem

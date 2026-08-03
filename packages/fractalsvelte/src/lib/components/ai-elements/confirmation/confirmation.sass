@@ -1,0 +1,21 @@
+// Ported from ai-elements/confirmation. Single-tab indented SASS.
+
+@use '../../../styles/mixins' as *
+
+[data-slot='confirmation']
+	display: flex
+	flex-direction: column
+	gap: 0.5rem
+
+[data-slot='confirmation-title']
+	display: inline
+
+[data-slot='confirmation-actions']
+	display: flex
+	align-items: center
+	justify-content: flex-end
+	gap: 0.5rem
+	align-self: flex-end
+
+// confirmation-action is a plain Button (variant/size via props) — button.sass owns its
+// styling now that data-slot='button' is preserved; no override needed.

@@ -1,0 +1,32 @@
+{
+	"component": "open-in-chat",
+	"wave": 1,
+	"source": "ai-elements-registry/src/lib/components/ai-elements/open-in-chat",
+	"skin": "data-slot SASS (open-in-chat.sass)",
+	"dependencies": {
+		"internal": ["dropdown-menu", "button"],
+		"external": ["bits-ui", "runed"]
+	},
+	"propsInvented": [],
+	"deviations": [
+		{
+			"what": "Inline brand SVGs (chatgpt/claude/scira/v0) + inline SVG for T3",
+			"why": "No lucide/phosphor; brand paths from source icons.",
+			"risk": "low"
+		},
+		{
+			"what": "Provider components ChatGPT/Claude/T3/Scira/V0 restored",
+			"why": "Earlier port only had generic Item; demos need deep links.",
+			"risk": "low"
+		},
+		{
+			"what": "Trigger default button keeps data-slot=button",
+			"why": "Button skin + data-open-in-trigger-button for gap.",
+			"risk": "low"
+		}
+	],
+	"examplesPorted": ["all providers", "labeled groups"],
+	"examplesDeferred": [],
+	"docPage": "src/content/components/open-in-chat.md",
+	"status": "comprehensive re-port — provider deep links, icons, phosphor removed"
+}
