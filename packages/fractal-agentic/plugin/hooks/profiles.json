@@ -6,7 +6,9 @@
       "pre:bash:no-verify",
       "pre:edit:config-protection",
       "session:start",
-      "periodic:essay-due"
+      "periodic:essay-due",
+      "session:handoff-detect",
+      "stop:session-ledger"
     ],
     "standard": [
       "pre:bash:safety",
@@ -15,7 +17,9 @@
       "session:start",
       "periodic:essay-due",
       "stop:quality-batch",
-      "stop:console-warn"
+      "stop:console-warn",
+      "session:handoff-detect",
+      "stop:session-ledger"
     ],
     "strict": [
       "pre:bash:safety",
@@ -25,7 +29,9 @@
       "periodic:essay-due",
       "stop:quality-batch",
       "stop:console-warn",
-      "pre:edit:gateguard"
+      "pre:edit:gateguard",
+      "session:handoff-detect",
+      "stop:session-ledger"
     ]
   }
 }

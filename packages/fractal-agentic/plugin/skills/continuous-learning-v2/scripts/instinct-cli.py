@@ -1828,10 +1828,133 @@ def cmd_prune(args) -> int:
 
 
 # ─────────────────────────────────────────────
+# Weekly Command
+# ─────────────────────────────────────────────
+
+def cmd_weekly(args) -> int:
+    """Generate a cross-project weekly synthesis report as JSON."""
+    registry = load_registry()
+    now = datetime.now(timezone.utc)
+    week_ago = now - timedelta(days=7)
+    thirty_days_ago = now - timedelta(days=30)
+
+    all_items = []
+    for pid, pinfo in registry.items():
+        project_dir = PROJECTS_DIR / pid
+        personal_dir = project_dir / "instincts" / "personal"
+        for inst in _load_instincts_from_dir(personal_dir, "personal", "project"):
+            fp = Path(inst.get("_source_file", ""))
+            mtime = fp.stat().st_mtime if fp.exists() else None
+            all_items.append({
+                "instinct": inst,
+                "project_id": pid,
+                "project_name": pinfo.get("name", pid),
+                "file_path": str(fp),
+                "file_mtime": mtime,
+            })
+
+    global_instincts = _load_instincts_from_dir(GLOBAL_PERSONAL_DIR, "personal", "global")
+    global_instincts += _load_instincts_from_dir(GLOBAL_INHERITED_DIR, "inherited", "global")
+    for inst in global_instincts:
+        fp = Path(inst.get("_source_file", ""))
+        mtime = fp.stat().st_mtime if fp.exists() else None
+        all_items.append({
+            "instinct": inst,
+            "project_id": "global",
+            "project_name": "global",
+            "file_path": str(fp),
+            "file_mtime": mtime,
+        })
+
+    id_to_projects = defaultdict(list)
+    for item in all_items:
+        iid = item["instinct"].get("id")
+        if iid:
+            id_to_projects[iid].append(item)
+
+    cross_project = {}
+    for iid, items in id_to_projects.items():
+        unique_pids = {item["project_id"] for item in items}
+        if len(unique_pids) >= 2:
+            avg_conf = sum(item["instinct"].get("confidence", 0.5) for item in items) / len(items)
+            cross_project[iid] = {
+                "projects": [{"id": item["project_id"], "name": item["project_name"]} for item in items],
+                "avg_confidence": round(avg_conf, 2),
+            }
+
+    global_ids = {inst.get("id") for inst in global_instincts}
+    promotion_candidates = {
+        iid: data for iid, data in cross_project.items()
+        if data["avg_confidence"] >= 0.8 and iid not in global_ids
+    }
+
+    stale = []
+    for item in all_items:
+        if item["file_mtime"]:
+            mtime_dt = datetime.fromtimestamp(item["file_mtime"], tz=timezone.utc)
+            age_days = (now - mtime_dt).days
+            if age_days >= 30:
+                stale.append({
+                    "id": item["instinct"].get("id"),
+                    "project": item["project_name"],
+                    "confidence": item["instinct"].get("confidence", 0.5),
+                    "domain": item["instinct"].get("domain", "general"),
+                    "last_updated": mtime_dt.isoformat(),
+                    "age_days": age_days,
+                })
+
+    new_this_week = []
+    for item in all_items:
+        if item["file_mtime"]:
+            mtime_dt = datetime.fromtimestamp(item["file_mtime"], tz=timezone.utc)
+            if mtime_dt >= week_ago:
+                new_this_week.append({
+                    "id": item["instinct"].get("id"),
+                    "project": item["project_name"],
+                    "confidence": item["instinct"].get("confidence", 0.5),
+                    "domain": item["instinct"].get("domain", "general"),
+                    "trigger": item["instinct"].get("trigger", ""),
+                    "created": mtime_dt.isoformat(),
+                })
+
+    global_new = [i for i in new_this_week if i["project"] == "global"]
+    global_stale = [s for s in stale if s["project"] == "global"]
+
+    result = {
+        "generated": now.isoformat(),
+        "period_days": 7,
+        "projects": {
+            pid: {
+                "name": pinfo.get("name", pid),
+                "total_instincts": sum(1 for item in all_items if item["project_id"] == pid),
+                "new_this_week": sum(1 for item in new_this_week if item["project"] == pinfo.get("name", pid)),
+                "stale": sum(1 for s in stale if s["project"] == pinfo.get("name", pid)),
+            }
+            for pid, pinfo in registry.items()
+        },
+        "cross_project": cross_project,
+        "promotion_candidates": promotion_candidates,
+        "stale": stale,
+        "new_this_week": new_this_week,
+        "global": {
+            "total": len(global_instincts),
+            "new": len(global_new),
+            "stale": len(global_stale),
+        },
+        "total_projects": len(registry),
+        "total_instincts": len(all_items),
+    }
+
+    print(json.dumps(result, indent=2))
+    return 0
+
+
+# ─────────────────────────────────────────────
 # Main
 # ─────────────────────────────────────────────
 
 def main() -> int:
+
     _ensure_global_dirs()
     parser = argparse.ArgumentParser(description='Instinct CLI for Continuous Learning v2.1 (Project-Scoped)')
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
@@ -1882,6 +2005,10 @@ def main() -> int:
     projects_gc.add_argument('--dry-run', action='store_true', help='Preview without deleting')
     projects_gc.add_argument('--force', action='store_true', help='Skip confirmation')
 
+    # Weekly
+    weekly_parser = subparsers.add_parser('weekly', help='Cross-project weekly synthesis report')
+    weekly_parser.add_argument('--json', action='store_true', help='Output JSON (default)')
+
     # Prune (pending instinct TTL)
     prune_parser = subparsers.add_parser('prune', help='Delete pending instincts older than TTL')
     prune_parser.add_argument('--max-age', type=int, default=PENDING_TTL_DAYS,
@@ -1903,6 +2030,8 @@ def main() -> int:
         return cmd_promote(args)
     elif args.command == 'projects':
         return cmd_projects(args)
+    elif args.command == 'weekly':
+        return cmd_weekly(args)
     elif args.command == 'prune':
         return cmd_prune(args)
     else:

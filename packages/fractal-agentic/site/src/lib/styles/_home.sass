@@ -9,8 +9,7 @@
 	display: grid
 	grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.95fr)
 	align-items: stretch
-	column-gap: 64px
-	padding: 32px 0
+	column-gap: 32px
 
 .home-kicker, .home-eyebrow
 	margin: 0
@@ -24,7 +23,7 @@
 
 .home-hero__brand
 	display: block
-	font-size: 0.58em
+	font-size: var(--text-3xl)
 	letter-spacing: -0.06em
 
 .home-hero__title-line
@@ -141,7 +140,7 @@
 
 .home-section__title, .home-launch__title
 	margin: 0
-	font-size: clamp(2rem, 4vw, 3rem)
+	font-size: var(--text-3xl)
 	font-weight: 700
 	letter-spacing: -0.04em
 	line-height: 1.02
@@ -291,7 +290,7 @@
 	h2
 		max-width: 20ch
 		margin: var(--space-3) 0 0
-		font-size: clamp(1.5rem, 3vw, 2.25rem)
+		font-size: var(--text-2xl)
 		letter-spacing: -0.04em
 		line-height: 1.05
 
@@ -304,7 +303,7 @@
 
 	code
 		font-family: var(--font-mono)
-		font-size: 0.9em
+		font-size: var(--text-xs)
 		color: var(--text-primary)
 
 .home-credits__link

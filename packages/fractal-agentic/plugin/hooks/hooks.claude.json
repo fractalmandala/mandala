@@ -1,5 +1,5 @@
 {
-  "description": "Fractal Agentic optional hooks (Claude-compatible). Merge into host settings or register as plugin hooks. Default profile is minimal — set FRACTAL_HOOK_PROFILE=standard|strict to expand. Requires FRACTAL_AGENTIC_ROOT or running from a tree that contains this package.",
+  "description": "Fractal Agentic optional hooks (Claude-compatible). Merge into host settings or register as plugin hooks. Default profile is minimal \u2014 set FRACTAL_HOOK_PROFILE=standard|strict to expand. Requires FRACTAL_AGENTIC_ROOT or running from a tree that contains this package.",
   "hooks": {
     "PreToolUse": [
       {
@@ -46,6 +46,11 @@
             "type": "command",
             "command": "node \"${FRACTAL_AGENTIC_ROOT}/hooks/scripts/periodic-essay-due.js\"",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "node \"${FRACTAL_AGENTIC_ROOT}/hooks/scripts/session-handoff-detect.js\"",
+            "timeout": 5
           }
         ]
       }
@@ -67,6 +72,11 @@
           {
             "type": "command",
             "command": "node \"${FRACTAL_AGENTIC_ROOT}/hooks/scripts/periodic-essay-due.js\"",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "node \"${FRACTAL_AGENTIC_ROOT}/hooks/scripts/stop-session-ledger.js\"",
             "timeout": 5
           }
         ]

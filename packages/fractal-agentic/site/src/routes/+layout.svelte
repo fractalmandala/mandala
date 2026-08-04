@@ -59,20 +59,25 @@
 
 <div class="appshell">
 	<header class="app-header">
-		<a class="logo" href="/" aria-label="fractalagentic home">
+		<a class="logo row ycenter gap8" href="/" aria-label="fractalagentic home">
 			<img src="/images/fractalagentic.png" alt="" />
-			<span class="wordmark"><span>fractal</span><span class="accent">agentic</span></span>
+			<span class="wordmark"><span>fractal</span><span class="muted">agentic</span></span>
 		</a>
-		<nav aria-label="Primary">
-			<div class="links">
+		<nav class="row ycenter gap16" aria-label="Primary">
+			<div class="row ycenter gap16">
 				{#each links as link, index (link.href)}
-					{#if index > 0}<span class="divider" aria-hidden="true"></span>{/if}
-					<a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>
+					{#if index > 0}
+						<span class="divider" aria-hidden="true"></span>{/if}
+					<a
+						class="nav-links"
+						href={link.href}
+						aria-current={isCurrent(link.href) ? 'page' : undefined}
+					>
 						{link.label}
 					</a>
 				{/each}
 			</div>
-			<div class="nav-icons">
+			<div class="row ycenter gap16">
 				<GlobalSearch items={data.search} />
 				<a
 					class="icon-button"
@@ -96,26 +101,29 @@
 			</div>
 		</nav>
 	</header>
-	{#if isLanding}
-		<main class="app-shell-main">
-			<div class="narrow-width">
-				{@render children()}
-			</div>
-		</main>
-	{:else}
-		<div class="content">
-			<aside class="app-sidebar" aria-label="Documentation navigation">
-				<DocsSidebar sections={data.sidebar} />
-			</aside>
-			<main class="app-shell-main">
-				<div class="docs-shell__mobile">
-					<MobileNav />
-				</div>
-				{@render children()}
-			</main>
-			<aside class="app-right" aria-label="On this page">
-				<OnThisPage />
-			</aside>
+
+	<main class="app-shell-main">
+		<div class="narrow-width">
+			{@render children()}
 		</div>
-	{/if}
+	</main>
+
+	<div class="content">
+		<aside class="app-sidebar" aria-label="Documentation navigation">
+			{#if isLanding}
+				<DocsSidebar sections={data.sidebar} />
+			{/if}
+		</aside>
+		<main class="app-shell-main">
+			<div class="docs-shell__mobile">
+				<MobileNav />
+			</div>
+			{@render children()}
+		</main>
+		<aside class="app-right" aria-label="On this page">
+			{#if isLanding}
+				<OnThisPage />
+			{/if}
+		</aside>
+	</div>
 </div>

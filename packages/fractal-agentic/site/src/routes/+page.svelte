@@ -65,40 +65,39 @@
 </svelte:head>
 
 <div class="padtop128 gap16 box">
-	<p class="text-xs tt-u fw600 muted">Coding-agent delivery infrastructure</p>
 	<h1 class="page-title" id="home-title">
 		<span class="page-subtitle">fractal<span class="accented">agentic</span></span>
 		<span class="home-hero__title-line">orchestration</span>
 	</h1>
-	<section class="home-hero" aria-labelledby="home-title">
+	<section class="box" aria-labelledby="home-title">
 		<div class="box gap48">
-			<p class="home-hero__lead">
+			<p class="text-lg lh15">
 				Yoke agents into a self-improving system. Route work to the right domain. Equip the session
 				with a vendored armory - all in one repeatable, orchestrated loop.
 			</p>
-			<div class="stats-grid grid grid-cols-3 gap32">
+			<div class="stats-grid grid grid-cols-6 gap32">
 				<a class="badge box gap4" href="/skills">
-					<span class="accented"><RiToolsFill size={'24'} /></span>
+					<span class="accented-x"><RiToolsFill size={'24'} /></span>
 					<span>{data.stats.skills} skills</span>
 				</a>
 				<a class="badge box gap4" href="/commands">
-					<span class="accented"><RiCommandFill size={'24'} /></span>
+					<span class="accented-x"><RiCommandFill size={'24'} /></span>
 					<span>{data.stats.commands} commands</span>
 				</a>
 				<a class="badge box gap4" href="/agents">
-					<span class="accented"><RiRobot2Fill size={'24'} /></span>
+					<span class="accented-x"><RiRobot2Fill size={'24'} /></span>
 					<span>{data.stats.agents} agents</span>
 				</a>
 				<a class="badge box gap4" href="/bosses">
-					<span class="accented"><RiBardFill size={'24'} /></span>
+					<span class="accented-x"><RiBardFill size={'24'} /></span>
 					<span>{data.stats.bosses} bosses</span>
 				</a>
 				<a class="badge box gap4" href="/docs">
-					<span class="accented"><RiAiGenerate2Fill size={'24'} /></span>
+					<span class="accented-x"><RiAiGenerate2Fill size={'24'} /></span>
 					<span>{data.stats.orchestrators} orchestrator</span>
 				</a>
 				<a class="badge box gap4" href="/docs/01-getting-started">
-					<span class="accented"><RiPlayLargeFill size={'24'} /></span>
+					<span class="accented-x"><RiPlayLargeFill size={'24'} /></span>
 					<span>Get Started</span>
 				</a>
 			</div>

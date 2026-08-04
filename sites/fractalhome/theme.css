@@ -1,0 +1,17 @@
+:root {
+  --blume-accent: oklch(0.68 0.14 180);
+  --blume-radius: 0.5rem;
+}
+
+:root[data-theme="dark"] {
+  --blume-background: oklch(0.16 0 0);
+}
+
+.prose h2, h2 {
+  font-size: 1.1rem;
+  font-weight: 600; 
+}
+
+h3 {
+	font-size: 1rem;
+}

@@ -1,12 +1,13 @@
 :root
 	--text-scaling: 1.2
-	--text-xs: 12px
-	--text-sm: 14px
+	--text-xs: 11px
+	--text-sm: 12px
+	--text-md: 14px
 	--text-bs: 16px
-	--text-lg: 18px
-	--text-xl: 20px
-	--text-2xl: 24px
-	--text-3xl: 48px
+	--text-lg: 20px
+	--text-xl: 25px
+	--text-2xl: 32px
+	--text-3xl: 40px
 
 .text-xs
 	font-size: var(--text-xs)
@@ -69,11 +70,11 @@
 	display: flex
 	flex-direction: column
 	margin: 0
-	font-size: clamp(3rem, 6vw, 6rem)
+	font-size: var(--text-3xl)
 	font-weight: 700
 	letter-spacing: -0.05em
 	line-height: 0.98
 
 .page-subtitle
-	font-size: 56px
+	font-size: var(--text-2xl)
 	letter-spacing: -0.055em
