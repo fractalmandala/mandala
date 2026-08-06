@@ -1,0 +1,1 @@
+A SvelteKit static site that publishes curated knowledge banks (Archaeology, Civilization, History, Karmic Streams, SRG/SRG, Sri Aurobindo, Writings, SvelteKit) from a local Markdown vault into navigable wiki pages with graph visualizations and tag-based browsing.

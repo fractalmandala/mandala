@@ -1,0 +1,36 @@
+button
+	cursor: pointer
+
+button.blank
+	background: none
+	border: none
+	cursor: pointer
+	padding: 0
+
+a.blank
+	text-decoration: none
+	color: inherit
+
+.badge
+	text-decoration: none
+	color: inherit
+	display: flex
+	flex-direction: column
+	gap: 0
+	padding: 8px
+	min-width: 96px
+	border-radius: 8px
+	svg, span
+		transition: all var(--trans-00)
+	&:hover
+		background: var(--bg-elev)
+		span, svg
+			transform: scale(0.96)
+
+.btn-icon
+	color: var(--text)
+	text-decoration: none
+	padding: 6px
+	border-radius: 6px
+	&:hover
+		background: var(--bg-soft)

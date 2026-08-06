@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: packages/fractals_styler
+title: Fractals Styler — JIT Utility CSS Vite Plugin
+scope:
+    - packages/fractals-styler/
+source_files: []
+depends_on: []
+related_to:
+    - path: apps/shradhapp

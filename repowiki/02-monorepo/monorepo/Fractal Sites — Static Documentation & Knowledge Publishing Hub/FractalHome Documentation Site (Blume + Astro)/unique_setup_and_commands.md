@@ -1,0 +1,1 @@
+Development and build are all delegated to the `blume` CLI via npm scripts: `npm run dev` (development server), `npm run build` (static build), `npm run preview` (preview built output), `npm run check` (type/check), `npm run validate` (frontmatter/content validation), and `npm run doctor` (environment diagnostics).

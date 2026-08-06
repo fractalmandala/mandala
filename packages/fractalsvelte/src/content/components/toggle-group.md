@@ -121,7 +121,7 @@
 		},
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as ToggleGroup from "fractalsvelte/toggle-group";
@@ -241,9 +241,9 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/toggle-group/` into your project. It depends on `bits-ui` and
-reuses types from `toggle/`. Copy `styles/_mixins.sass` and `_tokens.sass` too if you do
-not already have them.
+Or copy `src/lib/components/toggle-group/` into your project. It reuses types from
+`toggle/`. Copy `styles/_mixins.sass` and `_tokens.sass` too if you do not already have
+them.
 
 ## Usage
 

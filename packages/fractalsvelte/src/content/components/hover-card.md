@@ -9,7 +9,7 @@
 
 	const usage = `import * as HoverCard from "fractalsvelte/hover-card";`;
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const codeBasic = `<HoverCard.Root>
 	<HoverCard.Trigger href="https://github.com/sveltejs" target="_blank" rel="noreferrer noopener">

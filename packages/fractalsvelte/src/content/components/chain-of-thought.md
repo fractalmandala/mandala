@@ -101,7 +101,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as ChainOfThought from "fractalsvelte/ai-elements/chain-of-thought";
@@ -311,7 +311,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/chain-of-thought/` into your project. It depends on the ported `collapsible` and `badge` components (and `bits-ui` underneath collapsible).
+Or copy `src/lib/components/ai-elements/chain-of-thought/` into your project. It composes the ported `collapsible` and `badge` components.
 
 ## Usage
 

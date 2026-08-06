@@ -1,0 +1,5 @@
+- Each content directory contains an `INDEX.md` file that serves as the section landing page, with individual articles as sibling `.md` files using kebab-case filenames derived from their titles.
+- Frontmatter fields are validated through a centralized Zod schema in `blume.config.ts`, with optional arrays like `tags`, `sources`, `related`, and `knowledge-bank` plus scalar fields like `timestamp`, `project`, `boss`, `group`, and `supergroup`.
+- Wiki-style internal links use double-bracket syntax `[[page name]]` or `[[page name|label]]` throughout Markdown content, resolved at build time by the custom `wiki-links` integration against a scanned title-to-route map.
+- Tag-based navigation follows a consistent pattern: article frontmatter declares a `tags` array, `PageHeader.astro` renders them as clickable pills linking to `/tags/{slug}`, and the tag pages aggregate entries by lowercased tag keys.
+- Custom UI components are registered through `defineComponents({ layout: { Logo, PageHeader } })` in `components.ts` rather than editing Blume's defaults directly.

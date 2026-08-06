@@ -1,0 +1,1 @@
+Each boss is activated via its `/activate-boss-<name>` command listed in the INDEX.md header (e.g., `/activate-boss-agent`, `/activate-boss-code`, etc.). Meta boss additionally requires running `scripts/verify.sh` after orchestration template changes as part of its verification defaults.

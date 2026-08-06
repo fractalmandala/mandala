@@ -2,22 +2,39 @@
   "name": "fractal-agentic",
   "version": "2.4.0",
   "description": "Progressive one-boss discovery, /orchestrate delivery runtime, and vendored skills for AI coding agents.",
-  "main": "plugin/plugin.json",
+  "main": "plugin.json",
   "bin": {
     "fractal-agentic": "./bin/cli.js"
   },
   "files": [
-    "plugin",
+    "agents",
+    "bosses",
+    "commands",
+    "docs",
+    "hooks",
+    "scripts",
+    "skills",
+    "workflows",
+    "evaluation_scripts",
+    "project-integration",
     "bin",
     ".claude-plugin",
-    ".agents",
+    ".codex-plugin",
+    "plugin.json",
     "AGENTS.md",
     "SOUL.md",
-    "README.md"
+    "README.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "KIMI.md",
+    "OPENCODE.md",
+    "CUSTOMIZE.md",
+    "TROUBLESHOOTING.md",
+    "fractal-agentic.png"
   ],
   "scripts": {
-    "test": "sh plugin/scripts/verify.sh",
-    "check": "sh plugin/scripts/check-armory.sh"
+    "test": "sh scripts/verify.sh",
+    "check": "sh scripts/check-armory.sh"
   },
   "keywords": [
     "antigravity",

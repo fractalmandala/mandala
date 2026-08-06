@@ -1,0 +1,6 @@
+{
+	"agents": "../../../../../packages/fractal-agentic/agents",
+	"skills": "../../../../../packages/fractal-agentic/skills",
+	"commands": "../../../../../packages/fractal-agentic/commands",
+	"bosses": "../../../../../packages/fractal-agentic/bosses"
+}

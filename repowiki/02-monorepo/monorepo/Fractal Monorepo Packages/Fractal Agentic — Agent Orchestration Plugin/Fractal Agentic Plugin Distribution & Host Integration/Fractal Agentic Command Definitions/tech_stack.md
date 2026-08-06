@@ -1,0 +1,1 @@
+Pure Markdown with YAML frontmatter; commands delegate to shell scripts (`.sh`) and Node/Python skills rather than implementing logic themselves.

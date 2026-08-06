@@ -1,0 +1,1 @@
+Markdown-based command definitions for the Fractal Agentic plugin, documenting each slash-command's trigger, instructions, and references to skills, bosses, and runtime playbooks.

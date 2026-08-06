@@ -1,0 +1,8 @@
+schema_version: 1
+module_path: sites/fractalmem
+title: fractalmem — SKAA SvelteKit Site & Measurement Harness
+scope:
+    - sites/fractalmem/
+source_files: []
+depends_on: []
+related_to: []

@@ -65,7 +65,7 @@ console.log(greet({ id: "1", name: "Amrit", roles: ["admin"] }));`;
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte shiki @shikijs/langs @shikijs/themes dompurify svelte-toolbelt runed`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Code from "fractalsvelte/ai-elements/code";
@@ -131,7 +131,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/code/`. Uses the existing `copy-button` ai-element plus `shiki`, `@shikijs/langs`, `@shikijs/themes`, `dompurify`, `svelte-toolbelt`, and `runed`.
+Or copy `src/lib/components/ai-elements/code/`. Uses the existing `copy-button` ai-element.
 
 ## Usage
 

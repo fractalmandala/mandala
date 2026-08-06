@@ -14,7 +14,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 	const usage = `<script lang="ts">
   import * as AspectRatio from "fractalsvelte/aspect-ratio";
 <\/script>

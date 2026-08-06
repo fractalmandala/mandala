@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>fractalagentic — Site Flow Map</title>
+<style>
+:root {
+	--paper: #f6f4ee;
+	--ink: #1d1a15;
+	--muted: #6f695c;
+	--line: #ddd7c8;
+	--panel: #fffdf7;
+	--jade: #17805f;
+	--forest: #0b4f3c;
+	--jade-soft: #e6f3ec;
+	--amber: #b8791f;
+	--amber-soft: #fdf3e0;
+	--violet: #6a4fa0;
+	--violet-soft: #f0ebfa;
+	--slate: #55606b;
+	--slate-soft: #eef1f4;
+	--red: #8c2d26;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+	background: var(--paper);
+	color: var(--ink);
+	font: 14px/1.45 "SF Pro Text", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+button { font: inherit; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--jade); outline-offset: 2px; }
+
+/* ---------- toolbar ---------- */
+.toolbar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--line);
+	background: var(--panel);
+	flex-wrap: wrap;
+	z-index: 5;
+}
+.toolbar h1 { font-size: 15px; margin: 0; font-weight: 700; letter-spacing: -0.01em; }
+.toolbar .sub { color: var(--muted); font-size: 12px; }
+.toolbar .spacer { flex: 1; }
+.toolbar input[type="search"] {
+	min-width: 220px;
+	padding: 7px 10px;
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	background: #fff;
+	font-size: 13px;
+}
+.tbtn {
+	border: 1px solid var(--line);
+	background: #fff;
+	border-radius: 8px;
+	padding: 7px 11px;
+	cursor: pointer;
+	font-size: 13px;
+	color: var(--ink);
+}
+.tbtn:hover { border-color: var(--jade); color: var(--jade); }
+.tbtn:active { transform: translateY(1px); }
+.legend { display: flex; align-items: center; gap: 14px; font-size: 11.5px; color: var(--muted); }
+.legend i {
+	display: inline-block; width: 22px; height: 0; border-top-width: 2px; border-top-style: solid;
+	vertical-align: middle; margin-right: 4px;
+}
+.legend .sw {
+	display: inline-block; width: 11px; height: 11px; border-radius: 3px;
+	vertical-align: -1px; margin-right: 4px;
+}
+
+/* ---------- stage ---------- */
+#stage {
+	flex: 1;
+	position: relative;
+	overflow: hidden;
+	background:
+		radial-gradient(900px 480px at 12% -10%, rgba(23,128,95,0.08), transparent 60%),
+		radial-gradient(800px 480px at 95% 110%, rgba(106,79,160,0.07), transparent 60%),
+		var(--paper);
+	cursor: grab;
+	touch-action: none;
+}
+#stage.dragging { cursor: grabbing; }
+#viewport {
+	position: absolute;
+	top: 0; left: 0;
+	transform-origin: 0 0;
+	width: 0; height: 0;
+}
+#edge-svg { position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none; }
+.edge { stroke-width: 1.6; fill: none; }
+.edge.contain { stroke: var(--jade); opacity: 0.65; }
+.edge.data { stroke: var(--amber); stroke-dasharray: 6 4; opacity: 0.8; }
+.node {
+	position: absolute;
+	width: 252px;
+	min-height: 84px;
+	background: var(--panel);
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	padding: 9px 12px;
+	cursor: grab;
+	user-select: none;
+	box-shadow: 0 1px 2px rgba(30,20,10,0.06);
+	transition: box-shadow 120ms ease, border-color 120ms ease;
+}
+.node:hover { box-shadow: 0 8px 22px rgba(30,20,10,0.12); border-color: #c8c0ae; }
+.node:active { cursor: grabbing; }
+.node.selected { border-color: var(--jade); box-shadow: 0 0 0 3px var(--jade-soft), 0 8px 22px rgba(30,20,10,0.14); }
+.node.dim { opacity: 0.18; }
+.node .n-top { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.node .n-kind {
+	font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+	padding: 2px 6px; border-radius: 99px; flex: none;
+}
+.node .n-name { font-size: 13px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+.node .n-file { font-size: 10.5px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.node .n-cls { font-size: 10.5px; color: var(--slate); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.node .n-note { font-size: 10.5px; color: var(--muted); margin-top: 3px; font-style: italic; }
+/* kind colors */
+.k-route .n-kind, .k-layout .n-kind { background: var(--jade-soft); color: var(--jade); }
+.k-container .n-kind { background: #eef2ee; color: #3d5547; }
+.k-component .n-kind { background: var(--violet-soft); color: var(--violet); }
+.k-state .n-kind { background: var(--amber-soft); color: var(--amber); }
+.k-data .n-kind { background: var(--slate-soft); color: var(--slate); }
+.k-external .n-kind { background: #e9e7e0; color: #7a7466; }
+.k-route { border-color: #b7d6c6; }
+.k-state { border-color: #e4c88f; }
+.k-data { border-color: #c9cfd5; }
+.k-route::before, .k-layout::before {
+	content: ""; position: absolute; inset: 0; border-radius: 10px;
+	background: linear-gradient(135deg, rgba(23,128,95,0.07), transparent 55%);
+	pointer-events: none;
+}
+
+/* ---------- evidence panel ---------- */
+#evidence {
+	position: absolute;
+	right: 16px;
+	bottom: 16px;
+	width: 320px;
+	max-height: 46%;
+	overflow: auto;
+	background: var(--panel);
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	padding: 13px 15px;
+	box-shadow: 0 14px 40px rgba(30,20,10,0.16);
+	z-index: 6;
+	display: none;
+}
+#evidence.open { display: block; }
+#evidence h2 { margin: 0 0 2px; font-size: 14px; }
+#evidence .ev-file { font-size: 11.5px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+#evidence dl { margin: 10px 0 0; display: grid; grid-template-columns: 74px 1fr; gap: 5px 10px; font-size: 12px; }
+#evidence dt { color: var(--muted); }
+#evidence dd { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+#evidence .ev-note { margin-top: 9px; padding: 8px 10px; border-left: 3px solid var(--jade); background: var(--jade-soft); font-size: 11.5px; border-radius: 0 6px 6px 0; }
+#evidence .ev-close {
+	position: absolute; top: 8px; right: 8px; border: 0; background: transparent;
+	font-size: 15px; cursor: pointer; color: var(--muted);
+}
+#evidence .ev-close:hover { color: var(--red); }
+#hint {
+	position: absolute; left: 16px; bottom: 16px; z-index: 6; color: var(--muted);
+	font-size: 11.5px; background: rgba(255,253,247,0.85); border: 1px solid var(--line);
+	padding: 6px 10px; border-radius: 8px;
+}
+#zoomout { position: absolute; left: 16px; top: 16px; z-index: 6; display: flex; flex-direction: column; gap: 6px; }
+#zoomout button { width: 32px; height: 32px; border-radius: 8px; }
+#no-match {
+	position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+	font-size: 13px; color: var(--muted); background: var(--panel); border: 1px solid var(--line);
+	padding: 10px 16px; border-radius: 10px; display: none; z-index: 5;
+}
+</style>
+</head>
+<body>
+<div class="toolbar" role="toolbar" aria-label="Flow map controls">
+	<h1>fractalagentic — Site Flow Map</h1>
+	<span class="sub">sites/fractalagentic · Svocs docs template · SvelteKit 5 + mdsvex + flexsearch</span>
+	<div class="spacer"></div>
+	<div class="legend">
+		<span><i style="border-color:var(--jade)"></i>containment</span>
+		<span><i style="border-top-style:dashed;border-color:var(--amber)"></i>data / state / event</span>
+		<span><span class="sw" style="background:var(--jade-soft)"></span>route/layout</span>
+		<span><span class="sw" style="background:#eef2ee"></span>container</span>
+		<span><span class="sw" style="background:var(--violet-soft)"></span>component</span>
+		<span><span class="sw" style="background:var(--amber-soft)"></span>state</span>
+		<span><span class="sw" style="background:var(--slate-soft)"></span>data boundary</span>
+	</div>
+	<label for="filter" style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12px">Filter
+		<input id="filter" type="search" placeholder="label or CSS class…" aria-label="Filter nodes by label or CSS class" />
+	</label>
+	<button class="tbtn" id="btn-reset" title="Restore deterministic layout">Reset layout</button>
+	<button class="tbtn" id="btn-fit" title="Fit all nodes into view">Fit</button>
+</div>
+<div id="stage" aria-label="Draggable flow-map canvas">
+	<div id="zoomout" aria-label="Zoom controls">
+		<button class="tbtn" id="zi" title="Zoom in">+</button>
+		<button class="tbtn" id="zo" title="Zoom out">−</button>
+	</div>
+	<div id="viewport">
+		<svg id="edge-svg" width="0" height="0" aria-hidden="true"></svg>
+		<div id="nodes"></div>
+	</div>
+	<div id="no-match">No nodes match the filter.</div>
+	<aside id="evidence" aria-live="polite">
+		<button class="ev-close" id="ev-close" aria-label="Close evidence panel">×</button>
+		<h2 id="ev-title"></h2>
+		<div class="ev-file" id="ev-file"></div>
+		<dl id="ev-dl"></dl>
+		<div class="ev-note" id="ev-note"></div>
+	</aside>
+	<div id="hint">Drag nodes to rearrange · drag background to pan · scroll to zoom · click a node for evidence</div>
+</div>
+
+<script type="application/json" id="fa-flow-data">
+{
+	"title": "fractalagentic — Site Flow Map",
+	"scope": "sites/fractalagentic — Svocs docs template (SvelteKit 5, static adapter, mdsvex content in content/, flexsearch + pagefind search)",
+	"nodes": [
+		["ROOT", "Root layout", "layout", "src/routes/+layout.svelte", ".app-shell", 47, 0, 0, "Grid rows auto/1fr/auto: skip link, header, SearchDialog, main#main-content, footer, #svocs-dissolve filter; ⌘K opens search"],
+		["HEADER", "Site header", "container", "src/routes/+layout.svelte", "header (sticky top:0 z:10)", 48, 0, 1, "Sticky top bar; hosts brand + actions"],
+		["BRAND", "Brand lockup", "component", "src/routes/+layout.svelte", "a.brand > .logomotif + .logotype", 50, 0, 2, "Links to resolve('/'); motif 32px + wordmark 20px"],
+		["ACTIONS", "Header actions", "container", "src/routes/+layout.svelte", "div.actions", 55, 0, 3, "Search trigger + theme toggle + GitHub repo button"],
+		["SEARCHBOX", "Search trigger", "component", "src/lib/themes/docs/SearchBox.svelte", "button.search-trigger", 3, 0, 4, "Shows ⌘K kbd; ≤560px collapses to icon"],
+		["THEMETOGGLE", "Theme toggle", "component", "src/lib/themes/docs/ThemeToggle.svelte", "button", 27, 0, 5, "dark/light + localStorage 'docs-theme'; view-transition dissolve via #svocs-dissolve"],
+		["REPO", "GitHub repo button", "component", "src/routes/+layout.svelte", "a.repo", 60, 0, 6, "REPO_URL from lib/site.ts; hidden when unset"],
+		["SEARCHDIALOG", "Search dialog", "component", "src/lib/themes/docs/search/SearchDialog.svelte", "dialog.search-dialog", 58, 1, 4, "showModal; 120ms debounce; arrow-key nav; backdrop blur; flexsearch/pagefind client"],
+		["FOOTER", "Site footer", "container", "src/routes/+layout.svelte", "footer > .footer-wrap", 85, 0, 8, "© year + SITE_NAME · Docs link"],
+		["DISSOLVE", "Theme-switch dissolve filter", "external", "src/routes/+layout.svelte", "svg.dissolve-defs > #svocs-dissolve", 93, 0, 9, "feTurbulence + feDisplacementMap SMIL; ::view-transition-old(root) burn-away"],
+		["HOME", "Home route", "route", "src/routes/+page.svelte", "— (section.hero + .narrow-width.box)", 47, 1, 0, "prerender; hero + 3 page sections; stats grid, bosses, continuity layer"],
+		["HERO", "Hero section", "container", "src/routes/+page.svelte", "section.hero", 47, 1, 1, "H1 SITE_NAME + SITE_DESCRIPTION + .btn Read the docs → /docs"],
+		["HOME-S1", "Section 01 — hero copy + stats", "container", "src/routes/+page.svelte", ".page-section > .page-header + .stats-grid", 57, 1, 2, "grid-cols-6 .badge links: skills/commands/agents/bosses/orchestrators/Get Started"],
+		["HOME-S2", "Section 02 — 7 Domain Bosses", "container", "src/routes/+page.svelte", ".page-section.bordtop > .home-boss-grid", 94, 1, 3, "'1 Runtime · 7 Domain Bosses'; boss list placeholder"],
+		["HOME-S3", "Section 03 — continuity layer", "container", "src/routes/+page.svelte", ".page-section > .grid.grid-cols-3.border-grid", 106, 1, 4, "Hooks / Wiki / Improve cards → /docs/hooks, /docs/wiki, /docs/self-improvement"],
+		["ERROR", "Error page", "route", "src/routes/+error.svelte", "section.error-page", 8, 1, 9, "404 vs generic; Go home + Read the docs buttons"],
+		["DOCS-LAYOUT", "Docs layout", "layout", "src/routes/docs/+layout.svelte", ".docs-layout", 88, 2, 0, "3-col grid 17.5rem/1fr/15.5rem; navCollapsed → 2.6rem rail; ≤1100 drops TOC, ≤900 single col + mobile toggle"],
+		["MOBILE-TOGGLE", "Mobile menu toggle", "component", "src/routes/docs/+layout.svelte", "button.mobile-toggle", 90, 2, 1, "≤900px only; toggles sidebarOpen"],
+		["SIDEBAR", "Sidebar column", "container", "src/routes/docs/+layout.svelte", "aside (sticky top:3.6rem)", 98, 2, 2, "height calc(100vh-3.6rem); border-right; .open on mobile"],
+		["SIDEBAR-NAV", "Sidebar scroll nav", "container", "src/routes/docs/+layout.svelte", "nav (overflow-y auto, overscroll contain)", 99, 2, 3, "Auto-hiding scrollbar; hidden when navCollapsed"],
+		["SIDEBARTREE", "Sidebar tree", "component", "src/lib/themes/docs/SidebarTree.svelte", "ul[.nested]", 4, 2, 4, "Recursive; separator nodes get guide line"],
+		["SIDEBARITEM", "Sidebar item", "component", "src/lib/themes/docs/SidebarItem.svelte", "li > a|button.group + .chev", 9, 2, 5, "separator / doc link / group toggle; auto-expand on active path"],
+		["RAIL-TOGGLE", "Collapse rail toggle", "component", "src/routes/docs/+layout.svelte", "button.rail-toggle", 103, 2, 6, "Persists 'docs-nav' = collapsed|open in localStorage"],
+		["DOC-COL", "Content column", "container", "src/routes/docs/+layout.svelte", "div.doc-col", 130, 3, 2, "max-width 50rem centered; breadcrumbs + prose + pager"],
+		["BREADCRUMBS", "Breadcrumbs", "container", "src/routes/docs/+layout.svelte", "nav.breadcrumbs > ol", 132, 3, 3, "Built from page-map getBreadcrumbsByPath; / separators"],
+		["PROSE", "Prose container", "container", "src/routes/docs/+layout.svelte", "div.prose", 150, 3, 4, "enhanceCodeBlocks + renderMermaidBlocks + observeHeadings scroll-spy"],
+		["PAGER", "Prev / next pager", "container", "src/routes/docs/+layout.svelte", "nav.pager", 155, 3, 5, "Flat docs order via flattenDocs; /docs aliases introduction"],
+		["TOC-RAIL", "Table-of-contents rail", "container", "src/routes/docs/+layout.svelte", "nav.toc-rail (sticky)", 174, 4, 2, "≤1100px hidden; auto-hiding scrollbar"],
+		["TOC", "TOC component", "component", "src/lib/themes/docs/Toc.svelte", ".toc-body + .rail-svg", 1, 4, 3, "One SVG path through items; active span glides via stroke-dasharray; ResizeObserver"],
+		["DOCS-INDEX", "/docs landing", "route", "src/routes/docs/+page.svelte", "article", 1, 2, 7, "Falls back intro → content root → first entry; load via getDocEntryBySlug"],
+		["DOCS-SLUG", "Catch-all doc page", "route", "src/routes/docs/[...slug]/+page.svelte", "article", 1, 2, 8, "404 on missing doc; renders entry + toc"],
+		["DOCS-RAW", "Raw markdown endpoint", "data", "src/routes/docs/[...slug].md/+server.ts", "+server.ts", 1, 2, 9, "Serves source markdown for 'View as Markdown'"],
+		["DOC-ARTICLE", "Doc article", "component", "src/routes/docs/[...slug]/+page.svelte", "article > header + Content", 9, 3, 7, "h1 + PageIcon + description + meta + PageActions; last-updated colophon"],
+		["PAGE-ACTIONS", "Page actions", "component", "src/lib/themes/docs/PageActions.svelte", "div.page-actions", 18, 3, 8, "Copy Markdown (fetch .md) · View as Markdown · Edit on GitHub"],
+		["PAGEICON", "Page icon", "component", "src/lib/icons/PageIcon.svelte", ".title-icon / .node-icon", 1, 3, 9, "Icon-set lookup by name for sidebar + doc titles"],
+		["CONFIG", "Site config", "state", "src/lib/site.ts", "SITE_NAME / SITE_URL / REPO_URL", 1, 5, 0, "OG images derive from SITE_URL; edit links from REPO_URL/REPO_BRANCH"],
+		["PAGE-MAP", "Docs page-map", "state", "src/lib/core/page-map.ts + page-map-context.ts", "buildDocsPageMap / DOCS_PAGE_MAP_CONTEXT", 1, 5, 3, "Sidebar tree + breadcrumbs + pager order; getter passed via setContext"],
+		["CONTENT-LOAD", "Content loader", "data", "src/lib/core/content.ts", "getDocsEntries / getDocEntryBySlug / getDocTocBySlug", 1, 5, 4, "mdsvex doc components, frontmatter meta, TOC; +layout.ts/+page.ts load"],
+		["SEARCH", "Search resolver + backends", "data", "src/lib/search/resolver.ts + providers/", "flexsearch-client / pagefind-client", 1, 5, 6, "Build-time flexsearch index (search-index.flexsearch.json); pagefind fallback"],
+		["BUILD", "mdsvex / build pipeline", "external", "vite.config.ts + scripts/", "mdsvex + rehype/remark + pagefind + OG", 1, 5, 8, "Content → Svelte components; code-highlighter; postbuild pagefind + OG images"],
+		["SERVERS", "Static endpoints", "data", "src/routes/", "llms.txt · llms-full.txt · sitemap.xml · search-index.json", 1, 5, 9, "llms/llms-full, sitemap, flexsearch + pagefind index JSON"]
+	],
+	"edges": [
+		["ROOT","HEADER","contain"],
+		["ROOT","SEARCHDIALOG","contain"],
+		["ROOT","HOME","contain"],
+		["ROOT","FOOTER","contain"],
+		["ROOT","ERROR","contain"],
+		["ROOT","DOCS-LAYOUT","contain"],
+		["HEADER","BRAND","contain"],
+		["HEADER","ACTIONS","contain"],
+		["ACTIONS","SEARCHBOX","contain"],
+		["ACTIONS","THEMETOGGLE","contain"],
+		["ACTIONS","REPO","contain"],
+		["SEARCHBOX","SEARCHDIALOG","data"],
+		["ROOT","DISSOLVE","contain"],
+		["HOME","HERO","contain"],
+		["HOME","HOME-S1","contain"],
+		["HOME","HOME-S2","contain"],
+		["HOME","HOME-S3","contain"],
+		["DOCS-LAYOUT","MOBILE-TOGGLE","contain"],
+		["DOCS-LAYOUT","SIDEBAR","contain"],
+		["DOCS-LAYOUT","DOC-COL","contain"],
+		["DOCS-LAYOUT","TOC-RAIL","contain"],
+		["SIDEBAR","SIDEBAR-NAV","contain"],
+		["SIDEBAR","RAIL-TOGGLE","contain"],
+		["SIDEBAR-NAV","SIDEBARTREE","contain"],
+		["SIDEBARTREE","SIDEBARITEM","contain"],
+		["DOC-COL","BREADCRUMBS","contain"],
+		["DOC-COL","PROSE","contain"],
+		["DOC-COL","PAGER","contain"],
+		["TOC-RAIL","TOC","contain"],
+		["DOCS-INDEX","DOC-ARTICLE","contain"],
+		["DOCS-SLUG","DOC-ARTICLE","contain"],
+		["DOC-ARTICLE","PAGE-ACTIONS","contain"],
+		["DOC-ARTICLE","PAGEICON","contain"],
+		["ROOT","CONFIG","data"],
+		["HEADER","CONFIG","data"],
+		["SEARCHDIALOG","SEARCH","data"],
+		["DOCS-LAYOUT","PAGE-MAP","data"],
+		["DOCS-LAYOUT","CONTENT-LOAD","data"],
+		["DOCS-INDEX","CONTENT-LOAD","data"],
+		["DOCS-SLUG","CONTENT-LOAD","data"],
+		["DOCS-SLUG","DOCS-RAW","data"],
+		["PAGE-MAP","CONTENT-LOAD","data"],
+		["CONTENT-LOAD","BUILD","data"],
+		["SEARCH","BUILD","data"],
+		["SEARCH","SERVERS","data"],
+		["CONFIG","PAGE-ACTIONS","data"],
+		["THEMETOGGLE","DISSOLVE","data"]
+	]
+}
+</script>
+<script>
+(() => {
+	const DATA = JSON.parse(document.getElementById('fa-flow-data').textContent);
+	const nodeById = Object.fromEntries(DATA.nodes.map((n) => [n[0], n]));
+
+	const COLW = 292;
+	const ROWH = 118;
+	const X0 = 36;
+	const Y0 = 40;
+	const pos = (col, row) => [X0 + col * COLW, Y0 + row * ROWH];
+
+	const nodesEl = document.getElementById('nodes');
+	const svg = document.getElementById('edge-svg');
+	const NS = 'http://www.w3.org/2000/svg';
+	const stage = document.getElementById('stage');
+	const viewport = document.getElementById('viewport');
+	const filter = document.getElementById('filter');
+	const btnReset = document.getElementById('btn-reset');
+	const btnFit = document.getElementById('btn-fit');
+	const zi = document.getElementById('zi');
+	const zo = document.getElementById('zo');
+	const noMatch = document.getElementById('no-match');
+	const evidence = document.getElementById('evidence');
+
+	let scale = 0.8;
+	let tx = 24;
+	let ty = 24;
+	let dragNode = null;
+	let panning = false;
+	let panStart = { x: 0, y: 0, tx: 0, ty: 0 };
+	let selected = null;
+
+	const rects = {};
+
+	function applyTransform() {
+		viewport.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+	}
+
+	function makeNode(n) {
+		const [id, name, kind, file, cls, line, col, row, note] = n;
+		const el = document.createElement('div');
+		el.className = `node k-${kind}`;
+		el.id = 'n-' + id;
+		el.innerHTML =
+			'<div class="n-top"><span class="n-kind">' + kind + '</span></div>' +
+			'<div class="n-name"></div>' +
+			'<div class="n-file"></div>' +
+			'<div class="n-cls"></div>' +
+			(note ? '<div class="n-note"></div>' : '');
+		el.querySelector('.n-name').textContent = name;
+		el.querySelector('.n-file').textContent = file + (line ? ':' + line : '');
+		el.querySelector('.n-cls').textContent = cls === '—' ? '' : cls;
+		if (note) el.querySelector('.n-note').textContent = note;
+		const [x, y] = pos(col, row);
+		nodesEl.appendChild(el);
+		const w = el.offsetWidth;
+		const h = el.offsetHeight;
+		el.style.left = x + 'px';
+		el.style.top = y + 'px';
+		el.dataset.kind = kind;
+		el.dataset.label = name.toLowerCase();
+		el.dataset.cls = (cls || '').toLowerCase();
+		rects[id] = { x, y, w, h };
+
+		el.addEventListener('pointerdown', (e) => {
+			e.stopPropagation();
+			if (e.button !== 0) return;
+			dragNode = { id, el, sx: e.clientX, sy: e.clientY, ox: x, oy: y };
+			try { el.setPointerCapture(e.pointerId); } catch { /* synthetic events */ }
+			select(id);
+		});
+		el.addEventListener('click', () => select(id));
+		return el;
+	}
+
+	function makeEdges() {
+		svg.replaceChildren();
+		const defs = document.createElementNS(NS, 'defs');
+		const marker = document.createElementNS(NS, 'marker');
+		marker.setAttribute('id', 'arrow');
+		marker.setAttribute('markerWidth', '7');
+		marker.setAttribute('markerHeight', '7');
+		marker.setAttribute('refX', '6');
+		marker.setAttribute('refY', '3');
+		marker.setAttribute('orient', 'auto');
+		const path = document.createElementNS(NS, 'path');
+		path.setAttribute('d', 'M0,0 L6,3 L0,6 Z');
+		path.setAttribute('fill', 'var(--jade)');
+		marker.appendChild(path);
+		defs.appendChild(marker);
+		svg.appendChild(defs);
+		for (const [s, t, kind] of DATA.edges) {
+			const a = rects[s];
+			const b = rects[t];
+			if (!a || !b) continue;
+			const line = document.createElementNS(NS, 'line');
+			line.setAttribute('x1', a.x + a.w / 2);
+			line.setAttribute('y1', a.y + a.h / 2);
+			line.setAttribute('x2', b.x + b.w / 2);
+			line.setAttribute('y2', b.y + b.h / 2);
+			line.setAttribute('class', 'edge ' + kind);
+			if (kind === 'contain') line.setAttribute('marker-end', 'url(#arrow)');
+			line.setAttribute('data-s', s);
+			line.setAttribute('data-t', t);
+			svg.appendChild(line);
+		}
+		let maxX = 0;
+		let maxY = 0;
+		for (const r of Object.values(rects)) {
+			maxX = Math.max(maxX, r.x + r.w);
+			maxY = Math.max(maxY, r.y + r.h);
+		}
+		svg.setAttribute('width', maxX + 200);
+		svg.setAttribute('height', maxY + 200);
+	}
+
+	function redrawEdges() {
+		for (const [s, t] of DATA.edges) {
+			const a = rects[s];
+			const b = rects[t];
+			if (!a || !b) continue;
+			const line = svg.querySelector(`line[data-s="${s}"][data-t="${t}"]`);
+			if (!line) continue;
+			line.setAttribute('x1', a.x + a.w / 2);
+			line.setAttribute('y1', a.y + a.h / 2);
+			line.setAttribute('x2', b.x + b.w / 2);
+			line.setAttribute('y2', b.y + b.h / 2);
+		}
+	}
+
+	function select(id) {
+		selected = id;
+		document.querySelectorAll('.node').forEach((el) => el.classList.toggle('selected', el.id === 'n-' + id));
+		const n = nodeById[id];
+		if (!n) return;
+		document.getElementById('ev-title').textContent = n[1];
+		document.getElementById('ev-file').textContent = 'sites/fractalagentic/' + n[3] + ' · line ' + n[5];
+		const dl = document.getElementById('ev-dl');
+		dl.innerHTML = '';
+		const rows = [
+			['Kind', n[2]],
+			['File', n[3]],
+			['Line', String(n[5])],
+			['Class', n[4]]
+		];
+		for (const [k, v] of rows) {
+			const dt = document.createElement('dt');
+			dt.textContent = k;
+			const dd = document.createElement('dd');
+			dd.textContent = v;
+			dl.append(dt, dd);
+		}
+		const noteEl = document.getElementById('ev-note');
+		noteEl.textContent = n[8] || '';
+		evidence.classList.add('open');
+	}
+
+	function closeEvidence() {
+		evidence.classList.remove('open');
+		selected = null;
+		document.querySelectorAll('.node').forEach((el) => el.classList.remove('selected'));
+	}
+
+	document.getElementById('ev-close').addEventListener('click', closeEvidence);
+	evidence.addEventListener('click', (e) => e.stopPropagation());
+
+	DATA.nodes.forEach(makeNode);
+	makeEdges();
+	applyTransform();
+
+	stage.addEventListener('pointermove', (e) => {
+		if (dragNode) {
+			const dx = (e.clientX - dragNode.sx) / scale;
+			const dy = (e.clientY - dragNode.sy) / scale;
+			const nx = Math.round(dragNode.ox + dx);
+			const ny = Math.round(dragNode.oy + dy);
+			dragNode.el.style.left = nx + 'px';
+			dragNode.el.style.top = ny + 'px';
+			rects[dragNode.id].x = nx;
+			rects[dragNode.id].y = ny;
+			redrawEdges();
+		} else if (panning) {
+			tx = panStart.tx + (e.clientX - panStart.x);
+			ty = panStart.ty + (e.clientY - panStart.y);
+			applyTransform();
+		}
+	});
+	stage.addEventListener('pointerup', (e) => {
+		if (dragNode && dragNode.el.hasPointerCapture(e.pointerId)) dragNode.el.releasePointerCapture(e.pointerId);
+		dragNode = null;
+		panning = false;
+		stage.classList.remove('dragging');
+	});
+	stage.addEventListener('pointerdown', (e) => {
+		if (e.target === stage || e.target === viewport) {
+			panning = true;
+			panStart = { x: e.clientX, y: e.clientY, tx, ty };
+			stage.classList.add('dragging');
+			closeEvidence();
+		}
+	});
+	stage.addEventListener('wheel', (e) => {
+		e.preventDefault();
+		const factor = e.deltaY < 0 ? 1.09 : 0.92;
+		const next = Math.min(2.2, Math.max(0.35, scale * factor));
+		const rect = stage.getBoundingClientRect();
+		const mx = e.clientX - rect.left;
+		const my = e.clientY - rect.top;
+		tx = mx - ((mx - tx) / scale) * next;
+		ty = my - ((my - ty) / scale) * next;
+		scale = next;
+		applyTransform();
+	}, { passive: false });
+	zi.addEventListener('click', () => zoomAtCenter(1.18));
+	zo.addEventListener('click', () => zoomAtCenter(0.85));
+	function zoomAtCenter(factor) {
+		const rect = stage.getBoundingClientRect();
+		const mx = rect.width / 2;
+		const my = rect.height / 2;
+		const next = Math.min(2.2, Math.max(0.35, scale * factor));
+		tx = mx - ((mx - tx) / scale) * next;
+		ty = my - ((my - ty) / scale) * next;
+		scale = next;
+		applyTransform();
+	}
+
+	btnReset.addEventListener('click', () => {
+		for (const n of DATA.nodes) {
+			const [x, y] = pos(n[6], n[7]);
+			const el = document.getElementById('n-' + n[0]);
+			el.style.left = x + 'px';
+			el.style.top = y + 'px';
+			rects[n[0]].x = x;
+			rects[n[0]].y = y;
+		}
+		redrawEdges();
+		fit();
+	});
+	function fit() {
+		const rect = stage.getBoundingClientRect();
+		let minX = Infinity;
+		let minY = Infinity;
+		let maxX = -Infinity;
+		let maxY = -Infinity;
+		for (const r of Object.values(rects)) {
+			minX = Math.min(minX, r.x);
+			minY = Math.min(minY, r.y);
+			maxX = Math.max(maxX, r.x + r.w);
+			maxY = Math.max(maxY, r.y + r.h);
+		}
+		const pad = 40;
+		const s = Math.min((rect.width - pad * 2) / (maxX - minX), (rect.height - pad * 2) / (maxY - minY));
+		scale = Math.min(1.15, Math.max(0.35, s));
+		tx = (rect.width - (maxX - minX) * scale) / 2 - minX * scale;
+		ty = (rect.height - (maxY - minY) * scale) / 2 - minY * scale;
+		applyTransform();
+	}
+	btnFit.addEventListener('click', fit);
+
+	function applyFilter() {
+		const q = filter.value.trim().toLowerCase();
+		let visible = 0;
+		document.querySelectorAll('.node').forEach((el) => {
+			const match = !q || el.dataset.label.includes(q) || el.dataset.cls.includes(q);
+			el.classList.toggle('dim', !match && !!q);
+			if (match) visible++;
+		});
+		noMatch.style.display = q && visible === 0 ? 'block' : 'none';
+	}
+	filter.addEventListener('input', applyFilter);
+
+	window.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') closeEvidence();
+	});
+	fit();
+})();
+</script>
+</body>
+</html>

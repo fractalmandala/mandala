@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: sites/fractaldesign
+title: Fractal Design SvelteKit Documentation & Component Showcase Site
+scope:
+    - sites/fractaldesign/
+source_files: []
+depends_on: []
+related_to:
+    - path: packages/fractal_svelte
+    - path: packages/fractalsvelte

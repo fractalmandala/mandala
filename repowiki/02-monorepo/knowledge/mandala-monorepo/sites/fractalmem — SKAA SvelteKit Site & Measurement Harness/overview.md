@@ -1,0 +1,1 @@
+A SvelteKit documentation site that publishes the SKAA (persistent episodic memory for AI agents) package, alongside the Python MCP server, measurement probes, and install/uninstall scripts that bootstrap SKAA into any project.

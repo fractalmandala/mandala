@@ -30,7 +30,7 @@
 		{ name: 'children', type: 'Snippet', description: 'Header, Content, Footer, etc.' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Plan from "fractalsvelte/ai-elements/plan";

@@ -1,0 +1,828 @@
+{
+	"version": 1,
+	"scan": "system",
+	"project": {
+		"name": "fractalsvelte",
+		"slug": "fractalsvelte",
+		"tagline": "Token-driven Svelte 5 components, blocks, and motion, plus their docs site",
+		"date": "2026-07-29"
+	},
+	"stats": {
+		"agents": 0,
+		"models": 0,
+		"tools": 5,
+		"integrations": 2,
+		"nodes": 39,
+		"edges": 41,
+		"entries": 15,
+		"services": 7
+	},
+	"topTools": [
+		{
+			"id": "vite",
+			"label": "Vite",
+			"domain": "vitejs.dev"
+		},
+		{
+			"id": "svelte",
+			"label": "Svelte 5",
+			"domain": "svelte.dev"
+		},
+		{
+			"id": "mdsvex",
+			"label": "MDsveX",
+			"domain": "mdsvex.pngwn.io"
+		},
+		{
+			"id": "shiki",
+			"label": "Shiki",
+			"domain": "shiki.style"
+		},
+		{
+			"id": "playwright",
+			"label": "Playwright",
+			"domain": "playwright.dev"
+		}
+	],
+	"topIntegrations": [
+		{
+			"id": "vercel",
+			"label": "Vercel",
+			"domain": "vercel.com"
+		},
+		{
+			"id": "fractals-styler",
+			"label": "fractals-styler",
+			"domain": "npmjs.com"
+		}
+	],
+	"topModels": [],
+	"groups": [
+		{
+			"id": "entries",
+			"label": "Routes & Endpoints"
+		},
+		{
+			"id": "services",
+			"label": "Build-time Services"
+		},
+		{
+			"id": "content",
+			"label": "Content & Sources"
+		},
+		{
+			"id": "library",
+			"label": "Published Library"
+		},
+		{
+			"id": "stack",
+			"label": "Tooling"
+		}
+	],
+	"nodes": [
+		{
+			"id": "root_layout",
+			"kind": "entry",
+			"label": "Root Layout",
+			"sub": "/+layout.svelte",
+			"group": "entries",
+			"sourceRef": "src/routes/+layout.svelte",
+			"detail": "Loads package + site SASS, mounts Appshell/Seo/Toast, and (dev-only) an AI-agent devtool overlay",
+			"data": {}
+		},
+		{
+			"id": "home_page",
+			"kind": "entry",
+			"label": "Home Page",
+			"sub": "/+page.svelte",
+			"group": "entries",
+			"sourceRef": "src/routes/+page.svelte",
+			"data": {}
+		},
+		{
+			"id": "components_index",
+			"kind": "entry",
+			"label": "Components Index",
+			"sub": "/components",
+			"group": "entries",
+			"sourceRef": "src/routes/components/+page.svelte",
+			"data": {}
+		},
+		{
+			"id": "components_detail",
+			"kind": "entry",
+			"label": "Component Detail",
+			"sub": "/components/[slug]",
+			"group": "entries",
+			"sourceRef": "src/routes/components/[slug]/+page.server.ts",
+			"detail": "entries() enumerates every slug from componentNavigation at build time",
+			"data": {}
+		},
+		{
+			"id": "components_md_export",
+			"kind": "entry",
+			"label": "Component Markdown API",
+			"sub": "/components/[slug].md",
+			"group": "entries",
+			"sourceRef": "src/routes/components/[slug].md/+server.ts",
+			"detail": "Serves the same doc as raw Markdown for humans/agents that prefer plain text",
+			"data": {}
+		},
+		{
+			"id": "blocks_index",
+			"kind": "entry",
+			"label": "Blocks Index",
+			"sub": "/blocks",
+			"group": "entries",
+			"sourceRef": "src/routes/blocks/+page.svelte",
+			"data": {}
+		},
+		{
+			"id": "blocks_detail",
+			"kind": "entry",
+			"label": "Block Detail",
+			"sub": "/blocks/[slug]",
+			"group": "entries",
+			"sourceRef": "src/routes/blocks/[slug]/+page.server.ts",
+			"data": {}
+		},
+		{
+			"id": "blocks_md_export",
+			"kind": "entry",
+			"label": "Block Markdown API",
+			"sub": "/blocks/[slug].md",
+			"group": "entries",
+			"sourceRef": "src/routes/blocks/[slug].md/+server.ts",
+			"data": {}
+		},
+		{
+			"id": "motion_index",
+			"kind": "entry",
+			"label": "Motion Index",
+			"sub": "/motion",
+			"group": "entries",
+			"sourceRef": "src/routes/motion/+page.svelte",
+			"data": {}
+		},
+		{
+			"id": "motion_detail",
+			"kind": "entry",
+			"label": "Motion Detail",
+			"sub": "/motion/[slug]",
+			"group": "entries",
+			"sourceRef": "src/routes/motion/[slug]/+page.server.ts",
+			"data": {}
+		},
+		{
+			"id": "motion_md_export",
+			"kind": "entry",
+			"label": "Motion Markdown API",
+			"sub": "/motion/[slug].md",
+			"group": "entries",
+			"sourceRef": "src/routes/motion/[slug].md/+server.ts",
+			"data": {}
+		},
+		{
+			"id": "docs_index",
+			"kind": "entry",
+			"label": "Docs Index",
+			"sub": "/docs",
+			"group": "entries",
+			"sourceRef": "src/routes/docs/+page.svelte",
+			"data": {}
+		},
+		{
+			"id": "docs_detail",
+			"kind": "entry",
+			"label": "Doc Post",
+			"sub": "/docs/[post]",
+			"group": "entries",
+			"sourceRef": "src/routes/docs/[post]/+page.svelte",
+			"data": {}
+		},
+		{
+			"id": "sitemap_route",
+			"kind": "entry",
+			"label": "Sitemap",
+			"sub": "/sitemap.xml",
+			"group": "entries",
+			"sourceRef": "src/routes/sitemap.xml/+server.ts",
+			"data": {}
+		},
+		{
+			"id": "og_image_route",
+			"kind": "entry",
+			"label": "OG Image API",
+			"sub": "/og/[section]/[slug].png",
+			"group": "entries",
+			"sourceRef": "src/routes/og/[section]/[slug].png/+server.ts",
+			"data": {}
+		},
+		{
+			"id": "navigation_service",
+			"kind": "service",
+			"label": "Content Navigation",
+			"group": "services",
+			"sourceRef": "src/siteshelf/docs/navigation.ts",
+			"detail": "Builds every nav catalog from eager import.meta.glob frontmatter reads - no hand-maintained metadata files",
+			"data": {}
+		},
+		{
+			"id": "component_sources_service",
+			"kind": "service",
+			"label": "Component Source Puller",
+			"group": "services",
+			"sourceRef": "src/siteshelf/docs/component-sources.ts",
+			"data": {}
+		},
+		{
+			"id": "highlight_service",
+			"kind": "service",
+			"label": "Syntax Highlighter",
+			"group": "services",
+			"sourceRef": "src/siteshelf/server/highlight.ts",
+			"detail": "Server/build-time-only Shiki wrapper, so the client bundle never ships Shiki",
+			"data": {}
+		},
+		{
+			"id": "page_markdown_service",
+			"kind": "service",
+			"label": "Raw Markdown Server",
+			"group": "services",
+			"sourceRef": "src/siteshelf/server/page-markdown.ts",
+			"data": {}
+		},
+		{
+			"id": "itempulls_service",
+			"kind": "service",
+			"label": "Package Export Cross-Check",
+			"group": "services",
+			"sourceRef": "src/siteshelf/utils/itempulls.ts",
+			"detail": "Reads the actual built barrels at build time so docs can never drift from real package exports",
+			"data": {}
+		},
+		{
+			"id": "demo_highlight_service",
+			"kind": "service",
+			"label": "Demo Snippet Prebuilder",
+			"group": "services",
+			"sourceRef": "src/siteshelf/docs/demo-highlight.ts",
+			"data": {}
+		},
+		{
+			"id": "seo_service",
+			"kind": "service",
+			"label": "SEO Builder",
+			"group": "services",
+			"sourceRef": "src/siteshelf/comps/seo.ts",
+			"data": {}
+		},
+		{
+			"id": "content_components_store",
+			"kind": "store",
+			"label": "Component Docs (.md)",
+			"group": "content",
+			"sourceRef": "src/siteshelf/content/components/*.md",
+			"detail": "47 files - one MDsveX file per component; frontmatter is the single source of truth for page + nav",
+			"data": {}
+		},
+		{
+			"id": "content_blocks_store",
+			"kind": "store",
+			"label": "Block Docs (.md)",
+			"group": "content",
+			"sourceRef": "src/siteshelf/content/blocks/*.md",
+			"data": {}
+		},
+		{
+			"id": "content_motion_store",
+			"kind": "store",
+			"label": "Motion Docs (.md)",
+			"group": "content",
+			"sourceRef": "src/siteshelf/content/motion/*.md",
+			"data": {}
+		},
+		{
+			"id": "routes_docs_store",
+			"kind": "store",
+			"label": "Guide Docs (.md)",
+			"group": "content",
+			"sourceRef": "src/routes/docs/*.md",
+			"detail": "11 numbered guides, 01-introduction through 11-acknowledgements",
+			"data": {}
+		},
+		{
+			"id": "lib_components_source_store",
+			"kind": "store",
+			"label": "Component Source Files",
+			"group": "content",
+			"sourceRef": "src/lib/components/**",
+			"data": {}
+		},
+		{
+			"id": "appshell",
+			"kind": "component",
+			"label": "Site Appshell",
+			"group": "library",
+			"sourceRef": "src/siteshelf/comps/Appshell.svelte",
+			"detail": "Site-only chrome, not published in the package",
+			"data": {}
+		},
+		{
+			"id": "toast_site",
+			"kind": "component",
+			"label": "Site Toast",
+			"group": "library",
+			"sourceRef": "src/siteshelf/comps/Toast.svelte",
+			"data": {}
+		},
+		{
+			"id": "lib_public_components",
+			"kind": "component",
+			"label": "fractalsvelte",
+			"sub": "public entrypoint",
+			"group": "library",
+			"sourceRef": "src/lib/index.ts",
+			"detail": "47 component families - compound (Root/Trigger/Content) plus standalone monolithic variants",
+			"data": {}
+		},
+		{
+			"id": "lib_public_blocks",
+			"kind": "component",
+			"label": "fractalsvelte/blocks",
+			"sub": "public entrypoint",
+			"group": "library",
+			"sourceRef": "src/lib/blocks/index.ts",
+			"detail": "6 layout blocks: AppShell, Grid, Hero, NavigationSidebar, PageHeader, SplitLayout",
+			"data": {}
+		},
+		{
+			"id": "lib_public_motion",
+			"kind": "component",
+			"label": "fractalsvelte/motion",
+			"sub": "public entrypoint",
+			"group": "library",
+			"sourceRef": "src/lib/motion/index.ts",
+			"detail": "Motion, MotionProvider, AnimatePresence, Layout/SharedLayout, Drag/DropZone, Reorder",
+			"data": {}
+		},
+		{
+			"id": "lib_internal_motion",
+			"kind": "component",
+			"label": "Internal Motion Policy",
+			"sub": "NOT exported",
+			"group": "library",
+			"sourceRef": "src/lib/internal/motion/",
+			"detail": "reduced-motion.svelte.ts is the single most-connected node in the codebase - 34 edges",
+			"data": {}
+		},
+		{
+			"id": "style_system",
+			"kind": "style",
+			"label": "SASS Token System",
+			"group": "library",
+			"sourceRef": "src/lib/styles/index.sass",
+			"detail": "CSS custom-property tokens only - no Tailwind, no CSS-in-JS, indented SASS exclusively",
+			"data": {}
+		},
+		{
+			"id": "vite_tool",
+			"kind": "tool",
+			"label": "Vite",
+			"group": "stack",
+			"domain": "vitejs.dev",
+			"data": {}
+		},
+		{
+			"id": "mdsvex_tool",
+			"kind": "tool",
+			"label": "MDsveX",
+			"group": "stack",
+			"domain": "mdsvex.pngwn.io",
+			"data": {}
+		},
+		{
+			"id": "shiki_tool",
+			"kind": "tool",
+			"label": "Shiki",
+			"group": "stack",
+			"domain": "shiki.style",
+			"data": {}
+		},
+		{
+			"id": "vercel_og_integration",
+			"kind": "integration",
+			"label": "@vercel/og",
+			"group": "stack",
+			"domain": "vercel.com",
+			"data": {}
+		},
+		{
+			"id": "fractals_styler_integration",
+			"kind": "integration",
+			"label": "fractals-styler",
+			"group": "stack",
+			"domain": "npmjs.com",
+			"data": {}
+		}
+	],
+	"edges": [
+		{
+			"id": "e0",
+			"source": "root_layout",
+			"target": "appshell",
+			"kind": "renders",
+			"weight": 1
+		},
+		{
+			"id": "e1",
+			"source": "root_layout",
+			"target": "seo_service",
+			"kind": "calls",
+			"label": "reads page.data.seo",
+			"weight": 1
+		},
+		{
+			"id": "e2",
+			"source": "root_layout",
+			"target": "toast_site",
+			"kind": "renders",
+			"weight": 1
+		},
+		{
+			"id": "e3",
+			"source": "root_layout",
+			"target": "style_system",
+			"kind": "imports",
+			"label": "package SASS then site SASS",
+			"weight": 1
+		},
+		{
+			"id": "e4",
+			"source": "root_layout",
+			"target": "fractals_styler_integration",
+			"kind": "uses",
+			"weight": 1
+		},
+		{
+			"id": "e5",
+			"source": "root_layout",
+			"target": "vite_tool",
+			"kind": "uses",
+			"label": "virtual CSS via plugin",
+			"weight": 1
+		},
+		{
+			"id": "e6",
+			"source": "home_page",
+			"target": "docs_index",
+			"kind": "triggers",
+			"label": "Get Started CTA",
+			"weight": 1
+		},
+		{
+			"id": "e7",
+			"source": "components_index",
+			"target": "navigation_service",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e8",
+			"source": "components_detail",
+			"target": "navigation_service",
+			"kind": "reads",
+			"label": "getComponentBySlug()",
+			"weight": 1
+		},
+		{
+			"id": "e9",
+			"source": "components_detail",
+			"target": "component_sources_service",
+			"kind": "calls",
+			"label": "raw source for copy panel",
+			"weight": 1
+		},
+		{
+			"id": "e10",
+			"source": "components_detail",
+			"target": "highlight_service",
+			"kind": "calls",
+			"weight": 1
+		},
+		{
+			"id": "e11",
+			"source": "components_detail",
+			"target": "seo_service",
+			"kind": "calls",
+			"weight": 1
+		},
+		{
+			"id": "e12",
+			"source": "components_md_export",
+			"target": "page_markdown_service",
+			"kind": "calls",
+			"weight": 1
+		},
+		{
+			"id": "e13",
+			"source": "blocks_index",
+			"target": "navigation_service",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e14",
+			"source": "blocks_detail",
+			"target": "navigation_service",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e15",
+			"source": "blocks_detail",
+			"target": "component_sources_service",
+			"kind": "calls",
+			"weight": 1
+		},
+		{
+			"id": "e16",
+			"source": "blocks_detail",
+			"target": "highlight_service",
+			"kind": "calls",
+			"weight": 1
+		},
+		{
+			"id": "e17",
+			"source": "blocks_md_export",
+			"target": "page_markdown_service",
+			"kind": "calls",
+			"weight": 1
+		},
+		{
+			"id": "e18",
+			"source": "motion_index",
+			"target": "navigation_service",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e19",
+			"source": "motion_detail",
+			"target": "navigation_service",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e20",
+			"source": "motion_md_export",
+			"target": "page_markdown_service",
+			"kind": "calls",
+			"weight": 1
+		},
+		{
+			"id": "e21",
+			"source": "docs_index",
+			"target": "navigation_service",
+			"kind": "reads",
+			"label": "buckets 11 guides",
+			"weight": 1
+		},
+		{
+			"id": "e22",
+			"source": "docs_detail",
+			"target": "routes_docs_store",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e23",
+			"source": "sitemap_route",
+			"target": "navigation_service",
+			"kind": "reads",
+			"label": "flattens 4 catalogs",
+			"weight": 1
+		},
+		{
+			"id": "e24",
+			"source": "og_image_route",
+			"target": "navigation_service",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e25",
+			"source": "og_image_route",
+			"target": "vercel_og_integration",
+			"kind": "calls",
+			"label": "1200x630 PNG",
+			"weight": 1
+		},
+		{
+			"id": "e26",
+			"source": "navigation_service",
+			"target": "content_components_store",
+			"kind": "reads",
+			"label": "eager frontmatter glob",
+			"weight": 1
+		},
+		{
+			"id": "e27",
+			"source": "navigation_service",
+			"target": "content_blocks_store",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e28",
+			"source": "navigation_service",
+			"target": "content_motion_store",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e29",
+			"source": "navigation_service",
+			"target": "routes_docs_store",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e30",
+			"source": "component_sources_service",
+			"target": "lib_components_source_store",
+			"kind": "reads",
+			"label": "lazy globs real source",
+			"weight": 1
+		},
+		{
+			"id": "e31",
+			"source": "mdsvex_tool",
+			"target": "content_components_store",
+			"kind": "transforms",
+			"label": "compiles .md at build",
+			"weight": 1
+		},
+		{
+			"id": "e32",
+			"source": "itempulls_service",
+			"target": "lib_public_components",
+			"kind": "reads",
+			"label": "cross-checks exports",
+			"weight": 1
+		},
+		{
+			"id": "e33",
+			"source": "itempulls_service",
+			"target": "lib_public_blocks",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e34",
+			"source": "itempulls_service",
+			"target": "lib_public_motion",
+			"kind": "reads",
+			"weight": 1
+		},
+		{
+			"id": "e35",
+			"source": "demo_highlight_service",
+			"target": "highlight_service",
+			"kind": "calls",
+			"label": "shared highlighter",
+			"weight": 1
+		},
+		{
+			"id": "e36",
+			"source": "highlight_service",
+			"target": "shiki_tool",
+			"kind": "calls",
+			"weight": 1
+		},
+		{
+			"id": "e37",
+			"source": "lib_public_components",
+			"target": "lib_internal_motion",
+			"kind": "calls",
+			"label": "every overlay wires through it",
+			"weight": 1
+		},
+		{
+			"id": "e38",
+			"source": "lib_public_motion",
+			"target": "lib_internal_motion",
+			"kind": "calls",
+			"weight": 1
+		},
+		{
+			"id": "e39",
+			"source": "lib_public_components",
+			"target": "style_system",
+			"kind": "imports",
+			"label": "shared CSS custom properties",
+			"weight": 1
+		},
+		{
+			"id": "e40",
+			"source": "lib_public_blocks",
+			"target": "style_system",
+			"kind": "imports",
+			"weight": 1
+		}
+	],
+	"flows": [
+		{
+			"id": "component-page",
+			"name": "Render a component doc page",
+			"trigger": "Visit /components/[slug]",
+			"steps": [
+				"components_detail",
+				"navigation_service",
+				"content_components_store",
+				"component_sources_service",
+				"lib_components_source_store",
+				"highlight_service"
+			],
+			"summary": "Slug resolves through the nav catalog, prose comes from the .md, and the code panel pulls real source so demos cannot drift from the package."
+		},
+		{
+			"id": "build-prerender",
+			"name": "Prerender the whole site",
+			"trigger": "vite build",
+			"steps": [
+				"navigation_service",
+				"content_components_store",
+				"mdsvex_tool",
+				"components_detail",
+				"sitemap_route"
+			],
+			"summary": "Eager frontmatter globs build every catalog, MDsveX compiles the prose, and entries() enumerates each slug into the sitemap."
+		},
+		{
+			"id": "og-image",
+			"name": "Generate a social preview",
+			"trigger": "Crawler requests /og/[section]/[slug].png",
+			"steps": [
+				"og_image_route",
+				"navigation_service",
+				"vercel_og_integration"
+			],
+			"summary": "Rasterizes 1200x630 through @vercel/og — no headless browser in the pipeline."
+		},
+		{
+			"id": "agent-markdown",
+			"name": "Serve docs as plain Markdown",
+			"trigger": "Request /components/[slug].md",
+			"steps": [
+				"components_md_export",
+				"page_markdown_service",
+				"content_components_store"
+			],
+			"summary": "Same document, no HTML — the path agents and plain-text readers take."
+		},
+		{
+			"id": "reduced-motion",
+			"name": "Honour reduced-motion",
+			"trigger": "OS accessibility preference",
+			"steps": [
+				"lib_public_components",
+				"lib_internal_motion",
+				"lib_public_motion"
+			],
+			"summary": "Every overlay defers to one internal policy module rather than each re-implementing the media query."
+		}
+	],
+	"notes": [
+		{
+			"title": "reduced-motion is the most-connected node",
+			"severity": "warn",
+			"body": "34 edges converge on one internal policy module. Good centralisation, but it is a single point of failure for every animated component.",
+			"path": "lib_internal_motion"
+		},
+		{
+			"title": "Frontmatter is the only source of truth",
+			"severity": "info",
+			"body": "Navigation is built from eager import.meta.glob reads, so no hand-maintained metadata file can drift from the content.",
+			"path": "navigation_service"
+		},
+		{
+			"title": "Docs are cross-checked against real exports",
+			"severity": "info",
+			"body": "itempulls reads the built barrels at build time, so an undocumented export cannot ship silently.",
+			"path": "itempulls_service"
+		},
+		{
+			"title": "Shiki never reaches the client",
+			"severity": "info",
+			"body": "Highlighting is server/build-time only, keeping a large dependency out of the browser bundle.",
+			"path": "highlight_service"
+		},
+		{
+			"title": "Highlighter was duplicated across 3 files",
+			"severity": "warn",
+			"body": "demo-highlight and highlight independently created Shiki instances before being pointed at one shared highlighter.",
+			"path": "demo_highlight_service"
+		}
+	]
+}

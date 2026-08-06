@@ -1,0 +1,1 @@
+No build or setup required; articles are authored directly as Markdown files and linked from INDEX.md.

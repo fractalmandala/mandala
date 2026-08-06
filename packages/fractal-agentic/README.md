@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./plugin/fractal-agentic.png" alt="Fractal Agentic" width="420" />
+  <img src="./fractal-agentic.png" alt="Fractal Agentic" width="420" />
 </p>
 
 # Fractal Agentic
@@ -29,16 +29,16 @@ An orchestrator prime - charioteer: domain bosses, a single orchestrator, and a 
 
 | Pillar | Entry |
 |---|---|
-| Identity | [`SOUL.md`](./plugin/SOUL.md) |
-| Startup router + boss playbooks | [`AGENTS.md`](./plugin/AGENTS.md) → [Bosses](./plugin/docs/bosses/INDEX.md) |
-| Orchestrator | [`/orchestrate`](./plugin/commands/orchestrate.md) · [`boss-orchestration`](./plugin/skills/boss-orchestration/SKILL.md) |
-| Armory indexes | [`skills/INDEX.md`](./plugin/skills/INDEX.md) · [`agents/INDEX.md`](./plugin/agents/INDEX.md) · [`commands/INDEX.md`](./plugin/commands/INDEX.md) |
-| Hooks (optional) | [`hooks/README.md`](./plugin/hooks/README.md) |
-| Customize | [`CUSTOMIZE.md`](./plugin/CUSTOMIZE.md) |
-| Pin policy | [`docs/DEGRADATION.md`](./plugin/docs/DEGRADATION.md) |
-| Troubleshooting | [`TROUBLESHOOTING.md`](./plugin/TROUBLESHOOTING.md) · [`docs/troubleshooting.md`](./plugin/docs/troubleshooting.md) |
+| Identity | [`SOUL.md`](./SOUL.md) |
+| Startup router + boss playbooks | [`AGENTS.md`](./AGENTS.md) → [Bosses](./docs/bosses/INDEX.md) |
+| Orchestrator | [`/orchestrate`](./commands/orchestrate.md) · [`boss-orchestration`](./skills/boss-orchestration/SKILL.md) |
+| Armory indexes | [`skills/INDEX.md`](./skills/INDEX.md) · [`agents/INDEX.md`](./agents/INDEX.md) · [`commands/INDEX.md`](./commands/INDEX.md) |
+| Hooks (optional) | [`hooks/README.md`](./hooks/README.md) |
+| Customize | [`CUSTOMIZE.md`](./CUSTOMIZE.md) |
+| Pin policy | [`docs/progression.md`](./docs/progression.md) |
+| Troubleshooting | [`TROUBLESHOOTING.md`](./TROUBLESHOOTING.md) · [`docs/troubleshooting.md`](./docs/troubleshooting.md) |
 
-**The product package is [`plugin/`](./plugin/)** — marketplace install unit, `FRACTAL_AGENTIC_ROOT`, and all manifests live there. Paths below resolve under `plugin/` unless noted.  
+**This directory is the plugin root** — marketplace install unit, `FRACTAL_AGENTIC_ROOT`, and all manifests live here.  
 **Host-agnostic content** with thin adapters (`CLAUDE.md`, `GEMINI.md`, `KIMI.md`, `OPENCODE.md`, optional hooks).
 
 ### What lives where (this package vs the rest of the repo)
@@ -49,19 +49,19 @@ An orchestrator prime - charioteer: domain bosses, a single orchestrator, and a 
 | Armory | `skills/`, `agents/`, `commands/` | Agents + users |
 | Shipped support docs | `docs/` | **Dual** — offline humans and agents (`docs/INDEX.md` labels each page) |
 | Website | sibling `../site/` | Humans only; **renders** this package, does not replace it |
-| Repo shell | parent root | Clone, credits, marketplace catalog — see [`../LAYOUT.md`](./LAYOUT.md) |
-| Doc SSOT rules | [`docs/doc-ownership.md`](./plugin/docs/doc-ownership.md) | Router vs nested boss playbooks; agent vs dual vs site |
+| Repo shell | parent root | Clone, credits, marketplace catalog — see [`../LAYOUT.md`](../LAYOUT.md) |
+| Doc SSOT rules | [`docs/doc-ownership.md`](./docs/doc-ownership.md) | Router vs nested boss playbooks; agent vs dual vs site |
 
-**Full documentation:** [`docs/INDEX.md`](./plugin/docs/INDEX.md).  
+**Full documentation:** [`docs/INDEX.md`](./docs/INDEX.md).  
 Browse online: [fractal-agentic.vercel.app](https://fractal-agentic.vercel.app/) · [Docs hub](https://fractal-agentic.vercel.app/docs/guide)
 
-**Contents:** [Install](#install) · [Auto-use](#auto-use-from-any-project-agentsmd-mandate) · [Quick start](#quick-start) · [Bosses](#domain-bosses) · [Orchestration](#orchestration-runtime-detail) · [Layout](#layout) · [Customize](./plugin/CUSTOMIZE.md) · [Docs KB](./plugin/docs/INDEX.md)
+**Contents:** [Install](#install) · [Auto-use](#auto-use-from-any-project-agentsmd-mandate) · [Quick start](#quick-start) · [Bosses](#domain-bosses) · [Orchestration](#orchestration-runtime-detail) · [Layout](#layout) · [Customize](./CUSTOMIZE.md) · [Docs KB](./docs/INDEX.md)
 
 ---
 
 ## Install
 
-**Full step-by-step for every host:** [`docs/02-install.md`](./plugin/docs/02-install.md)  
+**Full step-by-step for every host:** [`docs/02-install.md`](./docs/02-install.md)  
 (manifest map, failures, update commands).
 
 ### Universal NPX Installer (Recommended)
@@ -127,16 +127,16 @@ Then register a marketplace (Claude/Codex above) **or** paste the AGENTS snippet
 
 ### Cursor / Gemini / Kimi / OpenCode
 
-See [`docs/02-install.md`](./plugin/docs/02-install.md) — AGENTS snippet + `FRACTAL_AGENTIC_ROOT` + host shim (`GEMINI.md` / `KIMI.md` / `OPENCODE.md`).
+See [`docs/02-install.md`](./docs/02-install.md) — AGENTS snippet + `FRACTAL_AGENTIC_ROOT` + host shim (`GEMINI.md` / `KIMI.md` / `OPENCODE.md`).
 
 ### After install (all hosts)
 
-1. Paste [`project-integration/AGENTS-SNIPPET.md`](./plugin/project-integration/AGENTS-SNIPPET.md) into each project’s `AGENTS.md` (or run `npx fractal-agentic install --project`).
+1. Paste [`project-integration/AGENTS-SNIPPET.md`](./project-integration/AGENTS-SNIPPET.md) into each project’s `AGENTS.md` (or run `npx fractal-agentic install --project`).
 2. Optional: `/hooks-init` · `/improve-init` · `/wiki-init`
 3. Optional pins (TOML hosts): `sh scripts/install-agents.sh`
 4. Health: `sh scripts/check-armory.sh`
 
-Missing pins → keep shipping with `pins: unverified` ([DEGRADATION.md](./plugin/docs/DEGRADATION.md)).
+Missing pins → keep shipping with `pins: unverified` ([progression.md](./docs/progression.md)).
 
 ---
 
@@ -146,8 +146,8 @@ So models **do not need** `@fractal-agentic`, paste the mandate into each projec
 
 | File | Purpose |
 |---|---|
-| [`project-integration/AGENTS-SNIPPET.md`](./plugin/project-integration/AGENTS-SNIPPET.md) | **Copy-paste block** |
-| [`scripts/resolve-plugin-root.sh`](./plugin/scripts/resolve-plugin-root.sh) | Probe: prints a complete router + boss-playbook + runtime root or exits 1 |
+| [`project-integration/AGENTS-SNIPPET.md`](./project-integration/AGENTS-SNIPPET.md) | **Copy-paste block** |
+| [`scripts/resolve-plugin-root.sh`](./scripts/resolve-plugin-root.sh) | Probe: prints a complete router + boss-playbook + runtime root or exits 1 |
 
 ### Per-project recipe
 
@@ -206,8 +206,8 @@ sh scripts/verify.sh         # full package: TOML pins, installer, runtime inspe
 |---|---|
 | Ship a feature end-to-end | `/orchestrate` (or load `boss-orchestration` skill) |
 | Work in a domain | `/activate-boss-svelte` (or design/code/agent/creator/workflow/meta) then `/orchestrate` |
-| Browse the one-boss path | Read [`AGENTS.md`](./plugin/AGENTS.md) then [Domain bosses](./plugin/docs/bosses/INDEX.md) |
-| Live inventories | [`skills/INDEX.md`](./plugin/skills/INDEX.md) · [`commands/INDEX.md`](./plugin/commands/INDEX.md) · [`agents/INDEX.md`](./plugin/agents/INDEX.md) |
+| Browse the one-boss path | Read [`AGENTS.md`](./AGENTS.md) then [Domain bosses](./docs/bosses/INDEX.md) |
+| Live inventories | [`skills/INDEX.md`](./skills/INDEX.md) · [`commands/INDEX.md`](./commands/INDEX.md) · [`agents/INDEX.md`](./agents/INDEX.md) |
 
 **Typical flow**
 
@@ -273,7 +273,7 @@ ECC portfolio / skill health?       → Meta
 Unclear?                            → Creator (or Workflow to observe)
 ```
 
-Full handoffs and boss boundaries: [Domain bosses](./plugin/docs/bosses/INDEX.md).
+Full handoffs and boss boundaries: [Domain bosses](./docs/bosses/INDEX.md).
 
 ---
 
@@ -333,10 +333,10 @@ Keep contracts, routing, and ship gate. State that model pins are **unverified**
 
 | Script | Purpose |
 |---|---|
-| [`scripts/install-agents.sh`](./plugin/scripts/install-agents.sh) | Install or `--check` the three TOML custom agents |
-| [`scripts/inspect-agent-runtime.sh`](./plugin/scripts/inspect-agent-runtime.sh) | Allowlisted routing JSON from a subagent thread id |
-| [`scripts/check-armory.sh`](./plugin/scripts/check-armory.sh) | Core files + critical skill path health |
-| [`scripts/verify.sh`](./plugin/scripts/verify.sh) | Full local verification suite |
+| [`scripts/install-agents.sh`](./scripts/install-agents.sh) | Install or `--check` the three TOML custom agents |
+| [`scripts/inspect-agent-runtime.sh`](./scripts/inspect-agent-runtime.sh) | Allowlisted routing JSON from a subagent thread id |
+| [`scripts/check-armory.sh`](./scripts/check-armory.sh) | Core files + critical skill path health |
+| [`scripts/verify.sh`](./scripts/verify.sh) | Full local verification suite |
 
 Installer behavior matches Sol Advisor: never overwrites a differing destination file; never mutates `config.toml`.
 
@@ -373,7 +373,7 @@ runtime. Those trees were copy sources only.
 | Outer packs, curated-curor, and port-component | Copy sources for selected skills |
 | High-value ECC/comparisionset subset | Copy source for delivery, product, and content skills |
 | Native plugin ECC skills | Core armory source |
-| **Live inventory** | See [skills/INDEX.md](./plugin/skills/INDEX.md); all entries are vendored locally |
+| **Live inventory** | See [skills/INDEX.md](./skills/INDEX.md); all entries are vendored locally |
 
 ### High-value ECC subset **inside** this plugin
 
@@ -393,13 +393,15 @@ runtime. Those trees were copy sources only.
 - `plan-orchestrate` = plan → orchestrate prompts  
 - `santa-method` = skill form of dual review (`/santa-loop` is the command)
 
+
 ### Adding more skills later
 
 Copy (never symlink) into `skills/<id>/`, then map it in the owning nested boss
 playbook — see
-[CUSTOMIZE.md](./plugin/CUSTOMIZE.md).
+[CUSTOMIZE.md](./CUSTOMIZE.md).
 
 ---
+
 
 ## Souls - What a soul is
 
@@ -435,9 +437,3 @@ Example souls in the set: **frontend-dev** (React-centric), **graphic-designer**
 - `/santa-loop` (and vendored skill `santa-method`) for release-critical dual review  
 
 ---
-
-## Project Configuration
-
-- **Language**: TypeScript
-- **Package Manager**: pnpm
-- **Add-ons**: prettier, eslint, sveltekit-adapter, mdsvex

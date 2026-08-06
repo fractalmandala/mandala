@@ -70,7 +70,7 @@
 		{ name: 'children', type: 'Snippet', description: 'Panel content.' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Collapsible from "fractalsvelte/collapsible";
@@ -115,15 +115,15 @@
 		</div>
 		<div class="box" style="gap:0.5rem; margin-top:0.5rem">
 			<div style="border:1px solid var(--border); border-radius:var(--radius); padding:0.75rem 1rem; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size:var(--text-sm)">
-				@huntabyte/bits-ui
+				@fractalmandala/fractal-agentic
 			</div>
 			<Collapsible.Content>
 				<div class="box" style="gap:0.5rem">
 					<div style="border:1px solid var(--border); border-radius:var(--radius); padding:0.75rem 1rem; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size:var(--text-sm)">
-						@melt-ui/melt-ui
+						@fractalmandala/fractalsvelte
 					</div>
 					<div style="border:1px solid var(--border); border-radius:var(--radius); padding:0.75rem 1rem; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size:var(--text-sm)">
-						@sveltejs/svelte
+						@fractalmandala/svelte-icons
 					</div>
 				</div>
 			</Collapsible.Content>
@@ -137,7 +137,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/collapsible/` into your project. It depends on `bits-ui`.
+Or copy `src/lib/components/collapsible/` into your project.
 
 ## Usage
 
@@ -237,4 +237,4 @@ items={[
 
 Collapsible itself reads no colour, radius or shadow tokens. It only provides state and
 measurement attributes for composition. Its content animation reads
-`--bits-collapsible-content-height`, which is set by `bits-ui`.
+`--bits-collapsible-content-height`, which the collapsible primitives set as they measure.

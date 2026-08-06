@@ -20,7 +20,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 	const usage = `<script lang="ts">
   import * as InputOTP from "fractalsvelte/input-otp";
 

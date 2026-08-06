@@ -100,7 +100,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui streamdown-svelte mode-watcher @shikijs/themes runed`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Reasoning from "fractalsvelte/ai-elements/reasoning";

@@ -1,0 +1,1 @@
+Node.js plugin that ships a progressive one-boss discovery runtime, seven domain bosses, 33 agents, 167 skills, and 59 commands to Claude/Codex/Antigravity via a unified CLI installer.

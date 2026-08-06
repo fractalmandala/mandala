@@ -1,0 +1,401 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: en-US
+branch: main
+nodes_managed: true
+exported_at: "2026-08-05T05:01:39Z"
+modules:
+    "":
+        dir_name: Mandala Monorepo — Fractal Ecosystem
+        title: Mandala Monorepo — Fractal Ecosystem
+        scope:
+            - .gitignore
+            - .windsurfrules
+            - AGENTS.md
+            - CLAUDE.md
+            - GEMINI.md
+            - LEARNINGS.md
+            - README.md
+        source_files: []
+        children:
+            - apps
+            - commandcode
+            - docs_learnings
+            - ide_workspaces
+            - packages
+            - sites
+        depends_on: []
+        related_to: []
+    apps:
+        dir_name: Fractal Desktop Applications (Tauri + SvelteKit)
+        title: Fractal Desktop Applications (Tauri + SvelteKit)
+        scope:
+            - apps/
+        source_files: []
+        children:
+            - apps/fracta
+            - apps/shradhapp
+        depends_on: []
+        related_to: []
+    apps/fracta:
+        dir_name: Fracta Desktop Knowledge Workspace (Tauri + SvelteKit)
+        title: Fracta Desktop Knowledge Workspace (Tauri + SvelteKit)
+        scope:
+            - apps/fracta/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: apps/shradhapp
+            - path: packages/fractal_agentic/plugin_core/skills
+    apps/shradhapp:
+        dir_name: Shradhapp — Local-First Desktop Video Editor (Tauri + SvelteKit)
+        title: Shradhapp — Local-First Desktop Video Editor (Tauri + SvelteKit)
+        scope:
+            - apps/shradhapp/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: apps/fracta
+            - path: packages/fractals_styler
+    commandcode:
+        dir_name: CommandCode Configuration & Taste Profile
+        title: CommandCode Configuration & Taste Profile
+        scope:
+            - .commandcode/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    docs_learnings:
+        dir_name: Project Learnings & Retrospectives
+        title: Project Learnings & Retrospectives
+        scope:
+            - docs/learnings/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    ide_workspaces:
+        dir_name: VS Code Workspace Definitions
+        title: VS Code Workspace Definitions
+        scope:
+            - ide-workspaces/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    packages:
+        dir_name: Fractal Monorepo Packages
+        title: Fractal Monorepo Packages
+        scope:
+            - packages/
+        source_files: []
+        children:
+            - packages/fractal_agentic
+            - packages/fractal_agentic_qoder_plugin
+            - packages/fractal_svelte
+            - packages/fractals_styler
+            - packages/fractalsvelte
+            - packages/morphicons_svelte
+            - packages/svelte_animated_icon
+            - packages/svelte_icons
+        depends_on: []
+        related_to: []
+    packages/fractal_agentic:
+        dir_name: Fractal Agentic — Agent Orchestration Plugin
+        title: Fractal Agentic — Agent Orchestration Plugin
+        scope:
+            - packages/fractal-agentic/
+        source_files: []
+        children:
+            - packages/fractal_agentic/plugin_core
+            - packages/fractal_agentic/site
+        depends_on: []
+        related_to: []
+    packages/fractal_agentic/plugin_core:
+        dir_name: Fractal Agentic Plugin Distribution & Host Integration
+        title: Fractal Agentic Plugin Distribution & Host Integration
+        scope:
+            - packages/fractal-agentic/plugin/
+            - packages/fractal-agentic/bin/
+            - packages/fractal-agentic/.fractal-agentic/
+        source_files: []
+        children:
+            - packages/fractal_agentic/plugin_core/agents
+            - packages/fractal_agentic/plugin_core/bosses
+            - packages/fractal_agentic/plugin_core/commands
+            - packages/fractal_agentic/plugin_core/docs_and_config
+            - packages/fractal_agentic/plugin_core/hooks
+            - packages/fractal_agentic/plugin_core/plugin_manifest_and_cli
+            - packages/fractal_agentic/plugin_core/skills
+            - packages/fractal_agentic/plugin_core/workflows
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic_qoder_plugin
+    packages/fractal_agentic/plugin_core/agents:
+        dir_name: Agent Profiles & Custom Agent Definitions
+        title: Agent Profiles & Custom Agent Definitions
+        scope:
+            - packages/fractal-agentic/plugin/agents/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/site
+    packages/fractal_agentic/plugin_core/bosses:
+        dir_name: Boss Playbooks — Fractal Agentic Orchestration Roles
+        title: Boss Playbooks — Fractal Agentic Orchestration Roles
+        scope:
+            - packages/fractal-agentic/plugin/bosses/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/plugin_core/workflows
+            - path: sites/fractalagentic
+    packages/fractal_agentic/plugin_core/commands:
+        dir_name: Fractal Agentic Command Definitions
+        title: Fractal Agentic Command Definitions
+        scope:
+            - packages/fractal-agentic/plugin/commands/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/plugin_core/docs_and_config
+            - path: packages/fractal_agentic/site
+    packages/fractal_agentic/plugin_core/docs_and_config:
+        dir_name: Fractal Agentic Plugin Documentation, Scripts & Evaluation Suite
+        title: Fractal Agentic Plugin Documentation, Scripts & Evaluation Suite
+        scope:
+            - packages/fractal-agentic/plugin/docs/
+            - packages/fractal-agentic/plugin/scripts/
+            - packages/fractal-agentic/plugin/project-integration/
+            - packages/fractal-agentic/plugin/evaluation_scripts/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/plugin_core/commands
+    packages/fractal_agentic/plugin_core/hooks:
+        dir_name: Fractal Agentic Optional Hooks (PreToolUse _ SessionStart _ Stop)
+        title: Fractal Agentic Optional Hooks (PreToolUse / SessionStart / Stop)
+        scope:
+            - packages/fractal-agentic/plugin/hooks/
+            - packages/fractal-agentic/.fractal-agentic/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/plugin_core/plugin_manifest_and_cli
+    packages/fractal_agentic/plugin_core/plugin_manifest_and_cli:
+        dir_name: Plugin Manifests & CLI Installer
+        title: Plugin Manifests & CLI Installer
+        scope:
+            - packages/fractal-agentic/plugin/.claude-plugin/
+            - packages/fractal-agentic/plugin/.codex-plugin/
+            - packages/fractal-agentic/plugin/plugin.json
+            - packages/fractal-agentic/bin/cli.js
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/plugin_core/hooks
+    packages/fractal_agentic/plugin_core/skills:
+        dir_name: Fractal Agentic Skills Catalog
+        title: Fractal Agentic Skills Catalog
+        scope:
+            - packages/fractal-agentic/plugin/skills/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: apps/fracta
+            - path: packages/fractal_agentic/site
+    packages/fractal_agentic/plugin_core/workflows:
+        dir_name: Fractal Workflow Contracts (Review & Release)
+        title: Fractal Workflow Contracts (Review & Release)
+        scope:
+            - packages/fractal-agentic/plugin/workflows/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/plugin_core/bosses
+    packages/fractal_agentic/site:
+        dir_name: Fractal Agentic Site — Armory Explorer Website
+        title: Fractal Agentic Site — Armory Explorer Website
+        scope:
+            - packages/fractal-agentic/site/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/plugin_core/agents
+            - path: packages/fractal_agentic/plugin_core/commands
+            - path: packages/fractal_agentic/plugin_core/skills
+    packages/fractal_agentic_qoder_plugin:
+        dir_name: Fractal Agentic Qoder Plugin (Orchestration Armory)
+        title: Fractal Agentic Qoder Plugin (Orchestration Armory)
+        scope:
+            - packages/fractal-agentic-qoder-plugin/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/plugin_core
+    packages/fractal_svelte:
+        dir_name: Fractal Svelte Component Library
+        title: Fractal Svelte Component Library
+        scope:
+            - packages/fractal-svelte/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sites/fractaldesign
+    packages/fractals_styler:
+        dir_name: Fractals Styler — JIT Utility CSS Vite Plugin
+        title: Fractals Styler — JIT Utility CSS Vite Plugin
+        scope:
+            - packages/fractals-styler/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: apps/shradhapp
+    packages/fractalsvelte:
+        dir_name: Fractalsvelte Svelte Component Library
+        title: Fractalsvelte Svelte Component Library
+        scope:
+            - packages/fractalsvelte/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sites/fractaldesign
+    packages/morphicons_svelte:
+        dir_name: morphicons-svelte — Svelte 5 Icon Morphing Bindings
+        title: morphicons-svelte — Svelte 5 Icon Morphing Bindings
+        scope:
+            - packages/morphicons-svelte/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/svelte_animated_icon
+            - path: packages/svelte_icons
+    packages/svelte_animated_icon:
+        dir_name: Svelte Animated Icon Library
+        title: Svelte Animated Icon Library
+        scope:
+            - packages/svelte-animated-icon/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/morphicons_svelte
+            - path: packages/svelte_icons
+    packages/svelte_icons:
+        dir_name: Svelte Icon Component Library (@fractaldesign_svelte-icons)
+        title: Svelte Icon Component Library (@fractaldesign/svelte-icons)
+        scope:
+            - packages/svelte-icons/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/morphicons_svelte
+            - path: packages/svelte_animated_icon
+    sites:
+        dir_name: Fractal Sites — Static Documentation & Knowledge Publishing Hub
+        title: Fractal Sites — Static Documentation & Knowledge Publishing Hub
+        scope:
+            - sites/
+        source_files: []
+        children:
+            - sites/fractalagentic
+            - sites/fractaldesign
+            - sites/fractaldocs
+            - sites/fractalhome
+            - sites/fractalmandala
+            - sites/fractalmem
+            - sites/fractalwiki
+        depends_on: []
+        related_to: []
+    sites/fractalagentic:
+        dir_name: Fractal Agentic Documentation Site (SVOCS)
+        title: Fractal Agentic Documentation Site (SVOCS)
+        scope:
+            - sites/fractalagentic/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_agentic/plugin_core/bosses
+            - path: sites/fractaldocs
+    sites/fractaldesign:
+        dir_name: Fractal Design SvelteKit Documentation & Component Showcase Site
+        title: Fractal Design SvelteKit Documentation & Component Showcase Site
+        scope:
+            - sites/fractaldesign/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: packages/fractal_svelte
+            - path: packages/fractalsvelte
+    sites/fractaldocs:
+        dir_name: Fractal Docs — SVOCS Static Documentation Site
+        title: Fractal Docs — SVOCS Static Documentation Site
+        scope:
+            - sites/fractaldocs/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sites/fractalagentic
+    sites/fractalhome:
+        dir_name: FractalHome Documentation Site (Blume + Astro)
+        title: FractalHome Documentation Site (Blume + Astro)
+        scope:
+            - sites/fractalhome/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sites/fractalmandala
+            - path: sites/fractalwiki
+    sites/fractalmandala:
+        dir_name: Fractal Mandala — SvelteKit Knowledge Site
+        title: Fractal Mandala — SvelteKit Knowledge Site
+        scope:
+            - sites/fractalmandala/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sites/fractalhome
+            - path: sites/fractalwiki
+    sites/fractalmem:
+        dir_name: fractalmem — SKAA SvelteKit Site & Measurement Harness
+        title: fractalmem — SKAA SvelteKit Site & Measurement Harness
+        scope:
+            - sites/fractalmem/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    sites/fractalwiki:
+        dir_name: Fractalwiki SvelteKit Documentation Site
+        title: Fractalwiki SvelteKit Documentation Site
+        scope:
+            - sites/fractalwiki/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: sites/fractalhome
+            - path: sites/fractalmandala

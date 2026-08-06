@@ -2,7 +2,7 @@
 // Oracle: 22 structural utilities, 12 skin rules.
 //
 // Tailwind's --spacing is 0.25rem, so `calc(var(--spacing) * 2)` is resolved to 0.5rem.
-// --radius-4xl is a Tailwind default (2rem), not derived from --radius.
+// Radius scheme: corners are 4px (sm) or 8px (everything else), never larger.
 
 @use '../../styles/mixins' as *
 
@@ -25,8 +25,8 @@
 		border-color: var(--ring)
 
 	&:has(:is(select[aria-hidden='true']:last-child)) > [data-slot='select-trigger']:last-of-type
-		border-top-right-radius: 2rem
-		border-bottom-right-radius: 2rem
+		border-top-right-radius: 8px
+		border-bottom-right-radius: 8px
 
 	& > *:focus-visible
 		position: relative
@@ -50,8 +50,8 @@
 			border-bottom-left-radius: 0
 
 		& > [data-slot]:not(:has(~ [data-slot]))
-			border-top-right-radius: 2rem !important
-			border-bottom-right-radius: 2rem !important
+			border-top-right-radius: 8px !important
+			border-bottom-right-radius: 8px !important
 
 	&[data-orientation='vertical']
 		flex-direction: column
@@ -66,15 +66,15 @@
 			border-top-right-radius: 0
 
 		& > [data-slot]:not(:has(~ [data-slot]))
-			border-bottom-right-radius: 2rem !important
-			border-bottom-left-radius: 2rem !important
+			border-bottom-right-radius: 8px !important
+			border-bottom-left-radius: 8px !important
 
 [data-slot='button-group-text']
 	display: flex
 	align-items: center
 	gap: 0.5rem
 	border: 1px solid var(--border)
-	border-radius: 2rem
+	border-radius: 8px
 	background-color: var(--muted)
 	padding-inline: 0.625rem
 	font-size: var(--text-sm)

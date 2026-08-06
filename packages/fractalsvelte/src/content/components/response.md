@@ -126,11 +126,11 @@ Pair \`Response\` with \`Message\` for full chat layout, or use it alone for any
 		{
 			name: '…Streamdown props',
 			type: 'StreamdownProps',
-			description: 'Forwarded to streamdown-svelte (plugins, components, etc.).'
+			description: 'Forwarded to the markdown renderer (plugins, components, etc.).'
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte streamdown-svelte mode-watcher @shikijs/themes`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { Response } from "fractalsvelte/ai-elements/response";
@@ -197,11 +197,11 @@ const ok = true;
 
 ## Installation
 
-Install the package and peer deps:
+Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/response/` into your project. Runtime deps: `streamdown-svelte`, `mode-watcher`, `@shikijs/themes`.
+Or copy `src/lib/components/ai-elements/response/` into your project. Runtime deps:
 
 ## Usage
 
@@ -252,7 +252,7 @@ Response does not invent its own palette — it reads shared tokens and Shiki th
 | `--primary` | Links |
 | `--muted-foreground` | Blockquote text |
 | `--radius` | Code and pre rounding |
-| mode-watcher + `@shikijs/themes` | Light/dark code highlighting |
+| `--shiki-light*` / `--shiki-dark*` | Light/dark code highlighting |
 
 </div>
 

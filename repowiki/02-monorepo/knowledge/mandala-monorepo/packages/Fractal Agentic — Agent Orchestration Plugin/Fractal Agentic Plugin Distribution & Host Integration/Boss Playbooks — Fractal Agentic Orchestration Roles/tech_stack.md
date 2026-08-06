@@ -1,0 +1,1 @@
+Markdown-based playbooks with YAML frontmatter consumed by the fractal-agentic orchestrator; references external skill/command/agent indexes rather than embedding implementation.

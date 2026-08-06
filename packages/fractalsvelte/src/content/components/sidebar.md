@@ -160,7 +160,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Sidebar from "fractalsvelte/sidebar";
@@ -451,7 +451,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/sidebar/` into your project. It depends on `bits-ui` and the already-ported `button`, `input`, `separator`, `sheet`, `skeleton` and `tooltip` parts. The library tokens (including the `--sidebar*` group) must exist.
+Or copy `src/lib/components/sidebar/` into your project. It expects the library tokens (including the `--sidebar*` group) must exist.
 
 ## Usage
 

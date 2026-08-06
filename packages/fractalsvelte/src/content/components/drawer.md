@@ -106,7 +106,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte vaul-svelte`;
+	const codeInstall = `npm i fractalsvelte`;
 	const usage = `<script lang="ts">
   import * as Drawer from "fractalsvelte/drawer";
   import { Button } from "fractalsvelte/button";
@@ -196,9 +196,8 @@
 
 <h1 class="doc-title">Drawer</h1>
 <p class="doc-lede">
-	A gesture-driven panel that slides in from any edge. Built on
-	<code>vaul-svelte</code>, with a portalled overlay, draggable content, and
-	header / footer / title / description parts.
+	A gesture-driven panel that slides in from any edge, with a portalled overlay,
+	draggable content, and header / footer / title / description parts.
 </p>
 
 <Preview description="Drawer — move goal" code={codeBasic} align="center">
@@ -268,8 +267,8 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/drawer/` into your project. It depends on `vaul-svelte`
-(the Svelte 5 line, e.g. <code>1.0.0-next.7</code>), and expects
+Or copy `src/lib/components/drawer/` into your project. It
+expects
 `styles/_tokens.sass`, `_typography.sass` and `_mixins.sass` to exist.
 
 ## Usage

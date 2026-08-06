@@ -1,0 +1,1 @@
+A Svelte 5 icon library that generates typed, tree-shakeable SVG icon components from SVG source files and renders them through a single reusable Icon component with accessibility support.

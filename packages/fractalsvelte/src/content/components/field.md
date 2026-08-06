@@ -64,7 +64,7 @@
 		},
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Field from "fractalsvelte/field";
@@ -156,8 +156,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/field/` into your project. It depends on the local `label` and
-`separator` components, and expects the shared tokens and type scale to exist.
+Or copy `src/lib/components/field/` into your project. It expects the shared tokens and type scale to exist.
 
 ## Usage
 

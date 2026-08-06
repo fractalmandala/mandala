@@ -234,7 +234,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/item/` into your project. It depends on `separator`, and expects
+Or copy `src/lib/components/item/` into your project. It expects
 `styles/_mixins.sass` and `styles/_tokens.sass` to exist.
 
 ## Usage

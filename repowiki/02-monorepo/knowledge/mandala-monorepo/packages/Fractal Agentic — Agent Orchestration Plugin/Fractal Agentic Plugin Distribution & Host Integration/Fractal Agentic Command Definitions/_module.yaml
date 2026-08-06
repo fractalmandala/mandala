@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: packages/fractal_agentic/plugin_core/commands
+title: Fractal Agentic Command Definitions
+scope:
+    - packages/fractal-agentic/plugin/commands/
+source_files: []
+depends_on: []
+related_to:
+    - path: packages/fractal_agentic/plugin_core/docs_and_config
+    - path: packages/fractal_agentic/site

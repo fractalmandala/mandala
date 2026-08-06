@@ -34,7 +34,7 @@
 		},
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { Label } from "fractalsvelte/label";
@@ -77,7 +77,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/label/` into your project. It depends on `bits-ui`, and it expects
+Or copy `src/lib/components/label/` into your project. It expects
 the shared typography tokens to exist.
 
 ## Usage

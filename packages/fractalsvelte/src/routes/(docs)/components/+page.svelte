@@ -19,7 +19,6 @@
 					<strong>{item.name}</strong>
 					<span>
 						{item.status === 'ready' ? 'Ready' : `Wave ${item.wave}`}
-						{#if item.external}· {item.external}{/if}
 					</span>
 				</a>
 			{/each}

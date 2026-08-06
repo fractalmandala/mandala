@@ -1,0 +1,4 @@
+- Each workflow is authored as a standalone Markdown spec with explicit sections for Purpose, Inputs (table with required/optional), Phases/Dimensions, Finding/Output schemas, Safety rules, and Related assets.
+- I/O is defined as strict JSON schemas with typed fields and enumerated values, and invalid inputs produce fail-closed behavior (reject rather than approve unreviewed payloads).
+- Workflows map their results into Fractal's completion language (`ship | fix-first | rethink`, `APPROVE | CHANGES_REQUESTED`) so host implementations integrate seamlessly with the primary session without custom adapters.
+- Security-sensitive paths are detected via case-insensitive keyword matching against diff content and changed file paths, triggering the security-reviewer dimension automatically.

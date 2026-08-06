@@ -1,0 +1,1039 @@
+{
+	"description": "Source of truth for skill, agent, and command credits. Keys are catalog slugs (no extension).",
+	"credits": {
+		"agent": {
+			"a11y-architect": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"agent-evaluator": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"architect": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"build-error-resolver": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"chief-of-staff": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"code-architect": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"code-explorer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"code-reviewer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"comment-analyzer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"conversation-analyzer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"doc-updater": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"flutter-reviewer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"fractal-agentic-complex-implementer": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"fractal-agentic-fresh-reviewer": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"fractal-agentic-routine-implementer": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"gan-evaluator": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"gan-planner": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"harness-optimizer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"loop-operator": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"opensource-forker": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"opensource-packager": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"opensource-sanitizer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"performance-optimizer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"pr-test-analyzer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"react-reviewer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"refactor-cleaner": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"rust-build-resolver": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"rust-reviewer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"security-reviewer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"seo-specialist": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"silent-failure-hunter": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"svelte-reviewer": {
+				"name": "Iron Ham",
+				"source": "https://github.com/iron-ham/claude-deep-review"
+			},
+			"vue-reviewer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			}
+		},
+		"skill": {
+			"academic-research": {
+				"name": "ASI",
+				"source": "https://github.com/plurigrid/asi"
+			},
+			"accessibility": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"acontext-installer": {
+				"name": "Acontext",
+				"source": "https://github.com/memodb-io/Acontext"
+			},
+			"adr-updater": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"adr-writing": {
+				"name": "Clarc",
+				"source": "https://github.com/marvinrichter/clarc/tree/main/skills/adr-writing"
+			},
+			"agent-architecture-audit": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"agent-eval": {
+				"name": "Agent Eval",
+				"source": "https://github.com/joaquinhuigomez/agent-eval"
+			},
+			"agent-harness-construction": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"agent-introspection-debugging": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"agent-self-evaluation": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"agent-sort": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"agentic-engineering": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"agentic-os": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"ai-first-engineering": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"ai-regression-testing": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"algorithmic-art": {
+				"name": "Anthropics",
+				"source": "https://github.com/anthropics/skills/tree/main/skills/algorithmic-art"
+			},
+			"api-design": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"app-documenter": {
+				"name": "Make Interfaces Better",
+				"source": "https://github.com/jakubkrehel/make-interfaces-feel-better/tree/main"
+			},
+			"architecture-decision-records": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"article-writing": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"automation-audit-ops": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"autonomous-agent-harness": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"autonomous-loops": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"backend-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"benchmark": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"benchmark-optimization-loop": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"better-harness": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"better-interface": {
+				"name": "Make Interfaces Better",
+				"source": "https://github.com/jakubkrehel/make-interfaces-feel-better/tree/main"
+			},
+			"better-layout": {
+				"name": "Make Interfaces Better",
+				"source": "https://github.com/jakubkrehel/make-interfaces-feel-better/tree/main"
+			},
+			"better-typography": {
+				"name": "Make Interfaces Better",
+				"source": "https://github.com/jakubkrehel/make-interfaces-feel-better/tree/main"
+			},
+			"better-ui": {
+				"name": "Make Interfaces Better",
+				"source": "https://github.com/jakubkrehel/make-interfaces-feel-better/tree/main"
+			},
+			"blueprint": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"boss-orchestration": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"brainstorming": {
+				"name": "Superpowers",
+				"source": "https://github.com/obra/superpowers/tree/main"
+			},
+			"brand-discovery": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"brand-voice": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"browser-qa": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"browser-use": {
+				"name": "Browser Use",
+				"source": "https://github.com/browser-use/browser-use"
+			},
+			"build-feature-end-to-end": {
+				"name": "Make Interfaces Better",
+				"source": "https://github.com/jakubkrehel/make-interfaces-feel-better/tree/main"
+			},
+			"bun-runtime": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"canary-watch": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"canvas-design": {
+				"name": "Anthropics",
+				"source": "https://github.com/anthropics/skills/tree/main/skills/canvas-design"
+			},
+			"code-tour": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"codebase-onboarding": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"coding-standards": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"configure-ecc": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"content-engine": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"content-research-writer": {
+				"name": "ASI",
+				"source": "https://github.com/plurigrid/asi"
+			},
+			"context-budget": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"context-restore": {
+				"name": "Gstack",
+				"source": "https://github.com/garrytan/gstack/tree/main"
+			},
+			"context-save": {
+				"name": "Gstack",
+				"source": "https://github.com/garrytan/gstack/tree/main"
+			},
+			"continuous-agent-loop": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"continuous-learning": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"continuous-learning-v2": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"cost-aware-llm-pipeline": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"cost-tracking": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"council": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"database-migrations": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"deep-research": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"deployment-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"design-system": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"dispatching-parallel-agents": {
+				"name": "Superpowers",
+				"source": "https://github.com/obra/superpowers/tree/main"
+			},
+			"doc-frontmatter": {
+				"name": "AI Lab",
+				"source": "https://github.com/practical-stack/ai-lab/tree/main/.claude/skills/doc-frontmatter"
+			},
+			"docker-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"docs-writer": {
+				"name": "ASI",
+				"source": "https://github.com/plurigrid/asi"
+			},
+			"documentation-lookup": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"dynamic-workflow-mode": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"e2e-testing": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"ecc-guide": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"ecosystem-guide": {
+				"name": "ASI",
+				"source": "https://github.com/plurigrid/asi"
+			},
+			"enterprise-agent-ops": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"error-handling": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"eval-harness": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"file-organizer": {
+				"name": "ASI",
+				"source": "https://github.com/plurigrid/asi"
+			},
+			"frontend-a11y": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"frontend-design": {
+				"name": "Anthropics",
+				"source": "https://github.com/anthropics/skills/tree/main/skills/frontend-design"
+			},
+			"frontend-design-direction": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"frontend-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"gan-style-harness": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"gateguard": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"git-workflow": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"github-ops": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"hexagonal-architecture": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"hookify-rules": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"human-writing": {
+				"name": "ASI",
+				"source": "https://github.com/plurigrid/asi"
+			},
+			"impeccable": {
+				"name": "Impeccable",
+				"source": "https://github.com/pbakaus/impeccable/tree/main"
+			},
+			"improved-interfaces": {
+				"name": "Make Interfaces Better",
+				"source": "https://github.com/jakubkrehel/make-interfaces-feel-better/tree/main"
+			},
+			"inherit-legacy-style": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"intent-driven-development": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"iterative-retrieval": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"knowledge-ops": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"latency-critical-systems": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"layout-capture": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"liquid-glass-design": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"llm-wiki": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"make-interfaces-feel-better": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"mcp-builder": {
+				"name": "Anthropics",
+				"source": "https://github.com/anthropics/skills/tree/main/skills/mcp-builder"
+			},
+			"mcp-server-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"memclaw": {
+				"name": "Memclaw",
+				"source": "https://github.com/Felo-Inc/memclaw"
+			},
+			"motion-advanced": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"motion-foundations": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"motion-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"motion-ui": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"opensource-pipeline": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"orch-add-feature": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"orch-build-mvp": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"orch-change-feature": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"orch-fix-defect": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"orch-pipeline": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"orch-refine-code": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"parallel-execution-optimizer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"performance-investigator": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+			},
+			"plan-orchestrate": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"plankton-code-quality": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"port-component": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+			},
+			"postgres-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"product-capability": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"product-lens": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"production-audit": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"prompt-optimizer": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"recursive-decision-ledger": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"redis-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"repo-scan": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"rules-distill": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"rust-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"rust-testing": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"safety-guard": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"santa-method": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"search-first": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"security-bounty-hunter": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"security-review": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"security-scan": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"seo": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"shadcn-porting": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+			},
+			"shadcn-to-svelte": {
+				"name": "Shadcn Svelte",
+				"source": "https://github.com/huntabyte/shadcn-svelte"
+			},
+			"skill-comply": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"skill-creator": {
+				"name": "Anthropics",
+				"source": "https://github.com/anthropics/skills/tree/main/skills/skill-creator"
+			},
+			"skill-scout": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"skill-stocktake": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"spec-writing": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"styling-docs-builder": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+			},
+			"subagent-driven-development": {
+				"name": "Superpowers",
+				"source": "https://github.com/obra/superpowers/tree/main"
+			},
+			"svelte-5-runes": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"svelte-components": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"svelte-components-patterns": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"svelte-deployment": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+			},
+			"svelte-runes": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+			},
+			"svelte-styling": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+			},
+			"svelte-styling-patterns": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"svelte-template-directives": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+			},
+			"sveltekit-architecture": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"sveltekit-data-flow": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"sveltekit-remote-functions": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"sveltekit-structure": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"taste": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"tdd-workflow": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"team-agent-orchestration": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"team-builder": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"theme-factory": {
+				"name": "Anthropics",
+				"source": "https://github.com/anthropics/skills/tree/main"
+			},
+			"token-budget-advisor": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"ui-demo": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"using-superpowers": {
+				"name": "Superpowers",
+				"source": "https://github.com/obra/superpowers/tree/main"
+			},
+			"verification-loop": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"visual-design": {
+				"name": "ASI",
+				"source": "https://github.com/plurigrid/asi"
+			},
+			"vite-patterns": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"web-artifacts-builder": {
+				"name": "Anthropics",
+				"source": "https://github.com/anthropics/skills/tree/main"
+			},
+			"web-design-guidelines": {
+				"name": "Anthropics",
+				"source": "https://github.com/anthropics/skills/tree/main"
+			},
+			"workspace-surface-audit": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			}
+		},
+		"command": {
+			"activate-boss-agent": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"activate-boss-code": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"activate-boss-creator": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"activate-boss-design": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"activate-boss-meta": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"activate-boss-svelte": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"activate-boss-workflow": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"auto-update": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"code-review": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"cost-report": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"ecc-guide": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"harness-audit": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"hookify": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"hookify-configure": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"hookify-list": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"hooks-init": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"hooks-status": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"improve-init": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"improve-status": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"instinct-export": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"instinct-import": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"instinct-status": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"learn": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"learn-eval": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"loop-start": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"loop-status": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"model-route": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"orchestrate": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"plan-canvas": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"pr": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"project-init": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"promote": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"prune": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"quality-gate": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"react-build": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"react-review": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"refactor-clean": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"review-fanout": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"rust-build": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"rust-review": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"rust-test": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"santa-loop": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"security-scan": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"skill-create": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"skill-health": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"svelte-build": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"svelte-review": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"svelte-test": {
+				"name": "Custom",
+				"source": "https://github.com/fractalmandala/fractal-agentic"
+			},
+			"test-coverage": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"vue-review": {
+				"name": "ECC",
+				"source": "https://github.com/affaan-m/ECC"
+			},
+			"wiki-capture": {
+				"name": "LLM Wiki Nocode",
+				"source": "https://github.com/rosidotidev/llm-wiki-nocode"
+			},
+			"wiki-ingest": {
+				"name": "LLM Wiki Nocode",
+				"source": "https://github.com/rosidotidev/llm-wiki-nocode"
+			},
+			"wiki-init": {
+				"name": "LLM Wiki Nocode",
+				"source": "https://github.com/rosidotidev/llm-wiki-nocode"
+			},
+			"wiki-lint": {
+				"name": "LLM Wiki Nocode",
+				"source": "https://github.com/rosidotidev/llm-wiki-nocode"
+			},
+			"wiki-query": {
+				"name": "LLM Wiki Nocode",
+				"source": "https://github.com/rosidotidev/llm-wiki-nocode"
+			},
+			"wiki-status": {
+				"name": "LLM Wiki Nocode",
+				"source": "https://github.com/rosidotidev/llm-wiki-nocode"
+			}
+		}
+	}
+}

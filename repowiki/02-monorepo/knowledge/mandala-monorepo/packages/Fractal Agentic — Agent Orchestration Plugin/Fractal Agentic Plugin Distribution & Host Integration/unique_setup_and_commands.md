@@ -1,0 +1,1 @@
+`npx fractal-agentic install [--target=<host|all>] [--project]` installs the plugin into detected hosts and optionally injects the AGENTS snippet; `npx fractal-agentic verify` delegates to `scripts/verify.sh`; re-materializing hooks uses `sh plugin/scripts/install-hooks.sh --target project --project-dir <repo-root> --profile standard`.

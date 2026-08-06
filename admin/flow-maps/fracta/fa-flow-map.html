@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fracta — UI Flow Map</title>
+<style>
+:root {
+	--paper: #f6f4ee;
+	--ink: #1d1a15;
+	--muted: #6f695c;
+	--line: #ddd7c8;
+	--panel: #fffdf7;
+	--jade: #17805f;
+	--forest: #0b4f3c;
+	--jade-soft: #e6f3ec;
+	--amber: #b8791f;
+	--amber-soft: #fdf3e0;
+	--violet: #6a4fa0;
+	--violet-soft: #f0ebfa;
+	--slate: #55606b;
+	--slate-soft: #eef1f4;
+	--red: #8c2d26;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+	background: var(--paper);
+	color: var(--ink);
+	font: 14px/1.45 "SF Pro Text", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+button { font: inherit; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--jade); outline-offset: 2px; }
+
+/* ---------- toolbar ---------- */
+.toolbar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 16px;
+	border-bottom: 1px solid var(--line);
+	background: var(--panel);
+	flex-wrap: wrap;
+	z-index: 5;
+}
+.toolbar h1 { font-size: 15px; margin: 0; font-weight: 700; letter-spacing: -0.01em; }
+.toolbar .sub { color: var(--muted); font-size: 12px; }
+.toolbar .spacer { flex: 1; }
+.toolbar input[type="search"] {
+	min-width: 220px;
+	padding: 7px 10px;
+	border: 1px solid var(--line);
+	border-radius: 8px;
+	background: #fff;
+	font-size: 13px;
+}
+.tbtn {
+	border: 1px solid var(--line);
+	background: #fff;
+	border-radius: 8px;
+	padding: 7px 11px;
+	cursor: pointer;
+	font-size: 13px;
+	color: var(--ink);
+}
+.tbtn:hover { border-color: var(--jade); color: var(--jade); }
+.tbtn:active { transform: translateY(1px); }
+.legend { display: flex; align-items: center; gap: 14px; font-size: 11.5px; color: var(--muted); }
+.legend i {
+	display: inline-block; width: 22px; height: 0; border-top-width: 2px; border-top-style: solid;
+	vertical-align: middle; margin-right: 4px;
+}
+.legend .sw {
+	display: inline-block; width: 11px; height: 11px; border-radius: 3px;
+	vertical-align: -1px; margin-right: 4px;
+}
+
+/* ---------- stage ---------- */
+#stage {
+	flex: 1;
+	position: relative;
+	overflow: hidden;
+	background:
+		radial-gradient(900px 480px at 12% -10%, rgba(23,128,95,0.08), transparent 60%),
+		radial-gradient(800px 480px at 95% 110%, rgba(106,79,160,0.07), transparent 60%),
+		var(--paper);
+	cursor: grab;
+	touch-action: none;
+}
+#stage.dragging { cursor: grabbing; }
+#viewport {
+	position: absolute;
+	top: 0; left: 0;
+	transform-origin: 0 0;
+	width: 0; height: 0;
+}
+#edge-svg { position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none; }
+.edge { stroke-width: 1.6; fill: none; }
+.edge.contain { stroke: var(--jade); opacity: 0.65; }
+.edge.data { stroke: var(--amber); stroke-dasharray: 6 4; opacity: 0.8; }
+.node {
+	position: absolute;
+	width: 252px;
+	min-height: 84px;
+	background: var(--panel);
+	border: 1px solid var(--line);
+	border-radius: 10px;
+	padding: 9px 12px;
+	cursor: grab;
+	user-select: none;
+	box-shadow: 0 1px 2px rgba(30,20,10,0.06);
+	transition: box-shadow 120ms ease, border-color 120ms ease;
+}
+.node:hover { box-shadow: 0 8px 22px rgba(30,20,10,0.12); border-color: #c8c0ae; }
+.node:active { cursor: grabbing; }
+.node.selected { border-color: var(--jade); box-shadow: 0 0 0 3px var(--jade-soft), 0 8px 22px rgba(30,20,10,0.14); }
+.node.dim { opacity: 0.18; }
+.node .n-top { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.node .n-kind {
+	font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+	padding: 2px 6px; border-radius: 99px; flex: none;
+}
+.node .n-name { font-size: 13px; font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; }
+.node .n-file { font-size: 10.5px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.node .n-cls { font-size: 10.5px; color: var(--slate); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.node .n-note { font-size: 10.5px; color: var(--muted); margin-top: 3px; font-style: italic; }
+/* kind colors */
+.k-route .n-kind, .k-layout .n-kind { background: var(--jade-soft); color: var(--jade); }
+.k-container .n-kind { background: #eef2ee; color: #3d5547; }
+.k-component .n-kind { background: var(--violet-soft); color: var(--violet); }
+.k-state .n-kind { background: var(--amber-soft); color: var(--amber); }
+.k-data .n-kind { background: var(--slate-soft); color: var(--slate); }
+.k-external .n-kind { background: #e9e7e0; color: #7a7466; }
+.k-route { border-color: #b7d6c6; }
+.k-state { border-color: #e4c88f; }
+.k-data { border-color: #c9cfd5; }
+.k-route::before, .k-layout::before {
+	content: ""; position: absolute; inset: 0; border-radius: 10px;
+	background: linear-gradient(135deg, rgba(23,128,95,0.07), transparent 55%);
+	pointer-events: none;
+}
+
+/* ---------- evidence panel ---------- */
+#evidence {
+	position: absolute;
+	right: 16px;
+	bottom: 16px;
+	width: 320px;
+	max-height: 46%;
+	overflow: auto;
+	background: var(--panel);
+	border: 1px solid var(--line);
+	border-radius: 12px;
+	padding: 13px 15px;
+	box-shadow: 0 14px 40px rgba(30,20,10,0.16);
+	z-index: 6;
+	display: none;
+}
+#evidence.open { display: block; }
+#evidence h2 { margin: 0 0 2px; font-size: 14px; }
+#evidence .ev-file { font-size: 11.5px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+#evidence dl { margin: 10px 0 0; display: grid; grid-template-columns: 74px 1fr; gap: 5px 10px; font-size: 12px; }
+#evidence dt { color: var(--muted); }
+#evidence dd { margin: 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+#evidence .ev-note { margin-top: 9px; padding: 8px 10px; border-left: 3px solid var(--jade); background: var(--jade-soft); font-size: 11.5px; border-radius: 0 6px 6px 0; }
+#evidence .ev-close {
+	position: absolute; top: 8px; right: 8px; border: 0; background: transparent;
+	font-size: 15px; cursor: pointer; color: var(--muted);
+}
+#evidence .ev-close:hover { color: var(--red); }
+#hint {
+	position: absolute; left: 16px; bottom: 16px; z-index: 6; color: var(--muted);
+	font-size: 11.5px; background: rgba(255,253,247,0.85); border: 1px solid var(--line);
+	padding: 6px 10px; border-radius: 8px;
+}
+#zoomout { position: absolute; left: 16px; top: 16px; z-index: 6; display: flex; flex-direction: column; gap: 6px; }
+#zoomout button { width: 32px; height: 32px; border-radius: 8px; }
+#no-match {
+	position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+	font-size: 13px; color: var(--muted); background: var(--panel); border: 1px solid var(--line);
+	padding: 10px 16px; border-radius: 10px; display: none; z-index: 5;
+}
+</style>
+</head>
+<body>
+<div class="toolbar" role="toolbar" aria-label="Flow map controls">
+	<h1>Fracta — UI Flow Map</h1>
+	<span class="sub">apps/fracta · SvelteKit 5 + Tauri 2 SPA</span>
+	<div class="spacer"></div>
+	<div class="legend">
+		<span><i style="border-color:var(--jade)"></i>containment</span>
+		<span><i style="border-top-style:dashed;border-color:var(--amber)"></i>data / state / event</span>
+		<span><span class="sw" style="background:var(--jade-soft)"></span>route/layout</span>
+		<span><span class="sw" style="background:#eef2ee"></span>container</span>
+		<span><span class="sw" style="background:var(--violet-soft)"></span>component</span>
+		<span><span class="sw" style="background:var(--amber-soft)"></span>state</span>
+		<span><span class="sw" style="background:var(--slate-soft)"></span>data boundary</span>
+	</div>
+	<label for="filter" style="display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12px">Filter
+		<input id="filter" type="search" placeholder="label or CSS class…" aria-label="Filter nodes by label or CSS class" />
+	</label>
+	<button class="tbtn" id="btn-reset" title="Restore deterministic layout">Reset layout</button>
+	<button class="tbtn" id="btn-fit" title="Fit all nodes into view">Fit</button>
+</div>
+<div id="stage" aria-label="Draggable flow-map canvas">
+	<div id="zoomout" aria-label="Zoom controls">
+		<button class="tbtn" id="zi" title="Zoom in">+</button>
+		<button class="tbtn" id="zo" title="Zoom out">−</button>
+	</div>
+	<div id="viewport">
+		<svg id="edge-svg" width="0" height="0" aria-hidden="true"></svg>
+		<div id="nodes"></div>
+	</div>
+	<div id="no-match">No nodes match the filter.</div>
+	<aside id="evidence" aria-live="polite">
+		<button class="ev-close" id="ev-close" aria-label="Close evidence panel">×</button>
+		<h2 id="ev-title"></h2>
+		<div class="ev-file" id="ev-file"></div>
+		<dl id="ev-dl"></dl>
+		<div class="ev-note" id="ev-note"></div>
+	</aside>
+	<div id="hint">Drag nodes to rearrange · drag background to pan · scroll to zoom · click a node for evidence</div>
+</div>
+
+<script type="application/json" id="fa-flow-data">
+{
+	"title": "Fracta — UI Flow Map",
+	"scope": "apps/fracta — SvelteKit 5 SPA (prerender + ssr=false) hosted in a Tauri 2 shell",
+	"nodes": [
+		["ROOT", "Root layout", "layout", "src/routes/+layout.svelte", "—", 24, 0, 0, "Theme via prefs.theme; tracks innerWidth → $iW isMobile (<1201px); renders {children}"],
+		["HOME", "Home route shell", "route", "src/routes/+page.svelte", ".fracta-app", 51, 0, 2, "3-way branch: loading / vault-setup / workspace. Window drag on header; ⌘N/⌘S/⌘. shortcuts; Escape closes overlays"],
+		["GATE-LOAD", "Loading gate", "container", "src/routes/+page.svelte", ".gate", 53, 0, 3, "entries.loading === true"],
+		["GATE-SETUP", "Vault setup gate", "container", "src/routes/+page.svelte", ".gate", 55, 0, 4, "!entries.vaultConfigured → Choose project folder… (chooseVault)"],
+		["SHELL", "Workspace shell", "container", "src/routes/+page.svelte", ".actual-area--workspace", 61, 0, 6, "Fixed inset:0 grid; mainarea--full"],
+		["HEADER", "App header + nav", "component", "src/routes/+page.svelte / app-nav.svelte", "header.appheader > nav.app-nav", 63, 0, 7, "Drag region (Tauri startDragging); Ask / Settings / Daily / Rules"],
+		["MODAL-RULES", "Auto-tag rules modal", "component", "src/routes/+page.svelte", "RulesPanel", 67, 0, 9, "ui.rulesOpen"],
+		["MODAL-SETTINGS", "App settings modal", "component", "src/routes/+page.svelte", "AppSettings", 68, 0, 10, "ui.settingsOpen"],
+		["MODAL-AGENT", "Agent settings modal", "component", "src/routes/+page.svelte", "AgentSettings", 69, 0, 11, "ui.agentOpen"],
+		["WS", "Workspace component", "component", "src/lib/components/Workspace.svelte", "section.workspace", 616, 2, 0, "3-column grid: nav / canvas / inspector, driven by --workspace-nav & --workspace-inspector"],
+		["WS-NAV", "Navigator column", "container", "src/lib/components/Workspace.svelte", "aside.workspace__nav", 617, 2, 1, "Border-right, --color10; flex column"],
+		["WS-NAVHEAD", "Nav head — search/new", "container", "src/lib/components/Workspace.svelte", ".workspace__navhead", 618, 2, 2, "Search field + New / Folder / Template / Reindex / Project"],
+		["WS-RESULTS", "Content search results", "container", "src/lib/components/Workspace.svelte", ".workspace__results", 636, 2, 3, "When workspace.searchHits.length; sticky Ask-results button"],
+		["WS-TREE", "File tree", "container", "src/lib/components/Workspace.svelte", ".workspace__tree", 638, 2, 4, "visibleItems (query-filtered); folder context-menu manage"],
+		["WS-RESIZE-NAV", "Nav resize handle", "container", "src/lib/components/Workspace.svelte", ".workspace__resize--nav", 658, 2, 5, "Pointer drag 200–420px, persisted fracta:workspace-nav"],
+		["WS-CANVAS", "Canvas column", "container", "src/lib/components/Workspace.svelte", "main.workspace__canvas", 660, 3, 1, "Error/notice banners + header + per-kind viewers"],
+		["WS-HEADER", "Document header + actions", "container", "src/lib/components/Workspace.svelte", ".workspace__header", 668, 3, 2, "Eyebrow/kind + actions: Terminal, Inspector, Ask, Save, view toggles, Trash"],
+		["WS-LINKS", "Backlinks strip", "container", "src/lib/components/Workspace.svelte", "aside.workspace__links", 705, 3, 3, "workspace.links: orphans, dead links, backlinks"],
+		["WS-DOC", "Read-only preview", "container", "src/lib/components/Workspace.svelte", ".workspace__document", 713, 4, 1, "pdf / docx blocks / extracted text; PdfViewer + DocxImage"],
+		["WS-GRID", "CSV grid view", "container", "src/lib/components/Workspace.svelte", ".workspace__gridwrap", 748, 4, 2, "Virtual rows (>120), cell/row/col editing, CSV→JSON"],
+		["WS-JSONTREE", "JSON tree editor", "component", "src/lib/components/Workspace.svelte", "JsonTreeEditor", 751, 4, 3, "Tree view; source sync via workspace.setContent"],
+		["WS-PRINT", "Markdown print preview", "container", "src/lib/components/Workspace.svelte", ".workspace__print-preview", 754, 4, 4, "RenderedMarkdown; @media print collapses chrome"],
+		["WS-RICHTEXT", "Markdown richtext editor", "component", "src/lib/components/Workspace.svelte", "WorkspaceMarkdownEditor", 756, 4, 5, "TipTap-based; split-frontmatter aware"],
+		["WS-SOURCE", "Text / JSON source", "container", "src/lib/components/Workspace.svelte", ".workspace__source / JsonSourceEditor", 757, 4, 6, "Raw textarea; JSON source mirror with syntax pre"],
+		["WS-BLANK", "Empty state", "container", "src/lib/components/Workspace.svelte", ".workspace__blank", 769, 4, 7, "No active file"],
+		["WS-ASK", "Ask panel overlay", "component", "src/lib/components/Workspace.svelte", ".workspace__ask > AskPanel", 772, 3, 6, "ui.askOpen; full-height right column; <900px → fixed modal"],
+		["WS-TERM", "Terminal sheet", "component", "src/lib/components/Workspace.svelte", ".workspace-terminal > WorkspaceTerminal", 773, 3, 7, "terminalOpen; right of inspector; Esc/backdrop close"],
+		["WS-INSP", "Inspector column", "container", "src/lib/components/Workspace.svelte", "aside.workspace__inspector", 776, 3, 9, "File / Connections / Read-only / Vault graph sections"],
+		["WS-GRAPH", "Vault graph", "component", "src/lib/components/Workspace.svelte", "KnowledgeGraph", 785, 4, 9, "SVG graph of workspace.graph; hubs + orphans lists"],
+		["WS-RESIZE-INSP", "Inspector resize handle", "container", "src/lib/components/Workspace.svelte", ".workspace__resize--inspector", 774, 3, 8, "Pointer drag; persisted fracta:workspace-inspector"],
+		["STATE-UI", "UI state store", "state", "src/lib/state/ui.svelte.ts", "ui (runes + localStorage 'fracta:ui')", 24, 5, 1, "mode (capture|organize|workspace), organizeTab, rulesOpen, settingsOpen, agentOpen, askOpen, searchFocusToken"],
+		["STATE-ENTRIES", "Entries store (vault)", "state", "src/lib/state/entries.svelte.ts", "entries", 15, 5, 3, "status, summaries, activeId, title/category/tags/body, dirty; 600ms autosave; resetToken drives editor reload"],
+		["STATE-WS", "Workspace store", "state", "src/lib/state/workspace.svelte.ts", "workspace", 13, 5, 5, "items, active, links, preview, query, searchHits, graph; 20s/2.5s disk poll + workspace://changed event"],
+		["STATE-PREFS", "Preferences store", "state", "src/lib/state/prefs.svelte.ts", "prefs", 1, 5, 7, "theme (light|dark|system), fontStack, size — consumed by root layout"],
+		["IPC", "Tauri IPC boundary", "data", "src/lib/ipc.ts", "invoke() wrappers", 1, 5, 9, "vaultStatus, listEntries, writeEntry, listWorkspace, searchWorkspace, workspaceLinks, workspaceGraph, previewWorkspaceDocument, isTauri()"],
+		["DESIGN", "Design prototype route", "route", "src/routes/design/+page.svelte", "main.design-workbench", 302, 0, 13, "Standalone interactive prototype of the full UI (1140 lines), @humanspeak/svelte-motion + @fractaldesign/svelte-icons"],
+		["DESIGN-TOPBAR", "Workbench topbar", "component", "src/routes/design/+page.svelte", "WorkbenchTopbar", 305, 0, 14, "Search, navigator/ledger toggles, Ask, theme, settings triggers"],
+		["DESIGN-BODY", "Workbench body", "container", "src/routes/design/+page.svelte", "section.workbench-body", 308, 2, 13, "CSS vars --nav-size / --ledger-size / --inspector-size drive 3-pane widths"],
+		["DESIGN-NAV", "Navigator pane", "container", "src/routes/design/+page.svelte", "MotionAside.prototype-navigator", 321, 2, 14, "Views, Types, Folders trees; navOpen"],
+		["DESIGN-LEDGER", "Document ledger", "container", "src/routes/design/+page.svelte", "MotionSection.prototype-ledger", 427, 2, 15, "Filterable note rows; ledgerOpen"],
+		["DESIGN-CANVAS", "Document canvas", "container", "src/routes/design/+page.svelte", "section.prototype-canvas", 465, 3, 14, "Canvas bar + 5 mode views (read/source/grid/tree/preview)"],
+		["DESIGN-BAR", "Canvas bar", "container", "src/routes/design/+page.svelte", "header.canvas-bar", 466, 3, 15, "Path breadcrumb + view mode buttons"],
+		["DESIGN-VIEWS", "Mode views", "container", "src/routes/design/+page.svelte", ".prototype-document/-source/-grid-view/-json-view/-reader", 512, 4, 14, "mode derived from active.kind; mutually exclusive"],
+		["DESIGN-INSP", "Inspector pane", "container", "src/routes/design/+page.svelte", "MotionAside.prototype-inspector", 728, 3, 16, "Tabs: File / Links / Outline; inspectorOpen"],
+		["DESIGN-ASK", "Ask pane", "container", "src/routes/design/+page.svelte", "MotionAside.prototype-ask-pane", 869, 4, 16, "askOpen replaces inspector; AnimatePresence"],
+		["DESIGN-STATUS", "Status footer", "container", "src/routes/design/+page.svelte", "footer.workbench-status", 960, 0, 16, "Autosave badge, word/char counts, compact toggle"],
+		["DESIGN-SETTINGS", "Settings dialog", "container", "src/routes/design/+page.svelte", "dialog.prototype-settings", 979, 2, 17, "Preferences/Editor/Agents/Hotkeys; focus trap; settingsOpen"]
+	],
+	"edges": [
+		["ROOT","HOME","contain"],
+		["HOME","GATE-LOAD","contain"],
+		["HOME","GATE-SETUP","contain"],
+		["HOME","SHELL","contain"],
+		["SHELL","HEADER","contain"],
+		["SHELL","WS","contain"],
+		["HOME","MODAL-RULES","contain"],
+		["HOME","MODAL-SETTINGS","contain"],
+		["HOME","MODAL-AGENT","contain"],
+		["WS","WS-NAV","contain"],
+		["WS-NAV","WS-NAVHEAD","contain"],
+		["WS-NAV","WS-RESULTS","contain"],
+		["WS-NAV","WS-TREE","contain"],
+		["WS","WS-RESIZE-NAV","contain"],
+		["WS","WS-CANVAS","contain"],
+		["WS-CANVAS","WS-HEADER","contain"],
+		["WS-CANVAS","WS-LINKS","contain"],
+		["WS-CANVAS","WS-DOC","contain"],
+		["WS-CANVAS","WS-GRID","contain"],
+		["WS-CANVAS","WS-JSONTREE","contain"],
+		["WS-CANVAS","WS-PRINT","contain"],
+		["WS-CANVAS","WS-RICHTEXT","contain"],
+		["WS-CANVAS","WS-SOURCE","contain"],
+		["WS-CANVAS","WS-BLANK","contain"],
+		["WS","WS-ASK","contain"],
+		["WS","WS-TERM","contain"],
+		["WS","WS-RESIZE-INSP","contain"],
+		["WS","WS-INSP","contain"],
+		["WS-INSP","WS-GRAPH","contain"],
+		["DESIGN","DESIGN-TOPBAR","contain"],
+		["DESIGN","DESIGN-BODY","contain"],
+		["DESIGN","DESIGN-STATUS","contain"],
+		["DESIGN","DESIGN-SETTINGS","contain"],
+		["DESIGN-BODY","DESIGN-NAV","contain"],
+		["DESIGN-BODY","DESIGN-LEDGER","contain"],
+		["DESIGN-BODY","DESIGN-CANVAS","contain"],
+		["DESIGN-CANVAS","DESIGN-BAR","contain"],
+		["DESIGN-CANVAS","DESIGN-VIEWS","contain"],
+		["DESIGN-BODY","DESIGN-INSP","contain"],
+		["DESIGN-BODY","DESIGN-ASK","contain"],
+		["ROOT","STATE-PREFS","data"],
+		["ROOT","STATE-UI","data"],
+		["HOME","STATE-ENTRIES","data"],
+		["HOME","STATE-UI","data"],
+		["HEADER","STATE-UI","data"],
+		["WS","STATE-WS","data"],
+		["WS-NAV","STATE-WS","data"],
+		["WS-CANVAS","STATE-WS","data"],
+		["WS-ASK","STATE-UI","data"],
+		["STATE-WS","IPC","data"],
+		["STATE-ENTRIES","IPC","data"],
+		["WS","IPC","data"]
+	]
+}
+</script>
+<script>
+(() => {
+	const DATA = JSON.parse(document.getElementById('fa-flow-data').textContent);
+	const kindOf = (id) => DATA.nodes.find((n) => n[0] === id)[2];
+	const nodeById = Object.fromEntries(DATA.nodes.map((n) => [n[0], n]));
+
+	const COLW = 292;
+	const ROWH = 118;
+	const X0 = 36;
+	const Y0 = 40;
+	const pos = (col, row) => [X0 + col * COLW, Y0 + row * ROWH];
+
+	// Deterministic initial layout: col/row grid -> x/y. Repeated runs are comparable.
+	const nodesEl = document.getElementById('nodes');
+	const svg = document.getElementById('edge-svg');
+	const NS = 'http://www.w3.org/2000/svg';
+	const stage = document.getElementById('stage');
+	const viewport = document.getElementById('viewport');
+	const filter = document.getElementById('filter');
+	const btnReset = document.getElementById('btn-reset');
+	const btnFit = document.getElementById('btn-fit');
+	const zi = document.getElementById('zi');
+	const zo = document.getElementById('zo');
+	const noMatch = document.getElementById('no-match');
+	const evidence = document.getElementById('evidence');
+
+	let scale = 0.85;
+	let tx = 24;
+	let ty = 24;
+	let dragNode = null;
+	let panning = false;
+	let panStart = { x: 0, y: 0, tx: 0, ty: 0 };
+	let selected = null;
+
+	const rects = {}; // id -> {x, y, w, h} in world coords
+
+	function applyTransform() {
+		viewport.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+	}
+
+	function makeNode(n) {
+		const [id, name, kind, file, cls, line, col, row, note] = n;
+		const el = document.createElement('div');
+		el.className = `node k-${kind}`;
+		el.id = 'n-' + id;
+		el.innerHTML =
+			'<div class="n-top"><span class="n-kind">' + kind + '</span></div>' +
+			'<div class="n-name"></div>' +
+			'<div class="n-file"></div>' +
+			'<div class="n-cls"></div>' +
+			(note ? '<div class="n-note"></div>' : '');
+		el.querySelector('.n-name').textContent = name;
+		el.querySelector('.n-file').textContent = file + (line ? ':' + line : '');
+		el.querySelector('.n-cls').textContent = cls === '—' ? '' : cls;
+		if (note) el.querySelector('.n-note').textContent = note;
+		const [x, y] = pos(col, row);
+		nodesEl.appendChild(el);
+		const w = el.offsetWidth;
+		const h = el.offsetHeight;
+		el.style.left = x + 'px';
+		el.style.top = y + 'px';
+		el.dataset.kind = kind;
+		el.dataset.label = name.toLowerCase();
+		el.dataset.cls = (cls || '').toLowerCase();
+		rects[id] = { x, y, w, h };
+
+		el.addEventListener('pointerdown', (e) => {
+			e.stopPropagation();
+			if (e.button !== 0) return;
+			dragNode = { id, el, sx: e.clientX, sy: e.clientY, ox: x, oy: y };
+			try { el.setPointerCapture(e.pointerId); } catch { /* synthetic events */ }
+			select(id);
+		});
+		el.addEventListener('click', () => select(id));
+		el.addEventListener('keydown', (e) => {
+			if (e.key === 'Enter' || e.key === ' ') select(id);
+		});
+		return el;
+	}
+
+	function makeEdges() {
+		svg.replaceChildren();
+		const defs = document.createElementNS(NS, 'defs');
+		const marker = document.createElementNS(NS, 'marker');
+		marker.setAttribute('id', 'arrow');
+		marker.setAttribute('markerWidth', '7');
+		marker.setAttribute('markerHeight', '7');
+		marker.setAttribute('refX', '6');
+		marker.setAttribute('refY', '3');
+		marker.setAttribute('orient', 'auto');
+		const path = document.createElementNS(NS, 'path');
+		path.setAttribute('d', 'M0,0 L6,3 L0,6 Z');
+		path.setAttribute('fill', 'var(--jade)');
+		marker.appendChild(path);
+		defs.appendChild(marker);
+		svg.appendChild(defs);
+		for (const [s, t, kind] of DATA.edges) {
+			const a = rects[s];
+			const b = rects[t];
+			if (!a || !b) continue;
+			const x1 = a.x + a.w / 2;
+			const y1 = a.y + a.h / 2;
+			const x2 = b.x + b.w / 2;
+			const y2 = b.y + b.h / 2;
+			const line = document.createElementNS(NS, 'line');
+			line.setAttribute('x1', x1);
+			line.setAttribute('y1', y1);
+			line.setAttribute('x2', x2);
+			line.setAttribute('y2', y2);
+			line.setAttribute('class', 'edge ' + kind);
+			if (kind === 'contain') line.setAttribute('marker-end', 'url(#arrow)');
+			line.setAttribute('data-s', s);
+			line.setAttribute('data-t', t);
+			svg.appendChild(line);
+		}
+		// Size svg to content so markers/edges aren't clipped by a 0-sized svg.
+		let maxX = 0;
+		let maxY = 0;
+		for (const r of Object.values(rects)) {
+			maxX = Math.max(maxX, r.x + r.w);
+			maxY = Math.max(maxY, r.y + r.h);
+		}
+		svg.setAttribute('width', maxX + 200);
+		svg.setAttribute('height', maxY + 200);
+	}
+
+	function redrawEdges() {
+		for (const [s, t, kind] of DATA.edges) {
+			const a = rects[s];
+			const b = rects[t];
+			if (!a || !b) continue;
+			const line = svg.querySelector(`line[data-s="${s}"][data-t="${t}"]`);
+			if (!line) continue;
+			line.setAttribute('x1', a.x + a.w / 2);
+			line.setAttribute('y1', a.y + a.h / 2);
+			line.setAttribute('x2', b.x + b.w / 2);
+			line.setAttribute('y2', b.y + b.h / 2);
+		}
+	}
+
+	function select(id) {
+		selected = id;
+		document.querySelectorAll('.node').forEach((el) => el.classList.toggle('selected', el.id === 'n-' + id));
+		const n = nodeById[id];
+		if (!n) return;
+		document.getElementById('ev-title').textContent = n[1];
+		document.getElementById('ev-file').textContent = 'apps/fracta/' + n[3] + ' · line ' + n[5];
+		const dl = document.getElementById('ev-dl');
+		dl.innerHTML = '';
+		const rows = [
+			['Kind', n[2]],
+			['File', n[3]],
+			['Line', String(n[5])],
+			['Class', n[4]]
+		];
+		for (const [k, v] of rows) {
+			const dt = document.createElement('dt');
+			dt.textContent = k;
+			const dd = document.createElement('dd');
+			dd.textContent = v;
+			dl.append(dt, dd);
+		}
+		const noteEl = document.getElementById('ev-note');
+		noteEl.textContent = n[8] || '';
+		evidence.classList.add('open');
+	}
+
+	function closeEvidence() {
+		evidence.classList.remove('open');
+		selected = null;
+		document.querySelectorAll('.node').forEach((el) => el.classList.remove('selected'));
+	}
+
+	document.getElementById('ev-close').addEventListener('click', closeEvidence);
+	evidence.addEventListener('click', (e) => e.stopPropagation());
+
+	DATA.nodes.forEach(makeNode);
+	makeEdges();
+	applyTransform();
+
+	// ---- drag node ----
+	stage.addEventListener('pointermove', (e) => {
+		if (dragNode) {
+			const dx = (e.clientX - dragNode.sx) / scale;
+			const dy = (e.clientY - dragNode.sy) / scale;
+			const nx = Math.round(dragNode.ox + dx);
+			const ny = Math.round(dragNode.oy + dy);
+			dragNode.el.style.left = nx + 'px';
+			dragNode.el.style.top = ny + 'px';
+			rects[dragNode.id].x = nx;
+			rects[dragNode.id].y = ny;
+			redrawEdges();
+		} else if (panning) {
+			tx = panStart.tx + (e.clientX - panStart.x);
+			ty = panStart.ty + (e.clientY - panStart.y);
+			applyTransform();
+		}
+	});
+	stage.addEventListener('pointerup', (e) => {
+		if (dragNode && dragNode.el.hasPointerCapture(e.pointerId)) dragNode.el.releasePointerCapture(e.pointerId);
+		dragNode = null;
+		panning = false;
+		stage.classList.remove('dragging');
+	});
+	stage.addEventListener('pointerdown', (e) => {
+		if (e.target === stage || e.target === viewport) {
+			panning = true;
+			panStart = { x: e.clientX, y: e.clientY, tx, ty };
+			stage.classList.add('dragging');
+			closeEvidence();
+		}
+	});
+	stage.addEventListener('wheel', (e) => {
+		e.preventDefault();
+		const factor = e.deltaY < 0 ? 1.09 : 0.92;
+		const next = Math.min(2.2, Math.max(0.35, scale * factor));
+		const rect = stage.getBoundingClientRect();
+		const mx = e.clientX - rect.left;
+		const my = e.clientY - rect.top;
+		tx = mx - ((mx - tx) / scale) * next;
+		ty = my - ((my - ty) / scale) * next;
+		scale = next;
+		applyTransform();
+	}, { passive: false });
+	zi.addEventListener('click', () => zoomAtCenter(1.18));
+	zo.addEventListener('click', () => zoomAtCenter(0.85));
+	function zoomAtCenter(factor) {
+		const rect = stage.getBoundingClientRect();
+		const mx = rect.width / 2;
+		const my = rect.height / 2;
+		const next = Math.min(2.2, Math.max(0.35, scale * factor));
+		tx = mx - ((mx - tx) / scale) * next;
+		ty = my - ((my - ty) / scale) * next;
+		scale = next;
+		applyTransform();
+	}
+
+	// ---- reset & fit ----
+	btnReset.addEventListener('click', () => {
+		for (const n of DATA.nodes) {
+			const [x, y] = pos(n[6], n[7]);
+			const el = document.getElementById('n-' + n[0]);
+			el.style.left = x + 'px';
+			el.style.top = y + 'px';
+			rects[n[0]].x = x;
+			rects[n[0]].y = y;
+		}
+		redrawEdges();
+		fit();
+	});
+	function fit() {
+		const rect = stage.getBoundingClientRect();
+		let minX = Infinity;
+		let minY = Infinity;
+		let maxX = -Infinity;
+		let maxY = -Infinity;
+		for (const r of Object.values(rects)) {
+			minX = Math.min(minX, r.x);
+			minY = Math.min(minY, r.y);
+			maxX = Math.max(maxX, r.x + r.w);
+			maxY = Math.max(maxY, r.y + r.h);
+		}
+		const pad = 40;
+		const s = Math.min((rect.width - pad * 2) / (maxX - minX), (rect.height - pad * 2) / (maxY - minY));
+		scale = Math.min(1.15, Math.max(0.35, s));
+		tx = (rect.width - (maxX - minX) * scale) / 2 - minX * scale;
+		ty = (rect.height - (maxY - minY) * scale) / 2 - minY * scale;
+		applyTransform();
+	}
+	btnFit.addEventListener('click', fit);
+
+	// ---- filter ----
+	function applyFilter() {
+		const q = filter.value.trim().toLowerCase();
+		let visible = 0;
+		document.querySelectorAll('.node').forEach((el) => {
+			const match = !q || el.dataset.label.includes(q) || el.dataset.cls.includes(q);
+			el.classList.toggle('dim', !match && !!q);
+			if (match) visible++;
+		});
+		noMatch.style.display = q && visible === 0 ? 'block' : 'none';
+	}
+	filter.addEventListener('input', applyFilter);
+
+	window.addEventListener('keydown', (e) => {
+		if (e.key === 'Escape') closeEvidence();
+	});
+	fit();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+POSIX shell (`sh`) for all install/verify scripts, Python 3.11+ with `tomllib` for TOML validation inside `verify.sh`, Bash for latency benchmarking, and a single Node.js script (`periodic-essay-runner.js`) for scheduled essay execution. JSON manifests (`plugin.json`, `.codex-plugin/plugin.json`) drive discovery and configuration.

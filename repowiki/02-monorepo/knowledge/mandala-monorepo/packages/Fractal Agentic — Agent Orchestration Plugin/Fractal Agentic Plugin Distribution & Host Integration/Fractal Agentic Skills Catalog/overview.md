@@ -1,0 +1,1 @@
+Vendored catalog of 167 agent skills for the Fractal Agentic plugin, each delivered as a self-contained SKILL.md directory with optional scripts, references, agents, and templates that teach agents domain-specific workflows.

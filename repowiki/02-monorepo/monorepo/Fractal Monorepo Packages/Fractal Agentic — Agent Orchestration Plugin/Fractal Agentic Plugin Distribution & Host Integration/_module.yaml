@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: packages/fractal_agentic/plugin_core
+title: Fractal Agentic Plugin Distribution & Host Integration
+scope:
+    - packages/fractal-agentic/plugin/
+    - packages/fractal-agentic/bin/
+    - packages/fractal-agentic/.fractal-agentic/
+source_files: []
+depends_on: []
+related_to:
+    - path: packages/fractal_agentic_qoder_plugin

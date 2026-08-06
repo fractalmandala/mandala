@@ -1,0 +1,1 @@
+VS Code workspace format (JSON-based `.code-workspace` manifests); one workspace per target project (fracta, fractal-agentic, fractalknow, fractalsvelte, shradhapp).

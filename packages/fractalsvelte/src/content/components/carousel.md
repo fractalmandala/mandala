@@ -31,7 +31,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte embla-carousel-svelte`;
+	const codeInstall = `npm i fractalsvelte`;
 	const usage = `<script lang="ts">
   import * as Carousel from "fractalsvelte/carousel";
   import * as Card from "fractalsvelte/card";
@@ -95,7 +95,7 @@
 
 ## Installation
 
-Install the package and `embla-carousel-svelte`:
+Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 

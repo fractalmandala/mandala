@@ -67,7 +67,7 @@
 		{ name: 'children', type: 'Snippet', description: 'Item label, with checked state passed to radio snippets.' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 	const usage = `<script lang="ts">
   import * as Menubar from "fractalsvelte/menubar";
 <\/script>
@@ -164,7 +164,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/menubar/` into your project. It depends on `bits-ui`, and it
+Or copy `src/lib/components/menubar/` into your project. It
 expects `styles/_tokens.sass` and `_typography.sass` to exist.
 
 ## Usage

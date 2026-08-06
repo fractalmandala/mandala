@@ -1,0 +1,3 @@
+- Each workspace file targets exactly one root folder using a relative `../` path pointing into the repository root.
+- Per-workspace settings are declared inline under a top-level `settings` key rather than through shared workspace settings.
+- Workspace filenames follow the `<project-name>.code-workspace` naming convention matching their target app/site/package.

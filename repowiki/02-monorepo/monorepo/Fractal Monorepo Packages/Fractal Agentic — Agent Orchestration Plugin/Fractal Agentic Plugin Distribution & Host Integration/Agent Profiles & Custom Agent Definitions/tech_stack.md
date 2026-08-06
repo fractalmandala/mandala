@@ -1,0 +1,1 @@
+Markdown + YAML frontmatter for agent prompts, TOML for capability-pin metadata (model selection, reasoning effort, sandbox mode). Models referenced include `gpt-5.6-luna`, `gpt-5.6-sol`, `gpt-5.6-terra` with varying `model_reasoning_effort` levels.

@@ -85,7 +85,7 @@
 		{ name: 'onSelect', type: '() => void', description: 'Called when the item is chosen.' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as ModelSelector from "fractalsvelte/ai-elements/model-selector";
@@ -196,7 +196,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/model-selector/`. UI deps: `dialog`, `command`, `button`.
+Or copy `src/lib/components/ai-elements/model-selector/`.
 
 ## Usage
 

@@ -1,0 +1,1 @@
+Open any `.code-workspace` file directly in VS Code (`File > Open Workspace from File`) to launch an IDE session scoped to that single project. Relative `path` entries resolve against the workspace file's location, so these workspaces must be opened from this directory.

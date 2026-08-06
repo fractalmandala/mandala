@@ -1,0 +1,1 @@
+A SvelteKit static documentation site built on the SVOCS framework, serving markdown/SVX content for the Fractal Agentic project with search, Open Graph cards, and a themed docs shell.

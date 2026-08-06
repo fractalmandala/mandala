@@ -1,0 +1,1 @@
+TypeScript compiled by tsup (target node18, ESM only, dts generation for src/index.ts); runtime dependency on fast-glob for file scanning; peer dependency on Vite ^5 through ^8; published as both a Vite plugin and a Node CLI binary named fractals-styler.

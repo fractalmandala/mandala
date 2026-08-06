@@ -1,0 +1,1 @@
+A local-first desktop video assembly app built with Tauri and SvelteKit that provides a media bank, one-click voiceover recording with automatic cleanup, a simple clip assembler, and mom-proof export presets backed by SQLite and FFmpeg.

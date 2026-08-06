@@ -1,0 +1,1 @@
+Collection of VS Code multi-root workspace files that configure isolated IDE sessions for each project (apps, sites, and packages) within the monorepo.

@@ -1,0 +1,536 @@
+{
+  "version": 1,
+  "scan": "system",
+  "project": {
+    "name": "fractal-agentic",
+    "slug": "fractal-agentic",
+    "tagline": "1 orchestrator → 7 bosses → 33 agents → 167 skills · 59 commands",
+    "date": "2026-08-04"
+  },
+  "stats": {
+    "bosses": 7,
+    "agents": 33,
+    "skills": 167,
+    "commands": 59,
+    "capability lanes": 3
+  },
+  "groups": [
+    { "id": "orchestration", "label": "Orchestration" },
+    { "id": "bosses", "label": "Domain Bosses" },
+    { "id": "armory", "label": "Armory — agents · skills · commands per boss" },
+    { "id": "shared", "label": "Shared Release & Law" }
+  ],
+  "nodes": [
+    {
+      "id": "entry:host-task",
+      "kind": "entry",
+      "label": "Host-session task",
+      "sub": "any coding-agent session",
+      "group": "orchestration",
+      "detail": "The user's task in a host session. Everything enters through the startup router; trivial tasks exit here via the trivial exemption."
+    },
+    {
+      "id": "svc:router",
+      "kind": "service",
+      "label": "Startup Router",
+      "sub": "AGENTS.md",
+      "group": "orchestration",
+      "sourceRef": "AGENTS.md",
+      "detail": "Selects exactly one boss from task signals, applies the trivial exemption and stack/surface gate. Project-local rules win on conflicts.",
+      "data": { "files": 1 }
+    },
+    {
+      "id": "cmd:orchestrate",
+      "kind": "command",
+      "label": "/orchestrate",
+      "sub": "delivery runtime entry",
+      "group": "orchestration",
+      "sourceRef": "commands/orchestrate.md",
+      "detail": "Loaded for any work that changes a repo or claims completion. Names the required reading order for the runtime."
+    },
+    {
+      "id": "svc:boss-orchestration",
+      "kind": "service",
+      "label": "boss-orchestration",
+      "sub": "skills/boss-orchestration",
+      "group": "orchestration",
+      "sourceRef": "skills/boss-orchestration/SKILL.md",
+      "detail": "Executable runtime source of truth: phases, capability lanes, review invariant. Narrative docs link to it; they never replace it.",
+      "data": { "files": 1 }
+    },
+    {
+      "id": "svc:lanes",
+      "kind": "service",
+      "label": "Capability lanes",
+      "sub": "routine · complex · fresh-reviewer",
+      "group": "orchestration",
+      "sourceRef": "agents/fractal-agentic-routine-implementer.toml",
+      "detail": "Three spawn-pin lanes: routine-implementer, complex-implementer, fresh-reviewer. Pins improve quality but never gate delivery."
+    },
+    {
+      "id": "svc:verdict",
+      "kind": "service",
+      "label": "Final review verdict",
+      "sub": "ship | fix-first | rethink",
+      "group": "orchestration",
+      "sourceRef": "AGENTS.md:62",
+      "detail": "One verdict closes every delivery. The primary session owns the diff, verification evidence, and the final review decision."
+    },
+    {
+      "id": "cmd:activate-boss-design",
+      "kind": "command",
+      "label": "Design boss",
+      "sub": "/activate-boss-design",
+      "group": "bosses",
+      "sourceRef": "docs/bosses/design/INDEX.md",
+      "detail": "UI craft, tokens, accessibility, motion, visual QA.",
+      "data": { "files": 1 }
+    },
+    {
+      "id": "cmd:activate-boss-svelte",
+      "kind": "command",
+      "label": "Svelte boss",
+      "sub": "/activate-boss-svelte",
+      "group": "bosses",
+      "sourceRef": "docs/bosses/svelte/INDEX.md",
+      "detail": "Svelte, SvelteKit, indented SASS, component porting.",
+      "data": { "files": 1 }
+    },
+    {
+      "id": "cmd:activate-boss-code",
+      "kind": "command",
+      "label": "Code boss",
+      "sub": "/activate-boss-code",
+      "group": "bosses",
+      "sourceRef": "docs/bosses/code/INDEX.md",
+      "detail": "Security, audits, tests, performance, docs from code.",
+      "data": { "files": 1 }
+    },
+    {
+      "id": "cmd:activate-boss-agent",
+      "kind": "command",
+      "label": "Agent boss",
+      "sub": "/activate-boss-agent",
+      "group": "bosses",
+      "sourceRef": "docs/bosses/agent/INDEX.md",
+      "detail": "Product agent harness, memory, evals, MCP.",
+      "data": { "files": 1 }
+    },
+    {
+      "id": "cmd:activate-boss-creator",
+      "kind": "command",
+      "label": "Creator boss",
+      "sub": "/activate-boss-creator",
+      "group": "bosses",
+      "sourceRef": "docs/bosses/creator/INDEX.md",
+      "detail": "New app, site, or package from scaffold to ship; owns taste (media grammar). Executive default for unclear new products.",
+      "data": { "files": 1 }
+    },
+    {
+      "id": "cmd:activate-boss-workflow",
+      "kind": "command",
+      "label": "Workflow boss",
+      "sub": "/activate-boss-workflow",
+      "group": "bosses",
+      "sourceRef": "docs/bosses/workflow/INDEX.md",
+      "detail": "Personal habits, hooks, instincts, cost, loops. Observation-first.",
+      "data": { "files": 1 }
+    },
+    {
+      "id": "cmd:activate-boss-meta",
+      "kind": "command",
+      "label": "Meta boss",
+      "sub": "/activate-boss-meta",
+      "group": "bosses",
+      "sourceRef": "docs/bosses/meta/INDEX.md",
+      "detail": "Plugin install, inventory, compliance, promotion, pruning.",
+      "data": { "files": 1 }
+    },
+    {
+      "id": "agent:design",
+      "kind": "agent",
+      "label": "Design agents",
+      "sub": "3 primary · 3 secondary",
+      "group": "armory",
+      "sourceRef": "docs/bosses/design/INDEX.md:33",
+      "detail": "a11y-architect, svelte-reviewer, seo-specialist; react/vue/flutter-reviewer by stack."
+    },
+    {
+      "id": "agent:svelte",
+      "kind": "agent",
+      "label": "Svelte agents",
+      "sub": "4 primary",
+      "group": "armory",
+      "sourceRef": "docs/bosses/svelte/INDEX.md",
+      "detail": "svelte-reviewer, code-reviewer, a11y-architect, build-error-resolver."
+    },
+    {
+      "id": "agent:code",
+      "kind": "agent",
+      "label": "Code agents",
+      "sub": "12 mapped",
+      "group": "armory",
+      "sourceRef": "docs/bosses/code/INDEX.md",
+      "detail": "architect, code-architect, code-explorer, code-reviewer, security-reviewer, performance-optimizer, refactor-cleaner, silent-failure-hunter, build-error-resolver, pr-test-analyzer, comment-analyzer, doc-updater."
+    },
+    {
+      "id": "agent:agent",
+      "kind": "agent",
+      "label": "Agent-boss agents",
+      "sub": "7 mapped",
+      "group": "armory",
+      "sourceRef": "docs/bosses/agent/INDEX.md",
+      "detail": "chief-of-staff, agent-evaluator, gan-planner, gan-evaluator, harness-optimizer, loop-operator, conversation-analyzer."
+    },
+    {
+      "id": "agent:creator",
+      "kind": "agent",
+      "label": "Creator agents",
+      "sub": "9 mapped",
+      "group": "armory",
+      "sourceRef": "docs/bosses/creator/INDEX.md",
+      "detail": "architect, code-architect, code-explorer, build-error-resolver, rust-reviewer, rust-build-resolver, opensource-forker, opensource-packager, opensource-sanitizer."
+    },
+    {
+      "id": "agent:workflow",
+      "kind": "agent",
+      "label": "Workflow agents",
+      "sub": "3 primary · 1 secondary",
+      "group": "armory",
+      "sourceRef": "docs/bosses/workflow/INDEX.md:32",
+      "detail": "chief-of-staff, conversation-analyzer, loop-operator; agent-evaluator secondary."
+    },
+    {
+      "id": "agent:meta",
+      "kind": "agent",
+      "label": "Meta agents",
+      "sub": "2 mapped",
+      "group": "armory",
+      "sourceRef": "docs/bosses/meta/INDEX.md",
+      "detail": "agent-evaluator, harness-optimizer."
+    },
+    {
+      "id": "skill:design",
+      "kind": "shared",
+      "label": "Design skills",
+      "sub": "tokens · motion · a11y · QA",
+      "group": "armory",
+      "sourceRef": "docs/bosses/design/INDEX.md:48",
+      "detail": "design-system, impeccable, better-ui/layout/typography/interface, motion-* family, accessibility, browser-qa, theme-factory, brand-*."
+    },
+    {
+      "id": "skill:svelte",
+      "kind": "shared",
+      "label": "Svelte skills",
+      "sub": "runes · SASS · porting",
+      "group": "armory",
+      "sourceRef": "docs/bosses/svelte/INDEX.md",
+      "detail": "svelte-5-runes (authority), SvelteKit patterns, indented SASS, shadcn/fractalsvelte port lane."
+    },
+    {
+      "id": "skill:code",
+      "kind": "shared",
+      "label": "Code skills",
+      "sub": "security · tests · perf",
+      "group": "armory",
+      "sourceRef": "docs/bosses/code/INDEX.md",
+      "detail": "Security review, testing, performance, docs-from-code skills."
+    },
+    {
+      "id": "skill:agent",
+      "kind": "shared",
+      "label": "Agent-boss skills",
+      "sub": "memory · evals · MCP",
+      "group": "armory",
+      "sourceRef": "docs/bosses/agent/INDEX.md",
+      "detail": "Memory tiers (instincts → entity memory → session checkpoint), eval harness, MCP surfaces, model routing."
+    },
+    {
+      "id": "skill:creator",
+      "kind": "shared",
+      "label": "Creator skills",
+      "sub": "taste · scaffold · release",
+      "group": "armory",
+      "sourceRef": "docs/bosses/creator/INDEX.md",
+      "detail": "taste (media/video grammar), scaffolding, release craft."
+    },
+    {
+      "id": "skill:workflow",
+      "kind": "shared",
+      "label": "Workflow skills",
+      "sub": "hooks · instincts · loops",
+      "group": "armory",
+      "sourceRef": "docs/bosses/workflow/INDEX.md:40",
+      "detail": "automation-audit-ops, hookify-rules, instinct and loop skills."
+    },
+    {
+      "id": "skill:meta",
+      "kind": "shared",
+      "label": "Meta skills",
+      "sub": "inventory · compliance",
+      "group": "armory",
+      "sourceRef": "docs/bosses/meta/INDEX.md",
+      "detail": "Inventory, compliance, promotion, pruning skills."
+    },
+    {
+      "id": "skill:boss-orchestration-refs",
+      "kind": "shared",
+      "label": "Runtime references",
+      "sub": "capability-mode · progression",
+      "group": "armory",
+      "sourceRef": "skills/boss-orchestration/references/capability-mode.md",
+      "detail": "Loaded only when their decision is needed; /orchestrate names the reading order."
+    },
+    {
+      "id": "cmd:design-commands",
+      "kind": "command",
+      "label": "Design commands",
+      "sub": "/plan-canvas · stack reviews",
+      "group": "armory",
+      "sourceRef": "docs/bosses/design/INDEX.md:83",
+      "detail": "/plan-canvas plus stack review commands for the detected surface."
+    },
+    {
+      "id": "cmd:svelte-commands",
+      "kind": "command",
+      "label": "Svelte commands",
+      "sub": "/svelte-build · -test · -review",
+      "group": "armory",
+      "sourceRef": "docs/bosses/svelte/INDEX.md",
+      "detail": "/svelte-build, /svelte-test, /svelte-review, /code-review."
+    },
+    {
+      "id": "cmd:code-commands",
+      "kind": "command",
+      "label": "Code commands",
+      "sub": "/security-scan · /test-coverage",
+      "group": "armory",
+      "sourceRef": "docs/bosses/code/INDEX.md",
+      "detail": "/security-scan, /quality-gate, /refactor-clean, /test-coverage, /code-review, /santa-loop."
+    },
+    {
+      "id": "cmd:agent-commands",
+      "kind": "command",
+      "label": "Agent-boss commands",
+      "sub": "/learn · /loop-start · /wiki-*",
+      "group": "armory",
+      "sourceRef": "docs/bosses/agent/INDEX.md",
+      "detail": "/learn(-eval), /loop-start/-status, /model-route, /wiki-* family, /cost-report, /harness-audit."
+    },
+    {
+      "id": "cmd:creator-commands",
+      "kind": "command",
+      "label": "Creator commands",
+      "sub": "/project-init · /pr · /promote",
+      "group": "armory",
+      "sourceRef": "docs/bosses/creator/INDEX.md",
+      "detail": "/project-init, /plan-canvas, /pr, /promote, /rust-build/-review/-test, /skill-create."
+    },
+    {
+      "id": "cmd:workflow-commands",
+      "kind": "command",
+      "label": "Workflow commands",
+      "sub": "/hookify · /instinct-* · /learn",
+      "group": "armory",
+      "sourceRef": "docs/bosses/workflow/INDEX.md",
+      "detail": "/hookify family, /hooks-init/-status, /improve-*, /instinct-*, /learn(-eval), /loop-*, /cost-report, /wiki-*."
+    },
+    {
+      "id": "cmd:meta-commands",
+      "kind": "command",
+      "label": "Meta commands",
+      "sub": "/auto-update · /prune",
+      "group": "armory",
+      "sourceRef": "docs/bosses/meta/INDEX.md",
+      "detail": "/auto-update, /ecc-guide, /promote, /prune, /skill-create, /skill-health."
+    },
+    {
+      "id": "cmd:quality-gate",
+      "kind": "command",
+      "label": "/quality-gate",
+      "sub": "shared release armory",
+      "group": "shared",
+      "sourceRef": "commands/quality-gate.md",
+      "detail": "Release gate shared across Code, Svelte, Creator, Design."
+    },
+    {
+      "id": "cmd:security-scan",
+      "kind": "command",
+      "label": "/security-scan",
+      "sub": "shared release armory",
+      "group": "shared",
+      "sourceRef": "commands/security-scan.md",
+      "detail": "Security gate before ship."
+    },
+    {
+      "id": "cmd:code-review",
+      "kind": "command",
+      "label": "/code-review",
+      "sub": "shared release armory",
+      "group": "shared",
+      "sourceRef": "commands/code-review.md",
+      "detail": "Best-available final review path."
+    },
+    {
+      "id": "cmd:santa-loop",
+      "kind": "command",
+      "label": "/santa-loop",
+      "sub": "shared release armory",
+      "group": "shared",
+      "sourceRef": "commands/santa-loop.md",
+      "detail": "Loop runner shared across delivery bosses."
+    },
+    {
+      "id": "svc:progression",
+      "kind": "service",
+      "label": "progression.md",
+      "sub": "content · install · session",
+      "group": "shared",
+      "sourceRef": "docs/progression.md",
+      "detail": "Three progression layers. capability_mode runs pinned → plugin_missing; project work never blocks on pins."
+    },
+    {
+      "id": "svc:indexes",
+      "kind": "service",
+      "label": "Live inventories",
+      "sub": "skills · agents · commands INDEX",
+      "group": "shared",
+      "sourceRef": "skills/INDEX.md",
+      "detail": "Live indexes for current availability; counts are never hardcoded. Meta owns their health."
+    }
+  ],
+  "edges": [
+    { "id": "e01", "source": "entry:host-task", "target": "svc:router", "kind": "triggers", "label": "task arrives" },
+    { "id": "e02", "source": "svc:router", "target": "cmd:orchestrate", "kind": "calls", "label": "non-trivial delivery" },
+    { "id": "e03", "source": "cmd:orchestrate", "target": "svc:boss-orchestration", "kind": "calls", "label": "loads runtime" },
+    { "id": "e04", "source": "svc:boss-orchestration", "target": "svc:lanes", "kind": "dispatches", "label": "chooses lane" },
+    { "id": "e05", "source": "svc:boss-orchestration", "target": "svc:verdict", "kind": "calls", "label": "closes with verdict" },
+    { "id": "e06", "source": "svc:lanes", "target": "svc:verdict", "kind": "calls", "label": "fresh reviewer inspects" },
+
+    { "id": "e10", "source": "svc:router", "target": "cmd:activate-boss-design", "kind": "dispatches", "label": "UI craft signals", "weight": 1 },
+    { "id": "e11", "source": "svc:router", "target": "cmd:activate-boss-svelte", "kind": "dispatches", "label": "Svelte/SASS signals", "weight": 1 },
+    { "id": "e12", "source": "svc:router", "target": "cmd:activate-boss-code", "kind": "dispatches", "label": "audit signals", "weight": 1 },
+    { "id": "e13", "source": "svc:router", "target": "cmd:activate-boss-agent", "kind": "dispatches", "label": "harness signals", "weight": 1 },
+    { "id": "e14", "source": "svc:router", "target": "cmd:activate-boss-creator", "kind": "dispatches", "label": "new-product signals", "weight": 1 },
+    { "id": "e15", "source": "svc:router", "target": "cmd:activate-boss-workflow", "kind": "dispatches", "label": "personal friction", "weight": 1 },
+    { "id": "e16", "source": "svc:router", "target": "cmd:activate-boss-meta", "kind": "dispatches", "label": "plugin portfolio", "weight": 1 },
+
+    { "id": "e20", "source": "cmd:activate-boss-design", "target": "agent:design", "kind": "dispatches", "label": "3 primary agents", "weight": 3 },
+    { "id": "e21", "source": "cmd:activate-boss-svelte", "target": "agent:svelte", "kind": "dispatches", "label": "4 primary agents", "weight": 4 },
+    { "id": "e22", "source": "cmd:activate-boss-code", "target": "agent:code", "kind": "dispatches", "label": "12 mapped agents", "weight": 12 },
+    { "id": "e23", "source": "cmd:activate-boss-agent", "target": "agent:agent", "kind": "dispatches", "label": "7 mapped agents", "weight": 7 },
+    { "id": "e24", "source": "cmd:activate-boss-creator", "target": "agent:creator", "kind": "dispatches", "label": "9 mapped agents", "weight": 9 },
+    { "id": "e25", "source": "cmd:activate-boss-workflow", "target": "agent:workflow", "kind": "dispatches", "label": "3 primary agents", "weight": 3 },
+    { "id": "e26", "source": "cmd:activate-boss-meta", "target": "agent:meta", "kind": "dispatches", "label": "2 mapped agents", "weight": 2 },
+
+    { "id": "e30", "source": "cmd:activate-boss-design", "target": "skill:design", "kind": "uses", "label": "design skills" },
+    { "id": "e31", "source": "cmd:activate-boss-svelte", "target": "skill:svelte", "kind": "uses", "label": "svelte skills" },
+    { "id": "e32", "source": "cmd:activate-boss-code", "target": "skill:code", "kind": "uses", "label": "code skills" },
+    { "id": "e33", "source": "cmd:activate-boss-agent", "target": "skill:agent", "kind": "uses", "label": "agent skills" },
+    { "id": "e34", "source": "cmd:activate-boss-creator", "target": "skill:creator", "kind": "uses", "label": "creator skills" },
+    { "id": "e35", "source": "cmd:activate-boss-workflow", "target": "skill:workflow", "kind": "uses", "label": "workflow skills" },
+    { "id": "e36", "source": "cmd:activate-boss-meta", "target": "skill:meta", "kind": "uses", "label": "meta skills" },
+
+    { "id": "e40", "source": "cmd:activate-boss-design", "target": "cmd:design-commands", "kind": "commands", "label": "mapped commands" },
+    { "id": "e41", "source": "cmd:activate-boss-svelte", "target": "cmd:svelte-commands", "kind": "commands", "label": "mapped commands" },
+    { "id": "e42", "source": "cmd:activate-boss-code", "target": "cmd:code-commands", "kind": "commands", "label": "mapped commands" },
+    { "id": "e43", "source": "cmd:activate-boss-agent", "target": "cmd:agent-commands", "kind": "commands", "label": "mapped commands" },
+    { "id": "e44", "source": "cmd:activate-boss-creator", "target": "cmd:creator-commands", "kind": "commands", "label": "mapped commands" },
+    { "id": "e45", "source": "cmd:activate-boss-workflow", "target": "cmd:workflow-commands", "kind": "commands", "label": "mapped commands" },
+    { "id": "e46", "source": "cmd:activate-boss-meta", "target": "cmd:meta-commands", "kind": "commands", "label": "mapped commands" },
+
+    { "id": "e50", "source": "cmd:activate-boss-design", "target": "cmd:activate-boss-svelte", "kind": "navigates", "label": "handoff: routes remain" },
+    { "id": "e51", "source": "cmd:activate-boss-svelte", "target": "cmd:activate-boss-design", "kind": "navigates", "label": "handoff: visual polish" },
+    { "id": "e52", "source": "cmd:activate-boss-svelte", "target": "cmd:activate-boss-code", "kind": "navigates", "label": "handoff: gate" },
+    { "id": "e53", "source": "cmd:activate-boss-creator", "target": "cmd:activate-boss-svelte", "kind": "navigates", "label": "handoff: product body" },
+    { "id": "e54", "source": "cmd:activate-boss-creator", "target": "cmd:activate-boss-agent", "kind": "navigates", "label": "handoff: in-product AI" },
+    { "id": "e55", "source": "cmd:activate-boss-creator", "target": "cmd:activate-boss-code", "kind": "navigates", "label": "handoff: release gates" },
+    { "id": "e56", "source": "cmd:activate-boss-agent", "target": "cmd:activate-boss-code", "kind": "navigates", "label": "handoff: secrets/data" },
+    { "id": "e57", "source": "cmd:activate-boss-workflow", "target": "cmd:activate-boss-agent", "kind": "navigates", "label": "handoff: productize" },
+    { "id": "e58", "source": "cmd:activate-boss-code", "target": "cmd:activate-boss-meta", "kind": "navigates", "label": "handoff: portfolio work" },
+    { "id": "e59", "source": "cmd:activate-boss-svelte", "target": "cmd:activate-boss-creator", "kind": "navigates", "label": "handoff: new package" },
+
+    { "id": "e60", "source": "cmd:code-commands", "target": "cmd:quality-gate", "kind": "triggers", "label": "release gate" },
+    { "id": "e61", "source": "cmd:svelte-commands", "target": "cmd:quality-gate", "kind": "triggers", "label": "release gate" },
+    { "id": "e62", "source": "cmd:creator-commands", "target": "cmd:quality-gate", "kind": "triggers", "label": "release gate" },
+    { "id": "e63", "source": "cmd:design-commands", "target": "cmd:quality-gate", "kind": "triggers", "label": "release gate" },
+    { "id": "e64", "source": "cmd:code-commands", "target": "cmd:security-scan", "kind": "triggers", "label": "security gate" },
+    { "id": "e65", "source": "cmd:code-commands", "target": "cmd:code-review", "kind": "triggers", "label": "final review" },
+    { "id": "e66", "source": "cmd:code-commands", "target": "cmd:santa-loop", "kind": "triggers", "label": "loop runner" },
+    { "id": "e67", "source": "cmd:workflow-commands", "target": "cmd:santa-loop", "kind": "triggers", "label": "loop runner" },
+
+    { "id": "e70", "source": "svc:verdict", "target": "cmd:quality-gate", "kind": "uses", "label": "gates ship" },
+    { "id": "e71", "source": "svc:boss-orchestration", "target": "svc:progression", "kind": "uses", "label": "progression policy" },
+    { "id": "e72", "source": "svc:boss-orchestration", "target": "skill:boss-orchestration-refs", "kind": "uses", "label": "lazy references" },
+    { "id": "e73", "source": "cmd:activate-boss-meta", "target": "svc:indexes", "kind": "uses", "label": "owns inventories" }
+  ],
+  "flows": [
+    {
+      "id": "flow-orchestrate",
+      "name": "Orchestrated delivery",
+      "trigger": "/orchestrate command on a repo-changing task",
+      "steps": ["entry:host-task", "svc:router", "cmd:orchestrate", "svc:boss-orchestration", "svc:lanes", "cmd:activate-boss-svelte", "agent:svelte", "cmd:code-review", "svc:verdict"],
+      "summary": "Router picks one boss, lanes implement, one verdict closes: ship | fix-first | rethink."
+    },
+    {
+      "id": "flow-handoff",
+      "name": "Handoff: Creator → Svelte → Code",
+      "trigger": "/activate-boss-creator on an unclear new product",
+      "steps": ["svc:router", "cmd:activate-boss-creator", "cmd:activate-boss-svelte", "cmd:activate-boss-code", "cmd:quality-gate"],
+      "summary": "Scaffold hands to Svelte for the body, then to Code for gates; evidence carries across."
+    },
+    {
+      "id": "flow-agent-harness",
+      "name": "In-product agent work",
+      "trigger": "/activate-boss-agent on harness, memory, or eval work",
+      "steps": ["cmd:activate-boss-agent", "agent:agent", "skill:agent", "cmd:agent-commands", "cmd:activate-boss-code"],
+      "summary": "GAN planner/evaluator and harness agents build the surface, then hand to Code when data or secrets appear."
+    },
+    {
+      "id": "flow-workflow-loop",
+      "name": "Personal loop, productized",
+      "trigger": "/activate-boss-workflow on operating friction",
+      "steps": ["cmd:activate-boss-workflow", "agent:workflow", "cmd:workflow-commands", "skill:workflow", "cmd:activate-boss-agent"],
+      "summary": "Chief-of-staff triage, hookify/instinct tooling; hands off to Agent when automation becomes product."
+    },
+    {
+      "id": "flow-meta-prune",
+      "name": "Portfolio prune",
+      "trigger": "/activate-boss-meta for inventory or compliance work",
+      "steps": ["cmd:activate-boss-meta", "agent:meta", "skill:meta", "svc:indexes", "cmd:meta-commands"],
+      "summary": "Evaluator and harness-optimizer prune the armory; live inventories stay the source of truth."
+    }
+  ],
+  "notes": [
+    {
+      "title": "One active boss invariant",
+      "body": "The router enforces 'read exactly one playbook': 7 playbooks exist but only one is loaded at a time, with 10 declared handoff paths as the only route between them.",
+      "severity": "info",
+      "path": "svc:router"
+    },
+    {
+      "title": "Capability lanes never gate",
+      "body": "The three spawn pins (routine, complex, fresh-reviewer) are quality levers only — missing pins degrade to 'unverified' and delivery continues per progression.md.",
+      "severity": "info",
+      "path": "svc:lanes"
+    },
+    {
+      "title": "Release armory is the convergence point",
+      "body": "Four shared commands (/quality-gate, /security-scan, /code-review, /santa-loop) collect release edges from four bosses — every ship path ends here.",
+      "severity": "info",
+      "path": "cmd:quality-gate"
+    },
+    {
+      "title": "Code boss is the heaviest armory",
+      "body": "12 of 33 agent profiles map to Code, versus 2 for Meta — audit and gate work concentrates in one boss.",
+      "severity": "warn",
+      "path": "agent:code"
+    },
+    {
+      "title": "Runtime references load lazily",
+      "body": "capability-mode and progression references are read only at decision time; /orchestrate names the reading order, keeping sessions lean.",
+      "severity": "info",
+      "path": "skill:boss-orchestration-refs"
+    }
+  ]
+}

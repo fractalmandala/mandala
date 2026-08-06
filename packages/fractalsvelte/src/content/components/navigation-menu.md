@@ -144,7 +144,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 	const usage = `<script lang="ts">
   import * as NavigationMenu from "fractalsvelte/navigation-menu";
 <\/script>
@@ -270,8 +270,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/navigation-menu/` into your project. It depends on `bits-ui`, and
-it expects `styles/_tokens.sass`, `_typography.sass` and `_mixins.sass` to exist.
+Or copy `src/lib/components/navigation-menu/` into your project. It expects `styles/_tokens.sass`, `_typography.sass` and `_mixins.sass` to exist.
 
 ## Usage
 

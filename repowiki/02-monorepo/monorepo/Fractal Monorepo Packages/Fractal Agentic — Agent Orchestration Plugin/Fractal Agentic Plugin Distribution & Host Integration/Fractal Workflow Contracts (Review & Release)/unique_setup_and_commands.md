@@ -1,0 +1,1 @@
+Users invoke via slash commands `/review-fanout` and `/hooks-init`; the workflows themselves require no maintainer setup beyond plugin install. When a host provides a native Workflow engine, pass a JSON payload with `diff`, optional `language`, and optional `changedFiles` to trigger the parallel review path.

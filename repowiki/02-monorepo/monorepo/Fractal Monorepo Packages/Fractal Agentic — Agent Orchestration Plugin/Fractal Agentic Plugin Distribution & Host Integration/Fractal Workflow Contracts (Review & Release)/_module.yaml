@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: packages/fractal_agentic/plugin_core/workflows
+title: Fractal Workflow Contracts (Review & Release)
+scope:
+    - packages/fractal-agentic/plugin/workflows/
+source_files: []
+depends_on: []
+related_to:
+    - path: packages/fractal_agentic/plugin_core/bosses

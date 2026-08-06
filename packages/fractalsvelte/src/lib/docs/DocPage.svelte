@@ -22,9 +22,6 @@
 				{#if data.entry.deps?.length}
 					It composes {data.entry.deps.join(", ")}, which must be ported first.
 				{/if}
-				{#if data.entry.external}
-					It relies on <code>{data.entry.external}</code> for headless behaviour.
-				{/if}
 			</p>
 		</div>
 	{/if}

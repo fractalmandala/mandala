@@ -1,0 +1,1 @@
+Svelte 5 + SvelteKit + Vite + mdsvex across most sites; Astro + Blume for fractalhome; TypeScript throughout; ESLint + Prettier for linting/formatting; FlexSearch for search indexing; KaTeX for math rendering; Graphology/Sigma for graph visualizations (fractalmandala); Pagefind for static search (fractalagentic).

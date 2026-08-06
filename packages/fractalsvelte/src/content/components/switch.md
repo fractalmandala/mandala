@@ -57,7 +57,7 @@
 		},
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { Switch } from "fractalsvelte/switch";
@@ -109,7 +109,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/switch/` into your project. It depends on `bits-ui`, and it expects
+Or copy `src/lib/components/switch/` into your project. It expects
 the library tokens and reset styles to exist.
 
 ## Usage

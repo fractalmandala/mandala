@@ -1,0 +1,1 @@
+Defines the 33 Fractal Agentic agent profiles — each as a Markdown prompt document (with YAML frontmatter) plus TOML capability-pins for the three orchestration lanes, forming the registry of specialized AI roles the boss layer dispatches to.

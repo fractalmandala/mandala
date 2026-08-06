@@ -1,0 +1,11 @@
+schema_version: 1
+module_path: packages/fractal_agentic/site
+title: Fractal Agentic Site — Armory Explorer Website
+scope:
+    - packages/fractal-agentic/site/
+source_files: []
+depends_on: []
+related_to:
+    - path: packages/fractal_agentic/plugin_core/agents
+    - path: packages/fractal_agentic/plugin_core/commands
+    - path: packages/fractal_agentic/plugin_core/skills

@@ -21,7 +21,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Context from "fractalsvelte/ai-elements/context";
@@ -127,7 +127,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/context/`. UI deps: `hover-card`, `button`, `progress`.
+Or copy `src/lib/components/ai-elements/context/`.
 
 ## Usage
 

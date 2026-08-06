@@ -1,0 +1,1 @@
+Node.js (CommonJS) CLI with only built-in `fs`, `path`, `os`, and `child_process` modules; no npm dependencies at install time.

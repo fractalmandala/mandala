@@ -1,8 +1,13 @@
-apps/fractalknow
-apps/fractalengine
-apps/fractalai
 deposits
 sites/fractaldharma/
+apps/fractalengine
+apps/fractalknow
+apps/fracta
+.empryo
+.freebuff
+.superdesign
+.qoder
+basedocs
 
 # Dependencies
 node_modules/
@@ -23,3 +28,7 @@ target/
 .DS_Store
 Thumbs.db
 .empryo
+.context
+
+ide-workspaces
+repowiki-main

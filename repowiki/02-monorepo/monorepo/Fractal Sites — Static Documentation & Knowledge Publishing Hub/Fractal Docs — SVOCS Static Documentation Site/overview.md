@@ -1,0 +1,1 @@
+SvelteKit static documentation site generated from the SVOCS template, rendering Markdown content with math, Mermaid diagrams, flexible search backends, and automated Open Graph card generation.

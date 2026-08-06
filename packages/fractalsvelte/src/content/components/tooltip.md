@@ -6,7 +6,7 @@
 	import PropsTable from '$lib/docs/PropsTable.svelte';
 	import type { PropRow } from '$lib/docs/PropsTable.svelte';
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Tooltip from "fractalsvelte/tooltip";

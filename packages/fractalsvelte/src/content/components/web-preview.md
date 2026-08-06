@@ -46,7 +46,7 @@
 		{ name: 'tooltip', type: 'string', description: 'Tooltip label for the icon button.' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as WebPreview from "fractalsvelte/ai-elements/web-preview";
@@ -133,7 +133,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/web-preview/`. UI deps: `button`, `tooltip`, `collapsible`.
+Or copy `src/lib/components/ai-elements/web-preview/`.
 
 ## Usage
 

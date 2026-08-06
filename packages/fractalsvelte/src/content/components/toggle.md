@@ -73,7 +73,7 @@
 		},
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { Toggle } from "fractalsvelte/toggle";
@@ -153,7 +153,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/toggle/` into your project. It depends on `bits-ui`, and it
+Or copy `src/lib/components/toggle/` into your project. It
 expects `styles/_mixins.sass` and `_tokens.sass` to exist.
 
 ## Usage

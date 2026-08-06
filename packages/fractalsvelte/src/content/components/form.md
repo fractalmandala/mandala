@@ -100,7 +100,7 @@
 		},
 	];
 
-	const codeInstall = `npm i fractalsvelte formsnap sveltekit-superforms`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { superForm } from "sveltekit-superforms";
@@ -190,12 +190,11 @@
 
 ## Installation
 
-Install the package and peer behavior libraries:
+Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/form/` into your project. It depends on `formsnap`,
-`sveltekit-superforms`, the local `button` and `label` components, and the shared style tokens.
+Or copy `src/lib/components/form/` into your project. It expects the shared style tokens.
 
 ## Usage
 

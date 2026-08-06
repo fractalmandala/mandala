@@ -69,7 +69,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Checkpoint from "fractalsvelte/ai-elements/checkpoint";

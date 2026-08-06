@@ -1,0 +1,46 @@
+#!/bin/sh
+# Root pre-push gate: runs `check` and `test` in each workspace project with
+# changes in the current branch's commits (inside `src/` or `src-tauri/`).
+
+set -e
+
+remote="${1:-origin}"
+
+if git rev-parse --verify "$remote/main" >/dev/null 2>&1; then
+  base="$remote/main"
+elif git rev-parse --verify "$remote/master" >/dev/null 2>&1; then
+  base="$remote/master"
+else
+  echo "pre-push: no $remote/main or $remote/master ref — skipping gate"
+  exit 0
+fi
+
+changes=$(git diff --name-only "$base"...HEAD 2>/dev/null || git diff --name-only "$base" HEAD)
+projects=$(printf '%s\n' "$changes" | awk -F/ '
+  ($1 == "apps" || $1 == "packages" || $1 == "sites") && ($3 == "src" || $3 == "src-tauri") { print $1 "/" $2 }
+' | sort -u)
+
+if [ -z "$projects" ]; then
+  exit 0
+fi
+
+failed=0
+for project in $projects; do
+  if [ ! -f "$project/package.json" ]; then
+    continue
+  fi
+  for script in check test; do
+    if ! grep -q "\"$script\"" "$project/package.json"; then
+      continue
+    fi
+    echo "pre-push: pnpm --dir $project run $script"
+    if ! pnpm --dir "$project" run "$script"; then
+      failed=1
+    fi
+  done
+done
+
+if [ "$failed" -ne 0 ]; then
+  echo "pre-push: gate failed — push blocked" >&2
+  exit 1
+fi

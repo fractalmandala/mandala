@@ -237,7 +237,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/prompt-input/` into your project. UI deps: `button`, `textarea`, `dialog`, `dropdown-menu`, `tooltip`. Runtime: `runed`.
+Or copy `src/lib/components/ai-elements/prompt-input/` into your project.
 
 Layout order: **Header → Body → Toolbar**.
 

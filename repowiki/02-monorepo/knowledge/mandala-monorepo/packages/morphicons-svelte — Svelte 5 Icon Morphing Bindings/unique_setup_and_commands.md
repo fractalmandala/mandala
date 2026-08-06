@@ -1,0 +1,1 @@
+Development workflow: `pnpm install`, then `pnpm dev` for the SvelteKit demo, `pnpm check` runs `svelte-kit sync && svelte-check`, `pnpm test` executes Vitest against `tests/**/*.test.ts`, and `pnpm build` runs `vite build && svelte-package` to produce the distributable under `dist/`. Node engine requires >= 22.22.2 and pnpm 11.18.0.

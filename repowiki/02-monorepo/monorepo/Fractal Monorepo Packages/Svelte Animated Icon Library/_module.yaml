@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: packages/svelte_animated_icon
+title: Svelte Animated Icon Library
+scope:
+    - packages/svelte-animated-icon/
+source_files: []
+depends_on: []
+related_to:
+    - path: packages/morphicons_svelte
+    - path: packages/svelte_icons

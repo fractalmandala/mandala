@@ -1,0 +1,1 @@
+pnpm build runs tsup to emit dist/index.js, dist/cli.js, and dist/index.d.ts. Consumers run npx fractals-styler init [dest] [--force] to copy the SASS templates into their project, then add the plugin in vite.config.ts and import virtual:fractals-styler.css once globally.

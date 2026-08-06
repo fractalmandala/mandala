@@ -17,7 +17,7 @@
 		{ name: 'open', type: 'boolean', description: 'Optional controlled dropdown open state.' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as OpenIn from "fractalsvelte/ai-elements/open-in-chat";
@@ -102,7 +102,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/open-in-chat/`. UI deps: `dropdown-menu`, `button`.
+Or copy `src/lib/components/ai-elements/open-in-chat/`.
 
 ## Usage
 

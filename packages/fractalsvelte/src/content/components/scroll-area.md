@@ -120,7 +120,7 @@
 		},
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { ScrollArea } from "fractalsvelte/scroll-area";
@@ -174,7 +174,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/scroll-area/` into your project. It depends on `bits-ui`, and it
+Or copy `src/lib/components/scroll-area/` into your project. It
 expects the library tokens and typography styles to exist.
 
 ## Usage

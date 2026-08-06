@@ -1,0 +1,1 @@
+Ships the Fractal Agentic plugin's human-facing documentation (boss playbooks, orchestration guides, armory indexes), bootstrap/installation scripts, a project-integration mandate snippet, and short-term evaluation/latency checks.

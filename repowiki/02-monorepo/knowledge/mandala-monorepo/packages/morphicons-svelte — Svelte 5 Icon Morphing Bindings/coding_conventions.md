@@ -1,0 +1,5 @@
+- Public APIs are re-exported through a single barrel `index.ts` that forwards both default components and their corresponding `*Props` TypeScript types from the source `.svelte` files.
+- Each icon pair is implemented as a dedicated `.svelte` component under `src/lib/icons/` and re-exported alongside its props type from the package root.
+- Component state uses Svelte 5 runes exclusively: `$props()` for input, `$effect()` for side effects tied to reactive props, and `$derived()` for computed values like `renderedStrokeWidth`.
+- Browser-only resources (the `morphicons/dom` `Morph` instance) are allocated lazily on first use and explicitly destroyed in an `onDestroy` hook to avoid memory leaks.
+- Tests are split into browser tests (`.browser.test.ts`) and SSR tests (`.ssr.test.ts`) under `tests/`, all run by Vitest with jsdom, and share a `MorphIconHarness.svelte` helper for mounting the component in tests.

@@ -27,7 +27,7 @@
 		{ name: 'variant / size', type: 'Button props', default: 'ghost / icon-sm', description: 'Default close glyph when children omitted.' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Artifact from "fractalsvelte/ai-elements/artifact";
@@ -153,7 +153,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/artifact/`. UI deps: `button`, `tooltip`.
+Or copy `src/lib/components/ai-elements/artifact/`.
 
 ## Usage
 

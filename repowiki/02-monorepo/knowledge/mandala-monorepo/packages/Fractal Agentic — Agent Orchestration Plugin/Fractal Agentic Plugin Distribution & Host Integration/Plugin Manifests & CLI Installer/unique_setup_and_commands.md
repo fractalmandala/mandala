@@ -1,0 +1,1 @@
+Run via `npx fractal-agentic install --target=claude|codex|antigravity|all` to install into the detected host(s); `npx fractal-agentic verify` runs the local verification suite; `npx fractal-agentic install --project` prepends the AGENTS snippet into the current working directory's `AGENTS.md`.

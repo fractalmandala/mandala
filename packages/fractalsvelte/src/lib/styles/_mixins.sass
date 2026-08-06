@@ -89,21 +89,23 @@
 // prop has to win on source order (same specificity).
 
 =radius-variants
+	// Radius scheme: corners are 4px (sm) or 8px (everything else), never larger.
+	// 'full' is capped at 8px — genuinely circular elements (avatars, radio dots,
+	// switch thumbs) set their own 50%/9999px rounding outside this prop system.
 	&[data-radius='none']
 		border-radius: 0
 	&[data-radius='sm']
-		border-radius: calc(var(--radius) - 4px)
+		border-radius: 4px
 	&[data-radius='md']
-		border-radius: calc(var(--radius) - 2px)
+		border-radius: 8px
 	&[data-radius='lg']
-		border-radius: var(--radius)
+		border-radius: 8px
 	&[data-radius='xl']
-		border-radius: calc(var(--radius) + 4px)
-	// Tailwind defaults, not derived from --radius.
+		border-radius: 8px
 	&[data-radius='2xl']
-		border-radius: 1rem
+		border-radius: 8px
 	&[data-radius='full']
-		border-radius: 9999px
+		border-radius: 8px
 
 =text-size-variants
 	&[data-text-size='xs']
@@ -132,12 +134,12 @@
 // shadcn derives every corner from a single --radius token.
 =radius($step: 'md')
 	@if $step == 'sm'
-		border-radius: calc(var(--radius) - 4px)
+		border-radius: 4px
 	@else if $step == 'md'
-		border-radius: calc(var(--radius) - 2px)
+		border-radius: 8px
 	@else if $step == 'lg'
-		border-radius: var(--radius)
+		border-radius: 8px
 	@else if $step == 'xl'
-		border-radius: calc(var(--radius) + 4px)
+		border-radius: 8px
 	@else
 		border-radius: $step

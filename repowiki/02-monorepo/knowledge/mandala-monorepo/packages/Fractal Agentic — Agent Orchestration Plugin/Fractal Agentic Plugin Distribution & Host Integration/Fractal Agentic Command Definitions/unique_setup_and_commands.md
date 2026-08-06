@@ -1,0 +1,1 @@
+The INDEX.md must be updated whenever commands change; startup routers and boss playbooks should never hardcode command counts. Some commands require exporting environment variables such as `FRACTAL_WIKI_ROOT` before use. Health checks can be run via `sh <plugin>/scripts/check-armory.sh`.

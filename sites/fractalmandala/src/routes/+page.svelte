@@ -1,7 +1,6 @@
 <script lang="ts">
 
 	import Shell from '$lib/comps/pageshell.svelte'
-	import Note from '$lib/comps/note.svelte';
 
 	let { data } = $props();
 	let sY = $state(0)
@@ -14,7 +13,6 @@
 		{#snippet children()}
 			<img class="pagemotif" src="/images/logomotif.png" alt="motif" style="transform: rotate({sY*2}deg)"/>
 			<div class="box gap16">
-			<Note slug="about" />
 			<a class="primary-btn" href="/writings">My Writings</a>
 			</div>
 				{#if data.posts}

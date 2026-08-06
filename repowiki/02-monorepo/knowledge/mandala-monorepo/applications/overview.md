@@ -1,0 +1,1 @@
+Two cross-platform desktop apps built on the same Tauri+SvelteKit stack — Fracta for Markdown knowledge work and Shradhapp for local-first video editing — each bundling a Rust backend behind a Svelte frontend.

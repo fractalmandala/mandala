@@ -58,7 +58,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { Action, Actions } from "fractalsvelte/ai-elements/action";
@@ -211,7 +211,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/action/` — it composes ported `button` and `tooltip` (bits-ui underneath tooltip).
+Or copy `src/lib/components/ai-elements/action/` — it composes the ported `button` and `tooltip` components.
 
 ## Usage
 

@@ -51,7 +51,7 @@
 		{ name: 'description', type: 'string', description: 'Clamped summary (3 lines).' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui embla-carousel-svelte`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as InlineCitation from "fractalsvelte/ai-elements/inline-citation";
@@ -166,7 +166,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/inline-citation/`. UI deps: `hover-card`, `badge`, `carousel` (Embla).
+Or copy `src/lib/components/ai-elements/inline-citation/`.
 
 ## Usage
 

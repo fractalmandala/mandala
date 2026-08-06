@@ -44,6 +44,12 @@
 				>{blocksReady} of {blocksTotal} layout shells — page frames, sidebars, accordion nav.</span
 			>
 		</a>
+		<a class="gap8 box pad32" href="/svx-prototype">
+			<span class="text-bs fw600">SVX Prototype</span>
+			<span class="text-sm sectext"
+				>One .svx file with live previews — mdsvex + markdown, fully interactive.</span
+			>
+		</a>
 	</div>
 </div>
 

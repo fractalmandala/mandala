@@ -57,7 +57,7 @@
 		{ name: 'inset', type: 'boolean', default: 'false', description: 'Adds leading padding.' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 	const usage = `<script lang="ts">
   import * as ContextMenu from "fractalsvelte/context-menu";
 <\/script>
@@ -115,7 +115,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/context-menu/` into your project. It depends on `bits-ui`, and it
+Or copy `src/lib/components/context-menu/` into your project. It
 expects `styles/_tokens.sass` and `_typography.sass` to exist.
 
 ## Usage

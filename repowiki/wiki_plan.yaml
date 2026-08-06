@@ -1,0 +1,180 @@
+# wiki_plan.yaml — pre-flight steering for the mandala knowledge / wiki build.
+# Scope rules use .gitignore syntax, layered ON TOP of .qoderignore. The build
+# also auto-honors .gitignore; the scope.exclude below is a consolidated,
+# deduplicated safety net that mirrors every folder/noise pattern found across
+# the root .gitignore and all subrepo .gitignore files.
+version: 1
+
+scope:
+  # Whitelist intentionally empty: scope.include triggers strict-shape mode
+  # (build scans ONLY listed paths). The two external folders live OUTSIDE the
+  # project root, so they are instead declared as strong priors in
+  # repowiki.notes / knowledgecard.notes below, which is the schema's supported
+  # way to feed non-inferable facts to the planner.
+  include: []
+  exclude:
+    # --- Root .gitignore: separately-tracked subrepos (out of scope for THIS build) ---
+    - "apps/fractalknow/"
+    - "apps/fractalengine/"
+    - "apps/fractalai/"
+    - "deposits/"
+    - "sites/fractaldharma/"
+
+    # --- Dependencies ---
+    - "node_modules/"
+    - "**/node_modules/"
+
+    # --- Build / runtime outputs ---
+    - "dist/"
+    - "**/dist/"
+    - ".svelte-kit/"
+    - "**/.svelte-kit/"
+    - ".svelte-kit-build/"
+    - ".svelte-kit-dev/"
+    - "build/"
+    - "**/build/"
+    - ".output/"
+    - ".turbo/"
+    - "target/"
+    - "**/target/"
+    - ".electron-runtime/"
+    - "storybook-static/"
+    - "*storybook.log"
+
+    # --- Tauri / Cargo generated ---
+    - "**/gen/schemas/"
+
+    # --- Xcode / Swift artifacts (apps/CodeEdit-main) ---
+    - "DerivedData/"
+    - "**/DerivedData/"
+    - "xcuserdata/"
+    - "**/xcuserdata/"
+    - "*.xcscmblueprint"
+    - "*.xccheckout"
+    - "*.ipa"
+    - "*.dSYM"
+    - ".build/"
+    - "Carthage/Build/"
+    - "iOSInjectionProject/"
+
+    # --- Test / coverage artifacts ---
+    - "test-results/"
+    - "playwright-report/"
+    - "coverage/"
+    - "blob-report/"
+
+    # --- Env / secrets ---
+    - ".env"
+    - ".env.*"
+    - "!**/.env.example"
+    - "!**/.env.test"
+    - "*.pem"
+    - "*.key"
+    - "*.cert"
+
+    # --- OS junk ---
+    - ".DS_Store"
+    - "Thumbs.db"
+
+    # --- Logs ---
+    - "*.log"
+    - "npm-debug.log*"
+
+    # --- Vite timestamps ---
+    - "vite.config.js.timestamp-*"
+    - "vite.config.ts.timestamp-*"
+
+    # --- Local app / tool state (not knowledge) ---
+    - ".fractal/"
+    - ".foglamp/"
+    - ".blume/"
+    - ".blume-verify/"
+    - ".freebuff/"
+    - ".empryo/"
+    - ".accio/"
+    - ".idea/"
+    - ".vscode/"
+    - ".playwright-mcp/"
+    - ".remember/"
+
+    # --- OpenKnowledge auto-regenerated project skills (per-machine, never track) ---
+    - ".claude/skills/open-knowledge/"
+    - ".cursor/skills/open-knowledge/"
+    - ".codex/skills/open-knowledge/"
+    - ".opencode/skills/open-knowledge/"
+    - ".pi/skills/open-knowledge/"
+
+    # --- Python (packages/fractal-agentic/.../skill-comply) ---
+    - ".venv/"
+    - "__pycache__/"
+    - "*.py[cod]"
+    - ".pytest_cache/"
+    - ".coverage"
+    - "uv.lock"
+
+    # --- Generated graph artifacts (100cabinet wiki, sibling to external includes) ---
+    - "10wiki/graph/"
+
+repowiki:
+  # Empty = no preset template; the LLM organises pages freely. Set to
+  # "architecture" or "product_requirement" later if a fixed skeleton is wanted.
+  template: ""
+  notes:
+    - text: >-
+        This is a pnpm monorepo. The root pnpm-lock.yaml is the canonical,
+        committed lockfile — do NOT treat it as a build artifact or exclude it.
+      author: user
+    - text: >-
+        Stack is SvelteKit + Svelte 5 + Tauri + TypeScript. Styling is
+        exclusively single-tab indented SASS (.sass) — never SCSS, braces, or
+        semicolons.
+      author: user
+    - text: >-
+        IMPORTANT — external knowledge corpus OUTSIDE the project root that MUST
+        also be scanned and included in this knowledge build, even though it is
+        not inside /Users/amrit/mandala. (1) /Users/amrit/100cabinet/10wiki/fractal-wiki
+        — an LLM wiki vault with a three-layer architecture: raw/ (immutable
+        sources, read-only), wiki/ (pages in sources/entities/concepts/synthesis
+        plus index.md and log.md), output/ (generated reports). (2)
+        /Users/amrit/100cabinet/90AI — AI agent configuration: agents/
+        (curated-curor, dharmic-rooting, wiki-manager), souls/ (packaged soul
+        definitions), plus skill/prompt markdown docs and registry.json. Both
+        paths belong to the same knowledge base as this repo.
+      author: user
+    - text: >-
+        apps/CodeEdit-main is a vendored third-party Swift/Xcode macOS code
+        editor — reference only, not part of the SvelteKit stack.
+      author: user
+    - text: >-
+        vendors/ (svocs-main, xyflow-main, flow-maps) are third-party vendored
+        libraries — low priority for original-knowledge extraction.
+      author: user
+    - text: >-
+        The root .gitignore lists apps/fractalknow, apps/fractalengine,
+        apps/fractalai, deposits, and sites/fractaldharma as ignored because
+        they are separately-tracked repositories — intentionally excluded from
+        this build, not missing data.
+      author: user
+  documents: []
+
+knowledgecard:
+  notes:
+    - text: >-
+        Module boundaries: apps/ = Tauri+SvelteKit desktop apps; sites/ =
+        SvelteKit websites; packages/ = publishable npm libraries plus the
+        fractal-agentic orchestration plugin; vendors/ = third-party vendored
+        code; basedocs/ and docs/learnings/ = project documentation.
+      author: user
+    - text: >-
+        Generate knowledge cards for the external corpus too:
+        /Users/amrit/100cabinet/10wiki/fractal-wiki (wiki vault — cards for its
+        schema, ingest/capture/query/lint operations, and frontmatter contract)
+        and /Users/amrit/100cabinet/90AI (agent config — cards for agents/,
+        souls/, and the skill/prompt docs). These are outside the repo root but
+        part of the same knowledge base.
+      author: user
+    - text: >-
+        packages/fractal-agentic is the grand orchestration system: 7 bosses, 33
+        agents, 167 skills, 59 commands. Treat it as a major knowledge module
+        with its own internal structure (docs/bosses/, skills/, commands/).
+      author: user

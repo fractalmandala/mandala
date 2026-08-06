@@ -1,0 +1,1 @@
+Blume v1.3.1 (Astro-based documentation framework) with Astro content collections, Astro components (.astro), Zod v4 for frontmatter validation, remark-wiki-link for wiki-style link syntax, and Google Sans Flex + IBM Plex Mono fonts via Blume's theme config.

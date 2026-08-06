@@ -7,7 +7,22 @@ const { execSync } = require('child_process');
 
 const HOME = os.homedir();
 const ROOT_DIR = path.resolve(__dirname, '..');
-const PLUGIN_SRC = path.join(ROOT_DIR, 'plugin');
+// The plugin is the package root itself (flattened; no nested plugin/ dir).
+const PLUGIN_SRC = ROOT_DIR;
+// Repo/packaging files that must not be copied into a host plugin install.
+const PLUGIN_EXCLUDE = new Set([
+  'node_modules',
+  '.git',
+  '.repograph',
+  '.fractal-agentic',
+  '.DS_Store',
+  'bin',
+  'package.json',
+  'pnpm-lock.yaml',
+  'LAYOUT.md',
+  'credits.json'
+]);
+const pluginCopyFilter = (src) => !PLUGIN_EXCLUDE.has(path.basename(src));
 
 function printUsage() {
   console.log(`
@@ -31,7 +46,7 @@ function installAntigravity() {
   const destDir = path.join(HOME, '.gemini', 'config', 'plugins', 'fractal-agentic');
   try {
     fs.mkdirSync(path.dirname(destDir), { recursive: true });
-    fs.cpSync(PLUGIN_SRC, destDir, { recursive: true });
+    fs.cpSync(PLUGIN_SRC, destDir, { recursive: true, filter: pluginCopyFilter });
     console.log(`[Antigravity] Installed plugin to: ${destDir}`);
   } catch (err) {
     console.error(`[Antigravity] Failed to install: ${err.message}`);
@@ -49,7 +64,7 @@ function installClaude() {
     const claudePluginDir = path.join(HOME, '.claude', 'plugins', 'cache', 'fractal-agentic');
     try {
       fs.mkdirSync(path.dirname(claudePluginDir), { recursive: true });
-      fs.cpSync(PLUGIN_SRC, claudePluginDir, { recursive: true });
+      fs.cpSync(PLUGIN_SRC, claudePluginDir, { recursive: true, filter: pluginCopyFilter });
       console.log(`[Claude Code] Installed plugin to cache directory: ${claudePluginDir}`);
     } catch (fallbackErr) {
       console.error(`[Claude Code] Failed to install: ${fallbackErr.message}`);
@@ -61,7 +76,7 @@ function installCodex() {
   const codexPluginDir = path.join(HOME, '.codex', 'plugins', 'cache', 'fractal-agentic');
   try {
     fs.mkdirSync(path.dirname(codexPluginDir), { recursive: true });
-    fs.cpSync(PLUGIN_SRC, codexPluginDir, { recursive: true });
+    fs.cpSync(PLUGIN_SRC, codexPluginDir, { recursive: true, filter: pluginCopyFilter });
     console.log(`[Codex] Installed plugin to cache directory: ${codexPluginDir}`);
   } catch (err) {
     console.error(`[Codex] Failed to install: ${err.message}`);

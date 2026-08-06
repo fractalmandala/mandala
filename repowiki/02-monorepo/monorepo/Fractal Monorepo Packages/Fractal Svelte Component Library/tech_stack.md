@@ -1,0 +1,1 @@
+Svelte 5 + SvelteKit 2 with Vite, TypeScript, Sass, Vitest (jsdom environment), @testing-library/svelte, and @humanspeak/svelte-motion as the sole runtime peer dependency for spring animations. Publishing uses `svelte-package` and `publint`; catalog generation uses `tsx` and Prettier.

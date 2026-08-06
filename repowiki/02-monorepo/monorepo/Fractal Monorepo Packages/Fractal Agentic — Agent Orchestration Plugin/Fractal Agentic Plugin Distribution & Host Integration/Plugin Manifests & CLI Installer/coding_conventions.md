@@ -1,0 +1,4 @@
+- Each host gets its own `<host>-plugin/plugin.json` mirroring the same core fields (name, version, description, author) so manifests stay in sync across hosts.
+- The root `plugin.json` and host-specific manifests share identical metadata strings (displayName, shortDescription, longDescription, defaultPrompt) to keep the user-facing description consistent across Claude and Codex.
+- Installation functions follow a try/catch pattern that attempts the official host mechanism first (e.g. `claude plugin marketplace add/install`) and falls back to copying into the host's cache directory on failure.
+- CLI commands are parsed from `process.argv.slice(2)` with a simple string switch (`install`, `verify`, `help`) rather than a dedicated argument-parsing library.

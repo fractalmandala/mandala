@@ -1,0 +1,1 @@
+A Blume-powered static documentation site built on Astro, publishing the FractalHome knowledge base of articles across Archaeology, Civilization, History, Karmic Streams, Shri Ram Swarup & Sita Ram Goel, Sri Aurobindo, SvelteKit, and Writings with wiki-link resolution and tag-based navigation.

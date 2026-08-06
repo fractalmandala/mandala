@@ -1,0 +1,1746 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>MonoWiki & Blume CSS Grid Layout Generator — Brad Woods Style Customizer</title>
+	<style>
+		:root {
+			--paper: #f4f2eb;
+			--ink: #1a1917;
+			--muted: #6b665c;
+			--line: #dcd6c8;
+			--panel: #ffffff;
+			--jade: #0e7490;
+			--jade-soft: #ecfeff;
+			--emerald: #059669;
+			--emerald-soft: #ecfdf5;
+			--amber: #d97706;
+			--amber-soft: #fffbeb;
+			--violet: #7c3aed;
+			--violet-soft: #f5f3ff;
+			--slate: #475569;
+			--slate-soft: #f1f5f9;
+			--rose: #e11d48;
+			--rose-soft: #fff1f2;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			height: 100%;
+			margin: 0;
+		}
+
+		body {
+			background: var(--paper);
+			color: var(--ink);
+			font: 13px/1.4 "SF Pro Text", ui-sans-serif, system-ui, -apple-system, sans-serif;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+		}
+
+		button,
+		input,
+		select,
+		textarea {
+			font: inherit;
+		}
+
+		/* ---------- Toolbar ---------- */
+		.toolbar {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			padding: 10px 16px;
+			border-bottom: 1px solid var(--line);
+			background: var(--panel);
+			z-index: 10;
+			flex-wrap: wrap;
+		}
+
+		.toolbar h1 {
+			font-size: 15px;
+			margin: 0;
+			font-weight: 700;
+		}
+
+		.toolbar .sub {
+			color: var(--muted);
+			font-size: 11.5px;
+		}
+
+		.toolbar .hint {
+			color: var(--jade);
+			background: var(--jade-soft);
+			border: 1px solid rgba(14, 116, 144, 0.25);
+			font-size: 11px;
+			padding: 3px 9px;
+			border-radius: 99px;
+			font-weight: 600;
+		}
+
+		.toolbar .spacer {
+			flex: 1;
+		}
+
+		.tbtn {
+			border: 1px solid var(--line);
+			background: #fff;
+			border-radius: 6px;
+			padding: 6px 12px;
+			cursor: pointer;
+			font-size: 12px;
+			color: var(--ink);
+			font-weight: 500;
+		}
+
+		.tbtn:hover {
+			border-color: var(--jade);
+			color: var(--jade);
+			background: var(--jade-soft);
+		}
+
+		.tbtn.primary {
+			background: var(--jade);
+			color: #fff;
+			border-color: var(--jade);
+		}
+
+		.tbtn.primary:hover {
+			background: #0891b2;
+		}
+
+		.danger-btn {
+			background: #fff;
+			color: var(--rose);
+			border-color: rgba(225, 29, 72, 0.4);
+			width: 100%;
+			margin-top: 10px;
+		}
+
+		.danger-btn:hover {
+			background: var(--rose);
+			color: #fff;
+		}
+
+		/* ---------- Layout Main Workspace ---------- */
+		.workspace {
+			flex: 1;
+			display: flex;
+			overflow: hidden;
+		}
+
+		/* Sidebar Tool Palette */
+		.palette {
+			width: 320px;
+			border-right: 1px solid var(--line);
+			background: var(--panel);
+			padding: 14px;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			overflow-y: auto;
+		}
+
+		.palette h2 {
+			font-size: 12px;
+			margin: 0 0 8px;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			color: var(--muted);
+		}
+
+		/* Grid Generator Controls (Brad Woods Style) */
+		.grid-controls-card {
+			background: var(--slate-soft);
+			border: 1px solid var(--line);
+			border-radius: 8px;
+			padding: 12px;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+
+		.grid-controls-card label {
+			display: block;
+			font-weight: 600;
+			font-size: 11.5px;
+			margin-bottom: 2px;
+		}
+
+		.grid-controls-card input,
+		.grid-controls-card select {
+			width: 100%;
+			padding: 5px 8px;
+			border: 1px solid var(--line);
+			border-radius: 6px;
+			font-size: 12px;
+		}
+
+		.slider-group {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 8px;
+		}
+
+		.slider-group span {
+			font-family: monospace;
+			font-size: 11px;
+			color: var(--jade);
+			font-weight: 700;
+		}
+
+		/* State & Page Type Controller */
+		.state-card {
+			background: var(--paper);
+			border: 1px solid var(--line);
+			border-radius: 8px;
+			padding: 10px;
+		}
+
+		.state-card label {
+			display: block;
+			font-weight: 600;
+			margin-bottom: 6px;
+			font-size: 12px;
+		}
+
+		.state-card select {
+			width: 100%;
+			padding: 6px;
+			border-radius: 6px;
+			border: 1px solid var(--line);
+			margin-bottom: 8px;
+		}
+
+		.check-option {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			font-size: 11.5px;
+			margin-top: 4px;
+			color: var(--muted);
+		}
+
+		/* Interactive Canvas Stage */
+		.stage-container {
+			flex: 1;
+			position: relative;
+			overflow: auto;
+			padding: 24px;
+			background:
+				radial-gradient(circle at 10px 10px, rgba(0, 0, 0, 0.03) 2px, transparent 0) 0 0 / 20px 20px,
+				var(--paper);
+		}
+
+		/* Visual Brad Woods Layout Grid Canvas */
+		.grid-canvas-container {
+			background: #fff;
+			border: 1px solid var(--line);
+			border-radius: 12px;
+			padding: 16px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+			margin-bottom: 20px;
+		}
+
+		.grid-canvas-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 12px;
+			border-bottom: 1px solid var(--line);
+			padding-bottom: 8px;
+		}
+
+		.grid-canvas-header h3 {
+			font-size: 14px;
+			margin: 0;
+		}
+
+		/* Grid Visual Area */
+		.blume-visual-grid {
+			display: grid;
+			gap: 12px;
+			min-height: 240px;
+			background: var(--slate-soft);
+			padding: 12px;
+			border-radius: 8px;
+			border: 2px dashed var(--line);
+			transition: all 200ms ease;
+		}
+
+		.grid-cell {
+			background: #fff;
+			border: 2px solid var(--line);
+			border-radius: 6px;
+			padding: 12px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			font-weight: 600;
+			position: relative;
+			transition: all 150ms ease;
+			cursor: pointer;
+		}
+
+		.grid-cell:hover {
+			border-color: var(--jade);
+		}
+
+		.grid-cell.selected {
+			border-color: var(--jade);
+			background: var(--jade-soft);
+			box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.15);
+		}
+
+		.grid-cell .cell-label {
+			font-size: 12.5px;
+			color: var(--ink);
+		}
+
+		.grid-cell .cell-dim {
+			font-family: monospace;
+			font-size: 10px;
+			color: var(--muted);
+			margin-top: 4px;
+		}
+
+		.grid-cell .cell-area {
+			font-family: monospace;
+			font-size: 10px;
+			color: var(--violet);
+			background: var(--violet-soft);
+			padding: 1px 4px;
+			border-radius: 4px;
+			margin-top: 4px;
+		}
+
+		/* Container Boxes Tree */
+		.root-slot {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+			min-height: 60px;
+		}
+
+		.container-box {
+			border: 2px dashed var(--slate);
+			background: rgba(255, 255, 255, 0.7);
+			border-radius: 10px;
+			padding: 14px;
+			position: relative;
+			min-height: 80px;
+			transition: all 150ms ease;
+			cursor: pointer;
+			cursor: grab;
+			user-select: none;
+		}
+
+		.container-box.dragging {
+			opacity: 0.45;
+			cursor: grabbing;
+		}
+
+		.container-box.selected {
+			border-color: var(--jade);
+			border-style: solid;
+			box-shadow: 0 0 0 3px var(--jade-soft);
+			background: #fff;
+		}
+
+		.container-box .box-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
+			margin-bottom: 8px;
+		}
+
+		.container-box .box-title {
+			font-weight: 700;
+			font-size: 13px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			flex-wrap: wrap;
+		}
+
+		.container-box .box-tag {
+			font-size: 10px;
+			font-family: monospace;
+			background: var(--slate);
+			color: #fff;
+			padding: 2px 6px;
+			border-radius: 4px;
+			text-transform: uppercase;
+		}
+
+		.container-box .box-classes {
+			font-family: monospace;
+			font-size: 11px;
+			color: var(--violet);
+			background: var(--violet-soft);
+			padding: 2px 6px;
+			border-radius: 4px;
+			border: 1px solid rgba(124, 58, 237, 0.2);
+		}
+
+		.box-tools {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			flex-wrap: wrap;
+		}
+
+		.box-actions {
+			display: inline-flex;
+			gap: 4px;
+		}
+
+		.mini-btn {
+			border: 1px solid var(--line);
+			background: #fff;
+			border-radius: 5px;
+			padding: 2px 7px;
+			font-size: 10.5px;
+			font-weight: 600;
+			cursor: pointer;
+			color: var(--ink);
+		}
+
+		.mini-btn:hover {
+			border-color: var(--jade);
+			color: var(--jade);
+			background: var(--jade-soft);
+		}
+
+		.mini-btn.danger:hover {
+			border-color: var(--rose);
+			color: var(--rose);
+			background: var(--rose-soft);
+		}
+
+		.box-size {
+			font-family: monospace;
+			font-size: 10px;
+			color: var(--slate);
+			background: var(--slate-soft);
+			padding: 1px 5px;
+			border-radius: 4px;
+			border: 1px solid var(--line);
+		}
+
+		/* Resize handle */
+		.resize-handle {
+			position: absolute;
+			right: 3px;
+			bottom: 3px;
+			width: 13px;
+			height: 13px;
+			cursor: nwse-resize;
+			opacity: 0;
+			transition: opacity 120ms;
+			border-right: 2px solid var(--muted);
+			border-bottom: 2px solid var(--muted);
+			border-bottom-right-radius: 3px;
+		}
+
+		.container-box:hover .resize-handle,
+		.container-box.selected .resize-handle {
+			opacity: 1;
+		}
+
+		.resize-handle:hover {
+			border-color: var(--jade);
+		}
+
+		.badge-annotation {
+			font-size: 10.5px;
+			padding: 2px 6px;
+			border-radius: 99px;
+			font-weight: 600;
+			background: var(--amber-soft);
+			color: var(--amber);
+			border: 1px solid rgba(217, 119, 6, 0.3);
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+		}
+
+		.badge-annotation.question {
+			background: var(--rose-soft);
+			color: var(--rose);
+			border-color: rgba(225, 29, 72, 0.3);
+		}
+
+		.child-items {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+			min-height: 40px;
+			padding: 6px;
+			border: 1px dashed var(--line);
+			border-radius: 6px;
+			background: rgba(255, 255, 255, 0.5);
+		}
+
+		.child-items>.container-box {
+			width: 100%;
+		}
+
+		/* Drop zones */
+		.drop-zone {
+			position: relative;
+			transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+		}
+
+		.drop-zone.drop-target {
+			background: var(--jade-soft);
+			border-color: var(--jade);
+			box-shadow: inset 0 0 0 2px rgba(14, 116, 144, 0.2);
+		}
+
+		.root-slot.drop-zone.drop-target {
+			border-radius: 10px;
+			background: rgba(14, 116, 144, 0.06);
+			box-shadow: inset 0 0 0 2px rgba(14, 116, 144, 0.25);
+		}
+
+		.item-chip {
+			padding: 6px 10px;
+			background: #fff;
+			border: 1px solid var(--line);
+			border-radius: 6px;
+			cursor: pointer;
+			cursor: grab;
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+			transition: all 120ms ease;
+			position: relative;
+			user-select: none;
+		}
+
+		.item-chip:hover {
+			border-color: var(--jade);
+		}
+
+		.item-chip.dragging {
+			opacity: 0.45;
+			cursor: grabbing;
+		}
+
+		.item-chip.selected {
+			border-color: var(--jade);
+			box-shadow: 0 0 0 2px var(--jade-soft);
+			background: var(--jade-soft);
+		}
+
+		.chip-x {
+			position: absolute;
+			top: -6px;
+			right: -6px;
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+			border: 1px solid var(--line);
+			background: #fff;
+			color: var(--rose);
+			font-size: 9px;
+			line-height: 1;
+			cursor: pointer;
+			display: none;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+		}
+
+		.item-chip:hover .chip-x {
+			display: inline-flex;
+		}
+
+		.chip-x:hover {
+			background: var(--rose);
+			color: #fff;
+			border-color: var(--rose);
+		}
+
+		/* Right Property, Annotation & SASS Class Inspector */
+		.inspector {
+			width: 380px;
+			border-left: 1px solid var(--line);
+			background: var(--panel);
+			padding: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			overflow-y: auto;
+		}
+
+		.inspector h2 {
+			font-size: 14px;
+			margin: 0 0 10px;
+			border-bottom: 1px solid var(--line);
+			padding-bottom: 6px;
+		}
+
+		.field-group {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+		}
+
+		.field-group label {
+			font-size: 11.5px;
+			font-weight: 600;
+			color: var(--muted);
+		}
+
+		.field-group input,
+		.field-group select,
+		.field-group textarea {
+			width: 100%;
+			padding: 6px 8px;
+			border: 1px solid var(--line);
+			border-radius: 6px;
+			font-family: monospace;
+			font-size: 12px;
+		}
+
+		.field-row {
+			display: flex;
+			gap: 8px;
+		}
+
+		.field-row .field-group {
+			flex: 1;
+		}
+
+		.code-preview-block {
+			background: #1e1e1e;
+			color: #9cdcfe;
+			padding: 10px;
+			border-radius: 6px;
+			font-family: monospace;
+			font-size: 11.5px;
+			white-space: pre-wrap;
+			overflow-x: auto;
+		}
+
+		/* Annotation List Items */
+		.annotation-card {
+			padding: 8px 10px;
+			border-radius: 6px;
+			border: 1px solid var(--line);
+			background: var(--paper);
+			margin-bottom: 8px;
+			position: relative;
+		}
+
+		.annotation-card.question {
+			border-left: 3px solid var(--rose);
+			background: var(--rose-soft);
+		}
+
+		.annotation-card.comment {
+			border-left: 3px solid var(--amber);
+			background: var(--amber-soft);
+		}
+
+		.annotation-meta {
+			display: flex;
+			justify-content: space-between;
+			font-size: 10.5px;
+			color: var(--muted);
+			margin-bottom: 4px;
+		}
+
+		.annotation-text {
+			font-size: 12px;
+			color: var(--ink);
+			line-height: 1.35;
+		}
+
+		.annotation-actions {
+			display: flex;
+			gap: 6px;
+			margin-top: 6px;
+			justify-content: flex-end;
+		}
+
+		.btn-del {
+			border: 0;
+			background: transparent;
+			color: var(--rose);
+			font-size: 11px;
+			cursor: pointer;
+			padding: 0;
+		}
+
+		.btn-del:hover {
+			text-decoration: underline;
+		}
+
+		/* Global Master Annotations List */
+		.global-annotations {
+			background: var(--paper);
+			border: 1px solid var(--line);
+			border-radius: 8px;
+			padding: 10px;
+			max-height: 200px;
+			overflow-y: auto;
+		}
+
+		.global-ann-item {
+			font-size: 11.5px;
+			padding: 6px;
+			border-bottom: 1px solid var(--line);
+			cursor: pointer;
+		}
+
+		.global-ann-item:hover {
+			background: #fff;
+		}
+
+		.global-ann-item:last-child {
+			border-bottom: 0;
+		}
+	</style>
+</head>
+
+<body>
+
+	<!-- Toolbar -->
+	<div class="toolbar">
+		<h1>MonoWiki & Blume Layout Generator</h1>
+		<span class="sub">Brad Woods Style Interactive CSS Grid, Blume Defaults & Indented SASS Mapper</span>
+		<span class="hint">✥ drag to reorder / nest · corner grip to resize</span>
+		<div class="spacer"></div>
+		<button class="tbtn" id="btn-add-container">+ Add Container</button>
+		<button class="tbtn" id="btn-reset-demo">Reset to Default</button>
+		<button class="tbtn primary" id="btn-export-json">Export Schema & CSS Layout</button>
+	</div>
+
+	<!-- Main Workspace -->
+	<div class="workspace">
+
+		<!-- Left Palette & Grid Generator Controls -->
+		<div class="palette">
+
+			<!-- Brad Woods Style Grid Customizer -->
+			<div>
+				<h2>Brad Woods CSS Grid Generator</h2>
+				<div class="grid-controls-card">
+					<label>Blume Layout Preset:</label>
+					<select id="preset-select">
+						<option value="blume-default">Blume Default (3-Col: 17.5rem 1fr 17.5rem)</option>
+						<option value="blume-wide">Blume Wide / OpenAPI (2-Col: 17.5rem 1fr)</option>
+						<option value="blume-bare">Blume Bare / Landing (1-Col: 1fr)</option>
+						<option value="custom">Custom Grid Tracks</option>
+					</select>
+
+					<div class="slider-group">
+						<label>Left Sidebar Width:</label>
+						<span id="val-sidebar">17.5rem (280px)</span>
+					</div>
+					<input type="range" id="rng-sidebar" min="160" max="360" step="10" value="280" />
+
+					<div class="slider-group">
+						<label>Center Content Max-Width:</label>
+						<span id="val-content">42rem (672px)</span>
+					</div>
+					<input type="range" id="rng-content" min="400" max="1100" step="20" value="672" />
+
+					<div class="slider-group">
+						<label>Right Rail TOC Width:</label>
+						<span id="val-toc">17.5rem (280px)</span>
+					</div>
+					<input type="range" id="rng-toc" min="160" max="360" step="10" value="280" />
+
+					<div class="slider-group">
+						<label>Grid Gap:</label>
+						<span id="val-gap">32px</span>
+					</div>
+					<input type="range" id="rng-gap" min="0" max="64" step="4" value="32" />
+				</div>
+			</div>
+
+			<!-- Page Type / State Controller -->
+			<div>
+				<h2>Page Type / State</h2>
+				<div class="state-card">
+					<label for="page-state-select">Active Page State:</label>
+					<select id="page-state-select">
+						<option value="state-1">1. Dynamic Markdown (.md)</option>
+						<option value="state-2">2. Markdown + Svelte Component (.svx)</option>
+						<option value="state-3">3. Markdown + Graph / Diagram</option>
+						<option value="state-4">4. Landing Page (Full Bleed)</option>
+						<option value="state-breakout">5. Breakout Full-Bleed SvelteKit Page</option>
+					</select>
+
+					<div class="check-option">
+						<input type="checkbox" id="chk-has-component" checked />
+						<label for="chk-has-component">Group Sub-Page Component Flag</label>
+					</div>
+					<div class="check-option">
+						<input type="checkbox" id="chk-has-toc" checked />
+						<label for="chk-has-toc">Right Rail TOC</label>
+					</div>
+					<div class="check-option">
+						<input type="checkbox" id="chk-has-sidebar" checked />
+						<label for="chk-has-sidebar">Left Sidebar Nav</label>
+					</div>
+				</div>
+			</div>
+
+			<!-- Master Annotations Index -->
+			<div>
+				<h2>Master Annotations Index</h2>
+				<div class="global-annotations" id="global-annotations-list">
+					<!-- Master annotations list rendered here -->
+				</div>
+			</div>
+		</div>
+
+		<!-- Center Interactive Stage -->
+		<div class="stage-container" id="stage">
+
+			<!-- Brad Woods Style Interactive Visual Layout Grid Box -->
+			<div class="grid-canvas-container">
+				<div class="grid-canvas-header">
+					<h3>Visual Grid Layout Canvas (Blume Standard)</h3>
+					<span style="font-family:monospace;font-size:11px;color:var(--jade)"
+						id="grid-template-spec">grid-template-columns: 280px 1fr 280px</span>
+				</div>
+				<div class="blume-visual-grid" id="visual-grid-canvas">
+					<!-- Visual Grid cells generated dynamically -->
+				</div>
+			</div>
+
+			<!-- Nested Container Nodes Tree -->
+			<h3 style="font-size:14px;margin:0 0 6px;color:var(--muted)">Nested Container & Element Structure Tree:</h3>
+			<p style="font-size:11px;color:var(--muted);margin:0 0 10px">Drag boxes &amp; items to reorder or drop into
+				another box to nest them · drag the corner grip to resize a box · use <strong>+ Item</strong> /
+				<strong>+ Box</strong> to add things inside.</p>
+			<div id="root-tree">
+				<!-- Dynamic Container Nodes Rendered Here -->
+			</div>
+		</div>
+
+		<!-- Right Property, Annotation, CSS & SASS Inspector -->
+		<div class="inspector">
+			<h2>Class Annotator & Inspector</h2>
+
+			<!-- Generated CSS Grid Code Box -->
+			<div>
+				<label style="font-weight:600;font-size:11.5px;color:var(--muted)">Generated Blume CSS Grid
+					Code:</label>
+				<div class="code-preview-block" id="generated-css-box">/* Generated CSS */</div>
+			</div>
+
+			<div id="inspector-content">
+				<p style="color:var(--muted)">Select a container or component on the stage to annotate CSS, map SASS,
+					and add questions/comments directly.</p>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		(() => {
+			const STORAGE_KEY = 'monowiki_prototyper_state_v4';
+
+			const defaultTree = [
+				{
+					id: 'node-appshell',
+					kind: 'box',
+					name: 'AppShell Container',
+					tag: 'div',
+					blumeClass: 'appshell',
+					sassClasses: 'box padtop128 gap32',
+					annotations: [
+						{ id: 'ann-1', type: 'comment', text: 'Root app shell for header + landing/docs column routing.', author: 'User', timestamp: '08:24' },
+						{ id: 'ann-1785898609314', type: 'question', text: 'is .app-shell-main a sibling of .app-header?', author: 'User', timestamp: '08:26' }
+					],
+					children: [
+						{ id: 'node-header', kind: 'chip', name: 'App Header', tag: 'header', blumeClass: 'app-header', sassClasses: 'row gap8 padbot64', annotations: [] },
+						{ id: 'node-main', kind: 'chip', name: 'Main Content Column', tag: 'main', blumeClass: 'app-shell-main', sassClasses: 'page-section gap48', annotations: [] }
+					]
+				},
+				{
+					id: 'node-docsshell',
+					kind: 'box',
+					name: 'Docs Shell Container',
+					tag: 'div',
+					blumeClass: 'content',
+					sassClasses: 'docs-shell grid-3col',
+					annotations: [],
+					children: [
+						{
+							id: 'node-sidebar',
+							kind: 'chip',
+							name: 'Docs Sidebar Nav',
+							tag: 'aside',
+							blumeClass: 'app-sidebar',
+							sassClasses: 'sidebar-box pad16',
+							annotations: [
+								{ id: 'ann-2', type: 'question', text: 'In Group B of Page Type A, should this sidebar auto-collapse nested subsections?', author: 'User', timestamp: '08:25' }
+							]
+						},
+						{
+							id: 'node-article',
+							kind: 'chip',
+							name: 'Markdown Prose Column',
+							tag: 'article',
+							blumeClass: 'doc-article prose',
+							sassClasses: 'markdown-body padbot64',
+							annotations: [
+								{ id: 'ann-3', type: 'comment', text: 'Carries @extend .markdown-body in indented SASS.', author: 'Agent', timestamp: '08:25' }
+							]
+						},
+						{ id: 'node-toc', kind: 'chip', name: 'Right Rail TOC', tag: 'aside', blumeClass: 'app-right', sassClasses: 'toc-box pad16', annotations: [] }
+					]
+				}
+			];
+
+			// State Definition
+			let state = {
+				activePageState: 'state-1',
+				preset: 'blume-default',
+				sidebarWidth: 280,
+				contentMaxWidth: 672,
+				tocWidth: 280,
+				gap: 32,
+				hasComponent: true,
+				hasTOC: true,
+				hasSidebar: true,
+				selectedNodeId: 'node-article',
+				tree: defaultTree,
+				draggingId: null
+			};
+
+			try {
+				const saved = localStorage.getItem(STORAGE_KEY);
+				if (saved) {
+					const parsed = JSON.parse(saved);
+					if (parsed.tree && Array.isArray(parsed.tree)) state = parsed;
+				}
+			} catch (e) {
+				console.warn('Failed to load state from localStorage:', e);
+			}
+
+			// Normalize any loaded tree (guarantee kind/children/annotations shape)
+			function normalizeTree(list, isRoot = false) {
+				list.forEach(n => {
+					if (!n.kind) n.kind = isRoot ? 'box' : 'chip';
+					if (!Array.isArray(n.annotations)) n.annotations = [];
+					if (n.kind === 'box') {
+						if (!Array.isArray(n.children)) n.children = [];
+						normalizeTree(n.children, false);
+					} else {
+						n.children = undefined;
+					}
+				});
+			}
+			normalizeTree(state.tree, true);
+
+			function saveState() {
+				try {
+					localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+				} catch (e) { }
+			}
+
+			const stageEl = document.getElementById('root-tree');
+			const presetSelect = document.getElementById('preset-select');
+			const rngSidebar = document.getElementById('rng-sidebar');
+			const rngContent = document.getElementById('rng-content');
+			const rngTOC = document.getElementById('rng-toc');
+			const rngGap = document.getElementById('rng-gap');
+			const valSidebar = document.getElementById('val-sidebar');
+			const valContent = document.getElementById('val-content');
+			const valTOC = document.getElementById('val-toc');
+			const valGap = document.getElementById('val-gap');
+
+			const pageStateSelect = document.getElementById('page-state-select');
+			const chkHasComponent = document.getElementById('chk-has-component');
+			const chkHasTOC = document.getElementById('chk-has-toc');
+			const chkHasSidebar = document.getElementById('chk-has-sidebar');
+			const inspectorContent = document.getElementById('inspector-content');
+			const globalAnnList = document.getElementById('global-annotations-list');
+			const visualGridCanvas = document.getElementById('visual-grid-canvas');
+			const gridTemplateSpec = document.getElementById('grid-template-spec');
+			const generatedCssBox = document.getElementById('generated-css-box');
+
+			// ---------- Helpers ----------
+			function makeId(prefix) {
+				return prefix + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+			}
+			function escapeHtml(s) {
+				return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+			}
+			const kebab = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'item';
+
+			// Find a node by ID anywhere in the tree
+			function findNodeById(id, list = state.tree) {
+				for (const item of list) {
+					if (item.id === id) return item;
+					if (item.children) {
+						const found = findNodeById(id, item.children);
+						if (found) return found;
+					}
+				}
+				return null;
+			}
+
+			// Find the parent id ('__root' for top level) of a node
+			function findParentId(list, id) {
+				for (const item of list) {
+					if (item.id === id) return '__root';
+					if (item.children && item.children.length) {
+						if (item.children.some(c => c.id === id)) return item.id;
+						const nested = findParentId(item.children, id);
+						if (nested) return nested;
+					}
+				}
+				return null;
+			}
+
+			function collectIds(node, acc = []) {
+				acc.push(node.id);
+				(node.children || []).forEach(c => collectIds(c, acc));
+				return acc;
+			}
+
+			function indexOfChild(parentId, childId) {
+				const list = parentId === '__root' ? state.tree : (findNodeById(parentId)?.children || []);
+				return list.findIndex(c => c.id === childId);
+			}
+
+			function removeFromParent(parentId, childId) {
+				const list = parentId === '__root' ? state.tree : (findNodeById(parentId)?.children || []);
+				const i = list.findIndex(c => c.id === childId);
+				if (i >= 0) list.splice(i, 1);
+			}
+
+			function buildSassPreview(node) {
+				const classes = (node.sassClasses || '').trim().split(/\s+/).filter(Boolean);
+				const base = node.blumeClass || 'untitled';
+				if (!classes.length) return `.${base}\n`;
+				return `.${base}\n  @extend .${classes.join('\n  @extend .')}`;
+			}
+
+			// ---------- Drag & Drop ----------
+			function getDropIndex(zone, clientY) {
+				const items = Array.from(zone.children).filter(el => el.dataset && el.dataset.id);
+				for (let i = 0; i < items.length; i++) {
+					const r = items[i].getBoundingClientRect();
+					if (clientY < r.top + r.height / 2) return i;
+				}
+				return items.length;
+			}
+
+			function initDropZone(zone) {
+				zone.addEventListener('dragover', (e) => {
+					const innerZone = e.target.closest && e.target.closest('.drop-zone');
+					if (innerZone && innerZone !== zone) return; // deepest zone owns the highlight
+					const srcId = state.draggingId;
+					if (!srcId) return;
+					const src = findNodeById(srcId);
+					if (!src) return;
+					const parentId = zone.dataset.parentId;
+					if (parentId === srcId || collectIds(src).includes(parentId)) return;
+					e.preventDefault();
+					e.dataTransfer.dropEffect = 'move';
+					zone.classList.add('drop-target');
+				});
+				zone.addEventListener('dragleave', (e) => {
+					if (e.relatedTarget && zone.contains(e.relatedTarget)) return;
+					zone.classList.remove('drop-target');
+				});
+				zone.addEventListener('drop', (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					zone.classList.remove('drop-target');
+					const srcId = state.draggingId;
+					if (!srcId) return;
+					const src = findNodeById(srcId);
+					if (!src) return;
+					const parentId = zone.dataset.parentId;
+					if (parentId === srcId || collectIds(src).includes(parentId)) return;
+					const index = getDropIndex(zone, e.clientY);
+					dropNode(srcId, parentId, index);
+				});
+			}
+
+			function onDragStart(e) {
+				state.draggingId = e.currentTarget.dataset.id;
+				e.dataTransfer.effectAllowed = 'move';
+				try { e.dataTransfer.setData('text/plain', state.draggingId); } catch (err) { }
+				e.currentTarget.classList.add('dragging');
+			}
+
+			function onDragEnd() {
+				state.draggingId = null;
+				document.querySelectorAll('.dragging, .drop-target').forEach(el => el.classList.remove('dragging', 'drop-target'));
+			}
+
+			function dropNode(sourceId, targetParentId, index) {
+				const node = findNodeById(sourceId);
+				if (!node) return;
+				const srcParentId = findParentId(state.tree, sourceId);
+				if (!srcParentId) return;
+
+				if (srcParentId === targetParentId) {
+					const srcIdx = indexOfChild(srcParentId, sourceId);
+					if (index > srcIdx) index -= 1;
+				}
+
+				removeFromParent(srcParentId, sourceId);
+
+				if (targetParentId === '__root') {
+					node.kind = 'box';
+					if (!Array.isArray(node.children)) node.children = [];
+					state.tree.splice(Math.max(0, Math.min(index, state.tree.length)), 0, node);
+				} else {
+					const parent = findNodeById(targetParentId);
+					if (!parent) { state.tree.push(node); }
+					else {
+						if (!Array.isArray(parent.children)) parent.children = [];
+						parent.children.splice(Math.max(0, Math.min(index, parent.children.length)), 0, node);
+					}
+				}
+
+				state.selectedNodeId = sourceId;
+				renderTree();
+				saveState();
+			}
+
+			// ---------- Resize (pointer-based) ----------
+			function attachResize(boxEl, node) {
+				const handle = boxEl.querySelector('.resize-handle');
+				handle.addEventListener('pointerdown', (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					const startX = e.clientX;
+					const startY = e.clientY;
+					if (!node.w) node.w = boxEl.offsetWidth;
+					if (!node.h) node.h = boxEl.offsetHeight;
+					const startW = node.w;
+					const startH = node.h;
+					const sizeEl = boxEl.querySelector('.box-size');
+
+					const onMove = (ev) => {
+						node.w = Math.max(160, Math.round(startW + (ev.clientX - startX)));
+						node.h = Math.max(48, Math.round(startH + (ev.clientY - startY)));
+						boxEl.style.width = node.w + 'px';
+						boxEl.style.minHeight = node.h + 'px';
+						if (sizeEl) sizeEl.textContent = `${node.w}×${node.h}`;
+					};
+					const onUp = () => {
+						window.removeEventListener('pointermove', onMove);
+						window.removeEventListener('pointerup', onUp);
+						window.removeEventListener('pointercancel', onUp);
+						saveState();
+						if (state.selectedNodeId === node.id) selectNode(node);
+					};
+					window.addEventListener('pointermove', onMove);
+					window.addEventListener('pointerup', onUp);
+					window.addEventListener('pointercancel', onUp);
+				});
+			}
+
+			// ---------- Add / Duplicate / Delete ----------
+			function addChild(parentId, kind) {
+				const parent = parentId === '__root' ? null : findNodeById(parentId);
+				const list = parentId === '__root' ? state.tree : (parent ? parent.children : null);
+				if (!list) return;
+				const count = list.length + 1;
+				const base = parent ? parent.name.replace(/\s*(Container|Box)$/i, '').trim() : 'Section';
+				const baseKebab = kebab(base || (parent ? parent.name : 'section'));
+				const node = kind === 'box'
+					? { id: makeId('node'), kind: 'box', name: `${base} Sub Box ${count}`, tag: 'div', blumeClass: `${baseKebab}-sub`, sassClasses: 'box pad16 gap16', annotations: [], children: [] }
+					: { id: makeId('node'), kind: 'chip', name: `${base} Item ${count}`, tag: 'div', blumeClass: `${baseKebab}-item`, sassClasses: 'pad16', annotations: [] };
+				list.push(node);
+				selectNode(node);
+				saveState();
+			}
+
+			function duplicateNode(node, parentId) {
+				const clone = JSON.parse(JSON.stringify(node));
+				const walk = (n) => { n.id = makeId('node'); n.annotations = []; (n.children || []).forEach(walk); };
+				clone.id = makeId('node');
+				clone.name = node.name + ' copy';
+				clone.annotations = [];
+				(clone.children || []).forEach(walk);
+				const list = parentId === '__root' ? state.tree : (findNodeById(parentId)?.children || []);
+				const i = list.findIndex(c => c.id === node.id);
+				list.splice(i + 1, 0, clone);
+				selectNode(clone);
+				saveState();
+			}
+
+			function deleteNode(node) {
+				const childCount = (node.children || []).length;
+				const msg = `Delete "${node.name}"${childCount ? ` and its ${childCount} child item(s)` : ''}?`;
+				if (!confirm(msg)) return;
+				const parentId = findParentId(state.tree, node.id);
+				removeFromParent(parentId, node.id);
+				state.selectedNodeId = null;
+				renderTree();
+				saveState();
+				if (state.tree.length) selectNode(state.tree[0]);
+				else {
+					inspectorContent.innerHTML = '<p style="color:var(--muted)">Tree is empty. Add a container to get started.</p>';
+				}
+			}
+
+			// ---------- Rendering ----------
+			function renderChip(child) {
+				const chipEl = document.createElement('div');
+				chipEl.className = `item-chip ${state.selectedNodeId === child.id ? 'selected' : ''}`;
+				chipEl.dataset.id = child.id;
+				chipEl.draggable = true;
+
+				const cAnnCount = (child.annotations || []).length;
+				const cQCount = (child.annotations || []).filter(a => a.type === 'question').length;
+				let badge = '';
+				if (cQCount > 0) badge = `<span class="badge-annotation question">❓ ${cQCount}</span>`;
+				else if (cAnnCount > 0) badge = `<span class="badge-annotation">💬 ${cAnnCount}</span>`;
+
+				chipEl.innerHTML = `
+			<span class="chip-name">${escapeHtml(child.name)}</span>
+			<span class="chip-class">.${escapeHtml(child.blumeClass)}</span>
+			${badge}
+			<button class="chip-x" data-act="del" title="Delete item">✕</button>
+		`;
+
+				chipEl.addEventListener('click', (e) => {
+					e.stopPropagation();
+					if (e.target.closest('.chip-x')) return;
+					selectNode(child);
+				});
+				chipEl.addEventListener('dragstart', onDragStart);
+				chipEl.addEventListener('dragend', onDragEnd);
+				return chipEl;
+			}
+
+			function renderContainer(container) {
+				const containerEl = document.createElement('div');
+				containerEl.className = `container-box ${state.selectedNodeId === container.id ? 'selected' : ''}`;
+				containerEl.dataset.id = container.id;
+				containerEl.draggable = true;
+				if (!Array.isArray(container.children)) container.children = [];
+				if (container.w) containerEl.style.width = container.w + 'px';
+				if (container.h) containerEl.style.minHeight = container.h + 'px';
+
+				const annCount = (container.annotations || []).length;
+				const qCount = (container.annotations || []).filter(a => a.type === 'question').length;
+				let badgeHtml = '';
+				if (qCount > 0) badgeHtml += `<span class="badge-annotation question">❓ ${qCount} Q</span>`;
+				if (annCount - qCount > 0) badgeHtml += `<span class="badge-annotation">💬 ${annCount - qCount}</span>`;
+				const sizeHtml = (container.w || container.h)
+					? `<span class="box-size">${container.w || 'auto'}×${container.h || 'auto'}</span>` : '';
+
+				containerEl.innerHTML = `
+			<div class="box-header">
+				<div class="box-title">
+					<span class="box-title-name">${escapeHtml(container.name)}</span>
+					<span class="box-tag">&lt;${escapeHtml(container.tag)}&gt;</span>
+					${badgeHtml}
+					${sizeHtml}
+				</div>
+				<div class="box-tools">
+					<span class="box-classes">.${escapeHtml(container.blumeClass)} → .${escapeHtml(container.sassClasses)}</span>
+					<span class="box-actions">
+						<button class="mini-btn" data-act="add-item" title="Add an item inside this box">+ Item</button>
+						<button class="mini-btn" data-act="add-box" title="Add a nested sub-container">+ Box</button>
+						<button class="mini-btn" data-act="dup" title="Duplicate">⧉</button>
+						<button class="mini-btn danger" data-act="del" title="Delete">✕</button>
+					</span>
+				</div>
+			</div>
+			<div class="child-items drop-zone" data-parent-id="${container.id}"></div>
+			<div class="resize-handle" title="Drag to resize"></div>
+		`;
+
+				const childArea = containerEl.querySelector('.child-items');
+
+				container.children.forEach(child => {
+					// State filtering rules
+					if (String(child.blumeClass || '').includes('app-sidebar') && !state.hasSidebar) return;
+					if (String(child.blumeClass || '').includes('app-right') && !state.hasTOC) return;
+
+					if (child.kind === 'box') {
+						childArea.appendChild(renderContainer(child));
+					} else {
+						childArea.appendChild(renderChip(child));
+					}
+				});
+
+				containerEl.addEventListener('click', (e) => {
+					if (e.target.closest('button') || e.target.closest('.resize-handle') || e.target.closest('.item-chip')) return;
+					selectNode(container);
+				});
+				containerEl.addEventListener('dragstart', onDragStart);
+				containerEl.addEventListener('dragend', onDragEnd);
+				attachResize(containerEl, container);
+				initDropZone(childArea);
+				return containerEl;
+			}
+
+			function renderTree() {
+				stageEl.innerHTML = '';
+				const rootSlot = document.createElement('div');
+				rootSlot.className = 'root-slot drop-zone';
+				rootSlot.dataset.parentId = '__root';
+				stageEl.appendChild(rootSlot);
+
+				state.tree.forEach(container => {
+					rootSlot.appendChild(renderContainer(container));
+				});
+
+				initDropZone(rootSlot);
+				updateVisualGrid();
+				renderGlobalAnnotations();
+				saveState();
+			}
+
+			// Update Visual Grid Canvas (Brad Woods Style)
+			function updateVisualGrid() {
+				let colTemplate = '';
+				let gridAreas = '';
+
+				if (!state.hasSidebar && !state.hasTOC) {
+					colTemplate = `minmax(0, 1fr)`;
+					gridAreas = `"content"`;
+				} else if (state.hasSidebar && !state.hasTOC) {
+					colTemplate = `${state.sidebarWidth}px minmax(0, 1fr)`;
+					gridAreas = `"sidebar content"`;
+				} else if (!state.hasSidebar && state.hasTOC) {
+					colTemplate = `minmax(0, 1fr) ${state.tocWidth}px`;
+					gridAreas = `"content toc"`;
+				} else {
+					colTemplate = `${state.sidebarWidth}px minmax(0, 1fr) ${state.tocWidth}px`;
+					gridAreas = `"sidebar content toc"`;
+				}
+
+				visualGridCanvas.style.gridTemplateColumns = colTemplate;
+				visualGridCanvas.style.gap = `${state.gap}px`;
+				gridTemplateSpec.textContent = `grid-template-columns: ${colTemplate}`;
+
+				// Generate Visual Cells
+				let cellsHtml = '';
+				if (state.hasSidebar) {
+					cellsHtml += `
+				<div class="grid-cell ${state.selectedNodeId === 'node-sidebar' ? 'selected' : ''}" onclick="selectNodeById('node-sidebar')">
+					<span class="cell-label">Left Sidebar Nav</span>
+					<span class="cell-dim">Width: ${state.sidebarWidth}px</span>
+					<span class="cell-area">grid-area: sidebar</span>
+				</div>
+			`;
+				}
+
+				cellsHtml += `
+			<div class="grid-cell ${state.selectedNodeId === 'node-article' ? 'selected' : ''}" onclick="selectNodeById('node-article')">
+				<span class="cell-label">Main Prose Column</span>
+				<span class="cell-dim">Max-Width: ${state.contentMaxWidth}px</span>
+				<span class="cell-area">grid-area: content</span>
+			</div>
+		`;
+
+				if (state.hasTOC) {
+					cellsHtml += `
+				<div class="grid-cell ${state.selectedNodeId === 'node-toc' ? 'selected' : ''}" onclick="selectNodeById('node-toc')">
+					<span class="cell-label">Right Rail TOC</span>
+					<span class="cell-dim">Width: ${state.tocWidth}px</span>
+					<span class="cell-area">grid-area: toc</span>
+				</div>
+			`;
+				}
+
+				visualGridCanvas.innerHTML = cellsHtml;
+
+				// Generate CSS Output Codebox
+				generatedCssBox.textContent = `/* Blume / MonoWiki Doc Grid Layout */
+.blume-doc-grid
+  display: grid
+  grid-template-columns: ${colTemplate}
+  gap: ${state.gap}px
+  align-items: start
+
+.doc-article
+  max-width: ${state.contentMaxWidth}px
+  margin: 0 auto`;
+			}
+
+			window.selectNodeById = (id) => {
+				const node = findNodeById(id);
+				if (node) selectNode(node);
+			};
+
+			// Render Master Annotations Index
+			function renderGlobalAnnotations() {
+				const allAnns = [];
+				function collect(list) {
+					for (const item of list) {
+						if (item.annotations && item.annotations.length > 0) {
+							item.annotations.forEach(ann => {
+								allAnns.push({ ann, node: item });
+							});
+						}
+						if (item.children) collect(item.children);
+					}
+				}
+				collect(state.tree);
+
+				if (allAnns.length === 0) {
+					globalAnnList.innerHTML = `<p style="font-size:11px;color:var(--muted);margin:0">No annotations across site items.</p>`;
+					return;
+				}
+
+				globalAnnList.innerHTML = allAnns.map(({ ann, node }) => `
+			<div class="global-ann-item" data-node-id="${node.id}">
+				<div style="font-weight:600;display:flex;justify-content:space-between">
+					<span>${ann.type === 'question' ? '❓' : '💬'} ${escapeHtml(node.name)}</span>
+					<span style="color:var(--muted);font-size:10px">${escapeHtml(ann.timestamp)}</span>
+				</div>
+				<div style="color:var(--ink);margin-top:2px">${escapeHtml(ann.text)}</div>
+			</div>
+		`).join('');
+
+				globalAnnList.querySelectorAll('.global-ann-item').forEach(el => {
+					el.addEventListener('click', () => {
+						const targetId = el.dataset.nodeId;
+						const targetNode = findNodeById(targetId);
+						if (targetNode) selectNode(targetNode);
+					});
+				});
+			}
+
+			// Lightweight refresh of a node's on-stage labels (keeps inspector input focus)
+			function refreshNodeUI(node) {
+				const esc = id => CSS.escape ? CSS.escape(id) : id;
+				const q = (sel) => document.querySelector(`[data-id="${esc(node.id)}"] ${sel}`);
+				const nameEl = q('.box-title-name') || q('.chip-name');
+				if (nameEl) nameEl.textContent = node.name;
+				const tagEl = q('.box-tag');
+				if (tagEl) tagEl.textContent = `<${node.tag}>`;
+				const clsEl = q('.box-classes');
+				if (clsEl) clsEl.textContent = `.${node.blumeClass} → .${node.sassClasses}`;
+				const chipCls = q('.chip-class');
+				if (chipCls) chipCls.textContent = `.${node.blumeClass}`;
+				const sizeEl = q('.box-size');
+				if (sizeEl) sizeEl.textContent = (node.w || node.h) ? `${node.w || 'auto'}×${node.h || 'auto'}` : '';
+				const target = document.getElementById('inspector-target-name');
+				if (target) target.textContent = node.name;
+				const sassPrev = document.getElementById('sass-preview');
+				if (sassPrev) sassPrev.textContent = buildSassPreview(node);
+			}
+
+			function selectNode(node) {
+				if (!node) return;
+				state.selectedNodeId = node.id;
+				if (!node.annotations) node.annotations = [];
+
+				renderTreeUIOnly();
+
+				// Render Annotations HTML List
+				const annotationsListHtml = node.annotations.length === 0
+					? `<p style="font-size:11.5px;color:var(--muted);font-style:italic">No annotations on this item yet.</p>`
+					: node.annotations.map((ann, idx) => `
+				<div class="annotation-card ${ann.type}">
+					<div class="annotation-meta">
+						<strong>${ann.type === 'question' ? '❓ QUESTION' : '💬 COMMENT'} (${escapeHtml(ann.author || 'User')})</strong>
+						<span>${escapeHtml(ann.timestamp || '')}</span>
+					</div>
+					<div class="annotation-text">${escapeHtml(ann.text)}</div>
+					<div class="annotation-actions">
+						<button class="btn-del" data-ann-idx="${idx}">Delete</button>
+					</div>
+				</div>
+			`).join('');
+
+				// Update Inspector
+				inspectorContent.innerHTML = `
+			<div style="background:var(--jade-soft);padding:8px 10px;border-radius:6px;border:1px solid rgba(14,116,144,0.2);margin-bottom:12px">
+				<strong style="color:var(--jade);font-size:12px" id="inspector-target-name">${escapeHtml(node.name)}</strong>
+				<div style="font-family:monospace;font-size:10.5px;color:var(--muted)">ID: ${escapeHtml(node.id)}</div>
+			</div>
+
+			<div class="field-group">
+				<label>Item Name:</label>
+				<input type="text" id="inp-name" value="${escapeHtml(node.name)}" />
+			</div>
+			<div class="field-group" style="margin-top:8px">
+				<label>Tag:</label>
+				<input type="text" id="inp-tag" value="${escapeHtml(node.tag)}" placeholder="div / section / article / aside…" />
+			</div>
+			<div class="field-group" style="margin-top:8px">
+				<label>Blume / SVOCS Fronted Class:</label>
+				<input type="text" id="inp-blume" value="${escapeHtml(node.blumeClass)}" />
+			</div>
+			<div class="field-group" style="margin-top:8px">
+				<label>Mapped SASS Classes (Indented SASS):</label>
+				<input type="text" id="inp-sass" value="${escapeHtml(node.sassClasses)}" />
+			</div>
+
+			<div class="field-row" style="margin-top:8px">
+				<div class="field-group">
+					<label>Box Width (px):</label>
+					<input type="number" id="inp-w" min="160" placeholder="auto" value="${node.w ?? ''}" />
+				</div>
+				<div class="field-group">
+					<label>Min Height (px):</label>
+					<input type="number" id="inp-h" min="48" placeholder="auto" value="${node.h ?? ''}" />
+				</div>
+			</div>
+
+			<div class="field-row" style="margin-top:10px">
+				<button class="tbtn" id="btn-dup-node" style="flex:1">⧉ Duplicate</button>
+				<button class="tbtn danger-btn" id="btn-del-node" style="flex:1;margin-top:0">✕ Delete</button>
+			</div>
+
+			<div style="margin-top:12px">
+				<label style="font-weight:600;font-size:11.5px;color:var(--muted)">SASS Preprocessor Transform Preview:</label>
+				<div class="code-preview-block" id="sass-preview">${escapeHtml(buildSassPreview(node))}</div>
+			</div>
+
+			<div style="margin-top:16px;border-top:1px solid var(--line);padding-top:12px">
+				<h3 style="font-size:13px;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center">
+					<span>Item Annotations (${node.annotations.length})</span>
+				</h3>
+				<div id="annotations-list">${annotationsListHtml}</div>
+
+				<div style="margin-top:10px;background:var(--slate-soft);padding:10px;border-radius:6px;border:1px solid var(--line)">
+					<label style="font-size:11px;font-weight:600;display:block;margin-bottom:4px">Add Annotation / Question:</label>
+					<select id="ann-type-select" style="margin-bottom:6px">
+						<option value="question">❓ Question</option>
+						<option value="comment">💬 Comment / Note</option>
+					</select>
+					<textarea id="ann-text-input" rows="2" placeholder="Type question or annotation note..." style="width:100%;margin-bottom:6px"></textarea>
+					<button class="tbtn primary" id="btn-add-annotation" style="width:100%">+ Add Annotation</button>
+				</div>
+			</div>
+		`;
+
+				const nameInput = document.getElementById('inp-name');
+				nameInput.addEventListener('input', () => { node.name = nameInput.value; refreshNodeUI(node); saveState(); });
+				document.getElementById('inp-tag').addEventListener('input', (e) => { node.tag = e.target.value || 'div'; refreshNodeUI(node); saveState(); });
+				document.getElementById('inp-blume').addEventListener('input', (e) => { node.blumeClass = e.target.value; refreshNodeUI(node); saveState(); });
+				document.getElementById('inp-sass').addEventListener('input', (e) => { node.sassClasses = e.target.value; refreshNodeUI(node); saveState(); });
+
+				document.getElementById('inp-w').addEventListener('change', (e) => {
+					node.w = e.target.value !== '' ? Math.max(160, parseInt(e.target.value, 10) || 160) : undefined;
+					node.h = node.h;
+					renderTree();
+					selectNode(node);
+				});
+				document.getElementById('inp-h').addEventListener('change', (e) => {
+					node.h = e.target.value !== '' ? Math.max(48, parseInt(e.target.value, 10) || 48) : undefined;
+					renderTree();
+					selectNode(node);
+				});
+
+				document.getElementById('btn-dup-node').addEventListener('click', () => {
+					duplicateNode(node, findParentId(state.tree, node.id));
+				});
+				document.getElementById('btn-del-node').addEventListener('click', () => {
+					deleteNode(node);
+				});
+
+				// Add Annotation Event Handler
+				document.getElementById('btn-add-annotation').addEventListener('click', () => {
+					const type = document.getElementById('ann-type-select').value;
+					const text = document.getElementById('ann-text-input').value.trim();
+					if (!text) return;
+
+					const now = new Date();
+					const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+					node.annotations.push({
+						id: 'ann-' + Date.now(),
+						type,
+						text,
+						author: 'User',
+						timestamp: timeStr
+					});
+
+					selectNode(node);
+				});
+
+				// Delete Annotation Handlers
+				inspectorContent.querySelectorAll('.btn-del').forEach(btn => {
+					btn.addEventListener('click', (e) => {
+						const idx = parseInt(e.target.dataset.annIdx, 10);
+						if (!isNaN(idx)) {
+							node.annotations.splice(idx, 1);
+							selectNode(node);
+						}
+					});
+				});
+			}
+
+			function renderTreeUIOnly() {
+				document.querySelectorAll('.container-box').forEach(el => {
+					el.classList.toggle('selected', el.dataset.id === state.selectedNodeId);
+				});
+				document.querySelectorAll('.item-chip').forEach(el => {
+					el.classList.toggle('selected', el.dataset.id === state.selectedNodeId);
+				});
+				updateVisualGrid();
+			}
+
+			// Delegated action buttons (+ Item / + Box / duplicate / delete)
+			stageEl.addEventListener('click', (e) => {
+				const btn = e.target.closest('[data-act]');
+				if (!btn) return;
+				e.stopPropagation();
+				const id = btn.closest('[data-id]')?.dataset.id;
+				if (!id) return;
+				const node = findNodeById(id);
+				if (!node) return;
+				const act = btn.dataset.act;
+				if (act === 'add-item') addChild(id, 'chip');
+				else if (act === 'add-box') addChild(id, 'box');
+				else if (act === 'dup') duplicateNode(node, findParentId(state.tree, id));
+				else if (act === 'del') deleteNode(node);
+			});
+
+			// Preset Control Handling
+			presetSelect.value = state.preset;
+			presetSelect.addEventListener('change', (e) => {
+				state.preset = e.target.value;
+				if (state.preset === 'blume-default') {
+					state.sidebarWidth = 280;
+					state.contentMaxWidth = 672;
+					state.tocWidth = 280;
+					state.gap = 32;
+					state.hasSidebar = true;
+					state.hasTOC = true;
+				} else if (state.preset === 'blume-wide') {
+					state.sidebarWidth = 280;
+					state.contentMaxWidth = 960;
+					state.tocWidth = 0;
+					state.gap = 32;
+					state.hasSidebar = true;
+					state.hasTOC = false;
+				} else if (state.preset === 'blume-bare') {
+					state.sidebarWidth = 0;
+					state.contentMaxWidth = 864;
+					state.tocWidth = 0;
+					state.gap = 0;
+					state.hasSidebar = false;
+					state.hasTOC = false;
+				}
+				syncSlidersUI();
+				renderTree();
+			});
+
+			function syncSlidersUI() {
+				rngSidebar.value = state.sidebarWidth;
+				valSidebar.textContent = `${state.sidebarWidth}px (${(state.sidebarWidth / 16).toFixed(1)}rem)`;
+				rngContent.value = state.contentMaxWidth;
+				valContent.textContent = `${state.contentMaxWidth}px (${(state.contentMaxWidth / 16).toFixed(1)}rem)`;
+				rngTOC.value = state.tocWidth;
+				valTOC.textContent = `${state.tocWidth}px (${(state.tocWidth / 16).toFixed(1)}rem)`;
+				rngGap.value = state.gap;
+				valGap.textContent = `${state.gap}px`;
+				chkHasSidebar.checked = state.hasSidebar;
+				chkHasTOC.checked = state.hasTOC;
+			}
+
+			rngSidebar.addEventListener('input', (e) => {
+				state.sidebarWidth = parseInt(e.target.value, 10);
+				state.preset = 'custom';
+				presetSelect.value = 'custom';
+				syncSlidersUI();
+				updateVisualGrid();
+				saveState();
+			});
+			rngContent.addEventListener('input', (e) => {
+				state.contentMaxWidth = parseInt(e.target.value, 10);
+				state.preset = 'custom';
+				presetSelect.value = 'custom';
+				syncSlidersUI();
+				updateVisualGrid();
+				saveState();
+			});
+			rngTOC.addEventListener('input', (e) => {
+				state.tocWidth = parseInt(e.target.value, 10);
+				state.preset = 'custom';
+				presetSelect.value = 'custom';
+				syncSlidersUI();
+				updateVisualGrid();
+				saveState();
+			});
+			rngGap.addEventListener('input', (e) => {
+				state.gap = parseInt(e.target.value, 10);
+				state.preset = 'custom';
+				presetSelect.value = 'custom';
+				syncSlidersUI();
+				updateVisualGrid();
+				saveState();
+			});
+
+			// State Event Listeners
+			pageStateSelect.value = state.activePageState;
+			pageStateSelect.addEventListener('change', (e) => {
+				state.activePageState = e.target.value;
+				if (state.activePageState === 'state-4' || state.activePageState === 'state-breakout') {
+					state.hasSidebar = false;
+					state.hasTOC = false;
+					chkHasSidebar.checked = false;
+					chkHasTOC.checked = false;
+				} else {
+					state.hasSidebar = true;
+					state.hasTOC = true;
+					chkHasSidebar.checked = true;
+					chkHasTOC.checked = true;
+				}
+				renderTree();
+			});
+
+			chkHasComponent.addEventListener('change', (e) => { state.hasComponent = e.target.checked; renderTree(); });
+			chkHasTOC.addEventListener('change', (e) => { state.hasTOC = e.target.checked; updateVisualGrid(); renderTree(); });
+			chkHasSidebar.addEventListener('change', (e) => { state.hasSidebar = e.target.checked; updateVisualGrid(); renderTree(); });
+
+			document.getElementById('btn-add-container').addEventListener('click', () => {
+				addChild('__root', 'box');
+			});
+
+			document.getElementById('btn-reset-demo').addEventListener('click', () => {
+				if (confirm('Reset prototype state to default tree?')) {
+					localStorage.removeItem(STORAGE_KEY);
+					location.reload();
+				}
+			});
+
+			document.getElementById('btn-export-json').addEventListener('click', () => {
+				const jsonStr = JSON.stringify(state, null, 2);
+				const blob = new Blob([jsonStr], { type: 'application/json' });
+				const url = URL.createObjectURL(blob);
+				const a = document.createElement('a');
+				a.href = url;
+				a.download = 'monowiki-bradwoods-grid-schema.json';
+				a.click();
+			});
+
+			syncSlidersUI();
+			renderTree();
+			const initialSelectedNode = findNodeById(state.selectedNodeId) || state.tree[0];
+			selectNode(initialSelectedNode);
+		})();
+	</script>
+</body>
+
+</html>

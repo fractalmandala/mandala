@@ -1,6 +1,0 @@
-# allow crawling everything by default
-User-agent: *
-Disallow:
-
-# Once you've set SITE_URL in src/lib/site.ts, add:
-# Sitemap: <SITE_URL>/sitemap.xml

@@ -1,0 +1,6 @@
+- Every native capability is exposed as a `#[tauri::command]` function in `lib.rs` paired with a matching TypeScript wrapper in `src/lib/ipc.ts` that calls `invoke('<command_name>', ...)` and declares the request/response types.
+- All filesystem paths are validated through dedicated resolvers (`entry_path` in vault, `resolve` in workspace) that reject path traversal, symlinks outside the root, and absolute paths before any I/O occurs.
+- Error handling returns `Result<T, String>` (or `VaultResult<T>` / `WorkspaceResult<T>` aliases) from Rust commands, with human-readable error messages propagated directly to the frontend rather than custom error enums.
+- Long-running or blocking operations (terminal execution, GGUF model loading) are offloaded to threads or `spawn_blocking` and bounded by timeouts/output size limits before returning results.
+- Cross-platform behavior is gated with `#[cfg(target_os = "...")]` attributes in Cargo.toml and Rust code, keeping non-applicable platforms building via no-op fallbacks.
+- Frontend state lives in Svelte 5 runes files under `$lib/state/` (e.g. `entries.svelte`, `ui.svelte`, `workspace.svelte`) and is consumed reactively via `$state`/`$derived`/`$effect` without external stores.

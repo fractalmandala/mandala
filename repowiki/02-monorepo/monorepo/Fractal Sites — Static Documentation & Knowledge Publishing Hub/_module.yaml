@@ -1,0 +1,8 @@
+schema_version: 1
+module_path: sites
+title: Fractal Sites — Static Documentation & Knowledge Publishing Hub
+scope:
+    - sites/
+source_files: []
+depends_on: []
+related_to: []

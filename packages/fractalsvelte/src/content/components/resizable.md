@@ -10,7 +10,7 @@
 		{
 			name: 'direction',
 			type: '"horizontal" | "vertical"',
-			description: 'Axis of the pane split. Required. Applied as data-direction by paneforge.'
+			description: 'Axis of the pane split. Required. Applied as data-direction.'
 		},
 		{
 			name: 'bordered',
@@ -26,12 +26,12 @@
 		{
 			name: 'maxWidth',
 			type: 'string',
-			description: 'CSS max-width. Prefer over width — paneforge sets width: 100% inline.'
+			description: 'CSS max-width. Prefer over width — the layout engine sets width: 100% inline.'
 		},
 		{
 			name: 'minHeight',
 			type: 'string',
-			description: 'CSS min-height. Prefer over height — paneforge sets height: 100% inline.'
+			description: 'CSS min-height. Prefer over height — the layout engine sets height: 100% inline.'
 		},
 		{
 			name: 'maxHeight',
@@ -67,7 +67,7 @@
 		{
 			name: 'this',
 			type: 'PaneGroup',
-			description: 'Bindable paneforge instance (getLayout, setLayout, getId).'
+			description: 'Bindable layout instance (getLayout, setLayout, getId).'
 		},
 		{
 			name: 'children',
@@ -145,7 +145,7 @@
 		{
 			name: 'onCollapse / onExpand / onResize',
 			type: 'function',
-			description: 'Lifecycle callbacks from paneforge.'
+			description: 'Lifecycle callbacks from the layout engine.'
 		},
 		{
 			name: 'children',
@@ -154,7 +154,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte paneforge`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Resizable from "fractalsvelte/resizable";
@@ -254,14 +254,14 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/resizable/` into your project. It depends on `paneforge`, and it
+Or copy `src/lib/components/resizable/` into your project. It
 expects the library tokens to exist.
 
 ## Usage
 
 <CodeBlock code={usage} lang="svelte" />
 
-`Pane` is re-exported from paneforge. Put content inside each pane; sizes are percentages of the group. Size the group with <code>minHeight</code> / <code>maxWidth</code> (or a sized parent) — paneforge owns inline <code>height</code> and <code>width</code>.
+`Pane` is the layout pane. Put content inside each pane; sizes are percentages of the group. Size the group with <code>minHeight</code> / <code>maxWidth</code> (or a sized parent) — the engine owns inline <code>height</code> and <code>width</code>.
 
 ## Examples
 
@@ -343,7 +343,7 @@ expects the library tokens to exist.
 
 ### Pane
 
-Re-exported from paneforge. Common props:
+Layout-engine pane. Common props:
 
 <PropsTable props={paneProps} />
 

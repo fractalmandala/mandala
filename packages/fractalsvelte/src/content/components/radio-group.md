@@ -76,7 +76,7 @@
 		{
 			name: "child",
 			type: "Snippet",
-			description: "Renders a custom element with the bits-ui behaviour and attributes applied.",
+			description: "Renders a custom element with the item behaviour and attributes applied.",
 		},
 		{
 			name: "ref",
@@ -86,7 +86,7 @@
 		},
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { Label } from "fractalsvelte/label";
@@ -172,7 +172,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/radio-group/` into your project. It depends on `bits-ui`, and it
+Or copy `src/lib/components/radio-group/` into your project. It
 expects `styles/_mixins.sass`, `_tokens.sass` and `_typography.sass` to exist.
 
 ## Usage

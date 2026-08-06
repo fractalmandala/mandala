@@ -1,0 +1,1 @@
+A cross-platform desktop app that lets users organize Markdown entries, browse a local project workspace, run commands, search content, and attach AI-powered auto-tagging — all backed by a Rust Tauri backend.

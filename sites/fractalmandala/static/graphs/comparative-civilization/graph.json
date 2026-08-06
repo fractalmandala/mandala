@@ -6569,7 +6569,7 @@
       "norm_label": "criminal justice models"
     },
     {
-      "label": "World Ecological Degradation Paul",
+      "label": "World Ecological progression Paul",
       "file_type": "rationale",
       "source_file": "raw/02-comparative-civilization/v71.md",
       "source_location": null,
@@ -6577,9 +6577,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "concept_world_ecological_degradation_paul",
+      "id": "concept_world_ecological_progression_paul",
       "community": 9,
-      "norm_label": "world ecological degradation paul"
+      "norm_label": "world ecological progression paul"
     },
     {
       "label": "Bornstein\n\nCivilizations",
@@ -54981,7 +54981,7 @@
       "source_location": null,
       "weight": 0.7,
       "source": "ccr_v71",
-      "target": "concept_world_ecological_degradation_paul"
+      "target": "concept_world_ecological_progression_paul"
     },
     {
       "relation": "contributed_to",

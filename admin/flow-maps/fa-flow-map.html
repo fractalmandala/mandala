@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>repowiki-main structure map</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#111a31;--line:#6375ad;--accent:#78e0c4;--text:#edf2ff;--muted:#aab6d4}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px system-ui,sans-serif}header{padding:18px 22px;border-bottom:1px solid #263454;display:flex;gap:16px;align-items:center;flex-wrap:wrap}h1{font-size:20px;margin:0}header span{color:var(--muted)}button,input{background:#182544;color:var(--text);border:1px solid #3a4b77;border-radius:7px;padding:8px 10px}button{cursor:pointer}button:focus,input:focus{outline:2px solid var(--accent);outline-offset:2px}#workspace{height:calc(100vh - 78px);position:relative;overflow:hidden;background-image:linear-gradient(#17233e 1px,transparent 1px),linear-gradient(90deg,#17233e 1px,transparent 1px);background-size:32px 32px}svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.edge{stroke:var(--line);stroke-width:2;fill:none}.data{stroke:var(--accent);stroke-dasharray:7 6}.node{position:absolute;width:190px;padding:11px;border:1px solid #536b9f;border-radius:10px;background:var(--panel);box-shadow:0 8px 22px #0005;cursor:grab;user-select:none}.node:active{cursor:grabbing}.node strong{display:block;color:var(--accent);margin-bottom:5px}.node small{display:block;color:var(--muted);line-height:1.35}.node.hidden{display:none}.evidence{position:absolute;right:16px;bottom:16px;width:285px;background:#101a30eF;border:1px solid #3a4b77;border-radius:10px;padding:13px;min-height:70px}.legend{color:var(--muted);font-size:12px}.legend i{display:inline-block;width:24px;border-top:2px solid var(--line);margin:0 5px 3px 0}.legend i.data{border-color:var(--accent);border-top-style:dashed}
+</style>
+</head>
+<body>
+<header><h1>repowiki-main architecture</h1><span>drag nodes; pan/zoom with workspace</span><input id="search" aria-label="Filter nodes" placeholder="Filter nodes or files"><button id="reset">Reset layout</button><span class="legend"><i></i>containment <i class="data"></i>data/state/event</span></header>
+<main id="workspace" aria-label="Interactive architecture canvas"><svg id="edges"></svg><section id="nodes"></section><aside class="evidence" id="evidence">Select a node to inspect its evidence.</aside></main>
+<script type="application/json" id="fa-flow-data">{
+"nodes":[
+{"id":"cli","label":"CLI dispatcher","kind":"entry","file":"cmd/repowiki/main.go#L10-L39","class":"subcommands","x":40,"y":70},
+{"id":"enable","label":"Enable command","kind":"command","file":"cmd/repowiki/enable.go#L16-L113","class":"enable","x":270,"y":20},
+{"id":"update","label":"Update command","kind":"command","file":"cmd/repowiki/update.go#L13-L120","class":"update","x":270,"y":160},
+{"id":"hookcmd","label":"Post-commit callback","kind":"event boundary","file":"cmd/repowiki/hooks.go#L16-L60","class":"post-commit","x":270,"y":310},
+{"id":"config","label":"Configuration","kind":"state boundary","file":"internal/config/config.go#L21-L121","class":".repowiki","x":520,"y":20},
+{"id":"git","label":"Git integration","kind":"external boundary","file":"internal/git/git.go#L24-L78","class":"git","x":520,"y":160},
+{"id":"hook","label":"Hook installer","kind":"integration","file":"internal/hook/hook.go#L19-L83","class":"post-commit","x":520,"y":310},
+{"id":"orchestrator","label":"Wiki orchestrator","kind":"service","file":"internal/wiki/wiki.go#L13-L77","class":"generation","x":770,"y":120},
+{"id":"detect","label":"Change detector","kind":"service","file":"internal/wiki/detect.go#L22-L144","class":"metadata reverse index","x":770,"y":280},
+{"id":"engine","label":"AI engine adapter","kind":"external dependency","file":"internal/wiki/engine.go#L14-L165","class":"qoder/claude/codex","x":1010,"y":120},
+{"id":"commit","label":"Wiki committer","kind":"side effect boundary","file":"internal/wiki/commit.go#L25-L59","class":"sentinel + prefix","x":1010,"y":280},
+{"id":"output","label":"Generated wiki","kind":"persisted output","file":".qoder/repowiki/en/content/","class":"markdown + metadata","x":1240,"y":200}
+],
+"edges":[["cli","enable",false],["cli","update",false],["cli","hookcmd",false],["enable","config",false],["enable","git",false],["enable","hook",false],["update","config",false],["update","git",false],["update","orchestrator",false],["hookcmd","config",false],["hookcmd","git",false],["hookcmd","update",false],["orchestrator","detect",false],["orchestrator","engine",false],["orchestrator","commit",false],["engine","output",false],["commit","output",false],["config","orchestrator",true],["git","update",true],["detect","orchestrator",true],["commit","hookcmd",true],["hook","hookcmd",true]]
+}</script>
+<script>
+const data=JSON.parse(document.querySelector('#fa-flow-data').textContent), workspace=document.querySelector('#workspace'), layer=document.querySelector('#nodes'), svg=document.querySelector('#edges'), evidence=document.querySelector('#evidence'); let positions={};
+function render(){layer.innerHTML='';data.nodes.forEach(n=>{positions[n.id]??={x:n.x,y:n.y};const el=document.createElement('article');el.className='node';el.dataset.id=n.id;el.style.left=positions[n.id].x+'px';el.style.top=positions[n.id].y+'px';el.innerHTML=`<strong>${n.label}</strong><small>${n.kind}</small><small>${n.file}</small><small>${n.class}</small>`;el.onclick=()=>evidence.innerHTML=`<strong>${n.label}</strong><br><span>${n.kind}</span><br><code>${n.file}</code><br><span>${n.class}</span>`;drag(el,n);layer.append(el)});draw()}
+function draw(){svg.innerHTML='';data.edges.forEach(([a,b,d])=>{const A=positions[a],B=positions[b],na=document.querySelector(`[data-id="${a}"]`),nb=document.querySelector(`[data-id="${b}"]`);if(!na||!nb)return;const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',A.x+na.offsetWidth);l.setAttribute('y1',A.y+na.offsetHeight/2);l.setAttribute('x2',B.x);l.setAttribute('y2',B.y+nb.offsetHeight/2);l.className=d?'edge data':'edge';svg.append(l)})}
+function drag(el,n){let down=false,ox=0,oy=0;el.onpointerdown=e=>{down=true;ox=e.clientX-positions[n.id].x;oy=e.clientY-positions[n.id].y;el.setPointerCapture(e.pointerId)};el.onpointermove=e=>{if(!down)return;positions[n.id]={x:e.clientX-ox,y:e.clientY-oy};el.style.left=positions[n.id].x+'px';el.style.top=positions[n.id].y+'px';draw()};el.onpointerup=()=>down=false}
+document.querySelector('#search').oninput=e=>{const q=e.target.value.toLowerCase();document.querySelectorAll('.node').forEach(el=>{const n=data.nodes.find(x=>x.id===el.dataset.id);el.classList.toggle('hidden',q&&!JSON.stringify(n).toLowerCase().includes(q))})};document.querySelector('#reset').onclick=()=>{positions={};render()};render();window.addEventListener('resize',draw);
+</script></body></html>

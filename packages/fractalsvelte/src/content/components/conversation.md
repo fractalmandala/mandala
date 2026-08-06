@@ -199,7 +199,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte runed`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Conversation from "fractalsvelte/ai-elements/conversation";
@@ -366,7 +366,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/conversation/` into your project. It depends on `runed` (for `watch`) and the ported `button` component. Pair it with `Message` for role-styled bubbles.
+Or copy `src/lib/components/ai-elements/conversation/` into your project. Pair it with `Message` for role-styled bubbles.
 
 ## Usage
 

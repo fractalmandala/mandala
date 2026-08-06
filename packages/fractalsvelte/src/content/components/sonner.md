@@ -12,7 +12,7 @@
 			name: 'theme',
 			type: '"light" | "dark" | "system"',
 			default: 'mode.current',
-			description: 'Synced from mode-watcher. Override to lock a theme.'
+			description: 'Synced from the active theme. Override to lock a theme.'
 		},
 		{
 			name: 'position',
@@ -51,7 +51,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte svelte-sonner mode-watcher`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { Toaster, toast } from "fractalsvelte/sonner";
@@ -138,7 +138,7 @@
 </script>
 
 <h1 class="doc-title">Sonner</h1>
-<p class="doc-lede">An opinionated toast stack built on <code>svelte-sonner</code>. Mount <code>Toaster</code> once near the root, then fire toasts from anywhere with <code>toast()</code>. Theme follows light/dark mode and the active palette.</p>
+<p class="doc-lede">An opinionated toast stack. Mount <code>Toaster</code> once near the root, then fire toasts from anywhere with <code>toast()</code>. Theme follows light/dark mode and the active palette.</p>
 
 <Preview description="Sonner — toast with description and action" code={codeDemo}>
 	<Button
@@ -158,11 +158,11 @@
 
 ## Installation
 
-Install the package and peers:
+Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/sonner/` into your project. It depends on `svelte-sonner` and `mode-watcher` for theme sync.
+Or copy `src/lib/components/sonner/` into your project. It syncs with the active theme.
 
 Mount the toaster once in your root layout:
 
@@ -281,7 +281,7 @@ Use `toast()`, `toast.success()`, `toast.error()`, `toast.info()`, `toast.warnin
 
 ### Toaster
 
-Props are forwarded to `svelte-sonner`'s toaster. Common ones:
+Props are forwarded to the underlying toaster. Common ones:
 
 <PropsTable props={toasterProps} />
 
@@ -297,4 +297,4 @@ Toast surfaces bridge palette tokens through CSS variables on the toaster:
 - `--normal-text: var(--popover-foreground)`
 - `--normal-border: var(--border)`
 
-Light/dark follows `mode-watcher`. Status icons use the current text colour; loading uses a spinning Phosphor spinner (`data-slot="sonner-spinner"`).
+Light/dark follows the active theme. Status icons use the current text colour; loading uses a spinning Phosphor spinner (`data-slot="sonner-spinner"`).

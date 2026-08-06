@@ -148,11 +148,11 @@ That means:
 		{
 			name: '…Streamdown props',
 			type: 'StreamdownProps',
-			description: 'Forwarded to streamdown-svelte (plugins, etc.).'
+			description: 'Forwarded to the markdown renderer (plugins, etc.).'
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte streamdown-svelte mode-watcher @shikijs/themes`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Message from "fractalsvelte/ai-elements/message";
@@ -330,7 +330,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/message/` into your project. Heavy deps: `streamdown-svelte`, `mode-watcher`, `@shikijs/themes`. UI deps: `button`, `button-group`, `dialog`, `tooltip`.
+Or copy `src/lib/components/ai-elements/message/` into your project.
 
 ## Usage
 

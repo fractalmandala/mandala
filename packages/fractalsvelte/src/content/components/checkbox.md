@@ -111,7 +111,7 @@
 		},
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import { Checkbox } from "fractalsvelte/checkbox";
@@ -174,7 +174,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/checkbox/` into your project. It depends on `bits-ui`, and it
+Or copy `src/lib/components/checkbox/` into your project. It
 expects `styles/_mixins.sass`, `_tokens.sass` and `_typography.sass` to exist.
 
 ## Usage
@@ -307,7 +307,7 @@ description: "The header checkbox uses indeterminate when only some rows are sel
 
 ## Props
 
-Every native button attribute accepted by `bits-ui` is forwarded. The table lists the
+Every native button attribute is forwarded. The table lists the
 component-specific surface and the most common state props.
 
 <PropsTable {props} />

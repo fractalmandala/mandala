@@ -14,7 +14,7 @@
 		{ name: 'siblingCount', type: 'number', default: '1', description: 'Number of visible page siblings.' }
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 	const usage = `<script lang="ts">
   import * as Pagination from "fractalsvelte/pagination";
 

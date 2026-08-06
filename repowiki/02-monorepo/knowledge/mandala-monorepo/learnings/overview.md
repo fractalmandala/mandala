@@ -1,0 +1,1 @@
+Curated retrospective notes documenting hard-won lessons about milestone framing, end-to-end verification, and never shipping non-working UI stubs.

@@ -1,0 +1,139 @@
+@keyframes -global-svocs-burn-away
+	0%,
+	70%
+		opacity: 1
+	100%
+		opacity: 0
+
+*
+	box-sizing: border-box
+
+// Paint the page from the active theme token instead of leaning on the UA
+// canvas color — otherwise light mode inherits a dark canvas and reads as
+// dark-on-dark.
+body
+	background: var(--bg)
+	color: var(--text)
+
+:global(::view-transition-old(root))
+	/* Old snapshot must sit on top of (and dissolve to reveal) the new one. */
+	z-index: 1
+	mix-blend-mode: normal
+	animation: svocs-burn-away 0.9s ease-in both
+	filter: url(#svocs-dissolve)
+
+:global(::view-transition-new(root))
+	mix-blend-mode: normal
+	animation: none
+
+.dissolve-defs
+	position: absolute
+	width: 0
+	height: 0
+
+:global(a:focus-visible),
+:global(button:focus-visible),
+:global(input:focus-visible)
+	outline: 2px solid var(--accent)
+	outline-offset: 2px
+
+:global(::selection)
+	background: color-mix(in srgb, var(--accent) 32%, transparent)
+
+.skip
+	position: absolute
+	left: -9999px
+	&:focus
+		left: 1rem
+		top: 1rem
+		z-index: 20
+		background: var(--accent)
+		color: var(--accent-contrast)
+		padding: 0.4rem 0.6rem
+		border-radius: 0.4rem
+
+.app-shell
+	min-height: 100vh
+	display: grid
+	grid-template-rows: auto 1fr auto
+
+header
+	position: sticky
+	top: 0
+	z-index: 10
+	background: var(--bg)
+
+.logomotif
+	object-fit: contain
+	height: 32px
+	width: 32px
+
+.logotype
+	object-fit: contain
+	height: 20px
+
+// Wordmark follows the theme: white art on dark (default), black art on light.
+.logotype-light
+	display: none
+
+html[data-theme='light']
+	.logotype-dark
+		display: none
+	.logotype-light
+		display: block
+
+.topbar
+	padding: 8px 16px
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: 1rem
+
+.brand
+	text-decoration: none
+	display: flex
+	align-items: center
+	gap: 8px
+	flex-shrink: 0
+
+.actions
+	display: flex
+	align-items: center
+	gap: 0.6rem
+
+.search-wrap
+	width: min(11rem, 40vw)
+
+main
+	width: 100%
+
+footer.app-footer
+	padding: 1rem
+	background: #232526
+	background: -webkit-linear-gradient(to right, #2e2e2f, #181818)
+	background: linear-gradient(to right, #2e2e2f, #181818)
+	color: #cfcfcf
+	a
+		text-decoration: none
+		color: inherit
+	&:hover
+		a
+			color: #FFFFFF
+
+.footer-wrap
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: 1rem
+	font-size: 0.82rem
+
+.footer-link
+	text-decoration: none
+	color: var(--text-dim)
+	transition: color 120ms ease
+	&:hover
+		color: var(--accent-soft)
+
+@media (max-width: 560px)
+	.search-wrap
+		width: 2.4rem

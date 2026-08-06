@@ -1,0 +1,1 @@
+CommandCode JSON schema for permissions; plain Markdown for taste entries with a structured `- Preference text — Confidence: X.Y` format.

@@ -105,7 +105,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte bits-ui`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Queue from "fractalsvelte/ai-elements/queue";
@@ -377,7 +377,7 @@
 
 ## Installation
 
-Install the package (and bits-ui if you are not already using fractalsvelte collapsibles):
+Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 

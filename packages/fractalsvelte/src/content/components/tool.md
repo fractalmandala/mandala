@@ -101,7 +101,7 @@
 		}
 	];
 
-	const codeInstall = `npm i fractalsvelte shiki @shikijs/langs @shikijs/themes dompurify runed`;
+	const codeInstall = `npm i fractalsvelte`;
 
 	const usage = `<script lang="ts">
   import * as Tool from "fractalsvelte/ai-elements/tool";
@@ -195,7 +195,7 @@ Install the package:
 
 <CodeBlock code={codeInstall} lang="bash" />
 
-Or copy `src/lib/components/ai-elements/tool/`. Depends on `collapsible`, `badge`, and the `code` ai-element (Shiki + DOMPurify).
+Or copy `src/lib/components/ai-elements/tool/`. It composes the `collapsible`, `badge`, and `code` ai-element.
 
 ## Usage
 

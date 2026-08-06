@@ -1,48 +1,47 @@
 # Repository layout
 
-Nothing agents need lives outside **`plugin/`**.
+The **package root is the plugin**. Everything an agent needs lives directly here —
+there is no nested `plugin/` directory, and the browser explorer now lives outside
+this package at `sites/fractalagentic/` (it renders these files; it does not own them).
 
-| Folder | Audience | What belongs here |
+| Path | Audience | What belongs here |
 | --- | --- | --- |
-| **`plugin/`** | Agents + users of the product | Installable package: identity, bosses, armory, commands, hooks, scripts, and shipped support docs under `plugin/docs/` |
-| **`site/`** | Humans in a browser | Website/explorer. **Renders** files from `plugin/`; does not own agent source of truth |
-| **root** (this directory) | Contributors / git clone | Front-door `README.md` (mirrors `plugin/README.md` with root-relative links), this file, `credits.json`, marketplace catalog (`.agents/plugins/`) |
+| **root** (this directory) | Agents + users of the product | Installable plugin: identity, bosses, armory, commands, hooks, scripts, and shipped support docs under `docs/` |
+| `bin/`, `package.json` | npm / installer | CLI installer and package metadata (packaging only, not agent content) |
+| `credits.json` | The explorer site | Attribution data consumed by `sites/fractalagentic/` |
 
-## Agent-required (always inside `plugin/`)
+## Agent-required (at the package root)
 
-- `AGENTS.md`, `SOUL.md`
+- `AGENTS.md` (startup router), `SOUL.md`
 - Host shims: `CLAUDE.md`, `GEMINI.md`, `KIMI.md`, `OPENCODE.md`
-- `skills/`, `agents/`, `commands/`, `hooks/`, `scripts/`, `workflows/`
+- `plugin.json`, `.claude-plugin/`, `.codex-plugin/`
+- `skills/`, `agents/`, `commands/`, `bosses/`, `hooks/`, `scripts/`, `workflows/`
 - `project-integration/AGENTS-SNIPPET.md`
-- Policy and offline support: `docs/DEGRADATION.md`, `docs/troubleshooting.md`, install/hooks/wiki guides, armory notes
+- Policy and offline support under `docs/` (`docs/progression.md`, install/hooks/wiki
+  guides, armory notes)
 
-## Dual docs (`plugin/docs/`)
+## Dual docs (`docs/`)
 
-Written for **humans** and useful for **agents** offline (no website required).  
-The site imports these for pretty reading. Source of truth remains under `plugin/`.
+Written for **humans** and useful for **agents** offline (no website required). The
+explorer site imports these for pretty reading; the source of truth stays here.
 
-## Site-only
+## The explorer site
 
-Marketing UI, chrome, credits pages, explorer UX. If a page needs facts agents also need, put the markdown in `plugin/` and have the site display it.
-
-## Root-only
-
-- `README.md` — how this repo is organized; where to install from
-- `credits.json` — attribution for the explorer
-- `.agents/plugins/marketplace.json` — catalog that points at `./plugin`
-
-Do **not** put `AGENTS.md` / `SOUL.md` only at root.
+The website lives at `sites/fractalagentic/` in the monorepo. It globs this package's
+`skills/`, `agents/`, `commands/`, `bosses/`, and `docs/` and renders them for humans.
+If a page needs facts agents also need, put the markdown here and have the site
+display it.
 
 ## Documentation SSOT (bosses and dual docs)
 
-Full rules: [`plugin/docs/doc-ownership.md`](./plugin/docs/doc-ownership.md).
+Full rules: [`docs/doc-ownership.md`](./docs/doc-ownership.md).
 
 | Layer | Where | Holds |
 | --- | --- | --- |
-| Startup router | `plugin/AGENTS.md` | Precedence, trivial exemption, one-boss selection, stop-reading, and handoffs |
-| Boss **source of truth** | `plugin/docs/bosses/<boss>/INDEX.md` | Full missions, skill/agent/command maps, phases, verification, and handoffs |
-| Dual support docs | `plugin/docs/` | Install, troubleshooting, hooks, armory hubs, policy |
-| Website | `site/` | Renders `plugin/` content for humans |
+| Startup router | `AGENTS.md` | Precedence, trivial exemption, one-boss selection, stop-reading, and handoffs |
+| Boss **source of truth** | `docs/bosses/<boss>/INDEX.md` | Full missions, skill/agent/command maps, phases, verification, and handoffs |
+| Dual support docs | `docs/` | Install, troubleshooting, hooks, armory hubs, policy |
+| Explorer site | `sites/fractalagentic/` (outside this package) | Renders this content for humans |
 
 If a nested boss playbook and a hub disagree → **the boss playbook wins**. Live asset
 indexes remain canonical for availability; never maintain two full armory lists.

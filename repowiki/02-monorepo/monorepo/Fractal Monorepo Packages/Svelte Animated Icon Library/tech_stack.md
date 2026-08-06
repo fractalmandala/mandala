@@ -1,0 +1,1 @@
+Svelte 5 (runes `$props`, `$state`, `$effect`), TypeScript, Vite 8, `@sveltejs/kit` for the docs site, `mdsvex` for Markdown docs, Sass for styles, and the native Web Animations API (no animation library dependency). Icons are sourced from Phosphor, Remix, Flowbite, Hero, and Ion SVG sets.

@@ -7703,7 +7703,7 @@ Push high-visibility messages to every logged-in user. Use banners for maintenan
 | --- | --- | --- |
 | info | Blue | General announcements |
 | success | Green | Resolved incidents, completed changes |
-| warning | Yellow | Planned maintenance, partial degradation |
+| warning | Yellow | Planned maintenance, partial progression |
 | error | Red | Active incidents, outages |
 
 [**Learn about Banners →**](/features/administration/banners)
@@ -8571,7 +8571,7 @@ To reduce alert fatigue, consider a consistent mapping:
 
 - `info`: general announcements
 - `success`: completed changes / resolved incidents
-- `warning`: planned maintenance or partial degradation
+- `warning`: planned maintenance or partial progression
 - `error`: active incident / outage
 
 ### Remove expired banners
@@ -59538,7 +59538,7 @@ UVICORN_WORKERS=4
 
 **Symptoms:**
 
-- Open WebUI performs well locally but experiences significant degradation or timeouts when deployed to cloud providers (AKS, EKS, GKE).
+- Open WebUI performs well locally but experiences significant progression or timeouts when deployed to cloud providers (AKS, EKS, GKE).
 - Performance drops sharply under concurrent load despite adequate resource allocation.
 
 **Cause:** This is typically caused by infrastructure latency (Network Latency to the database or Disk I/O latency for SQLite) that is inherently higher in cloud environments compared to local NVMe/SSD storage and local networks.
@@ -59913,7 +59913,7 @@ By default, Open WebUI saves chats **after generation is complete**. While savin
 
 - **Env Var**: `ENABLE_REALTIME_CHAT_SAVE=False` (Default)
 - **Effect**: Chats are saved only when the generation is complete (or periodically).
-- **Recommendation**: **DO NOT ENABLE `ENABLE_REALTIME_CHAT_SAVE` in production.** It is highly recommended to keep this `False` to prevent database connection exhaustion and severe performance degradation under concurrent load. See the [Environment Variable Configuration](/reference/env-configuration#enable_realtime_chat_save) for details.
+- **Recommendation**: **DO NOT ENABLE `ENABLE_REALTIME_CHAT_SAVE` in production.** It is highly recommended to keep this `False` to prevent database connection exhaustion and severe performance progression under concurrent load. See the [Environment Variable Configuration](/reference/env-configuration#enable_realtime_chat_save) for details.
 
 ### User Active-Status Write Throttling (set this on every deployment)
 
@@ -59932,7 +59932,7 @@ Starting with v0.7.1, Open WebUI includes a database session sharing feature tha
 
 > **Recommendations by Database Type**
 >
-> - **SQLite:** Keep this setting **disabled** (default). Enabling session sharing on SQLite with limited hardware resources may cause severe performance degradation or timeouts.
+> - **SQLite:** Keep this setting **disabled** (default). Enabling session sharing on SQLite with limited hardware resources may cause severe performance progression or timeouts.
 > - **PostgreSQL with adequate resources:** Consider **enabling** this setting for improved performance, especially in multi-user or high-concurrency deployments.
 
 > **Low-Spec Hardware**
@@ -60126,7 +60126,7 @@ docker exec openwebui ls -la /proc/1/fd | wc -l
 
 ## ☁️ Cloud Infrastructure Latency
 
-When deploying Open WebUI in cloud Kubernetes environments (AKS, EKS, GKE), you may notice significant performance degradation compared to local Kubernetes (Rancher Desktop, kind, Minikube) or bare-metal deployments, even with identical resource allocations. This is almost always caused by **latency** in the underlying infrastructure.
+When deploying Open WebUI in cloud Kubernetes environments (AKS, EKS, GKE), you may notice significant performance progression compared to local Kubernetes (Rancher Desktop, kind, Minikube) or bare-metal deployments, even with identical resource allocations. This is almost always caused by **latency** in the underlying infrastructure.
 
 ### Network Latency (Database & Services)
 
@@ -60199,7 +60199,7 @@ Cloud storage (Azure Disks, AWS EBS, GCP Persistent Disks) often has significant
 >
 >
 >
-> Older synchronous SQLAlchemy releases (≤ 0.8.12) serialized contention in-process, which masked slow storage. The async driver opens connections across threads and hammers the filesystem, so network-attached storage degradation becomes immediately visible.
+> Older synchronous SQLAlchemy releases (≤ 0.8.12) serialized contention in-process, which masked slow storage. The async driver opens connections across threads and hammers the filesystem, so network-attached storage progression becomes immediately visible.
 
 #### Why the async backend makes network-storage SQLite fail suddenly
 

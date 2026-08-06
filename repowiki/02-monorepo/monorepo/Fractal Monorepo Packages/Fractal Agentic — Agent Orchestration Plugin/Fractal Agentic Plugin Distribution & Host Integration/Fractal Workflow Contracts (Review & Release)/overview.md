@@ -1,0 +1,1 @@
+Portable, host-agnostic workflow specifications that define the autonomous multi-agent review fan-out and monorepo release segments of Fractal's delivery pipeline.

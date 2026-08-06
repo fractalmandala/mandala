@@ -1,7 +1,7 @@
 {
   "neutral": {
     "light": {
-      "radius": "0.625rem",
+      "radius": "8px",
       "background": "oklch(1 0 0)",
       "foreground": "oklch(0.145 0 0)",
       "card": "oklch(1 0 0)",
@@ -70,7 +70,7 @@
   },
   "stone": {
     "light": {
-      "radius": "0.625rem",
+      "radius": "8px",
       "background": "oklch(1 0.006 70)",
       "foreground": "oklch(0.147 0.004 49.25)",
       "card": "oklch(1 0.006 70)",
@@ -139,7 +139,7 @@
   },
   "zinc": {
     "light": {
-      "radius": "0.625rem",
+      "radius": "8px",
       "background": "oklch(1 0.006 286)",
       "foreground": "oklch(0.141 0.005 285.823)",
       "card": "oklch(1 0.006 286)",
@@ -208,7 +208,7 @@
   },
   "gray": {
     "light": {
-      "radius": "0.625rem",
+      "radius": "8px",
       "background": "oklch(1 0.006 255)",
       "foreground": "oklch(0.13 0.028 261.692)",
       "card": "oklch(1 0.006 255)",
@@ -277,7 +277,7 @@
   },
   "slate": {
     "light": {
-      "radius": "0.625rem",
+      "radius": "8px",
       "background": "oklch(1 0.006 240)",
       "foreground": "oklch(0.129 0.042 264.695)",
       "card": "oklch(1 0.006 240)",

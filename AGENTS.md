@@ -1,162 +1,208 @@
-## Fractal Agentic plugin mandate (session bootstrap)
+# AGENTS.md — fracta
 
-**On non-trivial tasks** (implementation, review, refactor, scaffold, multi-step plan),
-**try** to detect the **Fractal Agentic** plugin and use its startup router +
-orchestration guidance. Detection and pins are **best-effort** — they must **never** block the
-user's project work.
+A speed-focused knowledge base. Tauri 2 + SvelteKit 2 + Svelte 5 (runes) desktop app.
 
-**Project work always proceeds.** Missing plugin, missing `install-agents` files, or
-missing spawn types → continue with `capability_mode: plugin_missing|degraded` and
-`pins: unverified`. Never freeze for a "fresh task" or refuse to implement.
-Policy: `<root>/docs/DEGRADATION.md` when the plugin is present.
+Markdown files on disk are the source of truth. Capture is instant; organization and
+agent assist grow on top without fighting the vault.
 
-### Detection (run first, soft)
+## Fractal Agentic plugin mandate (required session bootstrap)
+
+**Before any other project work** on a non-trivial task (implementation, review, refactor,
+scaffold, debug beyond a one-line answer, port, docs batch, or multi-step plan), you MUST
+detect whether the **Fractal Agentic** plugin is installed and readable, and if it is, you
+MUST use it for the rest of the session without waiting for the user to `@` or tag it.
+
+### Detection (run first)
 
 1. If env `FRACTAL_AGENTIC_ROOT` is set and `$FRACTAL_AGENTIC_ROOT/plugin.json` exists, use that root.
-   (If the env points at the monorepo checkout and `$FRACTAL_AGENTIC_ROOT/plugin/plugin.json`
-   exists, use `$FRACTAL_AGENTIC_ROOT/plugin` instead.)
 2. Otherwise search upward from the project / workspace root for the first directory that
    contains **all** of:
    - `plugin.json` with `"name": "fractal-agentic"` (or equivalent name field)
    - `AGENTS.md`
-   - `docs/bosses/INDEX.md` and the seven `docs/bosses/<boss>/INDEX.md` playbooks
    - `skills/boss-orchestration/SKILL.md`
    - `commands/orchestrate.md`
-3. In this repo, the plugin root is `packages/fractal-agentic/plugin` (canonical checkout).
-   A personal copy also exists at `~/.agents/plugins/fractal-agentic`.
+3. Prefer monorepo-relative candidates (stop at the first hit):
+   - `<workspace>/agentic/fractal-agentic`
+   - `<workspace>/../agentic/fractal-agentic`
+   - `<repo-root>/agentic/fractal-agentic` (walk up from cwd until `.git` or filesystem root)
+   - `agentic/fractal-agentic` relative to any known monorepo root listed in this file
 4. Optional shell probe (if the script is reachable):
    ```sh
+   # from fractal-agentic itself, or after resolving a candidate root:
    sh <FRACTAL_AGENTIC_ROOT>/scripts/resolve-plugin-root.sh
    ```
    Exit 0 + printed path ⇒ accessible. Non-zero ⇒ treat as missing.
-5. **Accessible** means you can read `AGENTS.md`, `docs/bosses/INDEX.md`, the
-   selected `docs/bosses/<boss>/INDEX.md`, and
-   `skills/boss-orchestration/SKILL.md` from that root.
-6. Prefer also reading `SOUL.md` when present (portable identity). Optional hooks under
-   `hooks/` are **never** required for delivery.
+5. **Accessible** means you can **read** `AGENTS.md` and `skills/boss-orchestration/SKILL.md`
+   from that root. A marketplace listing without readable files is **not** enough.
 
-If detection fails: state once *"Fractal Agentic not found; proceeding with project AGENTS only"*
-and continue under this project's rules. Do not invent a fake plugin path. **Never refuse
-the task** because the plugin is missing.
+If detection fails: state once *“Fractal Agentic not found; proceeding with project AGENTS only”*
+and continue under this project’s rules. Do not invent a fake plugin path. Do not block
+trivial Q&A on missing plugin.
 
-### When found — preferred use (non-blocking)
+### When found — mandatory use
 
-1. **Read** in progressive order:
-   - `<root>/AGENTS.md` — startup router, precedence, trivial exemption, and one-boss selection
-   - the selected `<root>/docs/bosses/<boss>/INDEX.md` — read exactly one in full; stop before loading other boss playbooks
-   - `<root>/skills/boss-orchestration/SKILL.md` — only for non-trivial delivery and non-blocking preflight
-   - `<root>/skills/boss-orchestration/references/capability-mode.md` — set mode once when runtime work needs it
-   - `<root>/docs/DEGRADATION.md` — three layers (content / install / session)
-2. **Set `capability_mode` once** (`pinned` | `pinned_partial` | `degraded` | `plugin_missing`)
-   from the **session spawn catalog**, not from disk alone. Prefer any exposed
-   `fractal_agentic_*` types; never require all three.
-3. **Prefer** the plugin process:
-   - Select exactly one domain boss via the router (Design / Code / Agent / Svelte /
-     Creator / Workflow / Meta), then read only that nested playbook until a handoff.
-   - For deliverables that change the repo: follow **boss-orchestration** contracts when
-     practical (specs, verify evidence, ship|fix-first|rethink review).
-   - Prefer plugin commands/skills when a mapped asset exists (`/orchestrate`,
-     `/activate-boss-*`, `/quality-gate`, `/svelte-review`, …).
-4. **Do not require** the user to tag `@fractal-agentic` after a successful detection.
-5. **Stack defaults** from the router and selected boss playbook apply unless this
-   project AGENTS.md overrides them.
-6. **Project-local rules win** on conflicts for *this repo's* conventions; the plugin
-   supplies process, armory, and delivery *guidance*.
+1. **Read immediately** (in order):
+   - `<root>/AGENTS.md` — especially §0 decision tree and §0.6 delivery runtime
+   - `<root>/skills/boss-orchestration/SKILL.md`
+   - `<root>/README.md` if you need install/preflight detail
+2. **Operate under the plugin for the whole task:**
+   - Select domain boss via the decision tree (Design / Code / Agent / Svelte / Creator /
+     Workflow / Meta).
+   - For any deliverable that changes the repo or claims completion: follow
+     **boss-orchestration** (five-part specs, routine vs complex lanes when spawn types
+     exist, primary re-verification, fresh review → `ship | fix-first | rethink`).
+   - Prefer plugin commands when applicable: `/orchestrate`, `/activate-boss-*`,
+     `/quality-gate`, `/security-scan`, `/svelte-review`, `/santa-loop`, etc.
+   - Prefer plugin skills/agents over ad-hoc process when a mapped skill exists.
+3. **Do not require the user to tag** `@fractal-agentic` or paste paths after a successful
+   detection. Re-detect only if the workspace root changes mid-session.
+4. **Stack defaults from the plugin map** apply unless this project AGENTS.md explicitly
+   overrides them (this monorepo: Svelte 5 + SvelteKit + indented SASS; Tauri when desktop).
+5. Project-local rules in **this** AGENTS.md still win on conflicts for *this repo’s*
+   conventions; the plugin supplies process, armory, and delivery gates.
 
-### Capability pins (optional quality, never a gate)
+### When found — Codex capability pins (if host supports them)
 
-If the host exposes custom agent types, **prefer**:
+If the host exposes custom agent types, prefer:
 
 - `fractal_agentic_routine_implementer`
 - `fractal_agentic_complex_implementer`
 - `fractal_agentic_fresh_reviewer`
 
-To improve pin quality later (user's choice, not a prerequisite for coding):
-
-```sh
-sh <root>/scripts/install-agents.sh
-```
-
-If types or templates are missing, **degrade immediately**:
-
-1. Implement in the primary session and/or any available general / stack agents.
-2. Review with domain agents (`svelte-reviewer`, `code-reviewer`, …) or structured
-   primary self-review using ship|fix-first|rethink.
-3. State once: *pins unverified* — then continue the user's work without asking them to
-   open a new task first.
-
-**Forbidden behaviors:** stopping the session, refusing implementation, or requiring
-`install-agents.sh` / a fresh agent session/task before writing or reviewing project code.
+After plugin install, pins may need:
+`sh <root>/scripts/install-agents.sh` then a fresh task. If types are missing, keep
+contracts from `boss-orchestration` and state that model pins are unverified.
 
 ### Trivial exemption
 
-Single-sentence answers, pure explanation with no repo change, or "what is X?" questions
-may skip orchestration entirely.
+Single-sentence answers, pure explanation with no repo change, or “what is X?” questions
+may skip full orchestration, but if the answer depends on boss routing or monorepo
+process, still load the plugin map when detected.
 
----
 
-# Mandala monorepo
+## Product north star
 
-Monorepo for everything I work on - sites, apps, packages.
+**fracta** is for performance notes, agent sessions, research clips, and long-term
+knowledge — not a second brain bloated with chrome. Three jobs:
 
-## Public Packages
+1. **Capture** — open → paste → gone. Autosave, source-app auto-tags, zero friction.
+2. **Organize** — tags, categories, bookmarks, full-text search over the vault.
+3. **Ask** — agent column over the active note. Streams from any OpenAI-compatible
+   API the user configures (key + base URL + provider name + model).
 
-**morphicons-svelte**
-a porting of morphicons to svelte.
-[![npm version](https://img.shields.io/npm/v/morphicons-svelte.svg)](https://www.npmjs.com/package/morphicons-svelte)
+### Design principles
 
-**svelte-animated-icon** and **@fractaldesign/svelte-icons**
-thousands of iconsets animated in dozens of ways. a more than complete animated icons library for sveltekit.
-[![npm version](https://img.shields.io/npm/v/svelte-animated-icon.svg)](https://www.npmjs.com/package/svelte-animated-icon)
-[![npm version](https://img.shields.io/npm/v/@fractaldesign/svelte-icons.svg)](https://www.npmjs.com/package/@fractaldesign/svelte-icons)
+- Files first: every entry is a `.md` with YAML frontmatter in a user-chosen vault folder.
+- Quiet UI: separation by weight and spacing, not heavy borders. Indented SASS + tokens.
+- Draft-first: empty drafts never touch disk; first real content materializes a file.
+- Browser preview works without Tauri (empty draft, no vault I/O).
 
-**fractalsvelte**
-an ongoing attempt to replicate shadcn-svelte but without tailwind dependencies. also a way to learn bits ui.
-[![npm version](https://img.shields.io/npm/v/fractalsvelte.svg)](https://www.npmjs.com/package/fractalsvelte)
-
-## Fractal Agentic
-
-A must try package. The grand orchestration of 167 skills, 59 commands, 33 agents, 7 bosses all under 1 system that learns, grows, maintains a wiki and knows how to complete tasks well.
-<a href="https://fractal-agentic.vercel.app/">Take a look!</a>
-
-This is a constantly evolving monorepo. It is best to study any available AGENTS.md files inside the projects - `apps/` , `sites/` and `packages/` to get more information.  Some common monorepo features:
-
-1. Sveltekit, Svelte 5, Tauri, and Typescript based stack.
-2. Exclusive use of single-tab indented SASS styling (not SCSS, pure old SASS without braces or colons).
-
-## Projects Registry
-
-1. Apps
-- Fractalengine - `apps/fractalengine` - new all-in-one app development. Current project.
-- Fracta - `apps/fracta` - WIP notes app.
-- Fractalknow - `apps/fractalknow` - experimental notes app.
-
-2. Sites
-- Fractaldesign - `sites/fractaldesign` - housed at [Fractaldesign](https://www.fractaldesign.in), a design and web dev blog and curation site.
-- Fractalmandala - `sites/fractalmandala` - housed at [Fractalmandala](https://www.fractalmandala.in), my own blog and knowledge wiki.
-- Fractaldharma - `sites/fractaldharma` - housed at [Fractaldharma](https://www.fractaldharma.in), a Sanskrit text corpus site.
-- Fractalmem - `sites/fractalmem` - ongoing experimental work on a site and package for Sanskrit-based agent memory.
-
-3. Packages
-- Fractals Styler - `packages/fractals-styler` - a public npm package that scaffolds my prefered SASS styling and preset classes into any new project.
-- Svelte Animated Icon - `packages/svelte-animated-icon` - a public npm package for using animated icons inside Sveltekit projects.
-- Svelte Icons - `packages/svelte-icons` - combined library for various iconsets (private).
-- Fractalsvelte - `packages/fractalsvelte` - WIP Sveltekit component library and its public site front-end.
-- OKF Package - `packages/okfpackage` - WIP experiments with Google's open knowledge foundation.
-
-## Learnings
-
-If user asks to `capture this learning` or `document this error`, then create a new .md document in `docs/learnings` with following frontmatter:
+## Architecture
 
 ```
----
-title: //title the learning
-description: //write a short grep-friendly description
-category: learning
-date: YYYY-MM-DD
----
+src/
+  routes/+page.svelte          # App shell: modes, chrome, shortcuts
+  lib/
+    ipc.ts                     # Tauri command surface
+    markdown.ts                # TipTap ↔ markdown
+    state/
+      entries.svelte.ts        # Vault + active entry + autosave
+      bookmarks.svelte.ts      # Pinned ids (localStorage for now)
+      prefs.svelte.ts          # Font family / size
+      ui.svelte.ts             # Modes, panels
+      knowledge.svelte.ts      # Derived index: tags, categories, library rows
+      ask.svelte.ts            # Ask transcript + streaming agent
+      agent.svelte.ts          # Provider / key / URL / model settings
+      rules.svelte.ts          # Source-app auto-tag rules
+    agent/
+      openai-compat.ts         # OpenAI-compatible SSE chat client
+      prompt.ts                # System prompt from open note
+      blocks.ts                # Markdown → AskBlock[]
+    components/
+      app-notes.svelte         # Capture editor (TipTap)
+      app-sidebar.svelte       # Entry list + search
+      app-nav.svelte           # Mode switcher
+      app-organize.svelte      # Tags / bookmarks / categories browser
+      AskPanel.svelte          # Agent column
+      AgentSettings.svelte     # API key / URL / model
+      MetadataPanel.svelte
+      RulesPanel.svelte
+    styles/                    # Indented SASS, token-driven
+src-tauri/src/
+  vault.rs                     # List / read / write / delete entries
+  frontmatter.rs               # YAML meta
+  autotag.rs                   # Clipboard source → tags
 ```
 
-And the use the `agent-self-evaluation` skill, write details of the mistake/error, what was learnt from it, and what not to do in the future.
+## Modes (`ui.mode`)
 
-Maintain an INDEX.md at the learnings folder with an up to date list of learnings, linked by relative path. 
+| Mode       | Purpose                                      |
+|------------|----------------------------------------------|
+| `capture`  | Default. Sidebar + editor. Optional Ask col. |
+| `organize` | Full-width browse by tag / category / pin.   |
+
+Ask is a **column** over capture, not a separate mode — keeps the note in view.
+
+## Keyboard
+
+| Shortcut        | Action                    |
+|-----------------|---------------------------|
+| `⌘ N`           | New draft                 |
+| `⌘ S`           | Save now                  |
+| `⌘ ⇧ B`         | Toggle bookmark (pin)     |
+| `⌘ 1`           | Capture mode              |
+| `⌘ 2`           | Organize mode             |
+| `⌘ /` or `⌘ K`  | Focus search              |
+| `⌘ .`           | Toggle Ask column         |
+| `⌘ I`           | Toggle metadata           |
+| `⌘ D`           | Open / create daily note  |
+| `Esc`           | Close panels              |
+
+## Conventions
+
+- Svelte 5 runes only (`$state`, `$derived`, `$props`, `$effect`). No legacy stores for new state (except existing `iW` layout flag).
+- Indented `.sass` with tabs. Design tokens in `_tokens.sass`. No new SCSS.
+- Prefer shared layout classes in `styles/` over large component `<style>` blocks for shell UI.
+- Tauri commands stay thin; domain logic in Rust modules under `src-tauri/src/`.
+
+## Roadmap (scaffolded → next)
+
+- [x] Vault CRUD, autosave, TipTap capture, source auto-tags
+- [x] Bookmarks, metadata, rules panel
+- [x] Multi-mode shell: capture + organize + ask column
+- [x] Knowledge index (tags / categories derived from summaries)
+- [x] Daily note helper
+- [x] Configurable OpenAI-compatible agent (stream over open note)
+- [x] Local GGUF via managed llama-server
+- [ ] Full-text search index (Rust / SQLite FTS)
+- [ ] Wikilinks `[[note]]` and backlinks
+- [ ] Vault-wide agent context (not only open note)
+- [ ] Bookmarks + prefs in vault-side config (not only localStorage)
+- [ ] Graph / related notes view
+
+## Agent configuration
+
+User opens **Agent** in the header (or **Connect** in the Ask column).
+
+### Mode: API provider
+
+| Field          | Example                          |
+|----------------|----------------------------------|
+| Provider name  | `xAI`, `OpenRouter`, `Ollama`    |
+| API base URL   | `https://api.x.ai/v1`            |
+| API key        | provider secret                  |
+| Model          | exact API slug (not display name)|
+
+Presets fill name / URL / model. Settings live in `localStorage` under `fracta:agent`.
+Requests go to `{baseUrl}/chat/completions` with SSE streaming.
+
+### Mode: Local GGUF
+
+1. Install llama.cpp so `llama-server` is on PATH (`brew install llama.cpp` on macOS).
+2. Agent → **Local GGUF** → **Choose .gguf…** (loads into memory via managed server).
+3. Backend spawns `llama-server -m <path>` on a free localhost port; Ask streams from
+   `http://127.0.0.1:<port>/v1` (same OpenAI-compatible client as remote).
+4. Override binary path with env `FRACTA_LLAMA_SERVER` if needed.
+
+Unload from Agent settings when finished. Large models need RAM; first load can take a while.
+CSP allows `https:` and localhost for APIs / local servers.

@@ -1,0 +1,1 @@
+SvelteKit 2 with Svelte 5 runes mode, Vite 8, mdsvex for markdown-as-components, @sveltejs/adapter-vercel (nodejs24.x), Sass, TypeScript 6, ESLint + Prettier, marked for markdown rendering, @lucide/svelte and svelte-remixicon for icons, and the internal `fractals-styler` design system.

@@ -1,0 +1,10 @@
+schema_version: 1
+module_path: packages/morphicons_svelte
+title: morphicons-svelte — Svelte 5 Icon Morphing Bindings
+scope:
+    - packages/morphicons-svelte/
+source_files: []
+depends_on: []
+related_to:
+    - path: packages/svelte_animated_icon
+    - path: packages/svelte_icons

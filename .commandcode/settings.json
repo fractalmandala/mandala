@@ -5,7 +5,7 @@
       "Shell(export:*)",
       "Shell(sh /scripts/resolve-plugin-root.sh)",
       "Shell(sh /scripts/check-armory.sh 2 >& 1)",
-      "Shell(sh packages/fractal-agentic/plugin/scripts/check-armory.sh 2 >& 1)",
+      "Shell(sh packages/fractal-agentic/scripts/check-armory.sh 2 >& 1)",
       "Shell(grep:*)",
       "Shell(mkdir:*)",
       "Shell(pnpm:*)",
