@@ -1,0 +1,266 @@
+.fractaldocs-layout
+	display: flex
+	width: 100%
+	height: 100%
+	background: var(--background10)
+	color: var(--text-primary)
+	overflow: hidden
+
+.fractaldocs-pane-left
+	display: flex
+	flex-direction: column
+	background: var(--background20)
+	height: 100%
+	overflow: hidden
+
+.fractaldocs-pane-middle
+	flex: 1
+	min-width: 0
+	display: flex
+	flex-direction: column
+	overflow-y: auto
+	background: var(--background10)
+	padding: var(--sz-24) 48px
+
+.fractaldocs-pane-right
+	display: flex
+	flex-direction: column
+	height: 100%
+	overflow: hidden
+
+.fractaldocs-resizer
+	flex: 0 0 var(--resize-hit-target)
+	width: var(--resize-hit-target)
+	margin: 0 calc(var(--resize-hit-target) / -2)
+	z-index: var(--z-panel)
+	cursor: col-resize
+	background: transparent
+	border: 0
+	border-left: var(--sz-2) solid transparent
+	outline: none
+
+	&:hover
+		border-left-color: var(--theme-color)
+
+	&:focus-visible
+		box-shadow: var(--focus-ring)
+		border-left-color: var(--theme-color)
+
+.fractaldocs-layout.is-resizing
+	cursor: col-resize
+	user-select: none
+	*
+		pointer-events: none
+
+.fractaldocs-sidebar-header
+	padding: var(--sz-8)
+
+// Left Sidebar Tree
+.fractaldocs-sidebar-left
+	display: flex
+	flex-direction: column
+	height: 100%
+	overflow: hidden
+
+.fractaldocs-tree
+	flex: 1
+	overflow-y: auto
+	padding: var(--sz-12) var(--sz-8)
+
+.fractaldocs-tree-empty, .fractaldocs-toc-empty
+	color: var(--text-tertiary)
+	font-size: var(--text-sm)
+	font-style: italic
+	padding: var(--sz-8)
+
+.fractaldocs-tree-folder
+	display: flex
+	flex-direction: column
+
+.fractaldocs-tree-folder-btn, .fractaldocs-tree-file
+	display: flex
+	align-items: center
+	width: 100%
+	min-height: var(--control-target-min)
+	padding: var(--sz-4) var(--sz-8)
+	background: transparent
+	border: 0
+	border-radius: var(--sz-4)
+	cursor: pointer
+	font-size: var(--text-sm)
+	text-align: left
+	transition: var(--transition-control)
+
+	&:hover
+		background: var(--state-hover)
+
+	&:focus-visible
+		box-shadow: var(--focus-ring)
+
+.fractaldocs-tree-folder-btn
+	color: var(--text-primary)
+	font-weight: 500
+
+.fractaldocs-tree-file
+	padding-left: var(--sz-24)
+	color: var(--text-secondary)
+
+	&:hover
+		color: var(--text-primary)
+
+	&.active
+		background: var(--accent-surface-subtle)
+		color: var(--theme-color)
+		font-weight: 500
+
+.fractaldocs-tree-icon
+	flex: 0 0 var(--icon-size-xs)
+	width: var(--icon-size-xs)
+	height: var(--icon-size-xs)
+	margin-right: var(--sz-8)
+	opacity: var(--font-size-relative-sm)
+
+.fractaldocs-tree-name
+	min-width: 0
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+
+.fractaldocs-tree-children
+	padding-left: var(--sz-12)
+
+// Middle Pane Content
+.fractaldocs-content
+	max-width: 800px
+	margin: 0 auto
+	width: 100%
+
+.fractaldocs-content-header
+	margin-bottom: var(--sz-24)
+	padding-bottom: var(--sz-12)
+	border-bottom: var(--sz-1) solid var(--border-secondary)
+
+.fractaldocs-content-path
+	font-family: var(--font-monospace)
+	font-size: var(--text-sm)
+	color: var(--text-tertiary)
+	background: var(--background20)
+	padding: var(--sz-4) var(--sz-8)
+	border-radius: var(--sz-4)
+
+.fractaldocs-loading, .fractaldocs-empty
+	color: var(--text-tertiary)
+	font-style: italic
+	padding: 48px 0
+	text-align: center
+
+.fractaldocs-status-error
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: var(--sz-12)
+	padding: var(--sz-12)
+	color: var(--feedback-error)
+	background: var(--feedback-error-bg)
+	border: var(--sz-1) solid var(--feedback-error-border)
+	border-radius: var(--sz-4)
+
+.fractaldocs-markdown-body
+	font-size: var(--text-bs)
+	line-height: 1.6
+	color: var(--text-primary)
+
+	h1, h2, h3, h4, h5, h6
+		color: var(--text-primary)
+		font-weight: 600
+		margin-top: var(--sz-24)
+		margin-bottom: var(--sz-8)
+		scroll-margin-top: var(--sz-24)
+
+	h1
+		font-size: var(--text-3xl)
+		border-bottom: var(--sz-1) solid var(--border-secondary)
+		padding-bottom: var(--sz-4)
+
+	h2
+		font-size: var(--text-2xl)
+		border-bottom: var(--sz-1) solid var(--border-secondary)
+		padding-bottom: var(--sz-4)
+
+	p
+		margin-top: 0
+		margin-bottom: var(--sz-16)
+
+	a
+		color: var(--theme-color)
+		text-decoration: none
+
+		&:hover
+			text-decoration: underline
+
+	code
+		font-family: var(--font-monospace)
+		background: var(--background20)
+		padding: var(--sz-2) var(--sz-4)
+		border-radius: var(--sz-4)
+		font-size: var(--font-size-relative-sm)
+
+	pre
+		background: var(--background20)
+		padding: var(--sz-16)
+		border-radius: var(--sz-8)
+		overflow-x: auto
+
+		code
+			background: transparent
+			padding: 0
+
+	blockquote
+		margin: 0 0 var(--sz-16)
+		padding: 0 var(--sz-16)
+		color: var(--text-tertiary)
+		border-left: var(--sz-4) solid var(--border-secondary)
+
+	ul, ol
+		padding-left: var(--sz-32)
+		margin-bottom: var(--sz-16)
+
+	li
+		margin-bottom: var(--sz-4)
+
+// Right Sidebar TOC
+.fractaldocs-toc
+	flex: 1
+	overflow-y: auto
+	padding: var(--sz-8)
+
+.fractaldocs-toc-list
+	list-style: none
+	padding: 0
+	margin: 0
+
+.fractaldocs-toc-item
+	&.fractaldocs-toc-depth-2
+		padding-left: var(--sz-8)
+
+	&.fractaldocs-toc-depth-3
+		padding-left: var(--sz-16)
+
+	&.fractaldocs-toc-depth-4, &.fractaldocs-toc-depth-5, &.fractaldocs-toc-depth-6
+		padding-left: var(--sz-24)
+
+.fractaldocs-toc-link
+	display: block
+	padding: var(--sz-4) var(--sz-8)
+	color: var(--text-secondary)
+	border-radius: var(--sz-4)
+	font-size: var(--text-sm)
+	text-decoration: none
+	transition: var(--transition-control)
+
+	&:hover, &.is-current
+		color: var(--text-primary)
+		background: var(--state-hover)
+
+	&:focus-visible
+		box-shadow: var(--focus-ring)

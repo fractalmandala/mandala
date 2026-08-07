@@ -1,0 +1,554 @@
+{
+	"version": 1,
+	"scan": "module-flow",
+	"project": {
+		"name": "FractalEngine Studio",
+		"slug": "fractalengine",
+		"date": "2026-07-18"
+	},
+	"module": {
+		"id": "notes",
+		"name": "fractalNotes",
+		"entryLayout": "src/lib/modules/notes/components/NotesLayout.svelte",
+		"root": "src/lib/modules/notes",
+		"summary": "Knowledge base wiki layout with frontmatter metadata, TipTap editor, and vault trees.",
+		"externalModules": []
+	},
+	"stats": {
+		"nodes": 23,
+		"edges": 34,
+		"components": 5,
+		"stateFiles": 1,
+		"commands": 7,
+		"ipcCalls": 8,
+		"flows": 7
+	},
+	"groups": [
+		{
+			"id": "layout",
+			"label": "Layout"
+		},
+		{
+			"id": "components",
+			"label": "Components"
+		},
+		{
+			"id": "state",
+			"label": "State"
+		},
+		{
+			"id": "commands",
+			"label": "Commands & Palette"
+		},
+		{
+			"id": "ipc",
+			"label": "IPC / Backend"
+		},
+		{
+			"id": "shared",
+			"label": "Shared Components"
+		},
+		{
+			"id": "external",
+			"label": "Other Modules"
+		}
+	],
+	"nodes": [
+		{
+			"id": "cmp:NotesLayout",
+			"label": "NotesLayout.svelte",
+			"kind": "layout",
+			"group": "layout",
+			"path": "src/lib/modules/notes/components/NotesLayout.svelte",
+			"loc": 324,
+			"summary": "Entry workspace layout for markdown notes, coordinating multiple sidebar columns.",
+			"tags": [
+				"entry"
+			]
+		},
+		{
+			"id": "cmp:NotesSidebar1",
+			"label": "NotesSidebar1.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/notes/components/NotesSidebar1.svelte",
+			"loc": 30,
+			"summary": "Vault folder browser sidebar, listing root vaults and directory tree."
+		},
+		{
+			"id": "cmp:NotesSidebar2",
+			"label": "NotesSidebar2.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/notes/components/NotesSidebar2.svelte",
+			"loc": 109,
+			"summary": "Markdown file list sidebar for selected folder with search and creation controls."
+		},
+		{
+			"id": "cmp:NotesEditor",
+			"label": "NotesEditor.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/notes/components/NotesEditor.svelte",
+			"loc": 662,
+			"summary": "TipTap WYSIWYG and raw markdown split editor with toolbar and slash commands."
+		},
+		{
+			"id": "cmp:VaultTreeNode",
+			"label": "VaultTreeNode.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/notes/components/VaultTreeNode.svelte",
+			"loc": 57,
+			"summary": "Recursive tree node component representing directories inside a knowledge vault."
+		},
+		{
+			"id": "state:notesState",
+			"label": "notes.svelte.ts",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/modules/notes/state/notes.svelte.ts",
+			"loc": 796,
+			"summary": "Reactive state store for notes raw contents, vaults, layouts, and undo history.",
+			"tags": [
+				"singleton"
+			]
+		},
+		{
+			"id": "state:ideState",
+			"label": "ide.svelte.ts",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/state/ide.svelte.ts",
+			"loc": 2385,
+			"summary": "Global workspace state hosting logs, settings, and the registered vault bridge.",
+			"tags": [
+				"singleton"
+			]
+		},
+		{
+			"id": "fn:parseFrontmatter",
+			"label": "frontmatter.ts",
+			"kind": "function",
+			"group": "components",
+			"path": "src/lib/modules/notes/frontmatter.ts",
+			"loc": 60,
+			"summary": "Extracts YAML frontmatter headers (title, description, tags) from markdown text."
+		},
+		{
+			"id": "shared:AIChat",
+			"label": "AIChat.svelte",
+			"kind": "shared",
+			"group": "shared"
+		},
+		{
+			"id": "cmd:notes.newNote",
+			"label": "notes.newNote",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"fractalnotes:new-note"
+			]
+		},
+		{
+			"id": "cmd:notes.openVault",
+			"label": "notes.openVault",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+alt+o"
+			]
+		},
+		{
+			"id": "cmd:notes.addFolderToVault",
+			"label": "notes.addFolderToVault",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+alt+a"
+			]
+		},
+		{
+			"id": "cmd:notes.saveCurrentAsVault",
+			"label": "notes.saveCurrentAsVault",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+alt+s"
+			]
+		},
+		{
+			"id": "cmd:notes.toggleVaultSidebar",
+			"label": "notes.toggleVaultSidebar",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:notes.toggleFileSidebar",
+			"label": "notes.toggleFileSidebar",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:notes.toggleAiSidebar",
+			"label": "notes.toggleAiSidebar",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "ipc:createFile",
+			"label": "createFile",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:readFile",
+			"label": "readFile",
+			"kind": "ipc",
+			"group": "ipc",
+			"summary": "Reads file content from the local storage/disk."
+		},
+		{
+			"id": "ipc:writeFile",
+			"label": "writeFile",
+			"kind": "ipc",
+			"group": "ipc",
+			"summary": "Writes updated markdown string content back to disk."
+		},
+		{
+			"id": "ipc:listDirectory",
+			"label": "listDirectory",
+			"kind": "ipc",
+			"group": "ipc",
+			"summary": "Lists files and directories inside a vault path."
+		},
+		{
+			"id": "ipc:selectDownloadDirectory",
+			"label": "selectDownloadDirectory",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:isFilesystemAccessDenied",
+			"label": "isFilesystemAccessDenied",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:requestDirectoryAccess",
+			"label": "requestDirectoryAccess",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:indexDocuments",
+			"label": "indexDocuments",
+			"kind": "ipc",
+			"group": "ipc"
+		}
+	],
+	"edges": [
+		{
+			"from": "cmp:NotesLayout",
+			"to": "cmp:NotesSidebar1",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:NotesLayout",
+			"to": "cmp:NotesSidebar2",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:NotesLayout",
+			"to": "cmp:NotesEditor",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:NotesLayout",
+			"to": "shared:AIChat",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:NotesSidebar1",
+			"to": "cmp:VaultTreeNode",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:VaultTreeNode",
+			"to": "cmp:VaultTreeNode",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:NotesLayout",
+			"to": "state:notesState",
+			"kind": "reads",
+			"label": "columns config, splits, active vault metadata"
+		},
+		{
+			"from": "cmp:NotesSidebar1",
+			"to": "state:notesState",
+			"kind": "reads",
+			"label": "roots, directories cache"
+		},
+		{
+			"from": "cmp:NotesSidebar2",
+			"to": "state:notesState",
+			"kind": "reads",
+			"label": "vault tree nodes and open file details"
+		},
+		{
+			"from": "cmp:NotesEditor",
+			"to": "state:notesState",
+			"kind": "reads",
+			"label": "raw note contents, splitRatio, error banners"
+		},
+		{
+			"from": "cmp:VaultTreeNode",
+			"to": "state:notesState",
+			"kind": "reads",
+			"label": "expanded vault folders list"
+		},
+		{
+			"from": "cmp:NotesLayout",
+			"to": "state:notesState",
+			"kind": "writes",
+			"label": "mutates panel gesture states and ratios"
+		},
+		{
+			"from": "cmp:NotesSidebar2",
+			"to": "state:notesState",
+			"kind": "writes",
+			"label": "selects and opens a note file"
+		},
+		{
+			"from": "cmp:NotesEditor",
+			"to": "state:notesState",
+			"kind": "writes",
+			"label": "triggers content updates and vault load picker"
+		},
+		{
+			"from": "cmp:VaultTreeNode",
+			"to": "state:notesState",
+			"kind": "writes",
+			"label": "toggles folder expanded list and selects node"
+		},
+		{
+			"from": "cmd:notes.newNote",
+			"to": "cmp:NotesSidebar2",
+			"kind": "dispatches",
+			"label": "fractalnotes:new-note"
+		},
+		{
+			"from": "cmd:notes.openVault",
+			"to": "state:notesState",
+			"kind": "commands",
+			"label": "notes.openVaultFromFolder()"
+		},
+		{
+			"from": "cmd:notes.addFolderToVault",
+			"to": "state:notesState",
+			"kind": "commands",
+			"label": "notes.addFolderToVault()"
+		},
+		{
+			"from": "cmd:notes.saveCurrentAsVault",
+			"to": "state:notesState",
+			"kind": "commands",
+			"label": "notes.requestSaveVaultFromMenu()"
+		},
+		{
+			"from": "cmd:notes.toggleVaultSidebar",
+			"to": "state:notesState",
+			"kind": "commands",
+			"label": "notes.toggleSidebar1()"
+		},
+		{
+			"from": "cmd:notes.toggleFileSidebar",
+			"to": "state:notesState",
+			"kind": "commands",
+			"label": "notes.toggleSidebar2()"
+		},
+		{
+			"from": "cmd:notes.toggleAiSidebar",
+			"to": "state:notesState",
+			"kind": "commands",
+			"label": "notes.toggleSidebar3()"
+		},
+		{
+			"from": "cmp:NotesEditor",
+			"to": "fn:parseFrontmatter",
+			"kind": "calls",
+			"label": "parseFrontmatter(content)"
+		},
+		{
+			"from": "state:notesState",
+			"to": "ipc:createFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:notesState",
+			"to": "ipc:readFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:notesState",
+			"to": "ipc:writeFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:notesState",
+			"to": "ipc:listDirectory",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:notesState",
+			"to": "ipc:selectDownloadDirectory",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:notesState",
+			"to": "ipc:isFilesystemAccessDenied",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:notesState",
+			"to": "ipc:requestDirectoryAccess",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:notesState",
+			"to": "ipc:indexDocuments",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:notesState",
+			"to": "state:ideState",
+			"kind": "writes",
+			"label": "registerVaultBridge, addLog, captureSnapshot"
+		},
+		{
+			"from": "state:notesState",
+			"to": "cmp:NotesLayout",
+			"kind": "navigates",
+			"label": "toggles sidebar collapsing views"
+		},
+		{
+			"from": "state:notesState",
+			"to": "cmp:NotesEditor",
+			"kind": "navigates",
+			"label": "populates text and title states"
+		}
+	],
+	"flows": [
+		{
+			"id": "open-note",
+			"name": "Open a Note file",
+			"trigger": "Click on a note file in NotesSidebar2",
+			"steps": [
+				"cmp:NotesSidebar2",
+				"state:notesState",
+				"ipc:readFile",
+				"cmp:NotesEditor"
+			],
+			"summary": "User selects a note in the folder list; the raw content is read from disk and loaded into TipTap/textarea."
+		},
+		{
+			"id": "create-note",
+			"name": "Create a new Note",
+			"trigger": "Click '+' icon in NotesSidebar2",
+			"steps": [
+				"cmp:NotesSidebar2",
+				"state:notesState",
+				"ipc:createFile",
+				"state:notesState",
+				"ipc:listDirectory",
+				"cmp:NotesSidebar2"
+			],
+			"summary": "Initiates new note creation, creates the file on disk, updates the sidebar list, and opens it."
+		},
+		{
+			"id": "edit-autosave-note",
+			"name": "Edit and Autosave note",
+			"trigger": "Type in editor raw or rich panes",
+			"steps": [
+				"cmp:NotesEditor",
+				"state:notesState",
+				"ipc:writeFile",
+				"ipc:indexDocuments"
+			],
+			"summary": "Typing triggers debounced autosave (800ms) to disk, followed by background search indexing."
+		},
+		{
+			"id": "open-vault",
+			"name": "Open a Knowledge Vault",
+			"trigger": "Click 'Open Vault' in NotesEditor",
+			"steps": [
+				"cmd:notes.openVault",
+				"state:notesState",
+				"ipc:selectDownloadDirectory",
+				"ipc:listDirectory",
+				"cmp:NotesSidebar1"
+			],
+			"summary": "Prompts native folder picker to select a root vault, indexes documents, and renders the directory tree."
+		},
+		{
+			"id": "add-folder-vault",
+			"name": "Add Folder to Vault",
+			"trigger": "Keybinding Cmd+Alt+A",
+			"steps": [
+				"cmd:notes.addFolderToVault",
+				"state:notesState",
+				"ipc:selectDownloadDirectory",
+				"state:notesState",
+				"ipc:listDirectory",
+				"cmp:NotesSidebar1"
+			],
+			"summary": "Appends a new folder path to the active vault, indexes its markdown contents, and refreshes the tree."
+		},
+		{
+			"id": "grant-access",
+			"name": "Grant folder access",
+			"trigger": "Click 'Choose folder...' in dialog overlay",
+			"steps": [
+				"cmp:NotesLayout",
+				"state:notesState",
+				"ipc:requestDirectoryAccess",
+				"state:notesState",
+				"ipc:listDirectory",
+				"cmp:NotesSidebar1"
+			],
+			"summary": "Restores access to a saved vault path after sandbox permission denial by invoking directory access picker."
+		},
+		{
+			"id": "toggle-sidebars",
+			"name": "Toggle sidebars view",
+			"trigger": "Click sidebar toggle command",
+			"steps": [
+				"cmd:notes.toggleVaultSidebar",
+				"state:notesState",
+				"cmp:NotesLayout"
+			],
+			"summary": "Modifies layout sidebar collapsed state, triggering smooth transition slide animations."
+		}
+	],
+	"notes": [
+		{
+			"title": "Single state orchestrator: notes.svelte.ts",
+			"body": "Similar to ideState, NoteState acts as a monolith managing sidebar layouts, filesystem CRUD operations, sandbox permissions, autosave timing, and document indexing.",
+			"severity": "warn",
+			"path": "src/lib/modules/notes/state/notes.svelte.ts"
+		},
+		{
+			"title": "Asynchronous TipTap WYSIWYG loading",
+			"body": "NotesEditor dynamically loads TipTap core and all relevant extensions on demand. This avoids paying the ~676KB bundle penalty on initial load, keeping raw editor instances responsive.",
+			"severity": "info",
+			"path": "src/lib/modules/notes/components/NotesEditor.svelte"
+		},
+		{
+			"title": "Frontmatter separation boundary",
+			"body": "Markdown notes utilize YAML frontmatter. The parser parseFrontmatter separates the frontmatter from the document body, showing tags and title in a dedicated rich banner, while feeding only the body to TipTap.",
+			"severity": "info",
+			"path": "src/lib/modules/notes/frontmatter.ts"
+		}
+	]
+}

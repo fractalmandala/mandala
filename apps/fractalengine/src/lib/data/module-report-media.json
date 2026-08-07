@@ -1,0 +1,670 @@
+{
+	"version": 1,
+	"scan": "module-flow",
+	"project": {
+		"name": "FractalEngine Studio",
+		"slug": "fractalengine",
+		"date": "2026-07-18"
+	},
+	"module": {
+		"id": "media",
+		"name": "fractalMedia",
+		"entryLayout": "src/lib/modules/media/components/MediaLayout.svelte",
+		"root": "src/lib/modules/media",
+		"summary": "Asset manager module for copy/move operations, image caching, video thumbnail generation, and tag indexing.",
+		"externalModules": []
+	},
+	"stats": {
+		"nodes": 33,
+		"edges": 46,
+		"components": 7,
+		"stateFiles": 1,
+		"commands": 8,
+		"ipcCalls": 17,
+		"flows": 7
+	},
+	"groups": [
+		{
+			"id": "layout",
+			"label": "Layout"
+		},
+		{
+			"id": "components",
+			"label": "Components"
+		},
+		{
+			"id": "state",
+			"label": "State"
+		},
+		{
+			"id": "commands",
+			"label": "Commands & Palette"
+		},
+		{
+			"id": "ipc",
+			"label": "IPC / Backend"
+		},
+		{
+			"id": "shared",
+			"label": "Shared Components"
+		},
+		{
+			"id": "external",
+			"label": "Other Modules"
+		}
+	],
+	"nodes": [
+		{
+			"id": "cmp:MediaLayout",
+			"label": "MediaLayout.svelte",
+			"kind": "layout",
+			"group": "layout",
+			"path": "src/lib/modules/media/components/MediaLayout.svelte",
+			"loc": 45,
+			"summary": "Entry workspace layout managing split panes, drag-drop imports, and toolbar.",
+			"tags": [
+				"entry"
+			]
+		},
+		{
+			"id": "cmp:MediaSidebar",
+			"label": "MediaSidebar.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/media/components/MediaSidebar.svelte",
+			"loc": 30,
+			"summary": "Sidebar column for choosing sections, filtering tags, and rendering folder trees."
+		},
+		{
+			"id": "cmp:MediaToolbar",
+			"label": "MediaToolbar.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/media/components/MediaToolbar.svelte",
+			"loc": 18,
+			"summary": "Header toolbar housing search input, type filters, sort menus, and thumbnail sizes."
+		},
+		{
+			"id": "cmp:MediaGrid",
+			"label": "MediaGrid.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/media/components/MediaGrid.svelte",
+			"loc": 26,
+			"summary": "Virtualised scrolling grid of media cards using IntersectionObserver load cues."
+		},
+		{
+			"id": "cmp:MediaCard",
+			"label": "MediaCard.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/media/components/MediaCard.svelte",
+			"loc": 29,
+			"summary": "Individual asset card rendering image/video thumbnails and drag payloads."
+		},
+		{
+			"id": "cmp:MediaInspector",
+			"label": "MediaInspector.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/media/components/MediaInspector.svelte",
+			"loc": 20,
+			"summary": "Right sidebar panel for previewing videos/images, editing tags, and renaming."
+		},
+		{
+			"id": "cmp:MediaProgressStrip",
+			"label": "MediaProgressStrip.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/media/components/MediaProgressStrip.svelte",
+			"loc": 10,
+			"summary": "Bottom panel tracking active asset import tasks and cancellation handlers."
+		},
+		{
+			"id": "state:mediaState",
+			"label": "media.svelte.ts",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/modules/media/state/media.svelte.ts",
+			"loc": 211,
+			"summary": "Singleton state store managing asset lists, folders, selection states, and undo.",
+			"tags": [
+				"singleton"
+			]
+		},
+		{
+			"id": "cmd:media.addToGallery",
+			"label": "media.addToGallery",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Import Button"
+			]
+		},
+		{
+			"id": "cmd:media.importFolder",
+			"label": "media.importFolder",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:media.newFolder",
+			"label": "media.newFolder",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+shift+n"
+			]
+		},
+		{
+			"id": "cmd:media.focusSearch",
+			"label": "media.focusSearch",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+f"
+			]
+		},
+		{
+			"id": "cmd:media.toggleInspector",
+			"label": "media.toggleInspector",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+shift+i"
+			]
+		},
+		{
+			"id": "cmd:media.trashSelection",
+			"label": "media.trashSelection",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+backspace"
+			]
+		},
+		{
+			"id": "cmd:media.selectAll",
+			"label": "media.selectAll",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+a"
+			]
+		},
+		{
+			"id": "cmd:media.pinSelection",
+			"label": "media.pinSelection",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "ipc:mediaGetLibrary",
+			"label": "mediaGetLibrary",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaListTree",
+			"label": "mediaListTree",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaListItems",
+			"label": "mediaListItems",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaListAllTags",
+			"label": "mediaListAllTags",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaImport",
+			"label": "mediaImport",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaCancelImport",
+			"label": "mediaCancelImport",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaCreateFolder",
+			"label": "mediaCreateFolder",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaRenameEntry",
+			"label": "mediaRenameEntry",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaMoveEntries",
+			"label": "mediaMoveEntries",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaTrashEntries",
+			"label": "mediaTrashEntries",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaSetTags",
+			"label": "mediaSetTags",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaSetPinned",
+			"label": "mediaSetPinned",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaAssetUrl",
+			"label": "mediaAssetUrl",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaGetThumbnail",
+			"label": "mediaGetThumbnail",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaSaveVideoThumbnail",
+			"label": "mediaSaveVideoThumbnail",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaSetVideoProbe",
+			"label": "mediaSetVideoProbe",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:mediaPickImportSources",
+			"label": "mediaPickImportSources",
+			"kind": "ipc",
+			"group": "ipc"
+		}
+	],
+	"edges": [
+		{
+			"from": "cmp:MediaLayout",
+			"to": "cmp:MediaSidebar",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:MediaLayout",
+			"to": "cmp:MediaToolbar",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:MediaLayout",
+			"to": "cmp:MediaGrid",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:MediaLayout",
+			"to": "cmp:MediaProgressStrip",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:MediaLayout",
+			"to": "cmp:MediaInspector",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:MediaGrid",
+			"to": "cmp:MediaCard",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:MediaLayout",
+			"to": "state:mediaState",
+			"kind": "reads",
+			"label": "library info and loading flags"
+		},
+		{
+			"from": "cmp:MediaSidebar",
+			"to": "state:mediaState",
+			"kind": "reads",
+			"label": "scopes, folders cache, and tags count"
+		},
+		{
+			"from": "cmp:MediaToolbar",
+			"to": "state:mediaState",
+			"kind": "reads",
+			"label": "search query, sorting dropdown, and thumbnail size"
+		},
+		{
+			"from": "cmp:MediaGrid",
+			"to": "state:mediaState",
+			"kind": "reads",
+			"label": "visible items, selection mapping, and scope properties"
+		},
+		{
+			"from": "cmp:MediaCard",
+			"to": "state:mediaState",
+			"kind": "reads",
+			"label": "current thumbnail width dimensions"
+		},
+		{
+			"from": "cmp:MediaInspector",
+			"to": "state:mediaState",
+			"kind": "reads",
+			"label": "selected assets, tag counts, and visibility lists"
+		},
+		{
+			"from": "cmp:MediaProgressStrip",
+			"to": "state:mediaState",
+			"kind": "reads",
+			"label": "active import progresses and total list size"
+		},
+		{
+			"from": "cmp:MediaLayout",
+			"to": "state:mediaState",
+			"kind": "writes",
+			"label": "toggles right inspector panel"
+		},
+		{
+			"from": "cmp:MediaSidebar",
+			"to": "state:mediaState",
+			"kind": "writes",
+			"label": "sets scope, creates folder, and triggers moves"
+		},
+		{
+			"from": "cmp:MediaToolbar",
+			"to": "state:mediaState",
+			"kind": "writes",
+			"label": "modifies active search terms and sort variables"
+		},
+		{
+			"from": "cmp:MediaGrid",
+			"to": "state:mediaState",
+			"kind": "writes",
+			"label": "moves dropped items, selects all, clears selection"
+		},
+		{
+			"from": "cmp:MediaCard",
+			"to": "state:mediaState",
+			"kind": "writes",
+			"label": "toggles item selection key modifiers"
+		},
+		{
+			"from": "cmp:MediaInspector",
+			"to": "state:mediaState",
+			"kind": "writes",
+			"label": "updates tags, renames assets, and toggles pins"
+		},
+		{
+			"from": "cmp:MediaProgressStrip",
+			"to": "state:mediaState",
+			"kind": "writes",
+			"label": "cancels current active import task"
+		},
+		{
+			"from": "cmd:media.addToGallery",
+			"to": "state:mediaState",
+			"kind": "commands",
+			"label": "media.importPaths()"
+		},
+		{
+			"from": "cmd:media.importFolder",
+			"to": "state:mediaState",
+			"kind": "commands",
+			"label": "media.pickImportSources('folder')"
+		},
+		{
+			"from": "cmd:media.newFolder",
+			"to": "state:mediaState",
+			"kind": "commands",
+			"label": "media.createFolder()"
+		},
+		{
+			"from": "cmd:media.focusSearch",
+			"to": "cmp:MediaToolbar",
+			"kind": "commands",
+			"label": "document.querySelector('.media-search').focus()"
+		},
+		{
+			"from": "cmd:media.toggleInspector",
+			"to": "state:mediaState",
+			"kind": "commands",
+			"label": "media.setInspectorOpen()"
+		},
+		{
+			"from": "cmd:media.trashSelection",
+			"to": "state:mediaState",
+			"kind": "commands",
+			"label": "media.trash()"
+		},
+		{
+			"from": "cmd:media.selectAll",
+			"to": "state:mediaState",
+			"kind": "commands",
+			"label": "media.selectAll()"
+		},
+		{
+			"from": "cmd:media.pinSelection",
+			"to": "state:mediaState",
+			"kind": "commands",
+			"label": "media.setPinned()"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaGetLibrary",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaListTree",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaListItems",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaListAllTags",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaImport",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaCancelImport",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaCreateFolder",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaRenameEntry",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaMoveEntries",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaTrashEntries",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaSetTags",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaSetPinned",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:mediaState",
+			"to": "ipc:mediaPickImportSources",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:MediaCard",
+			"to": "ipc:mediaAssetUrl",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:MediaCard",
+			"to": "ipc:mediaGetThumbnail",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:MediaCard",
+			"to": "ipc:mediaSaveVideoThumbnail",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:MediaCard",
+			"to": "ipc:mediaSetVideoProbe",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:MediaInspector",
+			"to": "ipc:mediaAssetUrl",
+			"kind": "ipc"
+		}
+	],
+	"flows": [
+		{
+			"id": "import-media",
+			"name": "Import Media files",
+			"trigger": "Click 'Import...' button in MediaToolbar",
+			"steps": [
+				"cmd:media.addToGallery",
+				"state:mediaState",
+				"ipc:mediaPickImportSources",
+				"ipc:mediaImport",
+				"cmp:MediaProgressStrip"
+			],
+			"summary": "User clicks import; a file selector is displayed, and the selected assets are imported on the backend."
+		},
+		{
+			"id": "create-folder",
+			"name": "Create a Folder",
+			"trigger": "Click '+' folder button in MediaSidebar",
+			"steps": [
+				"cmd:media.newFolder",
+				"state:mediaState",
+				"ipc:mediaCreateFolder",
+				"ipc:mediaListTree",
+				"cmp:MediaSidebar"
+			],
+			"summary": "Prompts for a folder name and creates it on disk, refreshing the tree hierarchy."
+		},
+		{
+			"id": "lazy-load-thumb",
+			"name": "Lazy-load image thumbnail",
+			"trigger": "Scroll MediaGrid viewport window",
+			"steps": [
+				"cmp:MediaGrid",
+				"cmp:MediaCard",
+				"ipc:mediaGetThumbnail"
+			],
+			"summary": "When a card enters the viewport, the IntersectionObserver fires, requesting the cached JPG thumbnail from the backend."
+		},
+		{
+			"id": "move-assets",
+			"name": "Drag and drop move assets",
+			"trigger": "Drag media card and drop onto sidebar folder",
+			"steps": [
+				"cmp:MediaCard",
+				"cmp:MediaSidebar",
+				"state:mediaState",
+				"ipc:mediaMoveEntries",
+				"ipc:mediaListItems",
+				"cmp:MediaGrid"
+			],
+			"summary": "Dragging elements and dropping them onto a folder row triggers move calls on the backend, updating the grid list."
+		},
+		{
+			"id": "add-tag",
+			"name": "Add tag to selection",
+			"trigger": "Press Enter inside tag input in MediaInspector",
+			"steps": [
+				"cmp:MediaInspector",
+				"state:mediaState",
+				"ipc:mediaSetTags",
+				"ipc:mediaListAllTags",
+				"cmp:MediaInspector"
+			],
+			"summary": "Appends a tag label to all multi-selected assets, refreshing the tag datalist in the inspector."
+		},
+		{
+			"id": "trash-selection",
+			"name": "Trash selected media",
+			"trigger": "Keybinding Cmd+Backspace",
+			"steps": [
+				"cmd:media.trashSelection",
+				"state:mediaState",
+				"ipc:mediaTrashEntries",
+				"ipc:mediaListItems",
+				"cmp:MediaGrid"
+			],
+			"summary": "Deletes the selected media items from the library database and disk, updating the visible grid."
+		},
+		{
+			"id": "rename-folder",
+			"name": "Rename sidebar folder",
+			"trigger": "Double click folder name in MediaSidebar",
+			"steps": [
+				"cmp:MediaSidebar",
+				"state:mediaState",
+				"ipc:mediaRenameEntry",
+				"ipc:mediaListTree",
+				"cmp:MediaSidebar"
+			],
+			"summary": "Prompts a name input to rename the chosen folder, refreshing the directory trees."
+		}
+	],
+	"notes": [
+		{
+			"title": "Rich Undo/Redo Replay Model",
+			"body": "Unlike pure layout-undo domains, mediaState implements a custom replay operation queue. Undoing folder creation, renaming, moving, or tagging triggers reverse backend IPC calls (e.g. rename back, delete folder, restore pins) to maintain database parity.",
+			"severity": "warn",
+			"path": "src/lib/modules/media/state/media.svelte.ts"
+		},
+		{
+			"title": "IntersectionObserver Card Virtualisation",
+			"body": "MediaCard defers loading thumbnails until it intersects the viewport. For videos, it seeks metadata, draws a frame onto an offscreen canvas, and generates/saves a JPEG thumbnail using IPC.",
+			"severity": "info",
+			"path": "src/lib/modules/media/components/MediaCard.svelte"
+		},
+		{
+			"title": "Split Pane Layout via PaneForge",
+			"body": "MediaLayout uses PaneGroup/Pane/PaneResizer components from the external paneforge package to manage collapsibles and drag resizing, rather than building custom resizing math like the notes or design modules.",
+			"severity": "info",
+			"path": "src/lib/modules/media/components/MediaLayout.svelte"
+		}
+	]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "browser-chrome",
+  "description": "Grants the trusted browser chrome webview (our own Svelte UI: address bar, vault, 2FA) window-control permissions. Deliberately scoped to the 'browser-chrome' webview only, NOT 'browser-content' — the content webview loads arbitrary untrusted external sites and must never get IPC/window access.",
+  "webviews": [
+    "browser-chrome-*"
+  ],
+  "permissions": [
+    "core:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-maximize",
+    "core:window:allow-unmaximize",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-set-focus"
+  ]
+}

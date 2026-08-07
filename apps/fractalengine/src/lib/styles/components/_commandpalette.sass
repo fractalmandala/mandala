@@ -1,0 +1,121 @@
+@use '../tokens' as *
+
+.command-palette-overlay
+	position: fixed
+	top: 0
+	left: 0
+	width: 100%
+	height: 100%
+	background: var(--overlay-bg)
+	backdrop-filter: blur(4px)
+	display: flex
+	align-items: flex-start
+	justify-content: center
+	padding-top: var(--sz-96)
+	z-index: 1100
+	animation: fadeIn 0.15s ease-out
+
+.command-palette-card
+	width: 600px
+	max-height: 400px
+	background: var(--background10)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-12)
+	box-shadow: var(--shadow-popover)
+	display: flex
+	flex-direction: column
+	overflow: hidden
+	animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1)
+
+.command-palette-input-container
+	display: flex
+	flex-direction: row
+	align-items: center
+	padding: var(--sz-12) var(--sz-16)
+	border-bottom: 1px solid var(--border-secondary)
+	background: var(--background20)
+	gap: var(--sz-12)
+
+.command-palette-icon
+	width: 16px
+	height: 16px
+	opacity: 0.6
+
+.command-palette-input
+	flex: 1
+	background: transparent
+	border: none
+	outline: none
+	font-size: var(--text-md)
+	color: var(--text-primary)
+	font-family: inherit
+
+	&::placeholder
+		color: var(--text-tertiary)
+
+.command-palette-list
+	flex: 1
+	overflow-y: auto
+	padding: var(--sz-8)
+
+.command-palette-item
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: space-between
+	width: 100%
+	padding: var(--sz-12) var(--sz-12)
+	border: none
+	background: transparent
+	border-radius: var(--sz-4)
+	color: var(--text-primary)
+	font-size: var(--text-sm)
+	text-align: left
+	cursor: pointer
+	transition: background 0.1s ease
+	font-family: inherit
+	gap: var(--sz-16)
+
+	&.is-active
+		background: var(--background40)
+		color: var(--text-primary)
+
+		.command-palette-shortcut
+			opacity: 1
+			border-color: var(--theme-color)
+
+.command-palette-item-left
+	display: flex
+	flex-direction: row
+	align-items: center
+	gap: var(--sz-12)
+	min-width: 0
+
+.command-palette-item-icon
+	width: 14px
+	height: 14px
+	opacity: 0.7
+
+.command-palette-shortcut
+	font-size: var(--text-sm)
+	color: var(--text-tertiary)
+	padding: var(--sz-1) var(--sz-4)
+	background: var(--background20)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-2)
+	opacity: 0.6
+	transition: all 0.1s ease
+
+.command-palette-empty
+	padding: var(--sz-24)
+	text-align: center
+	font-size: var(--text-sm)
+	color: var(--text-tertiary)
+
+@keyframes slideDown
+	from
+		transform: translateY(-10px)
+		opacity: 0
+	to
+		transform: translateY(0)
+		opacity: 1

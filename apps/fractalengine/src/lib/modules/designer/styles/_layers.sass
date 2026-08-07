@@ -1,0 +1,154 @@
+@use '../../../styles/tokens' as *
+
+// ── Layers panel (Figma-style scene-graph tree) ─────────────────────────────
+.layer-tree-container
+	display: flex
+	flex-direction: column
+	width: 100%
+	user-select: none
+
+.layer-empty
+	padding: var(--sz-16) var(--sz-8)
+	font-size: var(--text-sm)
+	color: var(--text-tertiary)
+	text-align: center
+
+.layer-row
+	position: relative
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+	height: 28px
+	padding-right: var(--sz-8)
+	border-radius: var(--sz-2)
+	cursor: default
+	&:hover
+		background: var(--state-hover)
+	&.selected
+		background: var(--background30)
+		outline: 1px solid var(--tile-border-active)
+		outline-offset: -1px
+	&.is-hidden
+		.layer-icon, .layer-name
+			opacity: 0.45
+		.layer-name
+			color: var(--text-tertiary)
+	&.is-locked
+		.layer-name
+			color: var(--text-secondary)
+	&.drop-inside
+		outline: 2px solid var(--tile-border-active)
+		outline-offset: -2px
+		background: var(--accent-surface-subtle)
+
+.layer-caret
+	display: flex
+	align-items: center
+	justify-content: center
+	width: 14px
+	height: 14px
+	flex: 0 0 auto
+	border: none
+	background: transparent
+	color: var(--text-tertiary)
+	cursor: pointer
+	transition: transform 0.1s ease
+	&.collapsed
+		transform: rotate(-90deg)
+	&:hover
+		color: var(--text-primary)
+
+.layer-caret-spacer
+	width: 14px
+	flex: 0 0 auto
+
+.layer-icon
+	width: 14px
+	height: 14px
+	flex: 0 0 auto
+	opacity: 0.85
+
+.layer-name
+	flex: 1 1 auto
+	min-width: 0
+	font-size: var(--text-sm)
+	color: var(--text-primary)
+
+.layer-rename-input
+	flex: 1 1 auto
+	min-width: 0
+	height: 20px
+	padding: 0 var(--sz-4)
+	font-size: var(--text-sm)
+	color: var(--text-primary)
+	background: var(--background10)
+	border: 1px solid var(--tile-border-active)
+	border-radius: var(--sz-4)
+	outline: none
+
+.layer-row-actions
+	display: none
+	flex: 0 0 auto
+	gap: var(--sz-2)
+	.layer-row:hover &, .layer-row.selected &
+		display: flex
+
+.layer-action-btn
+	display: flex
+	align-items: center
+	justify-content: center
+	width: 18px
+	height: 18px
+	border: none
+	background: transparent
+	color: var(--text-tertiary)
+	border-radius: var(--sz-4)
+	cursor: pointer
+	&:hover
+		background: var(--background30)
+		color: var(--text-primary)
+
+// ── Right-click context menu ─────────────────────────────────────────────
+.layer-context-backdrop
+	position: fixed
+	inset: 0
+	z-index: 1000
+
+.layer-context-menu
+	position: fixed
+	min-width: 160px
+	display: flex
+	flex-direction: column
+	padding: var(--sz-4)
+	background: var(--background20)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	box-shadow: var(--elevation-2)
+	z-index: 1001
+
+	button
+		display: block
+		width: 100%
+		text-align: left
+		padding: var(--sz-8) var(--sz-12)
+		font-size: var(--text-sm)
+		color: var(--text-primary)
+		background: transparent
+		border: none
+		border-radius: var(--sz-4)
+		cursor: pointer
+		&:hover:not(:disabled)
+			background: var(--state-hover)
+		&:disabled
+			color: var(--text-tertiary)
+			cursor: default
+
+.layer-context-sep
+	height: 1px
+	margin: var(--sz-4) var(--sz-8)
+	background: var(--border-subtle)
+
+.layer-context-danger
+	color: var(--feedback-error)
+	&:hover
+		background: color-mix(in srgb, var(--feedback-error) 10%, transparent)

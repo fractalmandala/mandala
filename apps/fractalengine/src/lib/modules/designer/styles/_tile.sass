@@ -1,0 +1,85 @@
+@use '../../../styles/tokens' as *
+
+.tile
+	position: absolute
+	display: flex
+	flex-direction: column
+	background: var(--background20)
+	border-radius: var(--sz-8)
+	box-shadow: 0 10px 34px rgba(0, 0, 0, 0.4)
+	:global(.theme-amrit-light) &
+		box-shadow: 0 10px 34px rgba(255, 255, 255, 0.4)
+	overflow: hidden
+	min-width: 150px
+	min-height: 100px
+
+	&.active
+		border-color: var(--tile-border-active)
+
+.tile-head
+	height: 30px
+	gap: var(--sz-8)
+	padding: 0 var(--sz-12)
+	border-bottom: 1px solid var(--border-secondary)
+	cursor: grab
+	user-select: none
+	background: var(--background30)
+	flex-shrink: 0
+
+.tile-title
+	font-size: var(--text-sm)
+	font-weight: 600
+	color: var(--text-primary)
+
+.tile-dot
+	width: 6px
+	height: 6px
+	border-radius: var(--sz-2)
+
+	&[data-module='code']
+		background: var(--module-code)
+	&[data-module='design']
+		background: var(--module-design)
+	&[data-module='wiki']
+		background: var(--module-wiki)
+	&[data-module='mail']
+		background: var(--module-mail)
+	&[data-module='db']
+		background: var(--module-db)
+	&[data-module='system']
+		background: var(--module-system)
+
+.tile-actions
+	margin-left: auto
+	gap: var(--sz-4)
+
+.tile-action-btn
+	background: transparent
+	border: none
+	color: var(--text-tertiary)
+	cursor: pointer
+	padding: var(--sz-2)
+	border-radius: var(--sz-2)
+	display: flex
+	align-items: center
+	justify-content: center
+	
+	&:hover
+		color: var(--text-primary)
+		background: var(--background40)
+
+.tile-body
+	flex: 1
+	min-height: 0
+	position: relative
+	background: var(--background10)
+
+.tile-resize
+	position: absolute
+	right: 0
+	bottom: 0
+	width: 14px
+	height: 14px
+	cursor: nwse-resize
+	z-index: 10
+	background: transparent

@@ -1,0 +1,138 @@
+:root
+	--text-xs: 10px
+	--text-sm: 12px
+	--text-md: 14px
+	--text-bs: 1rem
+	--text-lg: calc(var(--text-bs) * 1.2)
+	--text-xl: calc(var(--text-lg) * 1.2)
+	--text-2xl: calc(var(--text-xl) * 1.2)
+	--text-3xl: calc(var(--text-2xl) * 1.2)
+	--z-panel: 10
+	--z-overlay: 1000
+	--font-monospace: 'JetBrains Mono', monospace
+	--font-sans: 'Google Sans Flex', sans-serif
+	--transition-hover-1: all 110ms ease
+	--transition-button: height 50ms ease-out
+	--control-target-min: 24px
+	--resize-hit-target: 24px
+	--icon-size-xs: 12px
+	--accent-ring: rgba(40, 173, 51, 0.35)
+	--control-radius-round: 50%
+	--control-radius-pill: 9999px
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+	--sz-1: 1px
+	--sz-2: 2px
+	--sz-4: 4px
+	--sz-6: 6px
+	--sz-8: 8px
+	--sz-12: 12px
+	--sz-16: 16px
+	--sz-24: 24px
+	--sz-32: 32px
+	--sz-36: 36px
+	--sz-48: 48px
+	--sz-64: 64px
+	--sz-80: 80px
+	--sz-96: 96px
+	--sz-108: 108px
+	--transition-long: all 500ms cubic-bezier(0.645, 0.045, 0.355, 1.000)
+	--transition-quick: all 84ms cubic-bezier(0.755, 0.050, 0.855, 0.060)
+	--transition-control: all 150ms ease
+	--motion-standard: 150ms
+	--motion-ease-standard: ease
+	--motion-spin-slow: 2s
+	--font-size-relative-sm: 0.9em
+
+.theme-amrit-light
+	--text-primary: #181818
+	--text-secondary: #5d5d5d
+	--text-tertiary: #a1a1a1
+	--text-inverse: #FFFFFF
+	--background10: #FFFFFF
+	--background20: #FBFAF9
+	--background30: #F7F6F3
+	--background40: #E1E1E1
+	--background50: #Efefef
+	--background60: #898787
+	--background70: #4d4c4c
+	--background80: #2f2f2f
+	--background90: #323232
+	--color20: #10b981
+	--color30: #f59e0b
+	--border-primary: #e7e7e7
+	--border-secondary: #d7d7d7
+	--border-tertiary: #f1f1f1
+	--theme-color: #28ad33
+	--theme-color-alt: #10b981
+	--feedback-error: #ef4444
+	--feedback-error-border: #b91c1c
+	--overlay-bg: rgba(255, 255, 255, 0.6)
+	--overlay-bg-dark: rgba(255, 255, 255, 0.05)
+	--white-text: #ffffff
+	--dialog-shadow: 0 12px 40px rgba(255, 255, 255, 0.5)
+	--shadow-panel: 0 8px 24px rgba(255, 255, 255, 0.5)
+	--shadow-popover: 0 20px 50px rgba(255, 255, 255, 0.6)
+	--elevation-2: 0 8px 24px rgba(0, 0, 0, 0.12)
+
+.theme-amrit-dark
+	--text-primary: #f3f3f5
+	--text-secondary: #a1a1aa
+	--text-tertiary: #6b6b76
+	--text-inverse: #181818
+	--background10: #121312
+	--background20: #0c0c0c
+	--background30: #161617
+	--background40: #222227
+	--background50: #2d2d34
+	--background60: #3a3a42
+	--color20: #10b981
+	--color30: #f59e0b
+	--border-primary: #212121
+	--border-secondary: #27272f
+	--border-tertiary: #32323c
+	--theme-color: #28ad33
+	--theme-color-alt: #10b981
+	--feedback-error: #ef4444
+	--feedback-error-border: #b91c1c
+	--overlay-bg: rgba(0, 0, 0, 0.6)
+	--overlay-bg-dark: rgba(0, 0, 0, 0.75)
+	--white-text: #ffffff
+	--dialog-shadow: 0 12px 40px rgba(0, 0, 0, 0.5)
+	--shadow-panel: 0 8px 24px rgba(0, 0, 0, 0.5)
+	--shadow-popover: 0 20px 50px rgba(0, 0, 0, 0.6)
+	--elevation-2: 0 8px 24px rgba(0, 0, 0, 0.45)
+
+.theme-amrit-light, .theme-amrit-dark
+	--state-hover: var(--background40)
+	--border-subtle: var(--border-tertiary)
+	--focus-ring: 0 0 0 2px var(--background10), 0 0 0 4px var(--theme-color)
+	--feedback-error-bg: color-mix(in srgb, var(--feedback-error) 12%, var(--background20))
+	--accent-surface-subtle: color-mix(in srgb, var(--theme-color) 8%, transparent)
+	--accent-surface-faint: color-mix(in srgb, var(--theme-color) 6%, transparent)
+	--accent-surface-medium: color-mix(in srgb, var(--theme-color) 12%, transparent)
+	--success-border: color-mix(in srgb, var(--color20) 30%, transparent)
+	--surface-glass-strong: color-mix(in srgb, var(--white-text) 82%, transparent)
+	--surface-neutral-faint: color-mix(in srgb, var(--text-inverse) 6%, transparent)
+	--canvas-sheet-bg: var(--white-text)
+	--shadow-focus-accent: 0 0 0 3px color-mix(in srgb, var(--theme-color) 14%, transparent)
+	--shadow-canvas-float: 0 4px 20px color-mix(in srgb, var(--text-inverse) 12%, transparent)
+	--tile-border-active: var(--theme-color)
+	--module-code: var(--theme-color)
+	--module-design: var(--theme-color-alt)
+	--module-wiki: var(--color30)
+	--module-mail: #45a01e
+	--module-db: var(--color20)
+	--module-system: var(--text-tertiary)
+	--shell-surface-navigation: var(--background30)
+	--shell-surface-secondary: var(--background20)
+	--shell-surface-workspace: var(--background10)
+	--shell-surface-inspector: var(--background20)
+	--shell-divider: var(--border-primary)
+	--shell-divider-active: var(--theme-color)
+	--shell-handle: var(--text-tertiary)
+	--shell-focus: var(--theme-color)
+	--shell-motion-duration: 180ms
+	--shell-motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1)
+	--shell-motion-content-delay: 40ms

@@ -1,0 +1,75 @@
+// AiLayout — 3-pane flex layout: sidebar | chat | workpanel
+
+.ai-layout
+	display: flex
+	height: 100%
+	width: 100%
+	flex-direction: row
+	gap: 0
+	background: var(--background10)
+	overflow: hidden
+
+	&.resizing
+		cursor: col-resize
+		user-select: none
+
+	// Sidebar and work panel get fixed widths
+	.ai-sidebar
+		position: relative
+		flex-shrink: 0
+		height: 100%
+		overflow: hidden
+		min-width: 0
+		background: var(--background20)
+
+	.ai-sidebar-resizer, .ai-work-resizer
+		position: absolute
+		top: 0
+		bottom: 0
+		width: var(--sz-8)
+		cursor: col-resize
+		z-index: 2
+		&:focus-visible
+			outline: 2px solid var(--theme-color)
+			outline-offset: -2px
+
+	.ai-sidebar-resizer
+		right: calc(var(--sz-4) * -1)
+
+	.ai-work-resizer
+		left: calc(var(--sz-4) * -1)
+
+	// Chat column fills remaining space
+	.ai-chat-column
+		flex: 1
+		height: 100%
+		min-width: 0
+		overflow: hidden
+		display: flex
+		flex-direction: column
+
+	// Work panel on the right
+	.ai-work-panel
+		position: relative
+		flex-shrink: 0
+		height: 100%
+		overflow: hidden
+		min-width: 0
+		background: var(--background20)
+		border-left: 1px solid var(--border-primary)
+		display: flex
+		flex-direction: column
+
+.module-ai
+	position: relative
+	padding: var(--sz-8)
+	max-width: 720px
+	margin-left: auto
+	margin-right: auto
+
+.main-input-area
+	position: absolute
+	padding: var(--sz-8)
+	bottom: 0
+	left: 0
+	right: 0

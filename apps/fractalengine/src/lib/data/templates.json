@@ -1,0 +1,102 @@
+[
+	{
+		"id": 1,
+		"name": "code",
+		"summary": "code, vibe, build.",
+		"icon": "icon-name.svg",
+		"image": "module-code.webp",
+		"logo": "logo-code.png",
+		"layout": "CodeLayout.svelte",
+		"type": "module"
+	},
+	{
+		"id": 2,
+		"name": "notes",
+		"summary": "store, read, grow.",
+		"icon": "icon-code.svg",
+		"image": "module-notes.webp",
+		"logo": "logo-notes.png",
+		"layout": "NotesLayout.svelte",
+		"type": "module"
+	},
+	{
+		"id": 3,
+		"name": "design",
+		"summary": "craft, design, delight.",
+		"icon": "icon-notes.svg",
+		"image": "module-design.webp",
+		"logo": "logo-design.png",
+		"layout": "DesignLayout.svelte",
+		"type": "module"
+	},
+	{
+		"id": 4,
+		"name": "agent",
+		"summary": "chat, prompt, harness.",
+		"icon": "icon-design.svg",
+		"image": "module-agent.webp",
+		"logo": "logo-agent.png",
+		"layout": "AgentLayout.svelte",
+		"type": "module"
+	},
+	{
+		"id": 5,
+		"name": "web",
+		"summary": "see, store, learn.",
+		"icon": "icon-agent.svg",
+		"image": "module-web.webp",
+		"logo": "logo-web.png",
+		"layout": "WebLayout.svelte",
+		"type": "module"
+	},
+	{
+		"id": 6,
+		"name": "media",
+		"summary": "image, video, gallery.",
+		"icon": "icon-web.svg",
+		"image": "module-media.webp",
+		"logo": "logo-media.png",
+		"layout": "DocsLayout.svelte",
+		"type": "module"
+	},
+	{
+		"id": 7,
+		"name": "docs",
+		"summary": "app, user, docs.",
+		"icon": "icon-media.svg",
+		"image": "module-docs.webp",
+		"logo": "logo-docs.png",
+		"layout": "DevLayout.svelte",
+		"type": "module"
+	},
+	{
+		"id": 8,
+		"name": "dev",
+		"summary": "plan, do, review.",
+		"icon": "icon-docs.svg",
+		"image": "module-dev.webp",
+		"logo": "logo-dev.png",
+		"layout": "TesterLayout.svelte",
+		"type": "module"
+	},
+	{
+		"id": 9,
+		"name": "tester",
+		"summary": "blank, guinea, pig.",
+		"icon": "icon-dev.svg",
+		"image": "module-tester.webp",
+		"logo": "logo-tester.png",
+		"layout": "FractaLayout.svelte",
+		"type": "module"
+	},
+	{
+		"id": 10,
+		"name": "fracta",
+		"summary": "create, build, soar.",
+		"icon": "icon-fracta.svg",
+		"image": "module-fracta.webp",
+		"logo": "logo-fracta.png",
+		"layout": "FractaLayout.svelte",
+		"type": "page"
+	}
+]

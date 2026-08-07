@@ -1,0 +1,82 @@
+// ChatColumn — session tab strip + AIChat conversation area
+
+.ai-chat-column
+	display: flex
+	flex-direction: column
+	height: 100%
+	overflow: hidden
+
+	// Session tab strip at top
+	.ai-session-tabstrip
+		display: flex
+		align-items: center
+		gap: 0
+		padding: 0 var(--sz-4)
+		background: var(--background20)
+		border-bottom: 1px solid var(--border-primary)
+		flex-shrink: 0
+		height: 32px
+		overflow-x: auto
+		overflow-y: hidden
+
+		&::-webkit-scrollbar
+			display: none
+
+	.ai-session-tab
+		display: flex
+		align-items: center
+		gap: var(--sz-4)
+		padding: var(--sz-4) var(--sz-8)
+		border: 0
+		background: transparent
+		color: var(--text-tertiary)
+		font-size: var(--text-sm)
+		cursor: pointer
+		white-space: nowrap
+		height: 100%
+		transition: var(--transition-control)
+		flex-shrink: 0
+
+		&:hover
+			color: var(--text-primary)
+			background: var(--state-hover)
+
+		&.active
+			color: var(--text-primary)
+			background: var(--background30)
+			border-bottom: 2px solid var(--theme-color)
+
+		// Tab close button
+		.ai-tab-close
+			border: 0
+			background: transparent
+			color: var(--text-tertiary)
+			font-size: var(--text-sm)
+			cursor: pointer
+			padding: 0 var(--sz-4)
+			border-radius: 1px
+			line-height: 1
+			transition: var(--transition-control)
+
+			&:hover
+				color: var(--text-primary)
+				background: var(--state-hover)
+
+	// "+" new session tab
+	.ai-tab-new
+		display: flex
+		align-items: center
+		justify-content: center
+		padding: var(--sz-4) var(--sz-8)
+		border: 0
+		background: transparent
+		color: var(--text-tertiary)
+		font-size: var(--text-md)
+		cursor: pointer
+		height: 100%
+		transition: var(--transition-control)
+		flex-shrink: 0
+
+		&:hover
+			color: var(--theme-color)
+

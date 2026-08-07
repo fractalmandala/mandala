@@ -1,0 +1,357 @@
+.graph-wrapper
+	position: relative
+	width: 100%
+	height: 100%
+	min-width: 0
+	box-sizing: border-box
+	gap: var(--sz-8)
+	padding: var(--sz-16)
+
+.graph-top
+	flex: none
+	gap: var(--sz-8)
+
+.graph-header
+	gap: var(--sz-16)
+
+.graph-toolbar
+	flex-wrap: wrap
+	row-gap: var(--sz-8)
+
+.graph-zoom
+	flex: none
+
+.graph-flowbar
+	padding: var(--sz-8) 0 0
+
+.ahs-legend-item
+	display: inline-flex
+	align-items: center
+	gap: var(--sz-6)
+	padding: var(--sz-4) var(--sz-8)
+	background: transparent
+	border: 1px solid transparent
+	border-radius: var(--control-radius-pill)
+	color: var(--text-primary)
+	font: inherit
+	font-size: var(--text-sm)
+	font-weight: 600
+	cursor: pointer
+	&:hover
+		background: var(--background30)
+	&.off
+		opacity: 0.3
+
+.ahs-iconbtn
+	min-width: 26px
+	height: 26px
+	padding: 0 var(--sz-6)
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	color: var(--text-primary)
+	font: inherit
+	font-size: var(--text-md)
+	font-weight: 600
+	cursor: pointer
+	&:hover
+		background: var(--background40)
+	&.active
+		background: var(--text-primary)
+		color: var(--background10)
+		border-color: var(--text-primary)
+
+.ahs-flow-meta
+	font-size: var(--text-sm)
+	color: var(--text-tertiary)
+	font-variant-numeric: tabular-nums
+
+.ahs-viewport
+	position: relative
+	flex: 1
+	overflow: hidden
+	cursor: grab
+	background-image: radial-gradient(var(--background40) 1px, transparent 1px)
+	background-size: 22px 22px
+	&.panning
+		cursor: grabbing
+
+.ahs-canvas
+	position: absolute
+	top: 0
+	left: 0
+	transform-origin: 0 0
+
+.ahs-edges
+	position: absolute
+	top: 0
+	left: 0
+	overflow: visible
+	pointer-events: none
+
+.ahs-edge
+	fill: none
+	stroke-width: 1.4
+	opacity: 0.5
+	transition: opacity 0.15s ease
+	&.dim
+		opacity: 0.05
+	&.hot
+		opacity: 1
+		stroke-width: 2.4
+	&.flow
+		opacity: 1
+		stroke-width: 2.4
+		stroke-dasharray: 8 6
+		animation: ahs-dash 0.8s linear infinite
+
+@keyframes ahs-dash
+	from
+		stroke-dashoffset: 0
+	to
+		stroke-dashoffset: -28
+
+.ahs-col-label
+	position: absolute
+	top: 34px
+	font-size: var(--text-xs)
+	font-weight: 700
+	letter-spacing: 0.16em
+	text-transform: uppercase
+	opacity: 0.9
+	pointer-events: none
+	white-space: nowrap
+
+.ahs-node
+	position: absolute
+	display: flex
+	flex-direction: column
+	justify-content: center
+	gap: 1px
+	width: 184px
+	height: 46px
+	padding: 0 var(--sz-12) 0 var(--sz-12)
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	border-left: 3px solid var(--gc, var(--text-tertiary))
+	border-radius: var(--sz-8)
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 2px 8px rgba(0, 0, 0, 0.35)
+	color: var(--text-primary)
+	font: inherit
+	text-align: left
+	cursor: pointer
+	transition: opacity 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease
+	&:hover
+		border-color: var(--border-tertiary)
+	&.dim
+		opacity: 0.15
+	&.sel
+		border-color: var(--gc, var(--text-primary))
+		box-shadow: 0 0 0 1px var(--gc, var(--text-primary)), 0 2px 12px rgba(0, 0, 0, 0.5)
+
+.ahs-node-label
+	font-size: var(--text-sm)
+	font-weight: 600
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+
+.ahs-node-kind
+	font-size: var(--text-xs)
+	font-weight: 500
+	color: var(--text-tertiary)
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+
+.ahs-badge
+	position: absolute
+	top: -8px
+	right: -8px
+	width: 20px
+	height: 20px
+	border-radius: var(--control-radius-round)
+	background: var(--text-primary)
+	color: var(--background10)
+	font-size: var(--text-sm)
+	font-weight: 700
+	display: flex
+	align-items: center
+	justify-content: center
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5)
+
+.ahs-side
+	width: 300px
+	flex: none
+	border-left: 1px solid var(--border-primary)
+	background: var(--background20)
+	overflow-y: scroll
+	padding: var(--sz-16) var(--sz-16) var(--sz-24)
+
+.ahs-side-title
+	font-size: var(--text-md)
+	font-weight: 700
+	margin-bottom: var(--sz-2)
+	word-break: break-word
+
+.ahs-kindchip
+	display: inline-block
+	padding: 1px var(--sz-8)
+	border-radius: var(--control-radius-pill)
+	font-size: var(--text-xs)
+	font-weight: 700
+	letter-spacing: 0.08em
+	text-transform: uppercase
+	margin-bottom: var(--sz-8)
+
+.ahs-summary
+	font-size: var(--text-sm)
+	color: var(--text-secondary)
+	margin: var(--sz-6) 0 var(--sz-12)
+
+.ahs-path
+	font-family: var(--font-monospace)
+	font-size: var(--text-xs)
+	color: var(--text-tertiary)
+	word-break: break-all
+	margin-bottom: var(--sz-12)
+
+.ahs-kv
+	display: grid
+	grid-template-columns: 1fr 1fr
+	gap: var(--sz-6)
+	margin-bottom: var(--sz-12)
+
+.ahs-kv-item
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	padding: var(--sz-6) var(--sz-8)
+	b
+		display: block
+		font-size: var(--text-md)
+		font-weight: 700
+	span
+		font-size: var(--text-xs)
+		color: var(--text-tertiary)
+		text-transform: uppercase
+		letter-spacing: 0.06em
+
+.ahs-stats
+	display: flex
+	gap: var(--sz-8)
+	flex-wrap: wrap
+	justify-content: flex-end
+
+.ahs-chip
+	padding: var(--sz-4) var(--sz-12)
+	border-radius: var(--control-radius-pill)
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	font-size: var(--text-sm)
+	font-weight: 600
+	color: var(--text-primary)
+	white-space: nowrap
+	b
+		font-weight: 700
+		margin-right: var(--sz-4)
+
+.ahs-section
+	margin-top: var(--sz-16)
+	margin-bottom: var(--sz-6)
+	font-size: var(--text-xs)
+	font-weight: 700
+	letter-spacing: 0.12em
+	text-transform: uppercase
+	color: var(--text-tertiary)
+
+.ahs-edge-row
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+	width: 100%
+	padding: var(--sz-4) var(--sz-8)
+	margin-bottom: var(--sz-4)
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	color: var(--text-primary)
+	font: inherit
+	font-size: var(--text-sm)
+	cursor: pointer
+	text-align: left
+	&:hover
+		border-color: var(--border-tertiary)
+
+.ahs-edge-kind
+	font-size: var(--text-xs)
+	font-weight: 700
+	min-width: 58px
+
+.ahs-edge-target
+	flex: 1
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+
+.ahs-back
+	margin-bottom: var(--sz-12)
+	padding: var(--sz-4) var(--sz-12)
+	background: transparent
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	color: var(--text-secondary)
+	font: inherit
+	font-size: var(--text-sm)
+	font-weight: 600
+	cursor: pointer
+	&:hover
+		color: var(--text-primary)
+		border-color: var(--border-tertiary)
+
+.ahs-note
+	padding: var(--sz-8) var(--sz-12)
+	margin-bottom: var(--sz-6)
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	border-left: 3px solid #38bdf8
+	border-radius: var(--sz-8)
+	&.warn
+		border-left-color: var(--color30)
+	&.alert
+		border-left-color: var(--feedback-error)
+
+.ahs-note-title
+	font-size: var(--text-sm)
+	font-weight: 600
+	margin-bottom: var(--sz-2)
+
+.ahs-note-body
+	font-size: var(--text-sm)
+	color: var(--text-secondary)
+
+.ahs-flow-row
+	display: block
+	width: 100%
+	text-align: left
+	padding: var(--sz-6) var(--sz-12)
+	margin-bottom: var(--sz-4)
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	color: var(--text-primary)
+	font: inherit
+	cursor: pointer
+	&:hover
+		border-color: var(--border-tertiary)
+	&.active
+		border-color: var(--text-primary)
+
+.ahs-flow-name
+	font-size: var(--text-sm)
+	font-weight: 600
+
+.ahs-flow-trigger
+	font-size: var(--text-xs)
+	color: var(--text-tertiary)
+	margin-top: 1px

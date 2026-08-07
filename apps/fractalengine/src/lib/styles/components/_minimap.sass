@@ -1,0 +1,57 @@
+@use '../tokens' as *
+
+.minimap
+	position: absolute
+	right: 20px
+	bottom: 20px
+	width: 160px
+	height: 100px
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	z-index: var(--z-panel)
+	overflow: hidden
+	cursor: crosshair
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3)
+	:global(.theme-amrit-light) &
+		box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3)
+
+.minimap-tile
+	position: absolute
+	border-radius: 1px
+	border: 0.5px solid rgba(255, 255, 255, 0.15)
+	pointer-events: none
+	opacity: 0.35
+
+	&.active
+		border-color: var(--text-primary)
+		box-shadow: 0 0 2px var(--text-primary)
+		opacity: 0.8
+
+	&[data-module='code']
+		background: var(--module-code)
+		border-color: var(--module-code)
+	&[data-module='design']
+		background: var(--module-design)
+		border-color: var(--module-design)
+	&[data-module='wiki']
+		background: var(--module-wiki)
+		border-color: var(--module-wiki)
+	&[data-module='mail']
+		background: var(--module-mail)
+		border-color: var(--module-mail)
+	&[data-module='db']
+		background: var(--module-db)
+		border-color: var(--module-db)
+	&[data-module='system']
+		background: var(--module-system)
+		border-color: var(--module-system)
+
+.minimap-viewport
+	position: absolute
+	border: 1px solid var(--theme-color)
+	background: rgba(255, 255, 255, 0.03)
+	pointer-events: none
+	box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.25)
+	:global(.theme-amrit-light) &
+		box-shadow: 0 0 0 9999px rgba(255, 255, 255, 0.25)

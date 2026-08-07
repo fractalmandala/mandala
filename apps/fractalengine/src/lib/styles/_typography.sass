@@ -1,0 +1,138 @@
+.text-xs
+	font-size: var(--text-xs)
+.text-sm
+	font-size: var(--text-sm)
+.text-md
+	font-size: var(--text-md)
+.text-bs
+	font-size: var(--text-bs)
+.text-lg
+	font-size: var(--text-lg)
+.text-xl
+	font-size: var(--text-xl)
+.text-2xl
+	font-size: var(--text-2xl)
+.text-3xl
+	font-size: var(--text-3xl)
+.text-4xl
+	font-size: calc(var(--text-3xl) * 1.2)
+.text-5xl
+	font-size: calc(var(--text-3xl) * 1.44)
+.ta-c
+	text-align: center
+.tt-u
+	text-transform: uppercase
+.tt-c
+	text-transform: capitalize
+.w400
+	font-weight: 400
+.w500
+	font-weight: 500
+.w600
+	font-weight: 600
+.bold
+	font-weight: bold
+.lh11
+	line-height: 1.1
+.lh125
+	line-height: 1.25
+.lh15
+	line-height: 1.5
+.lh16
+	line-height: 1.6
+.col2
+	color: var(--text-secondary)
+.col3
+	color: var(--text-tertiary)
+.col-inverse
+	color: var(--text-inverse)
+
+.button-text
+	font-weight: 450
+	font-size: var(--text-sm)
+	letter-spacing: -0.015rem
+	font-family: var(--font-sans)
+	color: var(--text-primary)
+
+// ── Text roles ──────────────────────────────────────────────────────────
+// One family for panel/sidebar/list typography. Color modifiers chain:
+// `text-item muted`, `text-item accent`, `text-item-sm alive`.
+
+// Section/sidebar header text
+.text-header
+	font-size: var(--text-md)
+	letter-spacing: -0.01rem
+	font-weight: 500
+	color: var(--text-primary)
+	&.muted
+		color: var(--text-tertiary)
+
+// Standard list/tree item text
+.text-item
+	font-size: var(--text-sm)
+	letter-spacing: -0.01rem
+	color: var(--text-primary)
+	&.accent
+		color: var(--theme-color)
+	&.muted
+		color: var(--text-tertiary)
+
+// Emphasized item title (e.g. note titles in list rows)
+.text-item-lg
+	font-size: var(--text-md)
+	letter-spacing: -0.01rem
+	font-weight: 500
+	color: var(--text-primary)
+
+// Secondary description under an item title
+.text-item-sm
+	font-size: var(--text-xs)
+	color: var(--text-tertiary)
+	line-height: 1.2
+	&.alive
+		color: var(--text-primary)
+
+// Tags, pills, counters, uppercase section labels
+.text-meta
+	font-size: var(--text-xs)
+	text-transform: uppercase
+	letter-spacing: -0.01rem
+	color: var(--text-tertiary)
+
+.tree-folder-btn
+	.text-item
+		color: var(--text-secondary)
+	&.Collapse
+		.text-item
+			color: var(--text-primary)
+
+.ai-conversation
+	p, li
+		font-size: var(--text-bs)
+		margin: 0
+		line-height: 1.4
+	ul, ol
+		margin: 0
+		padding-left: 0
+	li
+		padding-left: var(--sz-8)
+	code, p code, li code
+		font-size: var(--text-bs)
+		background: var(--background30)
+		padding: var(--sz-4) var(--sz-8)
+
+.dock-label
+	font-size: var(--text-bs)
+	font-weight: 500
+
+.home-tiles-title
+	font-size: var(--text-xl)
+	font-weight: 600
+
+.home-tiles-desc
+	font-size: var(--text-sm)
+	color: var(--text-tertiary)
+
+.message-meta
+	font-size: var(--text-xs)
+	color: var(--text-tertiary)

@@ -1,0 +1,133 @@
+.workspace-shell
+	width: 100%
+	height: 100%
+	min-width: 0
+	min-height: 0
+	background: var(--shell-surface-workspace)
+
+	[data-pane]
+		min-width: 0
+		min-height: 0
+		overflow: hidden
+		transition: flex-grow var(--shell-motion-duration) var(--shell-motion-ease)
+
+	[data-pane-group]
+		min-width: 0
+		min-height: 0
+
+	[data-pane] > [data-pane-group], [data-pane] > .workspace-shell__surface, [data-pane] > .workspace-shell__center
+		flex: 1 1 0
+		min-width: 0
+		min-height: 0
+
+	[data-pane-group]:has([data-pane-resizer][data-active="pointer"]) [data-pane]
+		transition: none
+
+	[data-pane-resizer]
+		z-index: var(--z-panel)
+		&::after
+			background: var(--shell-divider)
+			transition: background-color var(--transition-control), box-shadow var(--transition-control)
+		&:hover::after, &[data-active]::after
+			background: var(--shell-divider-active)
+			box-shadow: 0 0 0 var(--sz-1) var(--shell-divider-active)
+		&:focus-visible
+			outline: none
+			&::after
+				background: var(--shell-focus)
+				box-shadow: 0 0 0 var(--sz-2) var(--shell-focus)
+
+.workspace-shell__surface
+	width: 100%
+	min-width: 0
+	min-height: 0
+	overflow: hidden
+
+.workspace-shell__center
+	display: flex
+	flex-direction: column
+	width: 100%
+	height: 100%
+	min-width: 0
+	min-height: 0
+	overflow: hidden
+
+.workspace-shell__surface--left
+	background: var(--shell-surface-navigation)
+
+.workspace-shell__surface--left-secondary
+	background: var(--shell-surface-secondary)
+
+.workspace-shell__surface--center
+	background: var(--shell-surface-workspace)
+
+.workspace-shell__surface--right
+	background: var(--shell-surface-inspector)
+
+.notes-shell-editor, .notes-shell-ai, .dev-shell-canvas
+	width: 100%
+	height: 100%
+	min-width: 0
+	min-height: 0
+	overflow: hidden
+
+.notes-shell-editor
+	display: flex
+	flex-direction: column
+
+.notes-shell-ai
+	background: var(--shell-surface-inspector)
+
+.dev-shell-nav
+	display: flex
+	flex-direction: column
+	gap: var(--sz-4)
+	width: 100%
+	height: 100%
+	padding: var(--sz-12)
+
+.dev-shell-nav__eyebrow
+	padding: var(--sz-8) var(--sz-6)
+	color: var(--text-tertiary)
+	font-size: var(--text-xs)
+	font-weight: 600
+	letter-spacing: 0.08em
+	text-transform: uppercase
+
+.dev-shell-nav__item
+	display: flex
+	align-items: center
+	width: 100%
+	min-height: var(--sz-32)
+	padding: 0 var(--sz-8)
+	border: 1px solid transparent
+	border-radius: var(--sz-4)
+	color: var(--text-secondary)
+	font-size: var(--text-sm)
+	text-align: left
+	transition: background-color var(--transition-control), color var(--transition-control), border-color var(--transition-control)
+	&:hover
+		background: var(--state-hover)
+		color: var(--text-primary)
+	&.is-active
+		background: var(--accent-surface-medium)
+		border-color: var(--success-border)
+		color: var(--text-primary)
+	&:active
+		transform: translateY(var(--sz-1))
+
+.dev-shell-inspector-empty
+	display: flex
+	align-items: center
+	justify-content: center
+	width: 100%
+	height: 100%
+	padding: var(--sz-24)
+	color: var(--text-tertiary)
+	font-size: var(--text-sm)
+	line-height: 1.5
+	text-align: center
+
+@media (prefers-reduced-motion: reduce)
+	.workspace-shell [data-pane], .dev-shell-nav__item
+		transition: none

@@ -1,0 +1,275 @@
+@use '../../../styles/tokens' as *
+
+// ── Conversation ──────────────────────────────────────────────────────────
+.ai-conversation
+	display: flex
+	flex-direction: column
+	overflow-y: auto
+	overflow-x: hidden
+	scroll-behavior: smooth
+	flex: 1
+	min-height: 0
+	width: 100%
+
+	.ai-conversation-content
+		display: flex
+		flex-direction: column
+		min-height: 100%
+		width: 100%
+
+	.ai-conversation-sentinel
+		height: 1px
+		width: 100%
+		flex-shrink: 0
+		pointer-events: none
+
+.msgbox-user
+	margin-left: auto
+	display: flex
+	flex-direction: column
+	gap: var(--sz-4)
+
+.msgbox-ai
+	display: flex
+	flex-direction: column
+	gap: var(--sz-4)
+
+.msgbox-user-bubble
+	background: var(--background60)
+	color: var(--text-inverse)
+	padding: var(--sz-8)
+	border-radius: var(--sz-4)
+
+// ── Response (markdown render) ────────────────────────────────────────────
+.ai-response
+	display: flex
+	flex-direction: column
+
+	.ai-response-markdown
+		& > :first-child
+			margin-top: 0
+
+		& > :last-child
+			margin-bottom: 0
+
+		h1, h2, h3, h4, h5, h6
+			color: var(--text-primary)
+			font-weight: 600
+		h1
+			font-size: var(--text-bs)
+		h2
+			font-size: var(--text-md)
+		h3
+			font-size: var(--text-md)
+		h4, h5, h6
+			font-size: var(--text-sm)
+		p
+			font-size: var(--text-sm)
+		strong
+			font-weight: 600
+			color: var(--text-primary)
+		em
+			font-style: italic
+		a
+			color: var(--theme-color)
+			text-decoration: underline
+			&:hover
+				color: var(--theme-color-alt)
+		ul, ol
+			padding-left: var(--sz-24)
+			margin: var(--sz-8) 0
+
+		li
+			margin: var(--sz-2) 0
+
+		blockquote
+			border-left: 3px solid var(--theme-color)
+			padding: var(--sz-4) var(--sz-12)
+			margin: var(--sz-8) 0
+			color: var(--text-secondary)
+			background: var(--background20)
+			border-radius: 0 var(--sz-2) var(--sz-2) 0
+
+		code
+			font-family: var(--font-monospace)
+			font-size: 0.92em
+			background: var(--background30)
+			color: var(--theme-color-alt)
+			padding: var(--sz-1) var(--sz-4)
+			border-radius: var(--sz-4)
+
+		table
+			width: 100%
+			border-collapse: collapse
+			margin: var(--sz-8) 0
+			font-size: var(--text-sm)
+
+			th, td
+				border: 1px solid var(--border-primary)
+				padding: var(--sz-8) var(--sz-12)
+				text-align: left
+
+			th
+				background: var(--background30)
+				font-weight: 600
+
+		hr
+			border: none
+			border-top: 1px solid var(--border-primary)
+			margin: var(--sz-12) 0
+
+	.ai-response-cursor
+		display: inline-block
+		width: 7px
+		height: 14px
+		background: var(--theme-color)
+		margin-left: var(--sz-2)
+		vertical-align: text-bottom
+		animation: ai-cursor-blink 1s steps(1) infinite
+
+@keyframes ai-cursor-blink
+	0%, 50%
+		opacity: 1
+	51%, 100%
+		opacity: 0
+
+// ── Reasoning ─────────────────────────────────────────────────────────────
+.ai-reasoning
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-4)
+	padding: var(--sz-8)
+	overflow: hidden
+	font-size: var(--text-sm)
+	.ai-reasoning-header
+		display: flex
+		align-items: center
+		gap: var(--sz-8)
+		width: 100%
+		padding: var(--sz-8) var(--sz-12)
+		background: transparent
+		border: none
+		color: var(--text-secondary)
+		cursor: pointer
+		text-align: left
+		font-size: var(--text-sm)
+		font-weight: 500
+		text-transform: uppercase
+		letter-spacing: 0.4px
+		transition: background 0.1s
+
+		&:hover
+			background: var(--background40)
+			color: var(--text-primary)
+
+		.ai-reasoning-chevron
+			width: 10px
+			height: 10px
+			opacity: 0.6
+
+	.ai-reasoning-body
+		white-space: pre-wrap
+
+// ── ModelSelector ─────────────────────────────────────────────────────────
+.ai-model-selector
+	position: relative
+	display: inline-block
+	min-width: 200px
+	z-index: 50
+	width: 100%
+
+	.ai-model-trigger
+		display: flex
+		align-items: center
+		justify-content: space-between
+		gap: var(--sz-8)
+		width: 100%
+		height: 24px
+		padding: 0 var(--sz-12)
+		font-size: var(--text-sm)
+		color: var(--text-primary)
+		border: 1px solid var(--border-primary)
+		border-radius: var(--sz-2)
+		cursor: pointer
+		transition: background 0.1s, border-color 0.1s
+		&:hover
+			background: var(--background30)
+			border-color: var(--theme-color)
+		.ai-model-trigger-label
+			flex: 1
+			text-align: left
+			truncate: true
+
+	.ai-model-popover
+		position: absolute
+		bottom: calc(100% + 4px)
+		right: 0
+		z-index: 900
+		display: flex
+		flex-direction: column
+		background: var(--background10)
+		border: 1px solid var(--border-primary)
+		border-radius: var(--sz-4)
+		width: 360px
+		max-width: calc(100vw - 32px)
+		box-shadow: var(--shadow-panel)
+		max-height: 320px
+		overflow: hidden
+
+		.ai-model-search
+			height: 32px
+			padding: 0 var(--sz-12)
+			font-size: var(--text-sm)
+			color: var(--text-primary)
+			background: var(--background20)
+			border: none
+			border-bottom: 1px solid var(--border-primary)
+			outline: none
+			flex-shrink: 0
+
+			&::placeholder
+				color: var(--text-tertiary)
+
+		.ai-model-list
+			flex: 1
+			overflow-y: auto
+			padding: var(--sz-4)
+
+		.ai-model-item
+			display: flex
+			flex-direction: column
+			align-items: flex-start
+			gap: var(--sz-2)
+			width: 100%
+			padding: var(--sz-8) var(--sz-8)
+			font-size: var(--text-sm)
+			color: var(--text-secondary)
+			background: transparent
+			border: none
+			border-radius: var(--sz-2)
+			cursor: pointer
+			text-align: left
+			transition: background 0.1s, color 0.1s
+
+			&:hover, &.is-selected
+				background: var(--background50)
+				color: var(--text-primary)
+
+			&.is-current
+				color: var(--theme-color)
+
+			.ai-model-item-label
+				font-weight: 500
+				width: 100%
+
+			.ai-model-item-group
+				font-size: var(--text-xs)
+				color: var(--text-tertiary)
+				text-transform: uppercase
+				letter-spacing: 0.3px
+				width: 100%
+
+		.ai-model-empty
+			padding: var(--sz-12)
+			text-align: center
+			font-size: var(--text-sm)
+			color: var(--text-tertiary)

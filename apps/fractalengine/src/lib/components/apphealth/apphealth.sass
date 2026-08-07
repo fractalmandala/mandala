@@ -1,0 +1,512 @@
+// AppHealth — module flow scan renderer
+// Hardcoded dark palette by owner request (app token rules waived for this module)
+
+.ahs
+	position: relative
+	display: flex
+	flex-direction: column
+	width: 100%
+	height: 100%
+	min-height: 460px
+	background: var(--background10)
+	font-size: var(--text-xs)
+	line-height: 1.25
+	overflow: hidden
+
+.ahs-header
+	display: flex
+	align-items: flex-start
+	justify-content: space-between
+	gap: var(--sz-16)
+	padding: var(--sz-16)
+
+.ahs-module-id
+	display: inline-block
+	margin-left: 8px
+	padding: 1px 8px
+	border-radius: 999px
+	background: #1c1c1c
+	border: 1px solid #2a2a2a
+	font-size: 10px
+	font-weight: 600
+	letter-spacing: 0.08em
+	text-transform: uppercase
+	color: #a3a3a3
+	vertical-align: 2px
+
+.ahs-sub
+	margin-top: 2px
+	font-size: 12px
+	color: #a3a3a3
+	max-width: 560px
+
+.ahs-stats
+	display: flex
+	gap: 8px
+	flex-wrap: wrap
+	justify-content: flex-end
+
+.ahs-chip
+	padding: 3px 10px
+	border-radius: 999px
+	background: #161616
+	border: 1px solid #262626
+	font-size: 11px
+	font-weight: 600
+	color: #d4d4d4
+	white-space: nowrap
+
+	b
+		color: #fafafa
+		font-weight: 700
+		margin-right: 4px
+
+.ahs-issues
+	padding: 3px 10px
+	border-radius: 999px
+	background: #2a1616
+	border: 1px solid #7f1d1d
+	color: #fca5a5
+	font-size: 11px
+	font-weight: 600
+	cursor: help
+
+.ahs-toolbar
+	display: flex
+	align-items: center
+	gap: 14px
+	padding: 8px 18px
+	border-bottom: 1px solid #141414
+	flex-wrap: wrap
+
+.ahs-legend
+	display: flex
+	gap: 4px
+	flex-wrap: wrap
+	flex: 1
+
+.ahs-legend-item
+	display: inline-flex
+	align-items: center
+	gap: 6px
+	padding: 3px 9px
+	background: transparent
+	border: 1px solid transparent
+	border-radius: 999px
+	color: #d4d4d4
+	font: inherit
+	font-size: 11px
+	font-weight: 600
+	cursor: pointer
+
+	&:hover
+		background: #161616
+
+	&.off
+		opacity: 0.3
+
+.ahs-dot
+	width: 8px
+	height: 8px
+	border-radius: 50%
+	flex: none
+
+.ahs-zoom
+	display: flex
+	align-items: center
+	gap: 2px
+
+.ahs-iconbtn
+	min-width: 26px
+	height: 26px
+	padding: 0 6px
+	background: #161616
+	border: 1px solid #262626
+	border-radius: 7px
+	color: #d4d4d4
+	font: inherit
+	font-size: 13px
+	font-weight: 600
+	cursor: pointer
+
+	&:hover
+		background: #1f1f1f
+
+	&.active
+		background: #fafafa
+		color: #0a0a0a
+		border-color: #fafafa
+
+.ahs-zoom-label
+	min-width: 44px
+	text-align: center
+	font-size: 11px
+	font-weight: 600
+	color: #a3a3a3
+
+.ahs-flowbar
+	display: flex
+	align-items: center
+	gap: 8px
+	padding: 8px 18px
+	border-bottom: 1px solid #141414
+	flex-wrap: wrap
+
+.ahs-flowbar-label
+	font-size: 10px
+	font-weight: 700
+	letter-spacing: 0.12em
+	text-transform: uppercase
+	color: #737373
+
+.ahs-flow
+	padding: 4px 12px
+	background: #161616
+	border: 1px solid #262626
+	border-radius: 999px
+	color: #d4d4d4
+	font: inherit
+	font-size: 12px
+	font-weight: 600
+	cursor: pointer
+
+	&:hover
+		border-color: #404040
+
+	&.active
+		background: #fafafa
+		color: #0a0a0a
+		border-color: #fafafa
+
+.ahs-flow-meta
+	font-size: 11px
+	color: #737373
+	font-variant-numeric: tabular-nums
+
+.ahs-main
+	display: flex
+	flex: 1
+	min-height: 0
+
+.ahs-viewport
+	position: relative
+	flex: 1
+	overflow: hidden
+	cursor: grab
+	background-image: radial-gradient(#1c1c1c 1px, transparent 1px)
+	background-size: 22px 22px
+
+	&.panning
+		cursor: grabbing
+
+.ahs-canvas
+	position: absolute
+	top: 0
+	left: 0
+	transform-origin: 0 0
+
+.ahs-edges
+	position: absolute
+	top: 0
+	left: 0
+	overflow: visible
+	pointer-events: none
+
+.ahs-edge
+	fill: none
+	stroke-width: 1.4
+	opacity: 0.5
+	transition: opacity 0.15s ease
+
+	&.dim
+		opacity: 0.05
+
+	&.hot
+		opacity: 1
+		stroke-width: 2.4
+
+	&.flow
+		opacity: 1
+		stroke-width: 2.4
+		stroke-dasharray: 8 6
+		animation: ahs-dash 0.8s linear infinite
+
+@keyframes ahs-dash
+	from
+		stroke-dashoffset: 0
+
+	to
+		stroke-dashoffset: -28
+
+.ahs-col-label
+	position: absolute
+	top: 34px
+	font-size: 10px
+	font-weight: 700
+	letter-spacing: 0.16em
+	text-transform: uppercase
+	opacity: 0.9
+	pointer-events: none
+	white-space: nowrap
+
+.ahs-node
+	position: absolute
+	display: flex
+	flex-direction: column
+	justify-content: center
+	gap: 1px
+	width: 184px
+	height: 46px
+	padding: 0 10px 0 12px
+	background: #161616
+	border: 1px solid #262626
+	border-left: 3px solid var(--gc, #94a3b8)
+	border-radius: 10px
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 2px 8px rgba(0, 0, 0, 0.35)
+	color: #fafafa
+	font: inherit
+	text-align: left
+	cursor: pointer
+	transition: opacity 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease
+
+	&:hover
+		border-color: #404040
+
+	&.dim
+		opacity: 0.15
+
+	&.sel
+		border-color: var(--gc, #fafafa)
+		box-shadow: 0 0 0 1px var(--gc, #fafafa), 0 2px 12px rgba(0, 0, 0, 0.5)
+
+.ahs-node-label
+	font-size: 12px
+	font-weight: 600
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+
+.ahs-node-kind
+	font-size: 10px
+	font-weight: 500
+	color: #737373
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+
+.ahs-badge
+	position: absolute
+	top: -8px
+	right: -8px
+	width: 20px
+	height: 20px
+	border-radius: 50%
+	background: #fafafa
+	color: #0a0a0a
+	font-size: 11px
+	font-weight: 700
+	display: flex
+	align-items: center
+	justify-content: center
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5)
+
+.ahs-side
+	width: 300px
+	flex: none
+	border-left: 1px solid #1a1a1a
+	background: #0d0d0d
+	overflow-y: auto
+	padding: 14px 16px 20px
+
+.ahs-side-title
+	font-size: 13px
+	font-weight: 700
+	margin-bottom: 2px
+	word-break: break-word
+
+.ahs-kindchip
+	display: inline-block
+	padding: 1px 8px
+	border-radius: 999px
+	font-size: 10px
+	font-weight: 700
+	letter-spacing: 0.08em
+	text-transform: uppercase
+	margin-bottom: 8px
+
+.ahs-summary
+	font-size: 12px
+	color: #d4d4d4
+	margin: 6px 0 10px
+
+.ahs-path
+	font-family: "JetBrains Mono", ui-monospace, monospace
+	font-size: 10.5px
+	color: #737373
+	word-break: break-all
+	margin-bottom: 10px
+
+.ahs-kv
+	display: grid
+	grid-template-columns: 1fr 1fr
+	gap: 6px
+	margin-bottom: 12px
+
+.ahs-kv-item
+	background: #141414
+	border: 1px solid #1f1f1f
+	border-radius: 8px
+	padding: 6px 9px
+
+	b
+		display: block
+		font-size: 14px
+		font-weight: 700
+
+	span
+		font-size: 10px
+		color: #737373
+		text-transform: uppercase
+		letter-spacing: 0.06em
+
+.ahs-section
+	margin-top: 14px
+	margin-bottom: 6px
+	font-size: 10px
+	font-weight: 700
+	letter-spacing: 0.12em
+	text-transform: uppercase
+	color: #737373
+
+.ahs-edge-row
+	display: flex
+	align-items: center
+	gap: 8px
+	width: 100%
+	padding: 5px 8px
+	margin-bottom: 3px
+	background: #141414
+	border: 1px solid #1f1f1f
+	border-radius: 8px
+	color: #d4d4d4
+	font: inherit
+	font-size: 11.5px
+	cursor: pointer
+	text-align: left
+
+	&:hover
+		border-color: #333333
+
+.ahs-edge-kind
+	font-size: 10px
+	font-weight: 700
+	min-width: 58px
+
+.ahs-edge-target
+	flex: 1
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+
+.ahs-back
+	margin-bottom: 10px
+	padding: 4px 10px
+	background: transparent
+	border: 1px solid #262626
+	border-radius: 7px
+	color: #a3a3a3
+	font: inherit
+	font-size: 11px
+	font-weight: 600
+	cursor: pointer
+
+	&:hover
+		color: #fafafa
+		border-color: #404040
+
+.ahs-note
+	padding: 8px 10px
+	margin-bottom: 6px
+	background: #141414
+	border: 1px solid #1f1f1f
+	border-left: 3px solid #38bdf8
+	border-radius: 8px
+
+	&.warn
+		border-left-color: #f59e0b
+
+	&.alert
+		border-left-color: #f43f5e
+
+.ahs-note-title
+	font-size: 12px
+	font-weight: 600
+	margin-bottom: 2px
+
+.ahs-note-body
+	font-size: 11px
+	color: #a3a3a3
+
+.ahs-flow-row
+	display: block
+	width: 100%
+	text-align: left
+	padding: 7px 10px
+	margin-bottom: 4px
+	background: #141414
+	border: 1px solid #1f1f1f
+	border-radius: 8px
+	color: #fafafa
+	font: inherit
+	cursor: pointer
+
+	&:hover
+		border-color: #333333
+
+	&.active
+		border-color: #fafafa
+
+.ahs-flow-name
+	font-size: 12px
+	font-weight: 600
+
+.ahs-flow-trigger
+	font-size: 10.5px
+	color: #737373
+	margin-top: 1px
+
+.ahs-empty
+	flex: 1
+	display: flex
+	flex-direction: column
+	align-items: center
+	justify-content: center
+	gap: 8px
+	padding: 40px
+	text-align: center
+
+.ahs-empty-title
+	font-size: 16px
+	font-weight: 700
+
+.ahs-empty-body
+	font-size: 12px
+	color: #a3a3a3
+	max-width: 420px
+
+	code
+		font-family: "JetBrains Mono", ui-monospace, monospace
+		background: #161616
+		border: 1px solid #262626
+		border-radius: 5px
+		padding: 1px 5px
+		color: #d4d4d4
+
+.ahs-error
+	margin-top: 8px
+	padding: 8px 12px
+	background: #2a1616
+	border: 1px solid #7f1d1d
+	border-radius: 8px
+	color: #fca5a5
+	font-size: 12px

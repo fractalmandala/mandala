@@ -1,0 +1,90 @@
+.search-overlay
+	position: fixed
+	inset: 0
+	z-index: calc(var(--z-overlay) + 10)
+	background: var(--overlay-bg)
+	display: flex
+	align-items: flex-start
+	justify-content: center
+	padding-top: 15vh
+
+	&-panel
+		background: var(--background20)
+		border: 1px solid var(--border-secondary)
+		border-radius: var(--sz-12)
+		box-shadow: var(--dialog-shadow)
+		width: min(640px, 90vw)
+		max-height: 60vh
+		display: flex
+		flex-direction: column
+		overflow: hidden
+
+	&-input-row
+		display: flex
+		align-items: center
+		gap: var(--sz-8)
+		padding: var(--sz-12) var(--sz-16)
+		border-bottom: 1px solid var(--border-primary)
+
+	&-input
+		flex: 1
+		border: none
+		background: transparent
+		color: var(--text-primary)
+		font-size: var(--text-md)
+		padding: var(--sz-8)
+		outline: none
+
+		&::placeholder
+			color: var(--text-tertiary)
+
+	&-close
+		background: none
+		border: none
+		color: var(--text-secondary)
+		cursor: pointer
+		font-size: var(--text-md)
+		padding: var(--sz-4)
+		line-height: 1
+		opacity: 0.7
+
+		&:hover
+			opacity: 1
+
+	&-results
+		flex: 1
+		overflow: hidden
+		min-height: 0
+
+	&-status
+		padding: var(--sz-8)
+		text-align: center
+		color: var(--text-tertiary)
+		font-size: var(--text-sm)
+
+	&-virtual-list
+		height: 100%
+
+.search-result-row
+	cursor: pointer
+	transition: background 110ms ease
+
+	&:hover
+		background: var(--state-hover)
+
+	&[aria-selected="true"]
+		background: var(--accent-surface-subtle)
+
+.search-result-title
+	color: var(--text-primary)
+
+.search-result-source
+	color: var(--text-tertiary)
+	text-transform: uppercase
+	letter-spacing: 0.5px
+
+.search-hit-highlight
+	background: var(--theme-color)
+	color: var(--text-inverse)
+	border-radius: 2px
+	padding: 0 2px

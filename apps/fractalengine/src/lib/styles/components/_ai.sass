@@ -1,0 +1,66 @@
+// AI Copilot styling for global Svelte 5 elements
+
+// --- History list ---
+.history-list
+	flex: 1
+	overflow-y: auto
+	display: flex
+	flex-direction: column
+	&::-webkit-scrollbar
+		width: 6px
+		background: transparent
+	&::-webkit-scrollbar-thumb
+		background: var(--background50)
+		border-radius: var(--sz-4)
+
+.history-item
+	width: 100%
+	align-items: flex-start
+	text-align: left
+	gap: var(--sz-2)
+	padding: var(--sz-12) var(--sz-12)
+	cursor: pointer
+	transition: background 0.1s, border-color 0.1s
+	.text-bs
+		color: var(--text-primary)
+		font-weight: 600
+		width: 100%
+	.text-sm
+		color: var(--text-secondary)
+	.text-xs
+		color: var(--text-tertiary)
+
+.ai-message-box
+	display: flex
+	flex-direction: column
+	gap: var(--sz-4)
+	&.role-user
+		align-self: flex-end
+		align-items: flex-end
+	&.role-assistant
+		align-self: flex-start
+		align-items: flex-start
+
+.chat-action-btn
+	cursor: pointer
+	display: flex
+	align-items: center
+	justify-content: center
+	width: 22px
+	height: 22px
+	border-radius: var(--sz-2)
+	transition: background 150ms ease, color 150ms ease
+	padding: 0
+	flex-shrink: 0
+	&:disabled
+		opacity: 0.4
+		cursor: not-allowed
+	svg
+		stroke: currentColor
+
+.chat-action-text
+	font-size: var(--text-sm)
+	font-weight: 700
+
+.ai-chat-sidebar
+	padding: var(--sz-8)

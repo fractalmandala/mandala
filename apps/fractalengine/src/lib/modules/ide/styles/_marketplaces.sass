@@ -1,0 +1,91 @@
+@use '../../../styles/tokens' as *
+
+.marketplace-container
+	display: flex
+	flex-direction: column
+	height: 100%
+	overflow: hidden
+	gap: var(--sz-16)
+
+.marketplace-path-selector
+	display: flex
+	flex-direction: column
+	gap: var(--sz-4)
+
+.marketplace-search-section
+	padding-bottom: var(--sz-8)
+
+.marketplace-search-control
+	position: relative
+	display: flex
+	align-items: center
+	background: var(--background10)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-2)
+	padding: var(--sz-4) var(--sz-8)
+
+.marketplace-search-icon
+	margin-right: var(--sz-8)
+	opacity: 0.6
+
+.marketplace-search-input
+	background: transparent
+	border: none
+	font-size: var(--text-sm)
+	color: var(--text-primary)
+	width: 100%
+
+.path-input-row
+	display: flex
+	gap: var(--sz-8)
+	.path-display
+		flex: 1
+		border-radius: var(--sz-2)
+		padding: var(--sz-8) var(--sz-8)
+		font-size: var(--text-xs)
+		overflow: hidden
+		text-overflow: ellipsis
+		white-space: nowrap
+
+.marketplace-list-scroll
+	flex: 1
+	overflow-y: auto
+	display: flex
+	flex-direction: column
+	gap: var(--sz-16)
+	&::-webkit-scrollbar
+		width: 4px
+	&::-webkit-scrollbar-thumb
+		background: var(--background50)
+
+.marketplace-card
+	display: flex
+	flex-direction: column
+	gap: var(--sz-4)
+	&.is-downloaded
+		border-color: var(--success-border)
+		background: color-mix(in srgb, var(--color20) 2%, transparent)
+
+.card-title-row
+	display: flex
+	justify-content: space-between
+	align-items: flex-start
+
+.model-download-progress-bar
+	width: 100%
+	height: 4px
+	background: var(--background30)
+	border-radius: var(--sz-2)
+	overflow: hidden
+	margin-top: var(--sz-4)
+	
+	.progress-fill
+		height: 100%
+		background: var(--theme-color)
+		transition: width 150ms ease
+
+@keyframes bounce
+	0%, 80%, 100%
+		transform: translateY(0)
+	40%
+		transform: translateY(-4px)

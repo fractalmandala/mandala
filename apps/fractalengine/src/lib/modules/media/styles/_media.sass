@@ -1,0 +1,215 @@
+.media-header
+	height: 128px
+	flex-shrink: 0
+	display: flex
+	flex-direction: column
+	gap: var(--sz-12)
+	padding: var(--sz-16)
+	border-bottom: 1px solid var(--border-primary)
+	box-sizing: border-box
+
+.media-strip
+	height: var(--sz-24)
+	flex-shrink: 0
+	border-top: 1px solid var(--border-primary)
+	display: flex
+	align-items: center
+	padding: 0 var(--sz-8)
+	font-size: var(--text-xs)
+	color: var(--text-secondary)
+
+.media-viewer
+	flex: 1
+	min-height: 0
+	overflow: auto
+	outline: none
+
+.media-setup, .media-empty
+	display: flex
+	flex: 1
+	flex-direction: column
+	align-items: center
+	justify-content: center
+	gap: var(--sz-16)
+	padding: 48px
+	color: var(--text-secondary)
+	text-align: center
+
+.media-setup img
+	width: var(--sz-96)
+	height: var(--sz-96)
+	object-fit: contain
+
+.media-setup h1, .media-inspector h2
+	margin: 0
+	font-size: var(--text-lg)
+	color: var(--text-primary)
+
+.media-setup p
+	margin: 0
+	max-width: 34rem
+
+.media-search, .media-inspector-name input, .media-tag-editor input
+	width: 100%
+	box-sizing: border-box
+	border: 1px solid var(--border-secondary)
+	background: var(--background20)
+	color: var(--text-primary)
+	border-radius: var(--sz-4)
+	padding: var(--sz-8)
+
+.media-toolbar-row, .media-filter-chips, .media-progress, .media-tag-editor, .media-tag-list
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+
+.media-filter-chips button, .media-smart-sections button, .media-folder-name, .media-tags-list button, .media-tag-list button
+	border: 0
+	background: transparent
+	color: var(--text-secondary)
+	border-radius: var(--sz-4)
+	cursor: pointer
+
+.media-filter-chips button
+	padding: var(--sz-4) var(--sz-8)
+	border: 1px solid var(--border-secondary)
+
+.media-filter-chips button.active, .media-smart-sections button.active, .media-folder-name.active, .media-tags-list button.active
+	background: var(--accent-surface-medium)
+	color: var(--text-primary)
+
+.media-thumb-control
+	margin-left: auto
+	font-size: var(--text-sm)
+	color: var(--text-secondary)
+
+.media-grid
+	display: grid
+	gap: var(--sz-12)
+	padding: var(--sz-16)
+
+.media-card
+	border: 1px solid transparent
+	background: transparent
+	color: var(--text-primary)
+	text-align: left
+	padding: 0
+	min-width: 0
+	cursor: pointer
+
+.media-card.selected
+	border-color: var(--theme-color)
+	box-shadow: 0 0 0 1.5px var(--theme-color)
+
+.media-card-thumb
+	position: relative
+	aspect-ratio: 1
+	background: var(--background30)
+	overflow: hidden
+	display: flex
+	align-items: center
+	justify-content: center
+
+.media-card-thumb img, .media-card-thumb video
+	width: 100%
+	height: 100%
+	object-fit: cover
+
+.media-kind, .media-pin, .media-tag-count
+	font-size: var(--text-xs)
+	color: var(--text-secondary)
+
+.media-kind, .media-pin
+	position: absolute
+	background: var(--surface-glass-strong)
+	padding: var(--sz-4)
+
+.media-kind
+	left: var(--sz-4)
+	bottom: var(--sz-4)
+
+.media-pin
+	right: var(--sz-4)
+	top: var(--sz-4)
+	color: var(--theme-color)
+
+.media-card-name
+	display: block
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+	padding-top: var(--sz-4)
+
+.media-progress
+	width: 100%
+
+.media-progress-track
+	width: var(--sz-96)
+	height: var(--sz-4)
+	background: var(--background40)
+
+.media-progress-track span
+	display: block
+	height: 100%
+	background: var(--theme-color)
+
+.media-sidebar-heading, .media-tree-head
+	padding: var(--sz-12)
+	font-size: var(--text-sm)
+	font-weight: 600
+	color: var(--text-primary)
+
+.media-smart-sections, .media-tags-list, .media-folder-tree
+	display: flex
+	flex-direction: column
+	gap: var(--sz-2)
+	padding: 0 var(--sz-8)
+
+.media-smart-sections > button, .media-tags-list button, .media-folder-name
+	display: flex
+	align-items: center
+	justify-content: space-between
+	width: 100%
+	padding: var(--sz-4) var(--sz-8)
+	text-align: left
+
+.media-tree-head
+	display: flex
+	justify-content: space-between
+	margin-top: var(--sz-12)
+	border-top: 1px solid var(--border-primary)
+
+.media-folder-row
+	display: flex
+	align-items: center
+
+.media-folder-toggle
+	border: 0
+	background: transparent
+	color: var(--text-tertiary)
+	width: var(--sz-24)
+	cursor: pointer
+
+.media-inspector-preview img, .media-inspector-preview video
+	width: 100%
+	max-height: 240px
+	object-fit: contain
+	background: var(--background30)
+
+.media-facts
+	display: grid
+	grid-template-columns: 1fr 1fr
+	gap: var(--sz-8)
+	margin: 0
+	font-size: var(--text-sm)
+
+.media-facts dt
+	color: var(--text-tertiary)
+
+.media-facts dd
+	margin: 0
+	color: var(--text-primary)
+
+.media-inspector-tags
+	border-top: 1px solid var(--border-primary)
+	padding-top: var(--sz-12)

@@ -1,0 +1,483 @@
+// healthgraph — split from app-report-health.html (scoped, fixed→absolute for chrome)
+.healthgraph
+	--background: #0a0a0a
+	--foreground: #fafafa
+	--card: #161616
+	--muted: #1f1f1f
+	--muted-foreground: #a3a3a3
+	--border: #262626
+	--card-shadow: 0px 0px 0px 1px #ffffff14, 0px 1px 2px -1px #00000080, 0px 4px 12px 0px #00000040
+	--low: #10b981
+	--mid: #f59e0b
+	--high: #f43f5e
+.healthgraph *
+	box-sizing: border-box
+	margin: 0
+	padding: 0
+.healthgraph, .healthgraph
+	height: 100%
+.healthgraph
+	font-family: "Inter", system-ui, -apple-system, sans-serif
+	background: var(--background)
+	color: var(--foreground)
+	overflow: hidden
+	-webkit-font-smoothing: antialiased
+.healthgraph #grid-bg
+	position: absolute
+	inset: 0
+	pointer-events: none
+	background-image: linear-gradient(color-mix(in oklab, var(--border) 45%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in oklab, var(--border) 45%, transparent) 1px, transparent 1px)
+	background-size: 56px 56px
+	mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%)
+	-webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%)
+.healthgraph #glow
+	position: absolute
+	pointer-events: none
+	inset: 0
+	background: radial-gradient(600px 300px at 15% -5%, #f43f5e12, transparent 70%), radial-gradient(700px 340px at 85% -8%, #f59e0b12, transparent 70%), radial-gradient(500px 300px at 55% 110%, #10b98110, transparent 70%)
+.healthgraph header
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	z-index: 40
+	display: flex
+	align-items: flex-start
+	justify-content: space-between
+	padding: 22px 28px 0 28px
+	pointer-events: none
+.healthgraph header > *
+	pointer-events: auto
+.healthgraph .brand
+	display: flex
+	align-items: center
+	gap: 14px
+.healthgraph .brand-icon
+	width: 44px
+	height: 44px
+	border-radius: 14px
+	background: var(--card)
+	box-shadow: var(--card-shadow)
+	display: flex
+	align-items: center
+	justify-content: center
+	flex: none
+.healthgraph .brand-icon svg
+	width: 22px
+	height: 22px
+	color: var(--high)
+.healthgraph .brand h1
+	font-size: 19px
+	font-weight: 650
+	letter-spacing: -0.01em
+.healthgraph .brand p
+	font-size: 12.5px
+	color: var(--muted-foreground)
+	margin-top: 2px
+.healthgraph .brand .date
+	display: inline-block
+	margin-left: 10px
+	font-size: 11px
+	color: var(--muted-foreground)
+	border: 1px solid var(--border)
+	border-radius: 999px
+	padding: 2px 9px
+	vertical-align: 2px
+	background: #111
+.healthgraph .stats
+	display: flex
+	gap: 8px
+.healthgraph .stat
+	background: #111
+	border: 1px solid var(--border)
+	border-radius: 12px
+	padding: 7px 13px
+	text-align: center
+	min-width: 64px
+.healthgraph .stat b
+	display: block
+	font-size: 15px
+	font-weight: 650
+.healthgraph .stat span
+	font-size: 10px
+	text-transform: uppercase
+	letter-spacing: 0.07em
+	color: var(--muted-foreground)
+.healthgraph #wrap
+	position: absolute
+	inset: 96px 0 0 0
+	display: flex
+	gap: 14px
+	padding: 0 28px 20px 28px
+	z-index: 10
+.healthgraph #rail
+	width: 296px
+	flex: none
+	display: flex
+	flex-direction: column
+	gap: 12px
+	overflow-y: auto
+	scrollbar-width: thin
+	padding-bottom: 8px
+.healthgraph #main
+	flex: 1
+	display: flex
+	flex-direction: column
+	gap: 10px
+	min-width: 0
+.healthgraph .card
+	background: #111111d9
+	border: 1px solid var(--border)
+	border-radius: 16px
+	padding: 14px 16px
+	backdrop-filter: blur(8px)
+	flex: none
+.healthgraph .card h3
+	font-size: 10.5px
+	font-weight: 600
+	text-transform: uppercase
+	letter-spacing: 0.09em
+	color: var(--muted-foreground)
+	margin-bottom: 10px
+	display: flex
+	align-items: center
+	gap: 7px
+.healthgraph .card h3 svg
+	width: 13px
+	height: 13px
+.healthgraph .seg
+	display: flex
+	background: #0c0c0c
+	border: 1px solid var(--border)
+	border-radius: 10px
+	padding: 3px
+	gap: 3px
+.healthgraph .seg button
+	flex: 1
+	border: none
+	background: transparent
+	color: var(--muted-foreground)
+	font: 500 11.5px Inter
+	padding: 5px 0
+	border-radius: 8px
+	cursor: pointer
+	transition: all .15s
+.healthgraph .seg button.active
+	background: #ffffff12
+	color: var(--foreground)
+.healthgraph .gradient-bar
+	height: 8px
+	border-radius: 999px
+	background: linear-gradient(90deg, var(--low), var(--mid), var(--high))
+	margin: 4px 0 6px
+.healthgraph .gradient-cap
+	display: flex
+	justify-content: space-between
+	font-size: 10px
+	color: var(--muted-foreground)
+.healthgraph .size-note
+	font-size: 10.5px
+	color: var(--muted-foreground)
+	margin-top: 10px
+	line-height: 1.5
+.healthgraph .hot-row
+	display: flex
+	align-items: center
+	gap: 9px
+	padding: 6px 4px
+	border-radius: 9px
+	cursor: pointer
+	transition: background .15s
+.healthgraph .hot-row:hover
+	background: #ffffff0a
+.healthgraph .hot-rank
+	width: 16px
+	font-size: 10.5px
+	color: var(--muted-foreground)
+	text-align: right
+	flex: none
+	font-variant-numeric: tabular-nums
+.healthgraph .hot-body
+	flex: 1
+	min-width: 0
+.healthgraph .hot-name
+	font-size: 12px
+	font-weight: 550
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+.healthgraph .hot-bar
+	height: 3px
+	border-radius: 999px
+	background: #ffffff12
+	margin-top: 5px
+	overflow: hidden
+.healthgraph .hot-bar i
+	display: block
+	height: 100%
+	border-radius: 999px
+.healthgraph .hot-val
+	font-size: 11px
+	font-weight: 650
+	width: 26px
+	text-align: right
+	flex: none
+	font-variant-numeric: tabular-nums
+.healthgraph .note
+	border-left: 2px solid
+	padding: 8px 0 8px 11px
+	margin-bottom: 10px
+.healthgraph .note:last-child
+	margin-bottom: 0
+.healthgraph .note .n-title
+	font-size: 12.5px
+	font-weight: 600
+	line-height: 1.35
+.healthgraph .note .n-body
+	font-size: 11.5px
+	color: var(--muted-foreground)
+	line-height: 1.55
+	margin-top: 3px
+.healthgraph .note .n-path
+	font-family: "JetBrains Mono", monospace
+	font-size: 9.5px
+	color: #d4d4d490
+	margin-top: 5px
+	word-break: break-all
+.healthgraph #crumbs
+	display: flex
+	align-items: center
+	gap: 6px
+	flex: none
+	min-height: 26px
+	flex-wrap: wrap
+.healthgraph .crumb
+	font-size: 11.5px
+	font-weight: 550
+	color: var(--muted-foreground)
+	background: #111
+	border: 1px solid var(--border)
+	border-radius: 8px
+	padding: 3.5px 10px
+	cursor: pointer
+	transition: all .15s
+.healthgraph .crumb:hover
+	color: var(--foreground)
+	background: #1a1a1a
+.healthgraph .crumb.current
+	color: var(--foreground)
+	cursor: default
+	background: #161616
+.healthgraph .crumb-sep
+	color: #525252
+	font-size: 11px
+.healthgraph #map
+	position: relative
+	flex: 1
+	min-height: 0
+.healthgraph .tm-dir
+	position: absolute
+	border: 1px solid #ffffff14
+	border-radius: 12px
+	background: #ffffff04
+	overflow: hidden
+.healthgraph .tm-dir.depth-1
+	border-color: #ffffff22
+	background: #ffffff07
+.healthgraph .tm-dir.depth-2
+	background: #00000026
+.healthgraph .tm-dir > .tm-dlabel
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	height: 20px
+	display: flex
+	align-items: center
+	padding: 0 10px
+	font-size: 10px
+	font-weight: 600
+	letter-spacing: 0.07em
+	text-transform: uppercase
+	color: #d4d4d499
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+	cursor: pointer
+.healthgraph .tm-dir > .tm-dlabel:hover
+	color: #fff
+.healthgraph .tm-leaf
+	position: absolute
+	border-radius: 9px
+	border: 1px solid
+	overflow: hidden
+	cursor: pointer
+	transition: filter .15s, box-shadow .15s
+	animation: tile-in .45s cubic-bezier(.3,1.3,.5,1) both
+@keyframes tile-in
+	from
+		opacity: 0
+		transform: scale(.92)
+.healthgraph .tm-leaf:hover
+	filter: brightness(1.5)
+	box-shadow: 0 0 0 1.5px #ffffff40 inset
+	z-index: 5
+.healthgraph .tm-lname
+	position: absolute
+	top: 5px
+	left: 8px
+	right: 6px
+	font-size: 11px
+	font-weight: 550
+	line-height: 1.2
+	white-space: nowrap
+	overflow: hidden
+	text-overflow: ellipsis
+	pointer-events: none
+.healthgraph .tm-lsub
+	position: absolute
+	top: 20px
+	left: 8px
+	right: 6px
+	font-size: 9.5px
+	color: #ffffff90
+	pointer-events: none
+	font-variant-numeric: tabular-nums
+.healthgraph .tm-flash
+	animation: flash 1.2s ease
+@keyframes flash
+	0%, 100%
+		box-shadow: none
+	30%
+		box-shadow: 0 0 0 3px #ffffff90 inset
+.healthgraph #tooltip
+	position: fixed
+	z-index: 70
+	pointer-events: none
+	background: #1a1a1a
+	border: 1px solid #ffffff1e
+	border-radius: 11px
+	padding: 9px 12px
+	font-size: 11.5px
+	line-height: 1.5
+	box-shadow: 0 8px 24px #00000090
+	opacity: 0
+	transition: opacity .12s
+	max-width: 320px
+.healthgraph #tooltip .t-name
+	font-weight: 650
+	font-size: 12px
+	margin-bottom: 2px
+.healthgraph #tooltip .t-path
+	font-family: "JetBrains Mono", monospace
+	font-size: 9.5px
+	color: var(--muted-foreground)
+	word-break: break-all
+	margin-bottom: 5px
+.healthgraph #tooltip .t-row
+	display: flex
+	gap: 12px
+	color: #d4d4d4
+.healthgraph #tooltip .t-row b
+	font-variant-numeric: tabular-nums
+.healthgraph #tooltip .t-dim
+	color: var(--muted-foreground)
+.healthgraph #popover
+	position: fixed
+	z-index: 60
+	width: 272px
+	border-radius: 14px
+	background: var(--card)
+	box-shadow: var(--card-shadow)
+	padding: 15px 16px
+	opacity: 0
+	transform: translateY(-4px)
+	pointer-events: none
+	transition: opacity .2s, transform .2s
+.healthgraph #popover.show
+	opacity: 1
+	transform: translateY(0)
+	pointer-events: auto
+.healthgraph #popover .p-kind
+	display: flex
+	align-items: center
+	gap: 6px
+	font-size: 11px
+	font-weight: 550
+	letter-spacing: .04em
+	color: var(--muted-foreground)
+.healthgraph #popover .p-dot
+	width: 8px
+	height: 8px
+	border-radius: 999px
+.healthgraph #popover .p-label
+	margin-top: 5px
+	font-size: 14px
+	font-weight: 650
+	word-break: break-all
+.healthgraph #popover .p-summary
+	margin-top: 5px
+	font-size: 12px
+	line-height: 1.55
+	color: var(--muted-foreground)
+.healthgraph #popover .p-grid
+	display: grid
+	grid-template-columns: 1fr 1fr 1fr
+	gap: 8px 6px
+	margin-top: 11px
+.healthgraph #popover .p-metric b
+	display: block
+	font-size: 13px
+	font-weight: 650
+	font-variant-numeric: tabular-nums
+	white-space: nowrap
+.healthgraph #popover .p-metric span
+	font-size: 9px
+	text-transform: uppercase
+	letter-spacing: .06em
+	color: var(--muted-foreground)
+.healthgraph #popover .p-path
+	margin-top: 11px
+	font-family: "JetBrains Mono", monospace
+	font-size: 9.5px
+	color: #d4d4d480
+	word-break: break-all
+.healthgraph #loading
+	position: absolute
+	inset: 0
+	z-index: 100
+	display: flex
+	align-items: center
+	justify-content: center
+	background: var(--background)
+	color: var(--muted-foreground)
+	font-size: 13px
+	gap: 10px
+	transition: opacity .4s
+.healthgraph #loading .pulse
+	width: 8px
+	height: 8px
+	border-radius: 999px
+	background: var(--high)
+	animation: pulse 1s ease infinite alternate
+@keyframes pulse
+	to
+		opacity: .3
+		transform: scale(.8)
+@media (max-width: 900px)
+	.healthgraph #wrap
+		flex-direction: column
+		overflow-y: auto
+	.healthgraph #rail
+		width: 100%
+		order: 2
+		overflow: visible
+	.healthgraph #main
+		min-height: 70vh
+.healthgraph
+
+	position: relative
+	display: block
+	width: 100%
+	height: 100%
+	overflow: hidden

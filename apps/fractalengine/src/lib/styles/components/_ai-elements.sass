@@ -1,0 +1,227 @@
+// ai-elements styles — shared by Code, Mermaid, Actions, CopyButton.
+// All values use semantic CSS custom variables (Rule 1 & 2 compliant).
+
+// ── Code (read-only CodeMirror) ───────────────────────────────────────────
+.ai-code
+	position: relative
+	display: flex
+	flex-direction: column
+	background: var(--background20)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-4)
+	overflow: hidden
+	max-height: var(--ai-code-max-h, 480px)
+
+	.ai-code-toolbar
+		display: flex
+		align-items: center
+		justify-content: space-between
+		gap: var(--sz-8)
+		padding: var(--sz-4) var(--sz-8)
+		background: var(--background30)
+		border-bottom: 1px solid var(--border-primary)
+		font-size: var(--text-sm)
+		color: var(--text-tertiary)
+		flex-shrink: 0
+
+		.ai-code-lang
+			text-transform: lowercase
+			font-family: var(--font-monospace)
+			letter-spacing: 0.3px
+
+	.ai-code-mount
+		flex: 1
+		min-height: 0
+		overflow: auto
+
+		.cm-editor
+			height: 100%
+		.cm-scroller
+			overflow: auto
+
+	.ai-code-load-error
+		padding: var(--sz-4) var(--sz-8)
+		color: var(--text-secondary)
+		font-size: var(--text-sm)
+		border-bottom: 1px solid var(--border-primary)
+
+	.ai-code-fallback
+		margin: 0
+		padding: var(--sz-8)
+		overflow: auto
+		color: var(--text-primary)
+		font-family: var(--font-monospace)
+		font-size: var(--text-sm)
+		white-space: pre
+
+// ── Mermaid ───────────────────────────────────────────────────────────────
+.ai-mermaid
+	display: flex
+	flex-direction: column
+	gap: var(--sz-8)
+	background: var(--background20)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-4)
+	padding: var(--sz-12)
+	overflow: auto
+
+	.ai-mermaid-svg-wrap
+		display: flex
+		justify-content: center
+		align-items: center
+
+		svg
+			max-width: 100%
+			height: auto
+
+	.ai-mermaid-loading
+		font-size: var(--text-sm)
+		color: var(--text-tertiary)
+		text-align: center
+		padding: var(--sz-8) 0
+
+	.ai-mermaid-error
+		font-size: var(--text-sm)
+		color: var(--text-tertiary)
+		font-family: var(--font-monospace)
+		padding: var(--sz-4) 0 0
+		opacity: 0.7
+
+// ── Copy button ───────────────────────────────────────────────────────────
+.ai-copy-btn
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	height: 22px
+	padding: 0 var(--sz-8)
+	font-size: var(--text-sm)
+	font-weight: 500
+	color: var(--text-secondary)
+	background: transparent
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-2)
+	cursor: pointer
+	transition: background 0.1s, color 0.1s, border-color 0.1s
+
+	&:hover
+		background: var(--background40)
+		color: var(--text-primary)
+
+	&.is-copied
+		color: var(--theme-color)
+		border-color: var(--theme-color)
+
+// ── Actions (row of message actions) ──────────────────────────────────────
+.ai-actions
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+	padding: var(--sz-4) 0 0
+	opacity: 0.7
+	transition: opacity 0.15s
+
+	&:hover
+		opacity: 1
+
+	.ai-action-btn
+		display: inline-flex
+		align-items: center
+		justify-content: center
+		height: 22px
+		padding: 0 var(--sz-8)
+		font-size: var(--text-sm)
+		font-weight: 500
+		color: var(--text-secondary)
+		background: transparent
+		border: 1px solid var(--border-primary)
+		border-radius: var(--sz-2)
+		cursor: pointer
+		transition: background 0.1s, color 0.1s, border-color 0.1s
+
+		&:hover
+			background: var(--background40)
+			color: var(--text-primary)
+			border-color: var(--theme-color)
+
+// ── AIChat ──────────────────────────────────────────────────────────
+.dot-typing-row
+	display: flex
+	gap: var(--sz-4)
+	align-items: center
+	padding: var(--sz-4) 0
+
+.dot-typing
+	width: 6px
+	height: 6px
+	border-radius: var(--control-radius-round)
+	background: var(--text-secondary)
+	animation: dot-bounce 1.2s infinite ease-in-out
+	&:nth-child(2)
+		animation-delay: 0.2s
+	&:nth-child(3)
+		animation-delay: 0.4s
+
+@keyframes dot-bounce
+	0%, 80%, 100%
+		transform: scale(0.6)
+		opacity: 0.4
+	40%
+		transform: scale(1)
+		opacity: 1
+
+.exec-step-box
+	display: flex
+	flex-direction: column
+	gap: var(--sz-8)
+	padding: var(--sz-12)
+	background: var(--background10)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-4)
+	max-width: 85%
+	align-self: flex-start
+
+.exec-step-title
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+	font-size: var(--text-xs)
+	font-weight: 700
+	color: var(--text-tertiary)
+	text-transform: uppercase
+
+.exec-step-list
+	display: flex
+	flex-direction: column
+	gap: var(--sz-4)
+	padding-left: var(--sz-4)
+
+.exec-step-row
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+	font-size: var(--text-xs)
+
+.exec-dot-status
+	display: inline-block
+	width: 6px
+	height: 6px
+	margin: var(--sz-4)
+	border-radius: var(--control-radius-round)
+
+.exec-dot-status-active
+	background: var(--theme-color)
+
+.exec-dot-status-idle
+	background: var(--text-tertiary)
+
+.attached-file-chip
+	display: flex
+	align-items: center
+	gap: var(--sz-4)
+	padding: var(--sz-2) var(--sz-8) var(--sz-2) var(--sz-8)
+	background: var(--background10)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-2)
+
+.attached-file-name
+	max-width: 120px

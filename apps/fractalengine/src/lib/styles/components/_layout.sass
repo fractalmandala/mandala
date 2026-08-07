@@ -1,0 +1,176 @@
+// Main application structure layout SASS
+
+.app-shell
+	display: flex
+	flex-direction: column
+	width: 100vw
+	height: 100vh
+	overflow: hidden
+	color: var(--text-primary)
+
+.header-strip
+	height: 48px
+	width: 100%
+	background: var(--background30)
+	border-bottom: 1px solid var(--border-tertiary)
+	flex-shrink: 0
+	z-index: var(--z-panel)
+	padding-left: 88px
+
+.footer-strip
+	height: 32px
+	width: 100%
+	background: var(--background30)
+	border-top: 1px solid var(--border-primary)
+	flex-shrink: 0
+	z-index: var(--z-panel)
+
+.board-region
+	display: flex
+	flex-direction: column
+	flex: 1
+	width: 100%
+	overflow: hidden
+	position: relative
+
+.workspace-transition-surface
+	display: flex
+	flex: 1
+	min-height: 0
+	width: 100%
+	overflow: hidden
+	view-transition-name: fractalengine-workspace
+
+@keyframes module-vertical-wipe
+	0%
+		clip-path: inset(0 0 100% 0)
+	100%
+		clip-path: inset(0 0 0 0)
+
+html.module-wipe-transition
+	&::view-transition-old(fractalengine-workspace),
+	&::view-transition-new(fractalengine-workspace)
+		animation: none
+		mix-blend-mode: normal
+
+	&::view-transition-old(fractalengine-workspace)
+		z-index: 1
+
+	&::view-transition-new(fractalengine-workspace)
+		z-index: 2
+		animation: module-vertical-wipe .5s ease-in-out forwards
+
+.global-browser-drawer
+	position: absolute
+	inset: 0 0 0 auto
+	width: min(720px, 72vw)
+	z-index: var(--z-overlay)
+	border-left: 1px solid var(--border-primary)
+	background: var(--background10)
+	box-shadow: var(--elevation-2)
+
+.panel-loading
+	background: var(--background10)
+
+.panel-error
+	background: var(--background10)
+	text-align: center
+	color: var(--feedback-error)
+
+.ide-center-editor-region
+	display: flex
+	flex: 1 1 0
+	min-height: 0
+	min-width: 0
+	overflow: hidden
+
+.middle-bottom-terminal-zone
+	width: 100%
+	flex-shrink: 0
+	display: flex
+	min-height: 0
+	overflow: hidden
+	// Divider above is the .resize-handle-h sibling — do not stack another border-top here.
+
+// Draggable Resize Handles — the only visible divider between panels.
+// Hairline at rest (var(--border-primary)), brightens to var(--theme-color) on hover/drag.
+
+.resize-handle-h
+	height: 1px
+	background: var(--border-primary)
+	cursor: row-resize
+	flex-shrink: 0
+	z-index: var(--z-overlay)
+	transition: background 150ms ease, box-shadow 150ms ease
+	&:hover, &.active-resizing
+		background: var(--theme-color)
+		box-shadow: 0 0 4px var(--theme-color)
+	&:focus-visible
+		outline: none
+		box-shadow: var(--focus-ring)
+
+// Drag & Drop Docking Indicators
+.drag-target-highlight
+	outline: 2px dashed var(--theme-color)
+	outline-offset: -4px
+	background: rgba(59, 130, 246, 0.03)
+
+.drop-overlay
+	position: absolute
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	background: var(--overlay-bg-dark)
+	border: 2px dashed var(--theme-color)
+	border-radius: var(--sz-2)
+	color: var(--theme-color)
+	z-index: var(--z-overlay)
+	display: flex
+	flex-direction: column
+	justify-content: center
+	align-items: center
+	pointer-events: none
+
+.sidebar-terminal-divider
+	height: 1px
+	background: var(--border-primary)
+	flex-shrink: 0
+
+// Footer utilities
+
+// SVG Icon Helpers
+.icon-svg
+	width: 18px
+	height: 18px
+	display: inline-block
+	flex-shrink: 0
+	&.muted
+		filter: saturate(0)
+
+.icon-svg-xs
+	width: 10px
+	height: 10px
+	display: inline-block
+	flex-shrink: 0
+
+.icon-svg-sm
+	width: 14px
+	height: 14px
+	display: inline-block
+	flex-shrink: 0
+
+.icon-svg-large
+	width: 24px
+	height: 24px
+	display: inline-block
+	flex-shrink: 0
+
+.icon-svg-xl
+	width: 27px
+	height: 27px
+	display: inline-block
+	flex-shrink: 0
+
+.flip-h
+	transform: scaleX(-1)

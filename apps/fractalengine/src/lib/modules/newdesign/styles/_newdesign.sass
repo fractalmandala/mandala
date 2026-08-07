@@ -1,0 +1,238 @@
+.newdesign-sidebar
+	padding: var(--sz-8)
+
+.newdesign-left, .newdesign-right
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-4)
+
+.newdesign-sidebar-heading
+	display: grid
+	gap: var(--sz-4)
+
+.newdesign-library-unit
+	display: grid
+	grid-template-columns: var(--sz-24) minmax(0, 1fr)
+	gap: var(--sz-6)
+	align-items: center
+	width: 100%
+	min-height: var(--sz-64)
+	padding: var(--sz-12)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-4)
+	background: var(--background20)
+	color: var(--text-primary)
+	text-align: left
+	cursor: grab
+	touch-action: none
+	transition: var(--transition-control)
+	&:hover, &:focus-visible, &.dragging
+		border-color: var(--theme-color)
+		background: var(--accent-surface-faint)
+		outline: none
+	&.dragging
+		cursor: grabbing
+		box-shadow: var(--shadow-focus-accent)
+	.text-item-sm
+		grid-column: 2
+
+.newdesign-central
+	min-height: 0
+
+.newdesign-canvas-grid-viewport
+	position: relative
+	width: 100%
+	height: 100%
+	min-height: 0
+	overflow: hidden
+	background: var(--canvas-sheet-bg)
+	background-position: center center
+	cursor: default
+	background-image: linear-gradient(to right, var(--border-tertiary) 1px, transparent 1px), linear-gradient(to bottom, var(--border-tertiary) 1px, transparent 1px)
+	&.panning
+		cursor: grabbing
+
+.newdesign-canvas-grid-world
+	position: absolute
+	inset: 0
+	transform-origin: 0 0
+
+.newdesign-canvas-grid-pattern
+	position: absolute
+	inset: 0
+	pointer-events: none
+
+.newdesign-canvas-controls
+	position: absolute
+	right: var(--sz-12)
+	bottom: var(--sz-12)
+	display: flex
+	align-items: center
+	gap: var(--sz-4)
+	padding: var(--sz-4)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-4)
+	background: var(--background30)
+	box-shadow: var(--shadow-canvas-float)
+
+.newdesign-canvas-control
+	width: var(--sz-24)
+	height: var(--sz-24)
+
+.newdesign-canvas-zoom
+	min-width: var(--sz-48)
+	text-align: center
+
+.newdesign-canvas-unit
+	position: absolute
+	display: grid
+	align-content: center
+	gap: var(--sz-6)
+	box-sizing: border-box
+	padding: var(--sz-16)
+	background: var(--background30)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-4)
+	color: var(--text-primary)
+	cursor: grab
+	transform-origin: center
+	user-select: none
+	touch-action: none
+	&:active
+		cursor: grabbing
+	&.selected
+		border-color: var(--theme-color)
+		box-shadow: var(--shadow-focus-accent)
+
+.newdesign-resize-handle, .newdesign-rotate-handle
+	position: absolute
+	display: block
+	width: var(--sz-12)
+	height: var(--sz-12)
+	background: var(--background10)
+	border: 1px solid var(--theme-color)
+	border-radius: var(--sz-2)
+	touch-action: none
+
+.newdesign-resize-handle
+	right: calc(var(--sz-6) * -1)
+	bottom: calc(var(--sz-6) * -1)
+	cursor: nwse-resize
+
+.newdesign-rotate-handle
+	left: calc(50% - var(--sz-6))
+	top: calc(var(--sz-24) * -1)
+	cursor: grab
+	&::before
+		position: absolute
+		left: calc(50% - 1px)
+		bottom: 100%
+		width: 1px
+		height: var(--sz-12)
+		background: var(--theme-color)
+		content: ''
+
+.newdesign-pattern-trigger
+	max-width: calc(var(--sz-96) * 2)
+	.button-text
+		overflow: hidden
+		text-overflow: ellipsis
+		white-space: nowrap
+
+.newdesign-pattern-menu
+	z-index: calc(var(--z-overlay) + 10)
+	width: calc(var(--sz-96) * 3 + var(--sz-8) * 4)
+	max-height: 60vh
+	overflow-y: auto
+	padding: var(--sz-8)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-4)
+	background: var(--background30)
+	box-shadow: var(--shadow-canvas-float)
+
+.newdesign-pattern-heading
+	padding: var(--sz-8) var(--sz-6) var(--sz-4)
+	text-transform: uppercase
+	letter-spacing: 0.04em
+
+.newdesign-pattern-grid
+	display: grid
+	grid-template-columns: repeat(3, 1fr)
+	gap: var(--sz-8)
+
+.newdesign-pattern-tile
+	display: grid
+	gap: var(--sz-6)
+	padding: var(--sz-6)
+	border: 1px solid transparent
+	border-radius: var(--sz-4)
+	color: var(--text-primary)
+	cursor: default
+	user-select: none
+	outline: none
+	transition: var(--transition-control)
+	&[data-highlighted]
+		background: var(--accent-surface-faint)
+	&.selected
+		border-color: var(--theme-color)
+		background: var(--accent-surface-subtle)
+		box-shadow: var(--shadow-focus-accent)
+
+.newdesign-pattern-preview
+	position: relative
+	display: block
+	height: var(--sz-48)
+	overflow: hidden
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-2)
+	background: var(--background10)
+
+.newdesign-pattern-preview-inner
+	position: absolute
+	top: 0
+	left: 0
+	width: 200%
+	height: 200%
+	transform: scale(0.5)
+	transform-origin: 0 0
+
+.newdesign-pattern-preview-default
+	width: 100%
+	height: 100%
+	transform: none
+	background-color: var(--canvas-sheet-bg)
+	background-image: linear-gradient(to right, var(--border-tertiary) 1px, transparent 1px), linear-gradient(to bottom, var(--border-tertiary) 1px, transparent 1px)
+	background-size: var(--sz-24) var(--sz-24)
+
+.newdesign-pattern-thumb
+	position: relative
+	flex: none
+	width: var(--sz-16)
+	height: var(--sz-16)
+	overflow: hidden
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-2)
+	background: var(--background10)
+
+.newdesign-pattern-thumb-inner
+	position: absolute
+	top: 0
+	left: 0
+	width: 400%
+	height: 400%
+	transform: scale(0.25)
+	transform-origin: 0 0
+
+.newdesign-pattern-thumb-default
+	width: 100%
+	height: 100%
+	transform: none
+	background-color: var(--canvas-sheet-bg)
+	background-image: linear-gradient(to right, var(--border-tertiary) 1px, transparent 1px), linear-gradient(to bottom, var(--border-tertiary) 1px, transparent 1px)
+	background-size: var(--sz-8) var(--sz-8)
+
+.newdesign-pattern-name
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+	text-align: center

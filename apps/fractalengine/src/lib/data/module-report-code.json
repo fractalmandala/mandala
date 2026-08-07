@@ -1,0 +1,648 @@
+{
+	"version": 1,
+	"scan": "module-flow",
+	"project": {
+		"name": "FractalEngine Studio",
+		"slug": "fractalengine",
+		"date": "2026-07-18"
+	},
+	"module": {
+		"id": "code",
+		"name": "fractalCode",
+		"entryLayout": "src/lib/modules/ide/components/ClassicIdeLayout.svelte",
+		"root": "src/lib/modules/ide",
+		"summary": "Classic multi-pane IDE layout for code editing, terminal execution, and file browsing.",
+		"externalModules": [
+			"media"
+		]
+	},
+	"stats": {
+		"nodes": 31,
+		"edges": 41,
+		"components": 5,
+		"stateFiles": 1,
+		"commands": 8,
+		"ipcCalls": 13,
+		"flows": 8
+	},
+	"groups": [
+		{
+			"id": "layout",
+			"label": "Layout"
+		},
+		{
+			"id": "components",
+			"label": "Components"
+		},
+		{
+			"id": "state",
+			"label": "State"
+		},
+		{
+			"id": "commands",
+			"label": "Commands & Palette"
+		},
+		{
+			"id": "ipc",
+			"label": "IPC / Backend"
+		},
+		{
+			"id": "shared",
+			"label": "Shared Components"
+		},
+		{
+			"id": "external",
+			"label": "Other Modules"
+		}
+	],
+	"nodes": [
+		{
+			"id": "cmp:ClassicIdeLayout",
+			"label": "ClassicIdeLayout.svelte",
+			"kind": "layout",
+			"group": "layout",
+			"path": "src/lib/modules/ide/components/ClassicIdeLayout.svelte",
+			"loc": 221,
+			"summary": "Root layout for the code module, rendering panels, sidebars, and terminal.",
+			"tags": [
+				"entry"
+			]
+		},
+		{
+			"id": "cmp:Sidebar",
+			"label": "Sidebar.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/ide/components/Sidebar.svelte",
+			"loc": 41,
+			"summary": "Left/right sidebar container managing file explorer tree and AI Chat panel."
+		},
+		{
+			"id": "cmp:TreeNode",
+			"label": "TreeNode.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/ide/components/TreeNode.svelte",
+			"loc": 529,
+			"summary": "Recursive tree node component representing directories, files, and context menu."
+		},
+		{
+			"id": "cmp:Editor",
+			"label": "Editor.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/ide/components/Editor.svelte",
+			"loc": 181,
+			"summary": "CodeMirror-based code editor and tab switcher with per-file undo/redo buffers."
+		},
+		{
+			"id": "cmp:Terminal",
+			"label": "Terminal.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/ide/components/Terminal.svelte",
+			"loc": 55,
+			"summary": "Interactive virtual console for executing IDE shell commands and printing logs."
+		},
+		{
+			"id": "state:ideState",
+			"label": "ide.svelte.ts",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/state/ide.svelte.ts",
+			"loc": 2385,
+			"summary": "Global reactive state manager for workspace paths, open files, logs, and layouts.",
+			"tags": [
+				"singleton"
+			]
+		},
+		{
+			"id": "fn:getFileIcon",
+			"label": "fileIcons.ts",
+			"kind": "function",
+			"group": "components",
+			"path": "src/lib/modules/ide/fileIcons.ts",
+			"loc": 176,
+			"summary": "Maps filename patterns and extensions to SVG icons in the file tree explorer."
+		},
+		{
+			"id": "shared:AIChat",
+			"label": "AIChat.svelte",
+			"kind": "shared",
+			"group": "shared"
+		},
+		{
+			"id": "shared:BrowserLauncherCard",
+			"label": "BrowserLauncherCard.svelte",
+			"kind": "shared",
+			"group": "shared"
+		},
+		{
+			"id": "ext:media",
+			"label": "Media Module",
+			"kind": "external",
+			"group": "external",
+			"summary": "Target module for adding audio/video/image assets to media library gallery."
+		},
+		{
+			"id": "cmd:core.toggleLeftSidebar",
+			"label": "core.toggleLeftSidebar",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Header Click"
+			]
+		},
+		{
+			"id": "cmd:core.toggleRightSidebar",
+			"label": "core.toggleRightSidebar",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Header Click"
+			]
+		},
+		{
+			"id": "cmd:core.toggleTerminal",
+			"label": "core.toggleTerminal",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Footer Click"
+			]
+		},
+		{
+			"id": "cmd:core.toggleBrowser",
+			"label": "core.toggleBrowser",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Header Click"
+			]
+		},
+		{
+			"id": "cmd:core.openFile",
+			"label": "core.openFile",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+o"
+			]
+		},
+		{
+			"id": "cmd:core.openFolder",
+			"label": "core.openFolder",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+shift+o"
+			]
+		},
+		{
+			"id": "cmd:core.saveActiveFile",
+			"label": "core.saveActiveFile",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"cmd+s"
+			]
+		},
+		{
+			"id": "cmd:core.runBuildPipeline",
+			"label": "core.runBuildPipeline",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Header Click"
+			]
+		},
+		{
+			"id": "ipc:listDirectory",
+			"label": "listDirectory",
+			"kind": "ipc",
+			"group": "ipc",
+			"summary": "Backend command to read files and folders inside a directory path."
+		},
+		{
+			"id": "ipc:readFile",
+			"label": "readFile",
+			"kind": "ipc",
+			"group": "ipc",
+			"summary": "Backend command to read text contents of a file on disk."
+		},
+		{
+			"id": "ipc:writeFile",
+			"label": "writeFile",
+			"kind": "ipc",
+			"group": "ipc",
+			"summary": "Backend command to write string content to a file path."
+		},
+		{
+			"id": "ipc:renameFile",
+			"label": "renameFile",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:deleteFile",
+			"label": "deleteFile",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:duplicateFile",
+			"label": "duplicateFile",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:createFile",
+			"label": "createFile",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:copyPath",
+			"label": "copyPath",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:selectDownloadDirectory",
+			"label": "selectDownloadDirectory",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:selectSaveFile",
+			"label": "selectSaveFile",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:selectOpenFile",
+			"label": "selectOpenFile",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:selectFile",
+			"label": "selectFile",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:closeAppWindow",
+			"label": "closeAppWindow",
+			"kind": "ipc",
+			"group": "ipc"
+		}
+	],
+	"edges": [
+		{
+			"from": "cmp:ClassicIdeLayout",
+			"to": "cmp:Sidebar",
+			"kind": "renders",
+			"label": "side=left/right"
+		},
+		{
+			"from": "cmp:ClassicIdeLayout",
+			"to": "cmp:Terminal",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:ClassicIdeLayout",
+			"to": "cmp:Editor",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:ClassicIdeLayout",
+			"to": "shared:BrowserLauncherCard",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:Sidebar",
+			"to": "cmp:TreeNode",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:Sidebar",
+			"to": "shared:AIChat",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "cmp:TreeNode",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:ClassicIdeLayout",
+			"to": "state:ideState",
+			"kind": "reads",
+			"label": "terminalCollapsed, terminalLocation, etc."
+		},
+		{
+			"from": "cmp:Sidebar",
+			"to": "state:ideState",
+			"kind": "reads",
+			"label": "rootPath, fileEntries"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "state:ideState",
+			"kind": "reads",
+			"label": "expandedFolders, selectedFiles, clipboardFiles"
+		},
+		{
+			"from": "cmp:Editor",
+			"to": "state:ideState",
+			"kind": "reads",
+			"label": "activeFile, openFiles, editorLineWrapping"
+		},
+		{
+			"from": "cmp:Terminal",
+			"to": "state:ideState",
+			"kind": "reads",
+			"label": "consoleLogs, terminalInput"
+		},
+		{
+			"from": "cmp:ClassicIdeLayout",
+			"to": "state:ideState",
+			"kind": "writes",
+			"label": "setTerminalLocation, toggleBrowser"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "state:ideState",
+			"kind": "writes",
+			"label": "openFile, toggleFolderExpanded, refreshExplorerFolder"
+		},
+		{
+			"from": "cmp:Editor",
+			"to": "state:ideState",
+			"kind": "writes",
+			"label": "saveActiveFile, updateActiveFileContent, openFile"
+		},
+		{
+			"from": "cmp:Terminal",
+			"to": "state:ideState",
+			"kind": "writes",
+			"label": "executeTerminalCommand, binds terminalInput"
+		},
+		{
+			"from": "cmd:core.toggleLeftSidebar",
+			"to": "state:ideState",
+			"kind": "commands",
+			"label": "toggleLeftSidebar()"
+		},
+		{
+			"from": "cmd:core.toggleRightSidebar",
+			"to": "state:ideState",
+			"kind": "commands",
+			"label": "toggleRightSidebar()"
+		},
+		{
+			"from": "cmd:core.toggleTerminal",
+			"to": "state:ideState",
+			"kind": "commands",
+			"label": "toggleTerminal()"
+		},
+		{
+			"from": "cmd:core.toggleBrowser",
+			"to": "state:ideState",
+			"kind": "commands",
+			"label": "toggleBrowser()"
+		},
+		{
+			"from": "cmd:core.openFile",
+			"to": "state:ideState",
+			"kind": "commands",
+			"label": "browseAndOpenFile()"
+		},
+		{
+			"from": "cmd:core.openFolder",
+			"to": "state:ideState",
+			"kind": "commands",
+			"label": "selectAndLoadDirectory()"
+		},
+		{
+			"from": "cmd:core.saveActiveFile",
+			"to": "state:ideState",
+			"kind": "commands",
+			"label": "saveActiveFile()"
+		},
+		{
+			"from": "cmd:core.runBuildPipeline",
+			"to": "state:ideState",
+			"kind": "commands",
+			"label": "executeTerminalCommand('run')"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "fn:getFileIcon",
+			"kind": "calls",
+			"label": "getFileIcon(name)"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "ipc:renameFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "ipc:deleteFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "ipc:duplicateFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "ipc:createFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "ipc:copyPath",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:ideState",
+			"to": "ipc:listDirectory",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:ideState",
+			"to": "ipc:readFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:ideState",
+			"to": "ipc:writeFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:ideState",
+			"to": "ipc:selectDownloadDirectory",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:ideState",
+			"to": "ipc:selectSaveFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:ideState",
+			"to": "ipc:selectOpenFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:ideState",
+			"to": "ipc:selectFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "state:ideState",
+			"to": "ipc:closeAppWindow",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:TreeNode",
+			"to": "ext:media",
+			"kind": "dispatches",
+			"label": "media.addToGallery"
+		},
+		{
+			"from": "state:ideState",
+			"to": "cmp:ClassicIdeLayout",
+			"kind": "navigates",
+			"label": "leftSidebarCollapsed, rightSidebarCollapsed, etc."
+		},
+		{
+			"from": "state:ideState",
+			"to": "cmp:Editor",
+			"kind": "navigates",
+			"label": "activeFile updates active tab"
+		}
+	],
+	"flows": [
+		{
+			"id": "open-file",
+			"name": "Open file from tree",
+			"trigger": "Click on file button in TreeNode",
+			"steps": [
+				"cmp:TreeNode",
+				"state:ideState",
+				"ipc:readFile",
+				"cmp:Editor"
+			],
+			"summary": "Loads and displays target file contents in CodeMirror editor tabs."
+		},
+		{
+			"id": "create-file",
+			"name": "Create new file",
+			"trigger": "Context menu 'Add File' in tree",
+			"steps": [
+				"cmp:TreeNode",
+				"ipc:createFile",
+				"state:ideState",
+				"ipc:listDirectory",
+				"cmp:TreeNode"
+			],
+			"summary": "Creates new empty file on disk and updates the Sidebar file tree."
+		},
+		{
+			"id": "save-file",
+			"name": "Save active file",
+			"trigger": "Keybinding Cmd+S",
+			"steps": [
+				"cmd:core.saveActiveFile",
+				"cmp:Editor",
+				"state:ideState",
+				"ipc:writeFile",
+				"ipc:listDirectory"
+			],
+			"summary": "Writes current CodeMirror editor buffer back to the local file system."
+		},
+		{
+			"id": "open-folder",
+			"name": "Open workspace folder",
+			"trigger": "Keybinding Cmd+Shift+O",
+			"steps": [
+				"cmd:core.openFolder",
+				"cmp:Editor",
+				"state:ideState",
+				"ipc:selectDownloadDirectory",
+				"ipc:listDirectory",
+				"cmp:TreeNode"
+			],
+			"summary": "Prompts folder selection dialog and builds a fresh sidebar file tree."
+		},
+		{
+			"id": "add-to-gallery",
+			"name": "Add asset to Media Gallery",
+			"trigger": "Context menu 'Add to Gallery' in tree",
+			"steps": [
+				"cmp:TreeNode",
+				"ext:media"
+			],
+			"summary": "Delegates file paths to the Media module gallery via global contributions."
+		},
+		{
+			"id": "terminal-ls",
+			"name": "List files in terminal",
+			"trigger": "Enter key on terminal prompt input",
+			"steps": [
+				"cmp:Terminal",
+				"state:ideState",
+				"ipc:listDirectory",
+				"cmp:Terminal"
+			],
+			"summary": "Runs virtual 'ls' command in shell console, listing directory items."
+		},
+		{
+			"id": "toggle-sidebar",
+			"name": "Toggle left sidebar",
+			"trigger": "Click sidebar toggle icon",
+			"steps": [
+				"cmd:core.toggleLeftSidebar",
+				"state:ideState",
+				"cmp:ClassicIdeLayout"
+			],
+			"summary": "Collapses or slides out the tree sidebar with transition animations."
+		},
+		{
+			"id": "drag-dock-terminal",
+			"name": "Dock terminal via drag & drop",
+			"trigger": "Drag terminal to left/right/bottom zones",
+			"steps": [
+				"cmp:ClassicIdeLayout",
+				"state:ideState",
+				"cmp:ClassicIdeLayout"
+			],
+			"summary": "Drags terminal and updates layout positioning rules in the editor workspace."
+		}
+	],
+	"notes": [
+		{
+			"title": "God-state hotspot: ideState",
+			"body": "ide.svelte.ts acts as the single orchestrator for layouts, file buffers, virtual shell logs, models downloading, and AI stream events, leading to a high-degree fan-in.",
+			"severity": "warn",
+			"path": "src/lib/state/ide.svelte.ts"
+		},
+		{
+			"title": "Recursive TreeNode rendering and IPC actions",
+			"body": "TreeNode recursively renders itself to represent directory sub-trees. It coordinates file modifications directly with IPC calls and reconciles updates in ideState.",
+			"severity": "info",
+			"path": "src/lib/modules/ide/components/TreeNode.svelte"
+		},
+		{
+			"title": "Tab-local Editor states",
+			"body": "Editor uses a local Map of CodeMirror EditorStates to prevent Ctrl+Z from undoing across tab boundaries when switching between active files.",
+			"severity": "info",
+			"path": "src/lib/modules/ide/components/Editor.svelte"
+		}
+	]
+}

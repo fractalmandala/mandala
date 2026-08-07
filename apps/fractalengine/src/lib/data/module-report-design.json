@@ -1,0 +1,594 @@
+{
+	"version": 1,
+	"scan": "module-flow",
+	"project": {
+		"name": "FractalEngine Studio",
+		"slug": "fractalengine",
+		"date": "2026-07-18"
+	},
+	"module": {
+		"id": "design",
+		"name": "fractalDesign",
+		"entryLayout": "src/lib/modules/designer/components/DesignLayout.svelte",
+		"root": "src/lib/modules/designer",
+		"summary": "Figma-like vector graphics and UI design canvas, rendering recursive scene-graphs.",
+		"externalModules": []
+	},
+	"stats": {
+		"nodes": 24,
+		"edges": 38,
+		"components": 5,
+		"stateFiles": 2,
+		"commands": 9,
+		"ipcCalls": 0,
+		"flows": 7
+	},
+	"groups": [
+		{
+			"id": "layout",
+			"label": "Layout"
+		},
+		{
+			"id": "components",
+			"label": "Components"
+		},
+		{
+			"id": "state",
+			"label": "State"
+		},
+		{
+			"id": "commands",
+			"label": "Commands & Palette"
+		},
+		{
+			"id": "ipc",
+			"label": "IPC / Backend"
+		},
+		{
+			"id": "shared",
+			"label": "Shared Components"
+		},
+		{
+			"id": "external",
+			"label": "Other Modules"
+		}
+	],
+	"nodes": [
+		{
+			"id": "cmp:DesignLayout",
+			"label": "DesignLayout.svelte",
+			"kind": "layout",
+			"group": "layout",
+			"path": "src/lib/modules/designer/components/DesignLayout.svelte",
+			"loc": 1330,
+			"summary": "Entry workspace canvas layout coordinating viewports, libraries, layers, and inspectors.",
+			"tags": [
+				"entry"
+			]
+		},
+		{
+			"id": "cmp:Layers",
+			"label": "Layers.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/designer/components/Layers.svelte",
+			"loc": 358,
+			"summary": "Nested layer outline panel with drag-to-reorder, grouping, and context actions."
+		},
+		{
+			"id": "cmp:ComponentLibrary",
+			"label": "ComponentLibrary.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/designer/components/ComponentLibrary.svelte",
+			"loc": 403,
+			"summary": "Library panel for primitives, user-saved component subtrees, and templates."
+		},
+		{
+			"id": "cmp:DesignBlock",
+			"label": "DesignBlock.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/designer/components/DesignBlock.svelte",
+			"loc": 456,
+			"summary": "Recursive canvas node rendering shapes, text, vectors, frames, and resize handles."
+		},
+		{
+			"id": "cmp:DesignInspector",
+			"label": "DesignInspector.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/designer/components/DesignInspector.svelte",
+			"loc": 1814,
+			"summary": "Figma-style sidebar inspector for editing properties, fills, strokes, and layouts."
+		},
+		{
+			"id": "cmp:ExportPanel",
+			"label": "ExportPanel.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/designer/components/ExportPanel.svelte",
+			"loc": 306,
+			"summary": "Code generator panel converting canvas subtrees into HTML, CSS, Svelte, or SASS."
+		},
+		{
+			"id": "state:designState",
+			"label": "design.svelte.ts",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/modules/designer/state/design.svelte.ts",
+			"loc": 132,
+			"summary": "Layout state manager for sidebar collapsed/expanded widths and panel histories.",
+			"tags": [
+				"singleton"
+			]
+		},
+		{
+			"id": "state:designcanvas",
+			"label": "designcanvas.svelte.ts",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/modules/designer/state/designcanvas.svelte.ts",
+			"loc": 4018,
+			"summary": "Core scene graph, managing block items, selection, clipboard, and undo/redo.",
+			"tags": [
+				"singleton"
+			]
+		},
+		{
+			"id": "fn:CanvasViewport",
+			"label": "CanvasViewport.svelte.ts",
+			"kind": "function",
+			"group": "components",
+			"path": "src/lib/modules/designer/engine/CanvasViewport.svelte.ts",
+			"loc": 250,
+			"summary": "Manages designer canvas coordinates, bounds, zoom actions, and panning state."
+		},
+		{
+			"id": "fn:DragEngine",
+			"label": "DragEngine.svelte.ts",
+			"kind": "function",
+			"group": "components",
+			"path": "src/lib/modules/designer/engine/DragEngine.svelte.ts",
+			"loc": 200,
+			"summary": "Tracks dragging operations, snapping constraints, and delta transformations."
+		},
+		{
+			"id": "fn:ResizeEngine",
+			"label": "ResizeEngine.svelte.ts",
+			"kind": "function",
+			"group": "components",
+			"path": "src/lib/modules/designer/engine/ResizeEngine.svelte.ts",
+			"loc": 200,
+			"summary": "Handles bounding box resizing calculations from multiple handle directions."
+		},
+		{
+			"id": "fn:RotateEngine",
+			"label": "RotateEngine.svelte.ts",
+			"kind": "function",
+			"group": "components",
+			"path": "src/lib/modules/designer/engine/RotateEngine.svelte.ts",
+			"loc": 100,
+			"summary": "Calculates rotations, snap angles, and transform origin positions."
+		},
+		{
+			"id": "fn:SelectionEngine",
+			"label": "SelectionEngine.svelte.ts",
+			"kind": "function",
+			"group": "components",
+			"path": "src/lib/modules/designer/engine/SelectionEngine.svelte.ts",
+			"loc": 180,
+			"summary": "Manages pointer selection box marquee and multiselect intersection logic."
+		},
+		{
+			"id": "fn:codegen",
+			"label": "codegen.ts",
+			"kind": "function",
+			"group": "components",
+			"path": "src/lib/modules/designer/engine/codegen.ts",
+			"loc": 400,
+			"summary": "Generates HTML, CSS, SASS, or Svelte components from design subtrees."
+		},
+		{
+			"id": "shared:AIChat",
+			"label": "AIChat.svelte",
+			"kind": "shared",
+			"group": "shared"
+		},
+		{
+			"id": "cmd:designer.toggleLayersSidebar",
+			"label": "designer.toggleLayersSidebar",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:designer.toggleAiSidebar",
+			"label": "designer.toggleAiSidebar",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:designer.resetScene",
+			"label": "designer.resetScene",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:designer.centerCanvas",
+			"label": "designer.centerCanvas",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:designer.zoom100",
+			"label": "designer.zoom100",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Cmd+0"
+			]
+		},
+		{
+			"id": "cmd:designer.zoomFit",
+			"label": "designer.zoomFit",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Cmd+1"
+			]
+		},
+		{
+			"id": "cmd:designer.zoomSelection",
+			"label": "designer.zoomSelection",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Cmd+2"
+			]
+		},
+		{
+			"id": "cmd:designer.zoomIn",
+			"label": "designer.zoomIn",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Cmd+="
+			]
+		},
+		{
+			"id": "cmd:designer.zoomOut",
+			"label": "designer.zoomOut",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Cmd+-"
+			]
+		}
+	],
+	"edges": [
+		{
+			"from": "cmp:DesignLayout",
+			"to": "cmp:Layers",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "cmp:ComponentLibrary",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "cmp:DesignBlock",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "cmp:DesignInspector",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "cmp:ExportPanel",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "shared:AIChat",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:DesignBlock",
+			"to": "cmp:DesignBlock",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "state:designState",
+			"kind": "reads",
+			"label": "ratios and panel collapsing states"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "state:designcanvas",
+			"kind": "reads",
+			"label": "block items, active guides, selected ids, viewport coordinates"
+		},
+		{
+			"from": "cmp:Layers",
+			"to": "state:designcanvas",
+			"kind": "reads",
+			"label": "block items, active selections"
+		},
+		{
+			"from": "cmp:ComponentLibrary",
+			"to": "state:designcanvas",
+			"kind": "reads",
+			"label": "items, userComponents"
+		},
+		{
+			"from": "cmp:DesignBlock",
+			"to": "state:designcanvas",
+			"kind": "reads",
+			"label": "editing text block status"
+		},
+		{
+			"from": "cmp:DesignInspector",
+			"to": "state:designcanvas",
+			"kind": "reads",
+			"label": "block style, fonts, typography details"
+		},
+		{
+			"from": "cmp:ExportPanel",
+			"to": "state:designcanvas",
+			"kind": "reads",
+			"label": "all scene blocks and active selection ids"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "state:designState",
+			"kind": "writes",
+			"label": "sets widths of left and right panels"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "state:designcanvas",
+			"kind": "writes",
+			"label": "creates blocks, reparents, duplicates, nudges"
+		},
+		{
+			"from": "cmp:Layers",
+			"to": "state:designcanvas",
+			"kind": "writes",
+			"label": "selects, groups, deletes, pastes, cuts, reorders"
+		},
+		{
+			"from": "cmp:ComponentLibrary",
+			"to": "state:designcanvas",
+			"kind": "writes",
+			"label": "inserts templates/primitives/components"
+		},
+		{
+			"from": "cmp:DesignBlock",
+			"to": "state:designcanvas",
+			"kind": "writes",
+			"label": "initiates editing text inside editor"
+		},
+		{
+			"from": "cmp:DesignInspector",
+			"to": "state:designcanvas",
+			"kind": "writes",
+			"label": "modifies block style properties and typography"
+		},
+		{
+			"from": "cmd:designer.toggleLayersSidebar",
+			"to": "state:designState",
+			"kind": "commands",
+			"label": "design.toggleSidebar()"
+		},
+		{
+			"from": "cmd:designer.toggleAiSidebar",
+			"to": "state:designState",
+			"kind": "commands",
+			"label": "design.toggleAichat()"
+		},
+		{
+			"from": "cmd:designer.resetScene",
+			"to": "state:designcanvas",
+			"kind": "commands",
+			"label": "designcanvas.resetScene()"
+		},
+		{
+			"from": "cmd:designer.centerCanvas",
+			"to": "cmp:DesignLayout",
+			"kind": "dispatches",
+			"label": "fractaldesign:center-view"
+		},
+		{
+			"from": "cmd:designer.zoom100",
+			"to": "cmp:DesignLayout",
+			"kind": "dispatches",
+			"label": "fractaldesign:zoom detail: '100'"
+		},
+		{
+			"from": "cmd:designer.zoomFit",
+			"to": "cmp:DesignLayout",
+			"kind": "dispatches",
+			"label": "fractaldesign:zoom detail: 'fit'"
+		},
+		{
+			"from": "cmd:designer.zoomSelection",
+			"to": "cmp:DesignLayout",
+			"kind": "dispatches",
+			"label": "fractaldesign:zoom detail: 'selection'"
+		},
+		{
+			"from": "cmd:designer.zoomIn",
+			"to": "cmp:DesignLayout",
+			"kind": "dispatches",
+			"label": "fractaldesign:zoom detail: 'in'"
+		},
+		{
+			"from": "cmd:designer.zoomOut",
+			"to": "cmp:DesignLayout",
+			"kind": "dispatches",
+			"label": "fractaldesign:zoom detail: 'out'"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "fn:CanvasViewport",
+			"kind": "calls",
+			"label": "vp.panStart(), vp.screenToCanvas(), etc."
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "fn:DragEngine",
+			"kind": "calls",
+			"label": "drag.onPointerMove(), drag.onPointerUp()"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "fn:ResizeEngine",
+			"kind": "calls",
+			"label": "resize.onPointerMove(), resize.onPointerUp()"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "fn:RotateEngine",
+			"kind": "calls",
+			"label": "rotate.onPointerMove(), rotate.onPointerUp()"
+		},
+		{
+			"from": "cmp:DesignLayout",
+			"to": "fn:SelectionEngine",
+			"kind": "calls",
+			"label": "sel.onCanvasPointerDown()"
+		},
+		{
+			"from": "cmp:DesignBlock",
+			"to": "fn:DragEngine",
+			"kind": "calls",
+			"label": "drag.onPointerDown()"
+		},
+		{
+			"from": "cmp:DesignBlock",
+			"to": "fn:ResizeEngine",
+			"kind": "calls",
+			"label": "resize.onPointerDown()"
+		},
+		{
+			"from": "cmp:DesignBlock",
+			"to": "fn:RotateEngine",
+			"kind": "calls",
+			"label": "rotate.onPointerDown()"
+		},
+		{
+			"from": "cmp:ExportPanel",
+			"to": "fn:codegen",
+			"kind": "calls",
+			"label": "exportHtmlSass(), exportHtmlCss(), exportSvelte()"
+		}
+	],
+	"flows": [
+		{
+			"id": "drag-drop-primitive",
+			"name": "Add primitive to canvas",
+			"trigger": "Drag primitive from ComponentLibrary to viewport",
+			"steps": [
+				"cmp:ComponentLibrary",
+				"cmp:DesignLayout",
+				"state:designcanvas",
+				"cmp:DesignBlock"
+			],
+			"summary": "User drags a layout primitive from the library; the canvas-world calculates target position and inserts a new block."
+		},
+		{
+			"id": "resize-block",
+			"name": "Resize selected block",
+			"trigger": "Drag bounding box handle in DesignBlock",
+			"steps": [
+				"cmp:DesignBlock",
+				"fn:ResizeEngine",
+				"state:designcanvas",
+				"cmp:DesignBlock"
+			],
+			"summary": "Dragging a resize handle computes scale and bounds, updating the block's height/width inside canvas state."
+		},
+		{
+			"id": "rotate-block",
+			"name": "Rotate selected block",
+			"trigger": "Drag rotate handle in DesignBlock",
+			"steps": [
+				"cmp:DesignBlock",
+				"fn:RotateEngine",
+				"state:designcanvas",
+				"cmp:DesignBlock"
+			],
+			"summary": "Dragging the rotation handle calculates rotate snap angles and updates the block style rotation degrees."
+		},
+		{
+			"id": "group-elements",
+			"name": "Group selected elements",
+			"trigger": "Keybinding Cmd+G",
+			"steps": [
+				"cmp:DesignLayout",
+				"state:designcanvas",
+				"cmp:DesignBlock"
+			],
+			"summary": "Combines selected blocks under a new auto-centered frame container block, reparenting the elements."
+		},
+		{
+			"id": "export-svelte",
+			"name": "Export element as Svelte",
+			"trigger": "Select Svelte tab in ExportPanel",
+			"steps": [
+				"cmp:ExportPanel",
+				"fn:codegen",
+				"state:designcanvas"
+			],
+			"summary": "Serializes the selected canvas sub-tree or entire canvas into structured HTML and Svelte props."
+		},
+		{
+			"id": "align-elements",
+			"name": "Align selected blocks",
+			"trigger": "Click align left icon in DesignInspector",
+			"steps": [
+				"cmp:DesignInspector",
+				"state:designcanvas",
+				"cmp:DesignBlock"
+			],
+			"summary": "Computes alignment bounding boxes for multi-selected items and updates their coordinates."
+		},
+		{
+			"id": "zoom-fit",
+			"name": "Zoom to fit canvas",
+			"trigger": "Keybinding Cmd+1",
+			"steps": [
+				"cmd:designer.zoomFit",
+				"cmp:DesignLayout",
+				"fn:CanvasViewport",
+				"state:designcanvas"
+			],
+			"summary": "Calculates the total bounding box of all canvas elements and animates the viewport zoom and pan values."
+		}
+	],
+	"notes": [
+		{
+			"title": "Frontend-Only Canvas Persistence",
+			"body": "The Designer module has zero direct IPC calls. It relies entirely on browser localStorage to persist canvas block trees and user-saved reusable component subtrees.",
+			"severity": "info",
+			"path": "src/lib/modules/designer/state/designcanvas.svelte.ts"
+		},
+		{
+			"title": "Dedicated Modular Gestures Engine",
+			"body": "CanvasViewport, DragEngine, ResizeEngine, RotateEngine, and SelectionEngine act as decoupled coordinate handlers. They isolate calculations from the UI, updating designcanvas state which triggers reactive redraws.",
+			"severity": "info",
+			"path": "src/lib/modules/designer/components/DesignLayout.svelte"
+		},
+		{
+			"title": "Recursive Scene Graph Rendering Hotspot",
+			"body": "DesignBlock recursively renders itself for nested frames and structures. Gestures (drag/resize/rotate) bubble up, creating high pointer event handler loads on dense canvases.",
+			"severity": "warn",
+			"path": "src/lib/modules/designer/components/DesignBlock.svelte"
+		}
+	]
+}

@@ -1,0 +1,50 @@
+[package]
+name = "fractalengine"
+version = "0.2.0"
+description = "fractalEngine - the complete creation studio."
+authors = ["Fractal Mandala"]
+edition = "2021"
+rust-version = "1.77.2"
+
+[lib]
+name = "fractalengine_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.6.2", features = [] }
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tauri = { version = "2.11.2", features = ["unstable", "protocol-asset"] }
+rfd = "0.15"
+ureq = { version = "2.9", features = ["json"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
+aes-gcm = "0.10"
+rand = "0.8"
+base64 = "0.22"
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+notify = "6"
+notify-debouncer-mini = "0.4"
+image = "0.25"
+trash = "5"
+fs2 = "0.4"
+portable-pty = "0.8"
+
+# keyring 3.x ships NO credential-store backend unless a platform feature is
+# enabled; without one it silently uses an in-memory mock store where each
+# Entry is independent, so a key written by write_api_key is invisible to the
+# read_api_key that reads it back — breaking all provider-secret storage
+# (ADR-017) and surfacing as "Keychain verification failed" on every add.
+# Each backend is macOS/Windows/Linux-only, so they must be target-scoped.
+[target.'cfg(target_os = "macos")'.dependencies]
+keyring = { version = "3", features = ["apple-native"] }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+keyring = { version = "3", features = ["windows-native"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+keyring = { version = "3", features = ["sync-secret-service"] }
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-window-state = "2"

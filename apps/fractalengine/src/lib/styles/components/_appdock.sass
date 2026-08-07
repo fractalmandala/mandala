@@ -1,0 +1,20 @@
+.appdock
+	position: fixed
+	z-index: 900
+	bottom: -80px
+	background: var(--background40)
+	height: 76px
+	width: 420px
+	margin-left: auto
+	margin-right: auto
+	left: calc(50% - 210px)
+	row-gap: 0
+	visibility: hidden
+	border-radius: var(--sz-4)
+	border: 1px solid var(--border-secondary)
+	display: grid
+	grid-template-columns: 1fr 1fr 1fr 1fr
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.06), -5px 5px 5px rgba(0, 0, 0, 0.05)
+	&.is-active
+		bottom: 40px
+		visibility: visible

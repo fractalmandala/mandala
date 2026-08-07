@@ -1,0 +1,554 @@
+{
+	"version": 1,
+	"scan": "module-flow",
+	"project": {
+		"name": "FractalEngine Studio",
+		"slug": "fractalengine",
+		"date": "2026-07-18"
+	},
+	"module": {
+		"id": "ai",
+		"name": "fractalAI",
+		"entryLayout": "src/lib/modules/ai/components/AiLayout.svelte",
+		"root": "src/lib/modules/ai",
+		"summary": "AI Agent workspace containing chat tabs, history overlays, and tool execution columns.",
+		"externalModules": [
+			"code"
+		]
+	},
+	"stats": {
+		"nodes": 21,
+		"edges": 37,
+		"components": 6,
+		"stateFiles": 4,
+		"commands": 5,
+		"ipcCalls": 3,
+		"flows": 7
+	},
+	"groups": [
+		{
+			"id": "layout",
+			"label": "Layout"
+		},
+		{
+			"id": "components",
+			"label": "Components"
+		},
+		{
+			"id": "state",
+			"label": "State"
+		},
+		{
+			"id": "commands",
+			"label": "Commands & Palette"
+		},
+		{
+			"id": "ipc",
+			"label": "IPC / Backend"
+		},
+		{
+			"id": "shared",
+			"label": "Shared Components"
+		},
+		{
+			"id": "external",
+			"label": "Other Modules"
+		}
+	],
+	"nodes": [
+		{
+			"id": "cmp:AiLayout",
+			"label": "AiLayout.svelte",
+			"kind": "layout",
+			"group": "layout",
+			"path": "src/lib/modules/ai/components/AiLayout.svelte",
+			"loc": 131,
+			"summary": "Entry layout for the Agent module, rendering collapsibles and resize handles.",
+			"tags": [
+				"entry"
+			]
+		},
+		{
+			"id": "cmp:AiSidebar",
+			"label": "AiSidebar.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/ai/components/AiSidebar.svelte",
+			"loc": 95,
+			"summary": "Lists pinned and recent chat sessions sorted by last opened time."
+		},
+		{
+			"id": "cmp:ChatColumn",
+			"label": "ChatColumn.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/ai/components/ChatColumn.svelte",
+			"loc": 38,
+			"summary": "Chat container with session tabs strip and AiChatMain viewer."
+		},
+		{
+			"id": "cmp:SessionRow",
+			"label": "SessionRow.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/ai/components/SessionRow.svelte",
+			"loc": 50,
+			"summary": "Individual session list item displaying titles and pin buttons."
+		},
+		{
+			"id": "cmp:WorkPanel",
+			"label": "WorkPanel.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/ai/components/WorkPanel.svelte",
+			"loc": 36,
+			"summary": "Side tab panel allowing the AI agent to mount files, terminal, or browser views."
+		},
+		{
+			"id": "cmp:AiChatMain",
+			"label": "AiChatMain.svelte",
+			"kind": "component",
+			"group": "components",
+			"path": "src/lib/modules/ai/components/AiChatMain.svelte",
+			"loc": 805,
+			"summary": "Core chat component with autocomplete suggestions, prompt inputs, and history tabs."
+		},
+		{
+			"id": "state:aiWorkspace",
+			"label": "ai.svelte.ts",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/modules/ai/state/ai.svelte.ts",
+			"loc": 333,
+			"summary": "Layout state manager for Agent panels, active session tabs, and overlay metadata.",
+			"tags": [
+				"singleton"
+			]
+		},
+		{
+			"id": "state:ideState",
+			"label": "ide.svelte.ts",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/state/ide.svelte.ts",
+			"loc": 2385,
+			"summary": "Global workspace state managing active chat streams, messages, and model providers.",
+			"tags": [
+				"singleton"
+			]
+		},
+		{
+			"id": "state:aiState",
+			"label": "ai.svelte.ts (global shim)",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/state/ai.svelte.ts",
+			"loc": 6,
+			"summary": "Shim exporting global ideState under the name aiState for compatibility.",
+			"tags": [
+				"shim"
+			]
+		},
+		{
+			"id": "state:modelRegistry",
+			"label": "modelRegistry.svelte.ts",
+			"kind": "state",
+			"group": "state",
+			"path": "src/lib/state/modelRegistry.svelte.ts",
+			"loc": 420,
+			"summary": "Maintains catalog of available models, active selections, and skill bindings.",
+			"tags": [
+				"singleton"
+			]
+		},
+		{
+			"id": "shared:AIChat",
+			"label": "AIChat.svelte",
+			"kind": "shared",
+			"group": "shared",
+			"path": "src/lib/components/AIChat.svelte",
+			"loc": 946,
+			"summary": "Inline copilot chat component imported by other modules for contextual sidebars.",
+			"tags": [
+				"inline-copilot"
+			]
+		},
+		{
+			"id": "shared:BrowserLauncherCard",
+			"label": "BrowserLauncherCard.svelte",
+			"kind": "shared",
+			"group": "shared"
+		},
+		{
+			"id": "ext:code",
+			"label": "Code Module",
+			"kind": "external",
+			"group": "external",
+			"summary": "Renders Sidebar/Terminal inside WorkPanel to let AI interact with files/shell."
+		},
+		{
+			"id": "cmd:ai.newSession",
+			"label": "ai.newSession",
+			"kind": "command",
+			"group": "commands",
+			"tags": [
+				"Header Click"
+			]
+		},
+		{
+			"id": "cmd:ai.toggleSessionsSidebar",
+			"label": "ai.toggleSessionsSidebar",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:ai.toggleWorkPanel",
+			"label": "ai.toggleWorkPanel",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:ai.openFilesPanel",
+			"label": "ai.openFilesPanel",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "cmd:ai.openTerminalPanel",
+			"label": "ai.openTerminalPanel",
+			"kind": "command",
+			"group": "commands"
+		},
+		{
+			"id": "ipc:onAiUsage",
+			"label": "onAiUsage",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:readFile",
+			"label": "readFile",
+			"kind": "ipc",
+			"group": "ipc"
+		},
+		{
+			"id": "ipc:searchWorkspaceFiles",
+			"label": "searchWorkspaceFiles",
+			"kind": "ipc",
+			"group": "ipc"
+		}
+	],
+	"edges": [
+		{
+			"from": "cmp:AiLayout",
+			"to": "cmp:AiSidebar",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:AiLayout",
+			"to": "cmp:ChatColumn",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:AiLayout",
+			"to": "cmp:WorkPanel",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:AiSidebar",
+			"to": "cmp:SessionRow",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:ChatColumn",
+			"to": "cmp:AiChatMain",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:WorkPanel",
+			"to": "shared:BrowserLauncherCard",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:WorkPanel",
+			"to": "ext:code",
+			"kind": "renders"
+		},
+		{
+			"from": "cmp:AiLayout",
+			"to": "state:aiWorkspace",
+			"kind": "reads",
+			"label": "widths and collapsed flags"
+		},
+		{
+			"from": "cmp:AiSidebar",
+			"to": "state:aiWorkspace",
+			"kind": "reads",
+			"label": "sessions lists and sidebar tab"
+		},
+		{
+			"from": "cmp:ChatColumn",
+			"to": "state:aiWorkspace",
+			"kind": "reads",
+			"label": "openTabIds list and active tab"
+		},
+		{
+			"from": "cmp:WorkPanel",
+			"to": "state:aiWorkspace",
+			"kind": "reads",
+			"label": "current workTab category"
+		},
+		{
+			"from": "cmp:AiChatMain",
+			"to": "state:aiWorkspace",
+			"kind": "reads",
+			"label": "history list and active session ids"
+		},
+		{
+			"from": "cmp:AiChatMain",
+			"to": "state:aiState",
+			"kind": "reads",
+			"label": "active chat text and streaming logs"
+		},
+		{
+			"from": "shared:AIChat",
+			"to": "state:aiState",
+			"kind": "reads",
+			"label": "active chat text and streaming logs"
+		},
+		{
+			"from": "state:aiState",
+			"to": "state:ideState",
+			"kind": "reads",
+			"label": "compatibility shim delegation"
+		},
+		{
+			"from": "cmp:AiChatMain",
+			"to": "state:modelRegistry",
+			"kind": "reads",
+			"label": "model catalogue and active config"
+		},
+		{
+			"from": "shared:AIChat",
+			"to": "state:modelRegistry",
+			"kind": "reads",
+			"label": "model catalogue and active config"
+		},
+		{
+			"from": "cmp:AiLayout",
+			"to": "state:aiWorkspace",
+			"kind": "writes",
+			"label": "mutates panel dimensions"
+		},
+		{
+			"from": "cmp:AiSidebar",
+			"to": "state:aiWorkspace",
+			"kind": "writes",
+			"label": "creates fresh chat session"
+		},
+		{
+			"from": "cmp:SessionRow",
+			"to": "state:aiWorkspace",
+			"kind": "writes",
+			"label": "pins session and loads chat ID"
+		},
+		{
+			"from": "cmp:ChatColumn",
+			"to": "state:aiWorkspace",
+			"kind": "writes",
+			"label": "closes tab and manages layout successor"
+		},
+		{
+			"from": "cmp:WorkPanel",
+			"to": "state:aiWorkspace",
+			"kind": "writes",
+			"label": "switches active workTab categories"
+		},
+		{
+			"from": "cmp:AiChatMain",
+			"to": "state:aiState",
+			"kind": "writes",
+			"label": "triggers message stream and cancels stream"
+		},
+		{
+			"from": "shared:AIChat",
+			"to": "state:aiState",
+			"kind": "writes",
+			"label": "triggers message stream and cancels stream"
+		},
+		{
+			"from": "cmd:ai.newSession",
+			"to": "state:aiWorkspace",
+			"kind": "commands",
+			"label": "aiWorkspace.newSession()"
+		},
+		{
+			"from": "cmd:ai.toggleSessionsSidebar",
+			"to": "state:aiWorkspace",
+			"kind": "commands",
+			"label": "aiWorkspace.toggleSidebar()"
+		},
+		{
+			"from": "cmd:ai.toggleWorkPanel",
+			"to": "state:aiWorkspace",
+			"kind": "commands",
+			"label": "aiWorkspace.toggleWorkPanel()"
+		},
+		{
+			"from": "cmd:ai.openFilesPanel",
+			"to": "state:aiWorkspace",
+			"kind": "commands",
+			"label": "aiWorkspace.setWorkTab('files')"
+		},
+		{
+			"from": "cmd:ai.openTerminalPanel",
+			"to": "state:aiWorkspace",
+			"kind": "commands",
+			"label": "aiWorkspace.setWorkTab('terminal')"
+		},
+		{
+			"from": "cmp:AiLayout",
+			"to": "state:aiWorkspace",
+			"kind": "calls",
+			"label": "refreshes sessions in onMount"
+		},
+		{
+			"from": "state:aiWorkspace",
+			"to": "state:ideState",
+			"kind": "writes",
+			"label": "delegates session metadata creation"
+		},
+		{
+			"from": "cmp:AiChatMain",
+			"to": "ipc:onAiUsage",
+			"kind": "ipc"
+		},
+		{
+			"from": "shared:AIChat",
+			"to": "ipc:onAiUsage",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:AiChatMain",
+			"to": "ipc:readFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "shared:AIChat",
+			"to": "ipc:readFile",
+			"kind": "ipc"
+		},
+		{
+			"from": "cmp:AiChatMain",
+			"to": "ipc:searchWorkspaceFiles",
+			"kind": "ipc"
+		},
+		{
+			"from": "shared:AIChat",
+			"to": "ipc:searchWorkspaceFiles",
+			"kind": "ipc"
+		}
+	],
+	"flows": [
+		{
+			"id": "new-session",
+			"name": "Start new AI session",
+			"trigger": "Click '+ New Session' in AiSidebar",
+			"steps": [
+				"cmp:AiSidebar",
+				"state:aiWorkspace",
+				"state:ideState",
+				"cmp:AiChatMain"
+			],
+			"summary": "User starts a fresh chat; a new UUID is generated in ideState and mounted as an active tab in the chat view."
+		},
+		{
+			"id": "open-session",
+			"name": "Load existing session",
+			"trigger": "Click session item in AiSidebar",
+			"steps": [
+				"cmp:AiSidebar",
+				"state:aiWorkspace",
+				"state:ideState",
+				"cmp:AiChatMain"
+			],
+			"summary": "Opens a previous chat session, loads the messages from SQLite, and updates active tab state."
+		},
+		{
+			"id": "pin-session",
+			"name": "Pin chat session",
+			"trigger": "Click pin icon in SessionRow",
+			"steps": [
+				"cmp:SessionRow",
+				"state:aiWorkspace",
+				"cmp:AiSidebar"
+			],
+			"summary": "Sets pinned state on the session metadata, updating the history sidebar rendering."
+		},
+		{
+			"id": "close-tab",
+			"name": "Close session tab",
+			"trigger": "Click close icon in ChatColumn tab",
+			"steps": [
+				"cmp:ChatColumn",
+				"state:aiWorkspace",
+				"state:ideState",
+				"cmp:AiChatMain"
+			],
+			"summary": "Closes a session tab; loads successor session from the remaining tabs list or falls back to a new chat."
+		},
+		{
+			"id": "autocomplete-file",
+			"name": "Type @ file autocomplete",
+			"trigger": "Type '@' in PromptInput textbox",
+			"steps": [
+				"cmp:AiChatMain",
+				"ipc:searchWorkspaceFiles",
+				"cmp:AiChatMain"
+			],
+			"summary": "Typing '@' triggers debounced search query to look up workspace files and list autocomplete options."
+		},
+		{
+			"id": "toggle-work-panel",
+			"name": "Switch WorkPanel view",
+			"trigger": "Click 'Terminal' tab in WorkPanel",
+			"steps": [
+				"cmp:WorkPanel",
+				"state:aiWorkspace",
+				"ext:code"
+			],
+			"summary": "Switches the work panel tab category, mounting the IDE Sidebar, Terminal, or Browser card."
+		},
+		{
+			"id": "cancel-stream",
+			"name": "Stop in-flight stream",
+			"trigger": "Click 'Stop' button in PromptInput",
+			"steps": [
+				"cmp:AiChatMain",
+				"state:aiState",
+				"state:ideState"
+			],
+			"summary": "Instructs the backend to terminate the LLM stream, and saves the partial response."
+		}
+	],
+	"notes": [
+		{
+			"title": "Compatibility State Shim delegation",
+			"body": "The global state file ai.svelte.ts acts as a compatibility shim. It forwards imports to ideState, which continues to hold the core AI streaming and message persistence logic.",
+			"severity": "info",
+			"path": "src/lib/state/ai.svelte.ts"
+		},
+		{
+			"title": "Tab successor selection transaction",
+			"body": "Closing an active chat tab runs inside a layout transaction. It calculates the successor index and loads the next SQLite session history in a single atomic undo/redo boundary.",
+			"severity": "warn",
+			"path": "src/lib/modules/ai/state/ai.svelte.ts"
+		},
+		{
+			"title": "WorkPanel component cross-module embedding",
+			"body": "WorkPanel embeds components directly from other modules (IDE Sidebar, IDE Terminal, Browser card), allowing the AI agent to execute tasks and observe state within a unified workspace.",
+			"severity": "info",
+			"path": "src/lib/modules/ai/components/WorkPanel.svelte"
+		}
+	]
+}

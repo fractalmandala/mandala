@@ -1,0 +1,114 @@
+// AiSidebar — session list with segmented Home/Code tabs
+
+.ai-sidebar
+	display: flex
+	flex-direction: column
+	height: 100%
+	overflow: hidden
+
+	// Segmented tab bar (Home | Code) — tabs are shared .sidebar-tab-item;
+	// this container only adds the segmented (equal-width) layout delta.
+	.ai-sidebar-tabs
+		display: flex
+		gap: 0
+		padding: var(--sz-8)
+		background: var(--background30)
+		border-bottom: 1px solid var(--border-primary)
+		flex-shrink: 0
+
+		.sidebar-tab-item
+			flex: 1
+			padding: var(--sz-8) var(--sz-8)
+
+	// New session button
+	.ai-new-session
+		margin: var(--sz-8)
+		padding: var(--sz-8) var(--sz-8)
+		border: 1px dashed var(--border-secondary)
+		background: transparent
+		color: var(--text-tertiary)
+		font-size: var(--text-sm)
+		cursor: pointer
+		border-radius: var(--sz-2)
+		transition: var(--transition-control)
+		flex-shrink: 0
+
+		&:hover
+			color: var(--text-primary)
+			border-color: var(--theme-color)
+			background: var(--accent-surface-faint)
+
+	// Section headings (Pinned / Recents)
+	.ai-sidebar-section-label
+		padding: var(--sz-8) var(--sz-12)
+		font-size: var(--text-xs)
+		color: var(--text-tertiary)
+		text-transform: uppercase
+		letter-spacing: 0.5px
+		flex-shrink: 0
+	// Individual session row
+	.ai-session-row
+		display: flex
+		align-items: center
+		gap: var(--sz-4)
+		padding: var(--sz-8) var(--sz-8)
+		cursor: pointer
+		border-radius: var(--sz-2)
+		transition: var(--transition-control)
+		position: relative
+
+		&:hover
+			background: var(--state-hover)
+
+			.ai-session-pin
+				opacity: 1
+
+		&.active
+			background: var(--accent-surface-subtle)
+
+		// Session title
+		.ai-session-title
+			flex: 1
+			overflow: hidden
+			text-overflow: ellipsis
+			white-space: nowrap
+			font-size: var(--text-sm)
+			color: var(--text-primary)
+			min-width: 0
+
+		// Relative time label
+		.ai-session-time
+			font-size: var(--text-xs)
+			color: var(--text-tertiary)
+			flex-shrink: 0
+
+		// Pin toggle (visible on hover)
+		.ai-session-pin
+			opacity: 0
+			border: 0
+			background: transparent
+			color: var(--text-tertiary)
+			font-size: var(--text-sm)
+			cursor: pointer
+			padding: var(--sz-4)
+			border-radius: 1px
+			flex-shrink: 0
+			transition: var(--transition-control)
+
+			&:hover
+				color: var(--theme-color)
+				background: var(--accent-surface-faint)
+
+			&.pinned
+				opacity: 1
+				color: var(--theme-color)
+
+	// Empty state
+	.ai-sidebar-empty
+		padding: var(--sz-16) var(--sz-8)
+		font-size: var(--text-sm)
+		color: var(--text-tertiary)
+		text-align: center
+
+.ai-left
+	background: var(--background30)

@@ -1,0 +1,11 @@
+vendors
+vendors/
+.fractal/
+playwright-report/
+test-results/
+.svelte-kit-build/
+.svelte-kit-dev/
+.foglamp/
+
+*storybook.log
+storybook-static

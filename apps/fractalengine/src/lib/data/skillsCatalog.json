@@ -1,0 +1,12 @@
+[
+	{
+		"name": "code-review",
+		"description": "Review a change for correctness, safety, and maintainability.",
+		"url": "https://skills.sh/openai/code-review"
+	},
+	{
+		"name": "docs",
+		"description": "Create and maintain concise project documentation.",
+		"url": "https://skills.sh/openai/docs"
+	}
+]

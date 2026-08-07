@@ -1,7 +1,7 @@
 deposits
 sites/fractaldharma/
-apps/fractalengine
 apps/fractalknow
+apps/fractalengine/src-tauri/bin
 apps/fracta
 .empryo
 .freebuff

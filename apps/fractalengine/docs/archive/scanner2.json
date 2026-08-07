@@ -1,0 +1,1800 @@
+{
+	"version": 1,
+	"scan": "health",
+	"project": {
+		"name": "FractalEngine Studio",
+		"slug": "fractalengine",
+		"tagline": "Spatial canvas, notes wiki, and native IDE for creative developers",
+		"date": "2026-07-18",
+		"windowDays": 34,
+		"commitCount": 147
+	},
+	"stats": {
+		"files": 193,
+		"loc": 55026,
+		"commits": 110,
+		"authors": 1
+	},
+	"notes": [
+		{
+			"title": "Core IDE State is a Churn and Complexity Hub",
+			"body": "src/lib/state/ide.svelte.ts has 95% complexity and 2,384 LOC. It absorbed 32 commits and 5,778 lines changed, acting as a global mutable god-object that concentrates regression risk.",
+			"severity": "alert",
+			"path": "src/lib/state/ide.svelte.ts"
+		},
+		{
+			"title": "High Parity Tax on Browser IPC Mocking",
+			"body": "src/lib/ipc.ts and src/lib/ipc-mock.ts each had 30 commits. Every IPC endpoint addition requires a parallel mock change, adding significant maintenance overhead to keep the test suite green.",
+			"severity": "warn",
+			"path": "src/lib/ipc-mock.ts"
+		},
+		{
+			"title": "Stable but Highly Complex Design Engine",
+			"body": "src/lib/modules/designer/state/designcanvas.svelte.ts has 95% complexity but only 5 commits. While stable now, its 4,017 LOC of vector and SVG coordinate math makes future changes high risk.",
+			"severity": "info",
+			"path": "src/lib/modules/designer/state/designcanvas.svelte.ts"
+		},
+		{
+			"title": "Concentrated Code Churn in Top Files",
+			"body": "The top 3 files by churn (ide.svelte.ts, lib.rs, SettingsDialog.svelte) absorb 18.1% of all lines changed (15,150 lines), showing that risk is highly concentrated in a small set of modules.",
+			"severity": "warn"
+		},
+		{
+			"title": "Massive Native Rust Layer Complexity",
+			"body": "src-tauri/src/lib.rs acts as the sole Rust command hub (2,997 LOC, 27 commits, 4,705 lines changed). Centralized state and command registrations make it a single point of native failure.",
+			"severity": "warn",
+			"path": "src-tauri/src/lib.rs"
+		}
+	],
+	"files": [
+		{
+			"path": "src-tauri/src/lib.rs",
+			"loc": 2997,
+			"commits": 27,
+			"linesChanged": 4705,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 60,
+			"summary": "Core Rust native hub orchestrating system commands, file grants, and dictation."
+		},
+		{
+			"path": "src/lib/state/ide.svelte.ts",
+			"loc": 2384,
+			"commits": 32,
+			"linesChanged": 5778,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 95,
+			"summary": "Global IDE workspace, editor buffers, and settings reactive state engine."
+		},
+		{
+			"path": "src/lib/ipc-mock.ts",
+			"loc": 2268,
+			"commits": 30,
+			"linesChanged": 2674,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 70,
+			"summary": "Simulated in-memory browser fallback mock layer for all native Tauri APIs."
+		},
+		{
+			"path": "src/lib/ipc.ts",
+			"loc": 1396,
+			"commits": 30,
+			"linesChanged": 1820,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 48,
+			"summary": "Single gateway router delegating API calls between Tauri and the browser mock."
+		},
+		{
+			"path": "src/lib/components/SettingsDialog.svelte",
+			"loc": 893,
+			"commits": 24,
+			"linesChanged": 4667,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 70,
+			"summary": "Preferences modal governing editor, local AI, and media vault settings."
+		},
+		{
+			"path": "src/lib/components/AIChat.svelte",
+			"loc": 945,
+			"commits": 22,
+			"linesChanged": 2555,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 65,
+			"summary": "AI Copilot panel managing chat turns, model selections, and autocompletion."
+		},
+		{
+			"path": "src/lib/modules/designer/state/designcanvas.svelte.ts",
+			"loc": 4017,
+			"commits": 5,
+			"linesChanged": 4171,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 95,
+			"summary": "Vector design canvas state model owning shape trees, layout, and undo history."
+		},
+		{
+			"path": "src/routes/+page.svelte",
+			"loc": 502,
+			"commits": 29,
+			"linesChanged": 1934,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 65,
+			"summary": "Application shell routing main headers, active templates, and layout docks."
+		},
+		{
+			"path": "src/lib/styles/components/_ai.sass",
+			"loc": 770,
+			"commits": 14,
+			"linesChanged": 1730,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 1,
+			"summary": "Classic indented SASS style rules for the AI workspace panels and logs."
+		},
+		{
+			"path": "src/lib/modules/designer/components/DesignInspector.svelte",
+			"loc": 1813,
+			"commits": 5,
+			"linesChanged": 2303,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 65,
+			"summary": "Figma-style sidebar inspector for multi-select block paint and stroke styles."
+		},
+		{
+			"path": "src/lib/styles/_tokens.sass",
+			"loc": 277,
+			"commits": 29,
+			"linesChanged": 701,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0,
+			"summary": "Primitive and semantic CSS design tokens specifying the unified theme palette."
+		},
+		{
+			"path": "src/lib/modules/notes/styles/_notes.sass",
+			"loc": 675,
+			"commits": 11,
+			"linesChanged": 1425,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 1,
+			"summary": "Styling rules for the collaborative notes editor and vault sidebar."
+		},
+		{
+			"path": "src/lib/modules/designer/components/DesignLayout.svelte",
+			"loc": 1329,
+			"commits": 5,
+			"linesChanged": 1415,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 90
+		},
+		{
+			"path": "src/lib/styles/components/_layout.sass",
+			"loc": 302,
+			"commits": 21,
+			"linesChanged": 752,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/styles/components/_ai-elements.sass",
+			"loc": 528,
+			"commits": 11,
+			"linesChanged": 958,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/state/canvas.svelte.ts",
+			"loc": 437,
+			"commits": 11,
+			"linesChanged": 595,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/notes/state/notes.svelte.ts",
+			"loc": 795,
+			"commits": 6,
+			"linesChanged": 881,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 99
+		},
+		{
+			"path": "src-tauri/src/storage.rs",
+			"loc": 1399,
+			"commits": 3,
+			"linesChanged": 1449,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 10
+		},
+		{
+			"path": "src/lib/modules/designer/styles/_designinspector.sass",
+			"loc": 587,
+			"commits": 7,
+			"linesChanged": 689,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src-tauri/src/browser/mod.rs",
+			"loc": 1016,
+			"commits": 4,
+			"linesChanged": 1066,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 35
+		},
+		{
+			"path": "src-tauri/src/memory.rs",
+			"loc": 491,
+			"commits": 8,
+			"linesChanged": 851,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 21
+		},
+		{
+			"path": "src/routes/+layout.svelte",
+			"loc": 168,
+			"commits": 20,
+			"linesChanged": 404,
+			"authors": 1,
+			"lastCommit": "2026-07-18",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/components/PromptInput.svelte",
+			"loc": 670,
+			"commits": 5,
+			"linesChanged": 788,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 73
+		},
+		{
+			"path": "src/lib/modules/ide/styles/_sidebar.sass",
+			"loc": 302,
+			"commits": 11,
+			"linesChanged": 500,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/styles/_primitives.sass",
+			"loc": 206,
+			"commits": 16,
+			"linesChanged": 512,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src-tauri/src/media.rs",
+			"loc": 1614,
+			"commits": 2,
+			"linesChanged": 1630,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 46
+		},
+		{
+			"path": "src/lib/components/CommandPalette.svelte",
+			"loc": 219,
+			"commits": 14,
+			"linesChanged": 535,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 55
+		},
+		{
+			"path": "src/lib/modules/designer/styles/_designcanvas.sass",
+			"loc": 505,
+			"commits": 6,
+			"linesChanged": 571,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/styles/components/_settings.sass",
+			"loc": 267,
+			"commits": 9,
+			"linesChanged": 583,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/styles/_typography.sass",
+			"loc": 149,
+			"commits": 14,
+			"linesChanged": 301,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 3
+		},
+		{
+			"path": "src/lib/modules/designer/engine/codegen.ts",
+			"loc": 496,
+			"commits": 4,
+			"linesChanged": 518,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/notes/components/NotesEditor.svelte",
+			"loc": 661,
+			"commits": 3,
+			"linesChanged": 671,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 54
+		},
+		{
+			"path": "src-tauri/src/docs_index.rs",
+			"loc": 472,
+			"commits": 4,
+			"linesChanged": 534,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 51
+		},
+		{
+			"path": "src/lib/state/modelRegistry.svelte.ts",
+			"loc": 373,
+			"commits": 5,
+			"linesChanged": 425,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 71
+		},
+		{
+			"path": "src/lib/modules/designer/data/designtemplates.ts",
+			"loc": 930,
+			"commits": 2,
+			"linesChanged": 932,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 1
+		},
+		{
+			"path": "src/lib/modules/ide/components/ClassicIdeLayout.svelte",
+			"loc": 220,
+			"commits": 8,
+			"linesChanged": 258,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 75
+		},
+		{
+			"path": "src/lib/styles/_commons.sass",
+			"loc": 236,
+			"commits": 7,
+			"linesChanged": 248,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 2
+		},
+		{
+			"path": "src/lib/modules/notes/components/NotesLayout.svelte",
+			"loc": 323,
+			"commits": 5,
+			"linesChanged": 347,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 68
+		},
+		{
+			"path": "src/lib/data/templates.ts",
+			"loc": 115,
+			"commits": 14,
+			"linesChanged": 211,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/ai/components/AiChatMain.svelte",
+			"loc": 804,
+			"commits": 2,
+			"linesChanged": 804,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 63
+		},
+		{
+			"path": "src/lib/modules/ide/components/TreeNode.svelte",
+			"loc": 528,
+			"commits": 3,
+			"linesChanged": 534,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 84
+		},
+		{
+			"path": "src/lib/modules/designer/components/DesignBlock.svelte",
+			"loc": 455,
+			"commits": 3,
+			"linesChanged": 457,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 57
+		},
+		{
+			"path": "src/lib/modules/ai/state/ai.svelte.ts",
+			"loc": 332,
+			"commits": 4,
+			"linesChanged": 454,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 69
+		},
+		{
+			"path": "src/lib/modules/browser/components/BrowserShell.svelte",
+			"loc": 297,
+			"commits": 4,
+			"linesChanged": 325,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 59
+		},
+		{
+			"path": "src/lib/components/Canvas.svelte",
+			"loc": 220,
+			"commits": 5,
+			"linesChanged": 244,
+			"authors": 1,
+			"lastCommit": "2026-07-13",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/styles/components/_ai-data.sass",
+			"loc": 157,
+			"commits": 7,
+			"linesChanged": 257,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/state/undo.svelte.ts",
+			"loc": 78,
+			"commits": 14,
+			"linesChanged": 160,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 19
+		},
+		{
+			"path": "src/lib/modules/fractaldocs/styles/_layout.sass",
+			"loc": 267,
+			"commits": 4,
+			"linesChanged": 503,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/bookmarks/components/BookmarksLayout.svelte",
+			"loc": 224,
+			"commits": 4,
+			"linesChanged": 516,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 40
+		},
+		{
+			"path": "src/lib/modules/designer/styles/_componentlibrary.sass",
+			"loc": 293,
+			"commits": 3,
+			"linesChanged": 391,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/designer/styles/_designtemplategallery.sass",
+			"loc": 293,
+			"commits": 3,
+			"linesChanged": 369,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/fractaldocs/state/docs.svelte.ts",
+			"loc": 291,
+			"commits": 3,
+			"linesChanged": 455,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 55
+		},
+		{
+			"path": "src/lib/styles/index.sass",
+			"loc": 46,
+			"commits": 18,
+			"linesChanged": 78,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/browser/state/browser.svelte.ts",
+			"loc": 272,
+			"commits": 3,
+			"linesChanged": 274,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 81
+		},
+		{
+			"path": "src/lib/components/ai-elements/ModelSelector.svelte",
+			"loc": 163,
+			"commits": 5,
+			"linesChanged": 179,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 67
+		},
+		{
+			"path": "src/lib/modules/designer/components/ComponentLibrary.svelte",
+			"loc": 402,
+			"commits": 2,
+			"linesChanged": 428,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 65
+		},
+		{
+			"path": "src/lib/components/SkillsMarketplace.svelte",
+			"loc": 132,
+			"commits": 6,
+			"linesChanged": 218,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 64
+		},
+		{
+			"path": "src/lib/components/Tile.svelte",
+			"loc": 193,
+			"commits": 4,
+			"linesChanged": 219,
+			"authors": 1,
+			"lastCommit": "2026-07-13",
+			"complexity": 70
+		},
+		{
+			"path": "src/lib/modules/bookmarks/state/bookmarks.svelte.ts",
+			"loc": 251,
+			"commits": 3,
+			"linesChanged": 329,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 72
+		},
+		{
+			"path": "src/lib/modules/bookmarks/styles/_bookmarks.sass",
+			"loc": 186,
+			"commits": 4,
+			"linesChanged": 246,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/designer/styles/_exportpanel.sass",
+			"loc": 177,
+			"commits": 4,
+			"linesChanged": 237,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/browser/styles/_browser-shell.sass",
+			"loc": 234,
+			"commits": 3,
+			"linesChanged": 234,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 6
+		},
+		{
+			"path": "src/lib/modules/ide/styles/_editor.sass",
+			"loc": 139,
+			"commits": 5,
+			"linesChanged": 225,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 4
+		},
+		{
+			"path": "src/lib/modules/designer/engine/CanvasViewport.svelte.ts",
+			"loc": 346,
+			"commits": 2,
+			"linesChanged": 346,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 20
+		},
+		{
+			"path": "src/lib/modules/ai/styles/_ai-sidebar.sass",
+			"loc": 114,
+			"commits": 6,
+			"linesChanged": 343,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/styles/components/_templategallery.sass",
+			"loc": 73,
+			"commits": 9,
+			"linesChanged": 439,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/ai/components/AiLayout.svelte",
+			"loc": 130,
+			"commits": 5,
+			"linesChanged": 244,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 38
+		},
+		{
+			"path": "src/lib/components/SearchOverlay.svelte",
+			"loc": 160,
+			"commits": 4,
+			"linesChanged": 206,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 88
+		},
+		{
+			"path": "src/lib/modules/designer/engine/paint.ts",
+			"loc": 640,
+			"commits": 1,
+			"linesChanged": 640,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/media/state/media.svelte.ts",
+			"loc": 210,
+			"commits": 3,
+			"linesChanged": 238,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 98
+		},
+		{
+			"path": "src/lib/modules/designer/styles/_designblock.sass",
+			"loc": 151,
+			"commits": 4,
+			"linesChanged": 165,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/designer/engine/ResizeEngine.svelte.ts",
+			"loc": 291,
+			"commits": 2,
+			"linesChanged": 293,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 82
+		},
+		{
+			"path": "src/lib/modules/designer/engine/patterns.ts",
+			"loc": 562,
+			"commits": 1,
+			"linesChanged": 562,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 1
+		},
+		{
+			"path": "src/lib/components/ModelMarketplace.svelte",
+			"loc": 92,
+			"commits": 6,
+			"linesChanged": 172,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 49
+		},
+		{
+			"path": "src/lib/state/contributions.svelte.ts",
+			"loc": 136,
+			"commits": 4,
+			"linesChanged": 148,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 70
+		},
+		{
+			"path": "src/lib/modules/ide/components/Editor.svelte",
+			"loc": 180,
+			"commits": 3,
+			"linesChanged": 240,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 97
+		},
+		{
+			"path": "src/lib/state/app.svelte.ts",
+			"loc": 127,
+			"commits": 4,
+			"linesChanged": 133,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 91
+		},
+		{
+			"path": "src/lib/components/VirtualList.svelte",
+			"loc": 125,
+			"commits": 4,
+			"linesChanged": 141,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 72
+		},
+		{
+			"path": "src/lib/styles/components/_dock.sass",
+			"loc": 99,
+			"commits": 5,
+			"linesChanged": 177,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/editorTheme.ts",
+			"loc": 163,
+			"commits": 3,
+			"linesChanged": 169,
+			"authors": 1,
+			"lastCommit": "2026-06-25",
+			"complexity": 77
+		},
+		{
+			"path": "src/lib/styles/components/_commandpalette.sass",
+			"loc": 121,
+			"commits": 4,
+			"linesChanged": 189,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/designer/styles/_layers.sass",
+			"loc": 154,
+			"commits": 3,
+			"linesChanged": 188,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/styles/components/_searchoverlay.sass",
+			"loc": 92,
+			"commits": 5,
+			"linesChanged": 128,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/browser/components/Omnibox.svelte",
+			"loc": 152,
+			"commits": 3,
+			"linesChanged": 212,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 86
+		},
+		{
+			"path": "src-tauri/Cargo.toml",
+			"loc": 49,
+			"commits": 9,
+			"linesChanged": 61,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/components/TileDock.svelte",
+			"loc": 110,
+			"commits": 4,
+			"linesChanged": 124,
+			"authors": 1,
+			"lastCommit": "2026-07-13",
+			"complexity": 18
+		},
+		{
+			"path": "src/lib/modules/designer/engine/svgpath.ts",
+			"loc": 432,
+			"commits": 1,
+			"linesChanged": 432,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 87
+		},
+		{
+			"path": "src/lib/components/ai-elements/Code.svelte",
+			"loc": 107,
+			"commits": 4,
+			"linesChanged": 159,
+			"authors": 1,
+			"lastCommit": "2026-07-13",
+			"complexity": 56
+		},
+		{
+			"path": "src/lib/modules/browser/styles/_vault.sass",
+			"loc": 209,
+			"commits": 2,
+			"linesChanged": 215,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 5
+		},
+		{
+			"path": "src/lib/modules/ai/styles/_ai-chat-column.sass",
+			"loc": 83,
+			"commits": 5,
+			"linesChanged": 199,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/styles/components/_tile.sass",
+			"loc": 83,
+			"commits": 5,
+			"linesChanged": 137,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/designer/engine/designblock.ts",
+			"loc": 407,
+			"commits": 1,
+			"linesChanged": 407,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 54
+		},
+		{
+			"path": "src/lib/modules/ide/styles/_terminal.sass",
+			"loc": 128,
+			"commits": 3,
+			"linesChanged": 152,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/components/ai-elements/Mermaid.svelte",
+			"loc": 94,
+			"commits": 4,
+			"linesChanged": 108,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 48
+		},
+		{
+			"path": "src/lib/modules/ai/components/AiSidebar.svelte",
+			"loc": 94,
+			"commits": 4,
+			"linesChanged": 250,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 32
+		},
+		{
+			"path": "src/lib/modules/browser/state/vault.svelte.ts",
+			"loc": 364,
+			"commits": 1,
+			"linesChanged": 364,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/designer/components/Layers.svelte",
+			"loc": 357,
+			"commits": 1,
+			"linesChanged": 357,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 77
+		},
+		{
+			"path": "src/lib/styles/_globals.sass",
+			"loc": 51,
+			"commits": 7,
+			"linesChanged": 73,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/state/coreContributions.ts",
+			"loc": 71,
+			"commits": 5,
+			"linesChanged": 77,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 7
+		},
+		{
+			"path": "src/lib/styles/components/_draggable.sass",
+			"loc": 88,
+			"commits": 4,
+			"linesChanged": 122,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/fractaldocs/components/DocsLayout.svelte",
+			"loc": 109,
+			"commits": 3,
+			"linesChanged": 145,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 28
+		},
+		{
+			"path": "src/lib/modules/fractaldocs/components/DocsSidebarLeft.svelte",
+			"loc": 65,
+			"commits": 5,
+			"linesChanged": 121,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 69
+		},
+		{
+			"path": "src/lib/modules/notes/components/NotesSidebar2.svelte",
+			"loc": 108,
+			"commits": 3,
+			"linesChanged": 132,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 69
+		},
+		{
+			"path": "src/lib/components/Minimap.svelte",
+			"loc": 158,
+			"commits": 2,
+			"linesChanged": 160,
+			"authors": 1,
+			"lastCommit": "2026-07-13",
+			"complexity": 22
+		},
+		{
+			"path": "src-tauri/src/crypto.rs",
+			"loc": 153,
+			"commits": 2,
+			"linesChanged": 157,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 29
+		},
+		{
+			"path": "src/lib/modules/designer/components/ExportPanel.svelte",
+			"loc": 305,
+			"commits": 1,
+			"linesChanged": 305,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 56
+		},
+		{
+			"path": "src/lib/modules/designer/engine/DragEngine.svelte.ts",
+			"loc": 304,
+			"commits": 1,
+			"linesChanged": 304,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 43
+		},
+		{
+			"path": "src/lib/modules/designer/engine/designtypes.ts",
+			"loc": 291,
+			"commits": 1,
+			"linesChanged": 291,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 46
+		},
+		{
+			"path": "src/lib/modules/ai/styles/_ai-work-panel.sass",
+			"loc": 58,
+			"commits": 5,
+			"linesChanged": 128,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/components/ai-elements/Response.svelte",
+			"loc": 71,
+			"commits": 4,
+			"linesChanged": 97,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 77
+		},
+		{
+			"path": "src-tauri/src/browser/session.rs",
+			"loc": 276,
+			"commits": 1,
+			"linesChanged": 276,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 20
+		},
+		{
+			"path": "src/lib/components/AppDock.svelte",
+			"loc": 53,
+			"commits": 5,
+			"linesChanged": 85,
+			"authors": 1,
+			"lastCommit": "2026-07-13",
+			"complexity": 47
+		},
+		{
+			"path": "src/lib/data/tileKinds.ts",
+			"loc": 53,
+			"commits": 5,
+			"linesChanged": 71,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 19
+		},
+		{
+			"path": "src/lib/modules/designer/state/design.svelte.ts",
+			"loc": 131,
+			"commits": 2,
+			"linesChanged": 203,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 46
+		},
+		{
+			"path": "src/lib/modules/designer/engine/SelectionEngine.svelte.ts",
+			"loc": 261,
+			"commits": 1,
+			"linesChanged": 261,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 65
+		},
+		{
+			"path": "src/lib/state/undoHistory.svelte.ts",
+			"loc": 125,
+			"commits": 2,
+			"linesChanged": 129,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 64
+		},
+		{
+			"path": "src/lib/modules/browser/styles/_omnibox.sass",
+			"loc": 121,
+			"commits": 2,
+			"linesChanged": 121,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/ide/components/Sidebar.svelte",
+			"loc": 40,
+			"commits": 6,
+			"linesChanged": 64,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 62
+		},
+		{
+			"path": "src/lib/modules/fractaldocs/components/DocsSidebarRight.svelte",
+			"loc": 47,
+			"commits": 5,
+			"linesChanged": 71,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 43
+		},
+		{
+			"path": "src/lib/modules/designer/components/Dock.svelte",
+			"loc": 229,
+			"commits": 1,
+			"linesChanged": 229,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 44
+		},
+		{
+			"path": "src/lib/modules/designer/engine/autoscroll.ts",
+			"loc": 218,
+			"commits": 1,
+			"linesChanged": 218,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/media/styles/_media.sass",
+			"loc": 215,
+			"commits": 1,
+			"linesChanged": 215,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/state/shell.svelte.ts",
+			"loc": 66,
+			"commits": 3,
+			"linesChanged": 66,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 30
+		},
+		{
+			"path": "src/lib/components/ai-elements/context/Context.svelte",
+			"loc": 48,
+			"commits": 4,
+			"linesChanged": 58,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 73
+		},
+		{
+			"path": "src/lib/state/dictation.svelte.ts",
+			"loc": 188,
+			"commits": 1,
+			"linesChanged": 188,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/ide/fileIcons.ts",
+			"loc": 175,
+			"commits": 1,
+			"linesChanged": 175,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 37
+		},
+		{
+			"path": "src/lib/styles/components/_minimap.sass",
+			"loc": 53,
+			"commits": 3,
+			"linesChanged": 97,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/designer/engine/RotateEngine.svelte.ts",
+			"loc": 156,
+			"commits": 1,
+			"linesChanged": 156,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 29
+		},
+		{
+			"path": "src/lib/totp.ts",
+			"loc": 156,
+			"commits": 1,
+			"linesChanged": 156,
+			"authors": 1,
+			"lastCommit": "2026-06-24",
+			"complexity": 48
+		},
+		{
+			"path": "src/routes/browser/+page.svelte",
+			"loc": 31,
+			"commits": 5,
+			"linesChanged": 81,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 97
+		},
+		{
+			"path": "src/lib/modules/ai/styles/_ai-layout.sass",
+			"loc": 76,
+			"commits": 2,
+			"linesChanged": 78,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/browser/styles/_history.sass",
+			"loc": 145,
+			"commits": 1,
+			"linesChanged": 145,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/components/ai-elements/Reasoning.svelte",
+			"loc": 71,
+			"commits": 2,
+			"linesChanged": 73,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 77
+		},
+		{
+			"path": "src/lib/modules/browser/state/history.svelte.ts",
+			"loc": 139,
+			"commits": 1,
+			"linesChanged": 139,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 54
+		},
+		{
+			"path": "src/lib/modules/designer/engine/typography.ts",
+			"loc": 133,
+			"commits": 1,
+			"linesChanged": 133,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 64
+		},
+		{
+			"path": "src/lib/modules/browser/components/vault/VaultPopover.svelte",
+			"loc": 122,
+			"commits": 1,
+			"linesChanged": 122,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 61
+		},
+		{
+			"path": "src/lib/modules/browser/components/vault/VaultForm.svelte",
+			"loc": 120,
+			"commits": 1,
+			"linesChanged": 120,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 75
+		},
+		{
+			"path": "src/lib/modules/browser/styles/_tabstrip.sass",
+			"loc": 116,
+			"commits": 1,
+			"linesChanged": 116,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src-tauri/native/dictation_bridge.swift",
+			"loc": 115,
+			"commits": 1,
+			"linesChanged": 115,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 48
+		},
+		{
+			"path": "src/lib/modules/notes/components/VaultTreeNode.svelte",
+			"loc": 56,
+			"commits": 2,
+			"linesChanged": 60,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 71
+		},
+		{
+			"path": "src/lib/modules/designer/contributions.ts",
+			"loc": 27,
+			"commits": 4,
+			"linesChanged": 33,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/ai/components/WorkPanel.svelte",
+			"loc": 35,
+			"commits": 3,
+			"linesChanged": 47,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 57
+		},
+		{
+			"path": "src/lib/modules/browser/state/overlayCoordinator.svelte.ts",
+			"loc": 52,
+			"commits": 2,
+			"linesChanged": 84,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 48
+		},
+		{
+			"path": "src/lib/modules/browser/state/registrableDomain.ts",
+			"loc": 101,
+			"commits": 1,
+			"linesChanged": 101,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/browser/components/BrowserLauncherCard.svelte",
+			"loc": 50,
+			"commits": 2,
+			"linesChanged": 70,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 60
+		},
+		{
+			"path": "src/lib/modules/browser/components/HistoryPanel.svelte",
+			"loc": 100,
+			"commits": 1,
+			"linesChanged": 100,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 70
+		},
+		{
+			"path": "src/lib/styles/components/_appdock.sass",
+			"loc": 20,
+			"commits": 5,
+			"linesChanged": 28,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/browser/components/BookmarkStar.svelte",
+			"loc": 99,
+			"commits": 1,
+			"linesChanged": 99,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 61
+		},
+		{
+			"path": "src/lib/modules/ai/components/SessionRow.svelte",
+			"loc": 49,
+			"commits": 2,
+			"linesChanged": 59,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 61
+		},
+		{
+			"path": "src-tauri/src/dictation.rs",
+			"loc": 96,
+			"commits": 1,
+			"linesChanged": 96,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 47
+		},
+		{
+			"path": "src/lib/sanitizeHtml.ts",
+			"loc": 47,
+			"commits": 2,
+			"linesChanged": 79,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 21
+		},
+		{
+			"path": "src/lib/components/HomeTilesLayout.svelte",
+			"loc": 31,
+			"commits": 3,
+			"linesChanged": 55,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 65
+		},
+		{
+			"path": "src/lib/modules/browser/types.ts",
+			"loc": 93,
+			"commits": 1,
+			"linesChanged": 93,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 5
+		},
+		{
+			"path": "src/lib/modules/media/types.ts",
+			"loc": 92,
+			"commits": 1,
+			"linesChanged": 92,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 16
+		},
+		{
+			"path": "src/lib/data/aiProviders.ts",
+			"loc": 22,
+			"commits": 4,
+			"linesChanged": 82,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/media/components/MediaLayout.svelte",
+			"loc": 44,
+			"commits": 2,
+			"linesChanged": 46,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 68
+		},
+		{
+			"path": "src/lib/modules/fractaldocs/components/DocsContent.svelte",
+			"loc": 27,
+			"commits": 3,
+			"linesChanged": 73,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/state/modelRegistry.contract.ts",
+			"loc": 79,
+			"commits": 1,
+			"linesChanged": 79,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 6
+		},
+		{
+			"path": "src/lib/modules/browser/state/suggestions.svelte.ts",
+			"loc": 78,
+			"commits": 1,
+			"linesChanged": 78,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 45
+		},
+		{
+			"path": "src/lib/modules/browser/components/vault/VaultList.svelte",
+			"loc": 77,
+			"commits": 1,
+			"linesChanged": 77,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 78
+		},
+		{
+			"path": "src/lib/data/modelContextWindows.ts",
+			"loc": 75,
+			"commits": 1,
+			"linesChanged": 75,
+			"authors": 1,
+			"lastCommit": "2026-06-25",
+			"complexity": 47
+		},
+		{
+			"path": "src/lib/modules/ai/components/ChatColumn.svelte",
+			"loc": 37,
+			"commits": 2,
+			"linesChanged": 75,
+			"authors": 1,
+			"lastCommit": "2026-07-16",
+			"complexity": 41
+		},
+		{
+			"path": "src/lib/styles/components/_canvas.sass",
+			"loc": 37,
+			"commits": 2,
+			"linesChanged": 43,
+			"authors": 1,
+			"lastCommit": "2026-07-13",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/browser/components/BrowserMenu.svelte",
+			"loc": 73,
+			"commits": 1,
+			"linesChanged": 73,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 27
+		},
+		{
+			"path": "src/lib/components/ai-elements/Conversation.svelte",
+			"loc": 71,
+			"commits": 1,
+			"linesChanged": 71,
+			"authors": 1,
+			"lastCommit": "2026-06-25",
+			"complexity": 70
+		},
+		{
+			"path": "src/lib/modules/browser/components/TabStrip.svelte",
+			"loc": 71,
+			"commits": 1,
+			"linesChanged": 71,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 35
+		},
+		{
+			"path": "src/lib/modules/browser/state/bookmarks.svelte.ts",
+			"loc": 65,
+			"commits": 1,
+			"linesChanged": 65,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 38
+		},
+		{
+			"path": "src/lib/globalstores.svelte.ts",
+			"loc": 32,
+			"commits": 2,
+			"linesChanged": 38,
+			"authors": 1,
+			"lastCommit": "2026-07-13",
+			"complexity": 78
+		},
+		{
+			"path": "src/lib/modules/browser/components/BrowserConfirm.svelte",
+			"loc": 62,
+			"commits": 1,
+			"linesChanged": 62,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 32
+		},
+		{
+			"path": "src/lib/modules/designer/engine/designstores.svelte.ts",
+			"loc": 59,
+			"commits": 1,
+			"linesChanged": 59,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 34
+		},
+		{
+			"path": "src/lib/modules/notes/frontmatter.ts",
+			"loc": 59,
+			"commits": 1,
+			"linesChanged": 59,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/media/components/MediaSidebar.svelte",
+			"loc": 29,
+			"commits": 2,
+			"linesChanged": 33,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/media/contributions.ts",
+			"loc": 29,
+			"commits": 2,
+			"linesChanged": 31,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/notes/components/NotesSidebar1.svelte",
+			"loc": 29,
+			"commits": 2,
+			"linesChanged": 31,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 34
+		},
+		{
+			"path": "src/lib/modules/media/components/MediaCard.svelte",
+			"loc": 28,
+			"commits": 2,
+			"linesChanged": 34,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/modules/browser/components/NavControls.svelte",
+			"loc": 55,
+			"commits": 1,
+			"linesChanged": 55,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/modules/ide/components/Terminal.svelte",
+			"loc": 54,
+			"commits": 1,
+			"linesChanged": 54,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 46
+		},
+		{
+			"path": "src/lib/fractalui/bits-tooltip.svelte",
+			"loc": 53,
+			"commits": 1,
+			"linesChanged": 53,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 19
+		},
+		{
+			"path": "src-tauri/build.rs",
+			"loc": 26,
+			"commits": 2,
+			"linesChanged": 26,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 19
+		},
+		{
+			"path": "src/lib/modules/media/components/MediaGrid.svelte",
+			"loc": 25,
+			"commits": 2,
+			"linesChanged": 31,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 100
+		},
+		{
+			"path": "src/lib/styles/components/_tooltip.sass",
+			"loc": 49,
+			"commits": 1,
+			"linesChanged": 49,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 10
+		},
+		{
+			"path": "src/lib/modules/notes/contributions.ts",
+			"loc": 24,
+			"commits": 2,
+			"linesChanged": 30,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/components/ai-elements/CopyButton.svelte",
+			"loc": 47,
+			"commits": 1,
+			"linesChanged": 47,
+			"authors": 1,
+			"lastCommit": "2026-06-25",
+			"complexity": 32
+		},
+		{
+			"path": "src/lib/components/ai-elements/types.ts",
+			"loc": 22,
+			"commits": 2,
+			"linesChanged": 22,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 23
+		},
+		{
+			"path": "src/lib/modules/browser/components/BookmarksRow.svelte",
+			"loc": 44,
+			"commits": 1,
+			"linesChanged": 44,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 57
+		},
+		{
+			"path": "src/lib/actions/focusTrap.ts",
+			"loc": 43,
+			"commits": 1,
+			"linesChanged": 43,
+			"authors": 1,
+			"lastCommit": "2026-07-12",
+			"complexity": 81
+		},
+		{
+			"path": "src/lib/components/ai-elements/Actions.svelte",
+			"loc": 39,
+			"commits": 1,
+			"linesChanged": 39,
+			"authors": 1,
+			"lastCommit": "2026-06-25",
+			"complexity": 77
+		},
+		{
+			"path": "src/lib/fractalui/animated-logo.svelte",
+			"loc": 39,
+			"commits": 1,
+			"linesChanged": 39,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/fractalui/bits-dropdown.svelte",
+			"loc": 39,
+			"commits": 1,
+			"linesChanged": 39,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 13
+		},
+		{
+			"path": "src/lib/modules/browser/components/showConfirm.ts",
+			"loc": 31,
+			"commits": 1,
+			"linesChanged": 31,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 32
+		},
+		{
+			"path": "src/lib/modules/browser/contributions.ts",
+			"loc": 29,
+			"commits": 1,
+			"linesChanged": 29,
+			"authors": 1,
+			"lastCommit": "2026-07-17",
+			"complexity": 17
+		},
+		{
+			"path": "src/lib/modules/bookmarks/contributions.ts",
+			"loc": 25,
+			"commits": 1,
+			"linesChanged": 25,
+			"authors": 1,
+			"lastCommit": "2026-07-15",
+			"complexity": 0
+		},
+		{
+			"path": "src/lib/styles/_mixins.sass",
+			"loc": 24,
+			"commits": 1,
+			"linesChanged": 24,
+			"authors": 1,
+			"lastCommit": "2026-06-24",
+			"complexity": 42
+		}
+	]
+}

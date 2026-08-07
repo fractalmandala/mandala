@@ -1,0 +1,526 @@
+@use '../../../styles/tokens' as *
+
+// ── Outer layout ──────────────────────────────────────────────────────────
+
+.canvas-grid
+	position: absolute
+	left: -50000px
+	top: -50000px
+	width: 100000px
+	height: 100000px
+
+.design-sidebar-left, .design-sidebar-right, .design-aichat
+	height: 100%
+	position: relative
+	box-sizing: border-box
+
+.design-sidebar-left, .design-sidebar-right
+	background: var(--background30)
+
+.design-left
+	border-right: 1px solid var(--border-tertiary)
+
+.design-right
+	border-left: 1px solid var(--border-tertiary)
+
+.module-central > .design-viewport
+	min-width: 0
+	flex: 1
+	width: 100%
+
+.design-left + .module-central
+	flex: 1 1 0
+	width: 0
+	min-width: 0
+
+// ── Design viewport (canvas area) ──────────────────────────────────────────
+.design-viewport
+	position: relative
+	overflow: hidden
+	height: 100%
+	width: 100%
+	touch-action: none
+	user-select: none
+	cursor: default
+	&.resizing
+		cursor: default
+	&.space-pan
+		cursor: grab
+		&:active
+			cursor: grabbing
+	&.measuring
+		cursor: crosshair
+	&.draw-active
+		cursor: crosshair
+	&.component-drop
+		outline: 2px dashed var(--theme-color)
+		outline-offset: -8px
+
+// ── Canvas world (transform container) ─────────────────────────────────────
+
+	position: absolute
+	left: 0
+	top: 0
+	width: 0
+	height: 0
+	transform-origin: 0 0
+
+.canvas-pixel-grid
+	position: absolute
+	left: -50000px
+	top: -50000px
+	width: 100000px
+	height: 100000px
+	pointer-events: none
+	background-image: linear-gradient(to right, var(--border-secondary) 1px, transparent 1px), linear-gradient(to bottom, var(--border-secondary) 1px, transparent 1px)
+	background-size: 1px 1px
+	opacity: .45
+
+.canvas-view-controls
+	position: absolute
+	top: var(--sz-16)
+	left: var(--sz-16)
+	display: flex
+	gap: var(--sz-4)
+	z-index: 21
+
+.canvas-view-menu, .canvas-zoom-menu
+	position: absolute
+	display: grid
+	gap: var(--sz-4)
+	padding: var(--sz-8)
+	background: var(--background30)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-8)
+	box-shadow: var(--shadow-canvas-float)
+	color: var(--text-primary)
+
+.canvas-view-menu
+	top: 100%
+	left: 0
+
+.canvas-zoom-menu
+	bottom: 100%
+	left: 50%
+	transform: translateX(-50%)
+
+.canvas-background-swatch
+	width: var(--sz-24)
+	height: var(--sz-24)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-8)
+	cursor: pointer
+
+.canvas-color-popover
+	position: absolute
+	top: calc(100% + var(--sz-4))
+	left: 0
+	display: grid
+	gap: var(--sz-8)
+	width: calc(var(--sz-96) * 2)
+	padding: var(--sz-8)
+	background: var(--background30)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-8)
+	box-shadow: var(--shadow-canvas-float)
+
+.canvas-spectrum
+	aspect-ratio: 1
+	border-radius: var(--sz-8)
+	cursor: crosshair
+
+.canvas-hue
+	width: 100%
+
+.canvas-color-popover label
+	display: grid
+	gap: var(--sz-4)
+
+.canvas-color-popover input:not(.canvas-hue)
+	min-width: 0
+	background: var(--background20)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-8)
+	color: var(--text-primary)
+
+.canvas-breadcrumb
+	position: absolute
+	top: var(--sz-16)
+	left: 50%
+	display: flex
+	align-items: center
+	gap: var(--sz-4)
+	transform: translateX(-50%)
+	z-index: 21
+	padding: var(--sz-4) var(--sz-8)
+	background: var(--background30)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-8)
+	color: var(--text-secondary)
+
+.canvas-spacing-badge
+	position: absolute
+	z-index: 20
+	padding: var(--sz-2) var(--sz-4)
+	transform: translate(-50%, -50%)
+	border-radius: var(--sz-8)
+	background: var(--theme-color)
+	color: var(--text-inverse)
+	font-size: var(--text-xs)
+	pointer-events: none
+
+// ── Design tile (absolutely-positioned block on canvas) ────────────────────
+.design-tile
+	position: absolute
+	left: 0
+	top: 0
+	box-sizing: border-box
+	will-change: transform
+	user-select: none
+	background: var(--background20)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-8)
+	box-shadow: 0 10px 34px rgba(0, 0, 0, 0.4)
+	:global(.theme-amrit-light) &
+		box-shadow: 0 10px 34px rgba(255, 255, 255, 0.4)
+	overflow: hidden
+	transition: box-shadow 0.15s ease, border-color 0.15s ease
+	&.selected
+		border-color: var(--tile-border-active)
+		box-shadow: 0 0 0 1.5px var(--theme-color), 0 0 0 5px color-mix(in srgb, var(--theme-color) 15%, transparent), 0 10px 34px rgba(0, 0, 0, 0.4)
+		:global(.theme-amrit-light) &
+			box-shadow: 0 0 0 1.5px var(--theme-color), 0 0 0 5px color-mix(in srgb, var(--theme-color) 15%, transparent), 0 10px 34px rgba(255, 255, 255, 0.4)
+
+	.tile-label
+		font-size: var(--text-sm)
+		font-weight: 600
+		color: var(--text-tertiary)
+		padding: var(--sz-8)
+
+// ── 8-point resize handles ─────────────────────────────────────────────────
+.resize-handle
+	position: absolute
+	width: 9px
+	height: 9px
+	background: var(--canvas-sheet-bg)
+	border: 1.5px solid var(--tile-border-active)
+	border-radius: var(--sz-2)
+	z-index: 10
+	box-shadow: 0 1px 3px color-mix(in srgb, var(--text-inverse) 15%, transparent)
+	&.handle-nw
+		left: -5px
+		top: -5px
+		cursor: nwse-resize
+	&.handle-ne
+		right: -5px
+		top: -5px
+		cursor: nesw-resize
+	&.handle-se
+		right: -5px
+		bottom: -5px
+		cursor: nwse-resize
+	&.handle-sw
+		left: -5px
+		bottom: -5px
+		cursor: nesw-resize
+	&.handle-n
+		top: -5px
+		left: 50%
+		transform: translateX(-50%)
+		cursor: ns-resize
+	&.handle-s
+		bottom: -5px
+		left: 50%
+		transform: translateX(-50%)
+		cursor: ns-resize
+	&.handle-e
+		right: -5px
+		top: 50%
+		transform: translateY(-50%)
+		cursor: ew-resize
+	&.handle-w
+		left: -5px
+		top: 50%
+		transform: translateY(-50%)
+		cursor: ew-resize
+
+// ── Rotation handle ────────────────────────────────────────────────────────
+.rotate-handle
+	position: absolute
+	top: -26px
+	left: 50%
+	width: 12px
+	height: 12px
+	margin-left: calc(var(--sz-8) * -1)
+	border-radius: var(--control-radius-round)
+	background: var(--canvas-sheet-bg)
+	border: 1.5px solid var(--tile-border-active)
+	box-shadow: 0 1px 3px color-mix(in srgb, var(--text-inverse) 15%, transparent)
+	cursor: grab
+	z-index: 11
+	transition: transform 0.1s ease
+	&::before
+		content: ''
+		position: absolute
+		left: 50%
+		top: 100%
+		width: 1px
+		height: 14px
+		background: var(--tile-border-active)
+		transform: translateX(-50%)
+	&:hover
+		transform: scale(1.2)
+	&:active
+		cursor: grabbing
+
+// ── Marquee selection box ──────────────────────────────────────────────────
+.marquee-box
+	position: absolute
+	background: var(--accent-surface-subtle)
+	border: 1px solid var(--tile-border-active)
+	pointer-events: none
+	z-index: 12
+
+// ── Ruler corner ───────────────────────────────────────────────────────────
+.canvas-ruler-corner
+	position: absolute
+	left: 0
+	top: 0
+	width: 16px
+	height: 16px
+	background: var(--background60)
+	z-index: 30
+	display: flex
+	align-items: center
+	justify-content: center
+	color: var(--text-inverse)
+
+.canvas-ruler-h
+	position: absolute
+	left: 16px
+	top: 0
+	height: 16px
+	width: 100%
+	background: var(--background50)
+	color: var(--text-inverse)
+	z-index: 600
+
+.canvas-ruler-v
+	position: absolute
+	left: 0
+	top: 16px
+	width: 16px
+	background: var(--background50)
+	color: var(--text-inverse)
+	z-index: 600
+	height: 100%
+
+// ── Floating zoom controls ─────────────────────────────────────────────────
+.canvas-floating-controls
+	position: absolute
+	top: 16px
+	right: 16px
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+	background: var(--surface-glass-strong)
+	backdrop-filter: blur(16px) saturate(180%)
+	-webkit-backdrop-filter: blur(16px) saturate(180%)
+	border: 1px solid color-mix(in srgb, var(--white-text) 60%, transparent)
+	border-radius: var(--sz-8)
+	padding: var(--sz-4) var(--sz-8)
+	box-shadow: var(--shadow-canvas-float)
+	z-index: 20
+	pointer-events: auto
+
+	.btn-floating
+		background: transparent
+		border: none
+		border-radius: var(--sz-2)
+		width: 28px
+		height: 28px
+		display: flex
+		align-items: center
+		justify-content: center
+		cursor: pointer
+		color: var(--text-secondary)
+		transition: background 0.1s ease, color 0.1s ease, transform 0.08s ease
+		&:hover
+			background: var(--surface-neutral-faint)
+			color: var(--text-primary)
+		&:active
+			transform: scale(0.9)
+		&:focus-visible
+			outline: 2px solid var(--tile-border-active)
+			outline-offset: 1px
+
+	.zoom-display
+		font-size: var(--text-sm)
+		font-weight: 600
+		color: var(--text-secondary)
+		min-width: 44px
+		text-align: center
+		user-select: none
+		font-variant-numeric: tabular-nums
+		cursor: pointer
+		padding: var(--sz-2) var(--sz-8)
+		border-radius: var(--sz-2)
+		&:hover
+			background: var(--surface-neutral-faint)
+		&:disabled
+			cursor: default
+			&:hover
+				background: transparent
+
+	.dock-separator
+		width: 1px
+		height: 16px
+		background: var(--border-primary)
+		margin: 0 var(--sz-2)
+
+// ── Canvas dock (bottom-center toolbar) ────────────────────────────────────
+.canvas-dock
+	position: absolute
+	bottom: 16px
+	left: 50%
+	transform: translateX(-50%)
+	display: flex
+	align-items: center
+	gap: var(--sz-2)
+	background: var(--surface-glass-strong)
+	backdrop-filter: blur(16px) saturate(180%)
+	-webkit-backdrop-filter: blur(16px) saturate(180%)
+	border: 1px solid color-mix(in srgb, var(--white-text) 60%, transparent)
+	border-radius: var(--sz-8)
+	padding: var(--sz-4) var(--sz-8)
+	box-shadow: var(--shadow-canvas-float)
+	z-index: 20
+	pointer-events: auto
+
+	.dock-btn
+		width: 32px
+		height: 28px
+		display: flex
+		align-items: center
+		justify-content: center
+		border: none
+		background: transparent
+		border-radius: var(--sz-2)
+		color: var(--text-secondary)
+		cursor: pointer
+		transition: background 0.1s ease, color 0.1s ease, transform 0.08s ease
+		&:hover
+			background: var(--surface-neutral-faint)
+			color: var(--text-primary)
+		&:active
+			transform: scale(0.9)
+		&.active
+			background: var(--accent-surface-medium)
+			color: var(--tile-border-active)
+
+	.dock-separator
+		width: 1px
+		height: 18px
+		background: var(--border-primary)
+		margin: 0 var(--sz-4)
+
+// ── Shape tool group (dock) ─────────────────────────────────────────────────
+.dock-tool-group
+	position: relative
+	display: flex
+	align-items: center
+
+.dock-shape-btn
+	width: 28px !important
+
+.dock-chevron
+	width: 14px
+	height: 28px
+	display: flex
+	align-items: center
+	justify-content: center
+	border: none
+	background: transparent
+	color: var(--text-tertiary)
+	cursor: pointer
+	border-radius: var(--sz-2)
+	&:hover
+		background: var(--surface-neutral-faint)
+		color: var(--text-primary)
+
+.canvas-shape-dropdown
+	position: absolute
+	bottom: calc(100% + 8px)
+	left: 50%
+	transform: translateX(-50%)
+	display: flex
+	flex-direction: column
+	min-width: 140px
+	padding: var(--sz-4)
+	background: var(--background20)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	box-shadow: 0 8px 24px color-mix(in srgb, var(--text-inverse) 18%, transparent)
+	z-index: 30
+
+.shape-option
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+	padding: var(--sz-8) var(--sz-8)
+	border: none
+	background: transparent
+	border-radius: var(--sz-4)
+	color: var(--text-primary)
+	font-size: var(--text-sm)
+	cursor: pointer
+	&:hover
+		background: var(--state-hover)
+	&.active
+		background: var(--accent-surface-medium)
+		color: var(--tile-border-active)
+
+.shape-icon
+	display: flex
+	align-items: center
+	justify-content: center
+	width: 14px
+	height: 14px
+	flex: 0 0 auto
+
+.shape-label
+	flex: 1 1 auto
+
+// ── Drag-to-draw preview ─────────────────────────────────────────────────────
+.canvas-draw-preview
+	position: absolute
+	left: 0
+	top: 0
+	border: 1.5px dashed var(--tile-border-active)
+	background: var(--accent-surface-subtle)
+	pointer-events: none
+	z-index: 12
+
+// ── Resize handle (vertical panel divider) ─────────────────────────────────
+.resize-handle-v
+	position: absolute
+	top: 0
+	width: var(--resize-hit-target)
+	height: 100%
+	cursor: col-resize
+	z-index: 15
+	transition: background 0.15s ease
+	&.handle-sidebar-left
+		right: calc(var(--resize-hit-target) / -2)
+	&.handle-sidebar-right
+		left: calc(var(--resize-hit-target) / -2)
+	&::after
+		content: ''
+		width: 3px
+		height: 100%
+		background: transparent
+
+.panel-label
+	font-size: var(--text-sm)
+	font-weight: 600
+	color: var(--text-primary)

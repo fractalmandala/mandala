@@ -1,0 +1,57 @@
+.showbox
+	align-items: center
+	justify-content: center
+
+.fillscreen
+	.center
+		display: flex
+		flex-direction: row
+		align-items: center
+		justify-content: center
+		margin: auto
+
+.splitpanes__splitter
+	min-height: 0
+	position: relative
+	flex-shrink: 0
+	&:before
+		content: ''
+		position: absolute
+		top: 50%
+		left: 50%
+		transition: background-color 0.3s
+	&:after
+		content: ''
+		position: absolute
+		top: 50%
+		left: 50%
+		transition: background-color 0.3s
+
+.splitpanes .splitpanes .splitpanes__splitter
+	z-index: 1
+	&.splitpanes--vertical > .splitpanes__splitter,
+	.splitpanes--vertical > .splitpanes__splitter
+		cursor: col-resize
+		&:before,
+		&:after
+			transform: translateY(-50%)
+			width: 1px
+			height: 30px
+		&:before
+			margin-left: -2px
+		&:after
+			margin-left: 1px
+	&.splitpanes--horizontal > .splitpanes__splitter,
+	.splitpanes--horizontal > .splitpanes__splitter
+		height: 7px
+		border-top: 1px solid #eee
+		cursor: row-resize
+		&:before,
+		&:after
+			transform: translateX(-50%)
+			width: 30px
+			height: 1px
+		&:before
+			margin-top: -2px
+		&:after
+			margin-top: 1px

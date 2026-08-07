@@ -1,0 +1,299 @@
+.module-wrapper
+	display: flex
+	flex: 1
+	width: 100%
+	height: 100%
+	overflow: hidden
+	gap: 0
+
+.inside-module-wrapper
+	display: flex
+	height: 100%
+	overflow: hidden
+	flex: 1
+	min-width: 0
+
+.paneforge-container [data-pane]
+	min-width: 0
+	min-height: 0
+	overflow: hidden
+
+.module-sidebar
+	display: flex
+	position: relative
+	height: 100%
+	overflow: hidden
+	flex-shrink: 0
+	gap: 0
+	&.sidebar-collapsed-zone
+		width: 0px !important
+		opacity: 0
+		pointer-events: none
+		border: none
+
+.sidebar-carrier
+	display: flex
+	flex-direction: column
+	width: 100%
+	height: 100%
+	overflow: hidden
+	.sidebar-left-wrapper, .sidebar-right-wrapper
+		height: 100%
+		padding: 0
+		display: flex
+		flex-direction: column
+		gap: 0
+		justify-content: flex-start
+
+.sidebar-content
+	flex: 1
+	overflow-y: auto
+	display: flex
+	flex-direction: column
+	height: 100%
+	// Hide scrollbar but keep scroll
+	&::-webkit-scrollbar
+		display: none
+	&.inspector
+		gap: var(--sz-16)
+	.sidebar-header
+		display: flex
+		height: var(--sz-32)
+		padding: var(--sz-4)
+	.sidebar-content-box
+		display: flex
+		flex-direction: column
+		height: calc(100% - var(--sz-32))
+
+.module-central
+	display: flex
+	flex-direction: column
+	flex: 1
+	min-width: 0
+	height: 100%
+	overflow: hidden
+
+.central-carrier
+	display: flex
+	flex-direction: column
+	width: 100%
+	height: 100%
+	overflow: hidden
+	min-width: 0
+	max-width: 100%
+
+// ── Button roles ────────────────────────────────────────────────────────
+// btn-icon: icon only · btn-icon-text: icon + text · btn-text: bare text ·
+// btn-app: filled visual button. One family — no other button base classes.
+
+.btn-icon
+	padding: 0
+	background: none
+	border: none
+	display: flex
+	align-items: center
+	justify-content: center
+	color: var(--text-secondary)
+	gap: var(--sz-4)
+	cursor: pointer
+	img.faint
+		opacity: 0.5
+	svg
+		transition: all 90ms cubic-bezier(0.550, 0.085, 0.680, 0.530)
+		transform-origin: center center
+	&:hover
+		svg
+			transform: scale(1.1)
+		img
+			transform: scale(1.1)
+		.hover-accent
+			color: var(--theme-color)
+
+.btn-icon-text
+	display: flex
+	flex-direction: row
+	align-items: center
+	gap: var(--sz-4)
+	border: 1px solid transparent
+	background: transparent
+	padding: var(--sz-8)
+	border-radius: var(--sz-2)
+	min-height: var(--control-target-min)
+	color: var(--text-primary)
+	cursor: pointer
+	font-size: var(--text-sm)
+	&:hover
+		background: var(--background30)
+	img
+		filter: saturate(0)
+	&:hover
+		img
+			filter: saturate(1)
+	&.active
+		background: var(--background30)
+
+.btn-text
+	padding: var(--sz-4)
+	background: none
+	border: none
+	display: flex
+	align-items: center
+	justify-content: center
+	cursor: pointer
+	span
+		font-size: var(--text-sm)
+
+.btn-app
+	padding: var(--sz-4) var(--sz-8)
+	border-radius: var(--sz-2)
+	width: max-content
+	background: var(--background40)
+	border: 1px solid var(--border-primary)
+	color: var(--text-primary)
+	&:hover, &.activated
+		background: var(--background50)
+		border: 1px solid var(--border-tertiary)
+	span
+		font-weight: 450
+		font-size: var(--text-sm)
+		letter-spacing: -0.015rem
+		font-family: var(--font-sans)
+		color: var(--text-primary)
+
+// ── Sidebar tabs ────────────────────────────────────────────────────────
+// Shared tab used in sidebar headers across modules. Active state is marked
+// with `.active` (never mark the inactive one). Icons inside use icon-svg-sm.
+// Module containers may add layout deltas (e.g. flex: 1 for segmented bars).
+
+.sidebar-tab-item
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: center
+	gap: var(--sz-4)
+	padding: var(--sz-4) var(--sz-8)
+	background: transparent
+	border: none
+	border-radius: var(--sz-2)
+	min-height: var(--control-target-min)
+	cursor: pointer
+	transition: var(--transition-control)
+	.sidebar-tab-item-text
+		font-size: var(--text-sm)
+		font-weight: 500
+		letter-spacing: -0.01rem
+		color: var(--text-tertiary)
+		transition: var(--transition-control)
+	&:hover
+		background: var(--state-hover)
+		.sidebar-tab-item-text
+			color: var(--text-secondary)
+	&.active
+		background: var(--background40)
+		.sidebar-tab-item-text
+			color: var(--text-primary)
+
+.sidebar-btn-item
+	width: 100%
+
+.sidebar-btn
+	padding: var(--sz-4) var(--sz-8)
+	display: flex
+	flex-direction: row
+	background: transparent
+	width: 100%
+	font-size: var(--text-md)
+
+.sidebar-btn-std 
+	display: flex
+	flex-direction: row
+	justify-content: flex-start
+	padding: var(--sz-8)
+	color: var(--text-primary)
+	font-size: var(--text-bs)
+	&:hover
+		background: var(--background50)
+
+
+.sidebar-tabs
+	display: flex
+	gap: 0
+	padding: 0 var(--sz-4)
+	border-bottom: 1px solid var(--border-primary)
+	flex-shrink: 0
+	height: 32px
+
+.sidebar-tab-btn
+	padding: var(--sz-4) var(--sz-12)
+	border: 0
+	background: transparent
+	color: var(--text-tertiary)
+	font-size: var(--text-sm)
+	cursor: pointer
+	border-bottom: 2px solid transparent
+	transition: var(--transition-control)
+	flex-shrink: 0
+	&:hover
+		color: var(--text-primary)
+		background: var(--state-hover)
+	&.active
+		color: var(--text-primary)
+		border-bottom-color: var(--theme-color)
+		font-weight: 500
+
+.central-tabstrip
+	height: var(--sz-32)
+	width: 100%
+	border-bottom: 1px solid var(--border-tertiary)
+	flex-shrink: 0
+	display: flex
+	flex-direction: row
+	overflow-x: auto
+	white-space: nowrap
+	align-items: center
+	padding: var(--sz-8)
+
+.app-chip
+	white-space: nowrap
+
+.pill-filled
+	background: var(--background80)
+	color: var(--text-inverse)
+	font-size: var(--text-xs)
+	padding: var(--sz-4) var(--sz-8)
+	border-radius: var(--sz-12)
+
+.pill-filled-sharp
+	background: var(--background70)
+	color: var(--text-inverse)
+	font-size: var(--text-xs)
+	padding: var(--sz-4) var(--sz-8)
+	border-radius: var(--sz-2)
+	transition: var(--transition-quick)
+	&:hover
+		background: var(--background80)
+
+.pill-dot
+	width: 8px
+	height: 8px
+	border-radius: 50%
+	flex: none
+
+input.input-search
+	width: 220px
+	outline: none
+	padding: var(--sz-6) var(--sz-16)
+	background: var(--background70)
+	border: none
+	border-radius: var(--sz-8)
+	color: var(--text-inverse)
+	font: inherit
+	font-size: 12px
+	outline: none
+	&:focus
+		border-color: #404040
+	&::placeholder
+		color: #525252
+
+.graph-main
+	border-top: 1px solid var(--border-primary)

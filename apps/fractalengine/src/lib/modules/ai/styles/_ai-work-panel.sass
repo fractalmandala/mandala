@@ -1,0 +1,58 @@
+// WorkPanel — Files / Terminal / Browser tabs with left-edge resize handle
+
+.ai-work-panel
+	display: flex
+	flex-direction: column
+	height: 100%
+	overflow: hidden
+
+	// Resize handle on the left edge
+	.ai-work-resizer
+		position: absolute
+		left: -3px
+		top: 0
+		width: 6px
+		height: 100%
+		padding: 0
+		border: 0
+		background: transparent
+		cursor: col-resize
+		z-index: 5
+		transition: background 0.15s ease
+
+		&:hover, &:active
+			background: var(--theme-color)
+
+	// Tab bar
+	.ai-work-tabs
+		display: flex
+		gap: 0
+		padding: 0 var(--sz-4)
+		background: var(--background30)
+		border-bottom: 1px solid var(--border-primary)
+		flex-shrink: 0
+		height: 32px
+
+	.ai-work-tab
+		padding: var(--sz-4) var(--sz-12)
+		border: 0
+		background: transparent
+		color: var(--text-tertiary)
+		font-size: var(--text-sm)
+		cursor: pointer
+		border-bottom: 2px solid transparent
+		transition: var(--transition-control)
+		flex-shrink: 0
+		&:hover
+			color: var(--text-primary)
+			background: var(--state-hover)
+		&.active
+			color: var(--text-primary)
+			border-bottom-color: var(--theme-color)
+			font-weight: 500
+
+	// Content area
+	.ai-work-content
+		flex: 1
+		overflow: hidden
+		min-height: 0

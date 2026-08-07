@@ -1,0 +1,101 @@
+@use '../tokens' as *
+
+.tile-dock
+	position: absolute
+	bottom: 20px
+	left: 50%
+	transform: translateX(-50%)
+	background: var(--background30)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-12)
+	padding: var(--sz-8) var(--sz-16)
+	z-index: var(--z-panel)
+	display: flex
+	align-items: center
+	box-shadow: var(--shadow-panel)
+
+.dock-item
+	position: relative
+
+.dock-btn
+	background: transparent
+	border: none
+	color: var(--text-secondary)
+	cursor: pointer
+	padding: var(--sz-8) var(--sz-12)
+	border-radius: var(--sz-8)
+	transition: background 150ms ease, color 150ms ease
+	min-width: 60px
+
+	&:hover:not(:disabled)
+		color: var(--text-primary)
+		background: var(--background40)
+
+	&.is-active
+		color: var(--theme-color)
+		background: var(--background40)
+
+	&.is-disabled
+		opacity: 0.4
+		cursor: not-allowed
+
+.dock-btn-label
+	font-size: var(--text-xs)
+	font-weight: 500
+
+.dock-divider
+	width: 1px
+	height: 32px
+	background: var(--border-primary)
+	margin: 0 var(--sz-4)
+
+.dock-menu
+	position: absolute
+	bottom: 50px
+	left: 50%
+	transform: translateX(-50%)
+	width: 150px
+	background: var(--background20)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	padding: var(--sz-8)
+	z-index: var(--z-overlay)
+	display: flex
+	flex-direction: column
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3)
+	:global(.theme-amrit-light) &
+		box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3)
+
+.dock-menu-title
+	text-transform: uppercase
+	font-size: var(--text-xs)
+	border-bottom: 1px solid var(--border-primary)
+	margin-bottom: var(--sz-4)
+
+.dock-menu-item
+	background: transparent
+	border: none
+	color: var(--text-secondary)
+	padding: var(--sz-8) var(--sz-8)
+	border-radius: var(--sz-2)
+	cursor: pointer
+	text-align: left
+	width: 100%
+	transition: background 120ms ease, color 120ms ease
+
+	&:hover:not(:disabled)
+		color: var(--text-primary)
+		background: var(--background40)
+
+	&:disabled
+		opacity: 0.5
+		cursor: not-allowed
+
+.dock-menu-click-overlay
+	position: fixed
+	top: 0
+	left: 0
+	right: 0
+	bottom: 0
+	z-index: 999
+	background: transparent

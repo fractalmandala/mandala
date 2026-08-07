@@ -1,0 +1,145 @@
+// Browser History Panel — grouped by day, searchable, deletable
+// Tokens only.
+
+.browser-history-panel
+	display: flex
+	flex-direction: column
+	height: 100%
+	overflow: hidden
+
+.browser-history-search
+	position: relative
+	display: flex
+	align-items: center
+	padding: var(--sz-8) var(--sz-12)
+	border-bottom: 1px solid var(--border-primary)
+
+	.browser-history-search-icon
+		position: absolute
+		left: 20px
+		opacity: 0.45
+		pointer-events: none
+
+	.browser-history-search-input
+		width: 100%
+		height: 28px
+		padding-left: 24px
+		background: var(--background10)
+		border: 1px solid var(--border-secondary)
+		border-radius: var(--sz-4)
+		color: var(--text-primary)
+		font-size: var(--text-xs)
+		outline: none
+
+		&::placeholder
+			color: var(--text-tertiary)
+
+		&:focus
+			border-color: var(--theme-color)
+
+.browser-history-list
+	flex: 1
+	overflow-y: auto
+	padding: var(--sz-8)
+
+.browser-history-day-group
+	margin-bottom: var(--sz-12)
+
+.browser-history-day-header
+	font-size: var(--text-xs)
+	font-weight: 600
+	color: var(--text-tertiary)
+	padding: var(--sz-4) var(--sz-8)
+	text-transform: uppercase
+	letter-spacing: 0.3px
+
+.browser-history-item
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+	padding: var(--sz-8)
+	border-radius: var(--sz-4)
+	cursor: pointer
+	transition: background 80ms ease
+
+	&:hover
+		background: var(--background40)
+
+		.browser-history-item-delete
+			opacity: 1
+
+.browser-history-item-icon
+	flex: 0 0 auto
+	width: 14px
+	height: 14px
+	opacity: 0.5
+
+.browser-history-item-info
+	flex: 1
+	min-width: 0
+
+.browser-history-item-title
+	font-size: var(--text-xs)
+	color: var(--text-primary)
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+
+.browser-history-item-url
+	font-size: var(--text-xs)
+	color: var(--text-tertiary)
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+
+.browser-history-item-delete
+	flex: 0 0 auto
+	opacity: 0
+	width: 18px
+	height: 18px
+	padding: 0
+	background: transparent
+	border: none
+	border-radius: var(--sz-2)
+	color: var(--text-tertiary)
+	cursor: pointer
+	display: flex
+	align-items: center
+	justify-content: center
+	transition: opacity 110ms ease, color 110ms ease
+
+	&:hover
+		color: var(--feedback-error)
+
+	img
+		width: 10px
+		height: 10px
+
+.browser-history-empty
+	display: flex
+	flex-direction: column
+	align-items: center
+	justify-content: center
+	gap: var(--sz-8)
+	padding: var(--sz-32)
+	color: var(--text-tertiary)
+	font-size: var(--text-xs)
+	text-align: center
+
+// Clear range bar
+.browser-history-clear-bar
+	display: flex
+	align-items: center
+	gap: var(--sz-8)
+	padding: var(--sz-8) var(--sz-12)
+	border-top: 1px solid var(--border-primary)
+
+	select
+		height: 26px
+		padding: 0 var(--sz-8)
+		background: var(--background10)
+		border: 1px solid var(--border-secondary)
+		border-radius: var(--sz-2)
+		color: var(--text-primary)
+		font-size: var(--text-xs)
+		outline: none

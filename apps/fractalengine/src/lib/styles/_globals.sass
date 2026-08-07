@@ -1,0 +1,52 @@
+body, html
+	box-sizing: border-box
+	padding: 0
+	margin: 0
+	background: var(--background10)
+	color: var(--text-primary)
+	font-family: var(--font-sans)
+	overflow: hidden
+	height: 100%
+	width: 100%
+
+.app-root-shell
+	background: var(--background10)
+	color: var(--text-primary)
+
+:root
+	box-sizing: border-box
+*
+	box-sizing: border-box
+
+button, span, pre, li, a, input
+	font-family: var(--font-sans)
+
+button.blank
+	background: none
+	border: none
+	cursor: pointer
+	padding: 0
+	&.xleft
+		display: flex
+		justify-content: flex-start
+
+p, h6, h5, h4, h3, h2, h1, pre, span
+	margin: 0
+	letter-spacing: -0.01rem
+
+button
+	background: none
+	border: none
+	cursor: pointer
+	padding: 0
+	color: inherit
+	&:focus-visible
+		outline: 1px solid var(--theme-color)
+
+.truncate
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, [tabindex]:focus-visible
+	outline: 2px solid var(--theme-color) !important
+	outline-offset: 2px

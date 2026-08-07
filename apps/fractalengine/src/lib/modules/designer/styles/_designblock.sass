@@ -1,0 +1,151 @@
+@use '../../../styles/tokens' as *
+
+.design-flexbox-column
+	display: flex
+	flex-direction: column
+
+.design-flexbox-row
+	display: flex
+	flex-direction: row
+
+.design-grid
+	display: grid
+
+.design-grid-two
+	grid-template-columns: repeat(2, 1fr)
+
+.design-grid-three
+	grid-template-columns: repeat(3, 1fr)
+
+.design-grid-four
+	grid-template-columns: repeat(4, 1fr)
+
+.design-grid-five
+	grid-template-columns: repeat(5, 1fr)
+
+.design-grid-auto
+	grid-template-columns: minmax(360px, 1fr)
+
+.design-text
+	font-size: var(--text-bs)
+
+// ── DesignBlock (recursive scene-graph node) ────────────────────────────────
+.design-block
+	position: absolute
+	box-sizing: border-box
+	will-change: transform
+	transform-origin: center center
+	border: 1px solid transparent
+	transition: border-color 0.15s ease, box-shadow 0.15s ease
+	&.selected
+		border-color: var(--tile-border-active)
+		box-shadow: 0 0 0 1.5px var(--theme-color)
+	&.locked
+		cursor: default
+	&:not(.locked)
+		cursor: move
+	&.drop-hover
+		outline: 2px dashed var(--tile-border-active)
+		outline-offset: -4px
+		background: var(--accent-surface-faint)
+	&.layout-row, &.layout-column, &.layout-grid
+		padding: var(--sz-12)
+		gap: var(--sz-12)
+		align-content: flex-start
+		align-items: flex-start
+		> .design-block
+			position: relative
+			left: auto !important
+			top: auto !important
+			flex: 0 0 auto
+	&.layout-row
+		display: flex
+		flex-direction: row
+		flex-wrap: wrap
+	&.layout-column
+		display: flex
+		flex-direction: column
+	&.layout-grid
+		display: grid
+		grid-template-columns: repeat(auto-fit, minmax(96px, 1fr))
+		> .design-block
+			width: 100% !important
+
+.design-block-text
+	display: block
+	width: 100%
+	height: 100%
+	pointer-events: auto
+	cursor: text
+	outline: none
+
+.design-block.text-vertical-middle, .design-block.text-vertical-bottom
+	display: flex
+
+.design-block.text-vertical-middle
+	align-items: center
+
+.design-block.text-vertical-bottom
+	align-items: flex-end
+
+.design-block.text-sizing-auto-width
+	width: fit-content !important
+
+.design-block.text-sizing-auto-height
+	height: auto !important
+	min-height: 1px
+
+.design-block-image
+	display: block
+	width: 100%
+	height: 100%
+	object-fit: cover
+	pointer-events: none
+	user-select: none
+
+.design-block-image-empty
+	display: flex
+	width: 100%
+	height: 100%
+	align-items: center
+	justify-content: center
+	flex-direction: column
+	gap: var(--sz-8)
+	background: var(--background30)
+	color: var(--text-secondary)
+	font-size: var(--text-sm)
+	pointer-events: none
+
+.design-block-svg
+	display: block
+	width: 100%
+	height: 100%
+	pointer-events: none
+	overflow: visible
+
+.design-block-grip
+	position: absolute
+	top: -9px
+	left: -9px
+	width: 16px
+	height: 16px
+	display: flex
+	align-items: center
+	justify-content: center
+	font-size: var(--text-xs)
+	line-height: 1
+	border-radius: var(--sz-2)
+	background: var(--background20)
+	border: 1px solid var(--border-secondary)
+	color: var(--text-tertiary)
+	cursor: grab
+	z-index: 11
+	opacity: 0
+	transition: opacity 0.1s ease
+	touch-action: none
+	user-select: none
+	.design-block:hover &, .design-block.selected &
+		opacity: 1
+	&.dragging
+		cursor: grabbing
+		opacity: 1

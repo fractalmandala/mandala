@@ -1,0 +1,50 @@
+[
+	{
+		"id": 1,
+		"title": "Code Module",
+		"description": "A graph of the code module's flow of information, dependencies, hierarchy, etc.",
+		"type": "graph"
+	},
+	{
+		"id": 2,
+		"title": "Agent Module",
+		"description": "A graph of the agent module's flow of information, dependencies, hierarchy, etc.",
+		"type": "graph"
+	},
+	{
+		"id": 3,
+		"title": "Design Module",
+		"description": "A graph of the design module's flow of information, dependencies, hierarchy, etc.",
+		"type": "graph"
+	},
+	{
+		"id": 4,
+		"title": "Media Module",
+		"description": "A graph of the media module's flow of information, dependencies, hierarchy, etc.",
+		"type": "graph"
+	},
+	{
+		"id": 5,
+		"title": "App Health",
+		"description": "A graph the app's stability and risks, components with heavy dependencies, hotspots",
+		"type": "graph"
+	},
+	{
+		"id": 6,
+		"title": "App Visually",
+		"description": "Visual representation of the app's architecture",
+		"type": "graph"
+	},
+	{
+		"id": 7,
+		"title": "Notes Module",
+		"description": "A graph of the notes module's flow of information, dependencies, hierarchy, etc.",
+		"type": "graph"
+	},
+	{
+		"id": 8,
+		"title": "Meet the Team",
+		"description": "See the developers behind this app",
+		"type": "artifact"
+	}
+]

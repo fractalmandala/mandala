@@ -1,0 +1,261 @@
+.settings-overlay
+	position: fixed
+	top: 0
+	left: 0
+	width: 100%
+	height: 100%
+	background: var(--overlay-bg)
+	backdrop-filter: blur(8px)
+	display: flex
+	align-items: center
+	justify-content: center
+	z-index: var(--z-overlay)
+	animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)
+
+.settings-dialog
+	width: min(900px, calc(100vw - 2 * 16px))
+	height: min(620px, calc(100vh - 2 * 16px))
+	background: var(--background10)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-4)
+	box-shadow: var(--dialog-shadow)
+	display: grid
+	grid-template-columns: minmax(160px, 200px) minmax(0, 1fr)
+	grid-template-areas: "sidebar content"
+	.settings-sidebar
+		grid-area: sidebar
+		width: 100%
+	.settings-content
+		grid-area: content
+		width: 100%
+	overflow: hidden
+	animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1)
+
+.settings-sidebar
+	padding: var(--sz-16)
+	display: flex
+	flex-direction: column
+	height: 100%
+
+.settings-tab-btn
+	background: transparent
+	border: none
+	text-align: left
+	padding: var(--sz-8)
+	font-size: var(--text-sm)
+	border-radius: var(--sz-4)
+	color: var(--text-secondary)
+	cursor: pointer
+	transition: var(--transition-control)
+	width: 100%
+	&:hover
+		background: var(--background30)
+		color: var(--text-primary)
+	&.is-active
+		background: var(--background40)
+		color: var(--text-primary)
+		font-weight: 600
+
+.settings-content
+	padding: var(--sz-16)
+	overflow-y: auto
+	display: flex
+	flex-direction: column
+	gap: var(--sz-16)
+	height: 100%
+
+.settings-header
+	height: 24px
+
+.settings-content-body
+	flex: 1
+	min-height: 0
+
+.settings-footer
+	height: 32px
+	flex: 0 0 auto
+	justify-content: flex-end
+
+.settings-save-error
+	color: var(--feedback-error)
+	font-size: var(--text-sm)
+	margin: 0
+
+.settings-status-success
+	color: var(--color20)
+	background: color-mix(in srgb, var(--color20) 8%, transparent)
+	border: 1px solid var(--success-border)
+	border-radius: var(--sz-4)
+	padding: var(--sz-8) var(--sz-12)
+	font-size: var(--text-sm)
+	margin: 0
+
+.settings-model-row
+	background: var(--background20)
+
+
+
+@media (max-width: 700px)
+	.settings-dialog
+		grid-template-columns: 140px minmax(0, 1fr)
+	.settings-sidebar, .settings-content
+		padding: var(--sz-8)
+
+.settings-section-title
+	font-size: var(--text-md)
+	font-weight: 600
+	color: var(--text-primary)
+	margin-bottom: var(--sz-4)
+
+.settings-row
+	display: flex
+	flex-direction: column
+	gap: var(--sz-8)
+
+.settings-label
+	font-size: var(--text-sm)
+	font-weight: 500
+	color: var(--text-secondary)
+
+.settings-input, .settings-select
+	background: var(--background20)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-4)
+	padding: var(--sz-8) var(--sz-12)
+	font-size: var(--text-sm)
+	color: var(--text-primary)
+	width: 100%
+	transition: var(--transition-control)
+	outline: none
+	&:focus
+		border-color: var(--theme-color)
+		box-shadow: var(--focus-ring)
+
+.settings-input-group-row
+	display: flex
+	flex-direction: row
+	gap: var(--sz-8)
+
+.settings-guidance
+	padding: var(--sz-12)
+	border: 1px solid var(--border-secondary)
+	border-radius: var(--sz-4)
+	background: var(--background20)
+	color: var(--text-secondary)
+	font-size: var(--text-sm)
+	line-height: 1.5
+
+.btn-danger
+	background: color-mix(in srgb, var(--feedback-error) 10%, transparent)
+	color: var(--feedback-error)
+	border: 1px solid color-mix(in srgb, var(--feedback-error) 30%, transparent)
+	border-radius: var(--sz-4)
+	padding: var(--sz-8) var(--sz-16)
+	font-size: var(--text-sm)
+	cursor: pointer
+	transition: var(--transition-control)
+
+	&:hover
+		background: color-mix(in srgb, var(--feedback-error) 20%, transparent)
+		border-color: var(--feedback-error)
+
+@keyframes fadeIn
+	from
+		opacity: 0
+	to
+		opacity: 1
+
+@keyframes slideUp
+	from
+		transform: translateY(10px)
+		opacity: 0
+	to
+		transform: translateY(0)
+		opacity: 1
+
+.add-model-overlay
+	position: absolute
+	top: 0
+	left: 0
+	width: 100%
+	height: 100%
+	background: var(--overlay-bg-dark)
+	display: flex
+	align-items: center
+	justify-content: center
+	z-index: 1010
+	backdrop-filter: blur(4px)
+	animation: fadeIn 0.15s ease
+
+.add-model-dialog
+	width: 480px
+	background: var(--background10)
+	border: 1px solid var(--border-primary)
+	border-radius: var(--sz-8)
+	box-shadow: var(--dialog-shadow)
+	display: flex
+	flex-direction: column
+	overflow: hidden
+	animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1)
+
+.add-model-header
+	padding: var(--sz-12) var(--sz-16)
+	border-bottom: 1px solid var(--border-secondary)
+	background: var(--background20)
+	display: flex
+	align-items: center
+	justify-content: space-between
+
+.add-model-body
+	padding: var(--sz-16)
+	display: flex
+	flex-direction: column
+	gap: var(--sz-12)
+	max-h: 400px
+	overflow-y: auto
+
+.add-model-tabs
+	display: flex
+	border-bottom: 1px solid var(--border-secondary)
+	margin-bottom: var(--sz-8)
+
+.add-model-tab-btn
+	flex: 1
+	padding: var(--sz-8) var(--sz-12)
+	text-align: center
+	font-size: var(--text-sm)
+	font-weight: 500
+	color: var(--text-secondary)
+	border: none
+	background: transparent
+	cursor: pointer
+	border-bottom: 2px solid transparent
+	transition: all 0.15s ease
+
+	&:hover
+		color: var(--text-primary)
+
+	&.is-active
+		color: var(--text-primary)
+		border-bottom-color: var(--theme-color)
+		font-weight: 600
+
+.add-model-footer
+	padding: var(--sz-12) var(--sz-16)
+	border-top: 1px solid var(--border-secondary)
+	background: var(--background20)
+	display: flex
+	justify-content: flex-end
+	gap: var(--sz-12)
+
+
+.sr-only
+	position: absolute
+	width: 1px
+	height: 1px
+	padding: 0
+	margin: calc(var(--sz-1) * -1)
+	overflow: hidden
+	clip: rect(0, 0, 0, 0)
+	white-space: nowrap
+	border: 0
