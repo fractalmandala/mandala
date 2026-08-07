@@ -1,0 +1,126 @@
+// System Color Tokens & Theme Architecture
+// ----------------------------------------------------------------------
+// 1. Primitive Palette (Base Scales)
+// 2. Semantic Context Tokens (Themeable custom properties)
+// 3. Theme Switching Protocol ([data-theme="light" | "dark"])
+// ----------------------------------------------------------------------
+
+:root
+	// Fonts & Scale
+	--font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace
+	--text-scale: 1.0
+
+	// Primitive Palette - Neutral Slate Scale
+	--slate-50: #f8fafc
+	--slate-100: #f1f5f9
+	--slate-200: #e2e8f0
+	--slate-300: #cbd5e1
+	--slate-400: #94a3b8
+	--slate-500: #64748b
+	--slate-600: #475569
+	--slate-700: #334155
+	--slate-800: #1e293b
+	--slate-900: #0f172a
+	--slate-950: #0b0f17
+
+	// Primitive Palette - Feedback Scales
+	--red-500: #ef4444
+	--amber-500: #f59e0b
+	--emerald-500: #10b981
+	--sky-500: #0ea5e9
+
+	// Semantic Context Tokens — Default Light Theme
+	--bg-app: #ffffff
+	--bg-surface: var(--slate-50)
+	--bg-raised: #ffffff
+	--bg-overlay: rgba(15, 23, 42, 0.5)
+	--bg-subtle: var(--slate-100)
+
+	--text-primary: var(--slate-900)
+	--text-secondary: var(--slate-600)
+	--text-muted: var(--slate-400)
+	--text-inverse: #ffffff
+
+	--border: var(--slate-200)
+	--border-secondary: var(--slate-300)
+	--border-focus: var(--brand)
+
+	// Brand Accent Slot (Override in site's local _tokens.sass)
+	--brand: #2563eb
+	--brand-hover: #1d4ed8
+	--brand-active: #1e40af
+	--ring: rgba(37, 99, 235, 0.35)
+
+	// Feedback Tokens
+	--feedback-danger: var(--red-500)
+	--feedback-warning: var(--amber-500)
+	--feedback-success: var(--emerald-500)
+	--feedback-info: var(--sky-500)
+
+// System preference auto dark-mode (when data-theme is not explicitly set)
+@media (prefers-color-scheme: dark)
+	:root:not([data-theme="light"])
+		--bg-app: var(--slate-950)
+		--bg-surface: var(--slate-900)
+		--bg-raised: var(--slate-800)
+		--bg-overlay: rgba(0, 0, 0, 0.75)
+		--bg-subtle: var(--slate-800)
+
+		--text-primary: #f9fafb
+		--text-secondary: var(--slate-300)
+		--text-muted: var(--slate-500)
+		--text-inverse: var(--slate-900)
+
+		--border: var(--slate-800)
+		--border-secondary: var(--slate-700)
+		--border-focus: var(--brand)
+
+		--brand: #3b82f6
+		--brand-hover: #60a5fa
+		--brand-active: #2563eb
+		--ring: rgba(59, 130, 246, 0.35)
+
+// Explicit Dark Theme Override
+[data-theme="dark"]
+	--bg-app: var(--slate-950)
+	--bg-surface: var(--slate-900)
+	--bg-raised: var(--slate-800)
+	--bg-overlay: rgba(0, 0, 0, 0.75)
+	--bg-subtle: var(--slate-800)
+
+	--text-primary: #f9fafb
+	--text-secondary: var(--slate-300)
+	--text-muted: var(--slate-500)
+	--text-inverse: var(--slate-900)
+
+	--border: var(--slate-800)
+	--border-secondary: var(--slate-700)
+	--border-focus: var(--brand)
+
+	--brand: #3b82f6
+	--brand-hover: #60a5fa
+	--brand-active: #2563eb
+	--ring: rgba(59, 130, 246, 0.35)
+
+// Explicit Light Theme Override
+[data-theme="light"]
+	--bg-app: #ffffff
+	--bg-surface: var(--slate-50)
+	--bg-raised: #ffffff
+	--bg-overlay: rgba(15, 23, 42, 0.5)
+	--bg-subtle: var(--slate-100)
+
+	--text-primary: var(--slate-900)
+	--text-secondary: var(--slate-600)
+	--text-muted: var(--slate-400)
+	--text-inverse: #ffffff
+
+	--border: var(--slate-200)
+	--border-secondary: var(--slate-300)
+	--border-focus: var(--brand)
+
+	--brand: #2563eb
+	--brand-hover: #1d4ed8
+	--brand-active: #1e40af
+	--ring: rgba(37, 99, 235, 0.35)

@@ -1,0 +1,60 @@
+{
+	"name": "fractals-styler",
+	"version": "2.1.0",
+	"description": "JIT numeric styling classes (gapN, padN, marginN, heightN, widthN...), breakpoint-suffixed variants, a themeable SASS token system, and a live `StylerPreview` token editor for any SvelteKit + SASS project.",
+	"type": "module",
+	"bin": {
+		"fractals-styler": "./dist/cli.js"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"svelte": "./src/lib/index.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		},
+		"./lib": {
+			"types": "./src/lib/index.ts",
+			"svelte": "./src/lib/index.ts",
+			"import": "./src/lib/index.ts"
+		}
+	},
+	"files": [
+		"dist",
+		"dev",
+		"templates",
+		"fonts",
+		"src/lib"
+	],
+	"scripts": {
+		"build": "tsup",
+		"dev": "tsup --watch",
+		"preview": "vite --config preview/vite.config.ts",
+		"check": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0"
+	},
+	"dependencies": {
+		"fast-glob": "^3.3.3"
+	},
+	"devDependencies": {
+		"@sveltejs/vite-plugin-svelte": "^7.2.0",
+		"@types/node": "^24.13.3",
+		"sass": "^1.102.0",
+		"svelte": "^5.56.8",
+		"tsup": "^8.5.1",
+		"typescript": "^5.9.3",
+		"vite": "^8.1.5"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": ["esbuild", "@parcel/watcher"]
+	},
+	"keywords": [
+		"sveltekit",
+		"sass",
+		"jit",
+		"css-utilities"
+	]
+}

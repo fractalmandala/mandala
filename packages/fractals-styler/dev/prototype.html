@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fractals-styler — Interactive Dev Layout & Grid Builder</title>
+  <style>
+    :root {
+      --bg-app: #0b0f17;
+      --bg-surface: #0f172a;
+      --bg-raised: #1e293b;
+      --bg-hover: #334155;
+      --text-primary: #f9fafb;
+      --text-secondary: #cbd5e1;
+      --text-muted: #64748b;
+      --border: #1e293b;
+      --border-accent: #334155;
+      --brand: #fb006f;
+      --brand-glow: rgba(251, 0, 111, 0.25);
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+      --font-sans: 'Google Sans Flex', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Light Theme Tokens for Canvas Frame */
+    [data-canvas-theme="light"] #deviceFrame {
+      --bg-surface: #ffffff;
+      --bg-raised: #f1f5f9;
+      --border: #e2e8f0;
+      --border-accent: #cbd5e1;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-app);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    header {
+      height: 52px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+    .logo-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--brand), #a0034a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .ver-pill {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      background: var(--bg-raised);
+      padding: 2px 6px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .hdr-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .view-toggle-group {
+      display: flex;
+      background: var(--bg-app);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .view-toggle-btn {
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 120ms ease;
+    }
+    .view-toggle-btn.active {
+      background: var(--bg-raised);
+      color: var(--text-primary);
+      border: 1px solid var(--border-accent);
+    }
+    .view-toggle-btn.preview-active {
+      background: #05be54 !important;
+      color: #fff !important;
+      border-color: #05be54 !important;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-accent);
+      background: var(--bg-raised);
+      color: var(--text-primary);
+      transition: all 120ms ease;
+    }
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .btn:hover:not(:disabled) { background: var(--bg-hover); }
+    .btn-brand {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+    .btn-brand:hover:not(:disabled) { filter: brightness(1.1); }
+    .btn-danger {
+      background: #7f1d1d;
+      border-color: #991b1b;
+      color: #fca5a5;
+    }
+
+    .app-shell {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .sidebar-l {
+      width: 300px;
+      border-right: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .tab-bar {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-app);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 0;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .tab-btn.active {
+      color: var(--text-primary);
+      border-bottom-color: var(--brand);
+      background: var(--bg-surface);
+    }
+    .tab-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .palette-card {
+      padding: 10px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-app);
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: grab;
+      user-select: none;
+      transition: all 120ms ease;
+      text-align: center;
+    }
+    .palette-card:hover {
+      border-color: var(--brand);
+      background: var(--bg-raised);
+      color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+    .layout-icon-preview {
+      width: 44px;
+      height: 30px;
+      border-radius: 4px;
+      border: 1px solid var(--border-accent);
+      background: #0b0f17;
+      display: flex;
+      padding: 3px;
+      gap: 2px;
+      align-items: stretch;
+    }
+
+    .tree-item {
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      color: var(--text-secondary);
+      margin-bottom: 2px;
+    }
+    .tree-item:hover { background: var(--bg-hover); }
+    .tree-item.selected {
+      background: var(--brand-glow);
+      border: 1px solid var(--brand);
+      color: #fff;
+    }
+    .tree-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      opacity: 0.7;
+    }
+
+    .canvas-view {
+      flex: 1;
+      background: #07090e;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 20px 20px;
+      padding: 32px;
+      overflow: auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      position: relative;
+      transition: all 200ms ease;
+    }
+
+    .device-container {
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      margin: 0 auto;
+    }
+    .device-container.mode-desktop {
+      width: 100%;
+      max-width: 1440px;
+      border-radius: 8px;
+    }
+    .device-container.mode-mobile {
+      width: 375px;
+      max-width: 375px;
+      border-radius: 36px;
+      border: 12px solid #1e293b;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+    .mobile-notch {
+      display: none;
+      height: 24px;
+      background: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .device-container.mode-mobile .mobile-notch { display: flex; }
+    .mobile-notch-pill {
+      width: 80px;
+      height: 10px;
+      background: #0b0f17;
+      border-radius: 99px;
+    }
+
+    .builder-node {
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      position: relative;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+    .builder-node:hover {
+      border-color: rgba(56, 189, 248, 0.5) !important;
+    }
+    .builder-node.selected {
+      border: 2px solid var(--brand) !important;
+      box-shadow: 0 0 0 2px var(--brand-glow) !important;
+    }
+    .builder-node.drag-target {
+      border: 2px dashed #05be54 !important;
+      background-color: rgba(5, 190, 84, 0.15) !important;
+    }
+
+    /* Inline Text Editable State */
+    .inline-text-editing {
+      outline: 2px solid var(--brand) !important;
+      background: rgba(251, 0, 111, 0.15) !important;
+      border-radius: 4px;
+      padding: 2px 4px;
+    }
+
+    /* Interactive Preview Mode Overrides */
+    .mode-preview .builder-node {
+      border: none !important;
+      box-shadow: none !important;
+      cursor: default !important;
+    }
+    .mode-preview .node-tag,
+    .mode-preview .resize-handle {
+      display: none !important;
+    }
+
+    .node-tag {
+      display: none;
+      position: absolute;
+      top: -12px;
+      left: 8px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      background: var(--brand);
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 20;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
+    .builder-node.selected > .node-tag { display: block; }
+
+    /* Drag-Resize Handles */
+    .resize-handle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--brand);
+      border: 2px solid #fff;
+      border-radius: 50%;
+      z-index: 30;
+      display: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .builder-node.selected > .resize-handle-r {
+      display: block;
+      top: 50%;
+      right: -6px;
+      transform: translateY(-50%);
+      cursor: e-resize;
+    }
+    .builder-node.selected > .resize-handle-b {
+      display: block;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: s-resize;
+    }
+    .builder-node.selected > .resize-handle-br {
+      display: block;
+      bottom: -6px;
+      right: -6px;
+      cursor: se-resize;
+    }
+
+    /* Live Cursor Dimension Tooltip */
+    .dimension-tooltip {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      background: var(--brand);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+
+    /* Breadcrumb Trail */
+    .breadcrumb-trail {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--bg-app);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    .crumb-item {
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 100ms ease;
+    }
+    .crumb-item:hover {
+      color: var(--brand);
+      text-decoration: underline;
+    }
+    .crumb-item.active {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+    .crumb-sep {
+      color: var(--border-accent);
+      font-size: 10px;
+    }
+
+    /* Context Menu */
+    .context-menu {
+      display: none;
+      position: absolute;
+      z-index: 1000;
+      width: 190px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-accent);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      padding: 4px;
+    }
+    .context-menu-item {
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .context-menu-item:hover {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .btn-preview {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid var(--border-accent);
+      background: var(--bg-raised);
+      color: var(--text-primary);
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn-preview-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+    .btn-preview-quiet { background: transparent; border-color: transparent; color: var(--text-secondary); }
+    .btn-preview-icon {
+      width: 34px; height: 34px; padding: 0; border-radius: 6px;
+      background: var(--bg-raised); border: 1px solid var(--border-accent);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+
+    .sidebar-r {
+      width: 380px;
+      border-left: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .inspector-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .inspector-section {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-app);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .inspector-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+    }
+    .grid-2col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .form-control, select, input[type="range"], input[type="text"], input[type="color"] {
+      width: 100%;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-size: 12px;
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--brand); }
+    .row-ctrl {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .pill-opt {
+      padding: 6px 0;
+      text-align: center;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      font-size: 11px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .pill-opt.active {
+      background: var(--bg-raised);
+      border-color: var(--brand);
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .code-box {
+      background: var(--bg-app);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      white-space: pre;
+      overflow-x: auto;
+      max-height: 160px;
+    }
+  </style>
+</head>
+<body data-canvas-theme="dark">
+
+  <!-- Floating Dimension Tooltip -->
+  <div class="dimension-tooltip" id="dimTooltip">320px × 180px</div>
+
+  <header>
+    <div class="logo-badge">
+      <div class="logo-icon">⚡</div>
+      <span>fractals-styler</span>
+      <span class="ver-pill">Dev Layout Builder</span>
+    </div>
+
+    <!-- Viewport & Interactive Mode & Canvas Theme Toggles -->
+    <div class="view-toggle-group">
+      <button class="view-toggle-btn active" id="btnModeEdit">
+        <span>🛠️</span> Edit
+      </button>
+      <button class="view-toggle-btn" id="btnModePreview">
+        <span>▶️</span> Preview
+      </button>
+    </div>
+
+    <div class="view-toggle-group">
+      <button class="view-toggle-btn active" id="btnCanvasThemeDark">
+        <span>🌙</span> Dark
+      </button>
+      <button class="view-toggle-btn" id="btnCanvasThemeLight">
+        <span>☀️</span> Light
+      </button>
+    </div>
+
+    <div class="view-toggle-group">
+      <button class="view-toggle-btn active" id="btnModeDesktop">
+        <span>🖥️</span> Desktop
+      </button>
+      <button class="view-toggle-btn" id="btnModeMobile">
+        <span>📱</span> Mobile
+      </button>
+      <button class="view-toggle-btn" id="btnSnapToggle" style="margin-left: 4px;">
+        <span>🧲</span> Snap 8px: ON
+      </button>
+    </div>
+
+    <div class="hdr-actions">
+      <!-- Undo / Redo Buttons -->
+      <button class="btn" id="btnUndo" disabled title="Undo (⌘Z)">↩️ Undo</button>
+      <button class="btn" id="btnRedo" disabled title="Redo (⌘⇧Z)">↪️ Redo</button>
+      <button class="btn" id="btnSaveCustom" title="Save Selected Branch as Custom Component">⭐ Save Custom Block</button>
+
+      <button class="btn btn-danger" id="btnClear">🗑️ Clear</button>
+      <button class="btn btn-brand" id="btnCopySvelteComp">📋 Copy Svelte Component</button>
+    </div>
+  </header>
+
+  <div class="app-shell" id="appShell">
+    
+    <aside class="sidebar-l">
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tabLayouts">Layouts</button>
+        <button class="tab-btn" id="tabPalette">Primitives</button>
+        <button class="tab-btn" id="tabUI">UI Blocks</button>
+        <button class="tab-btn" id="tabMy">My Blocks</button>
+        <button class="tab-btn" id="tabTree">Layers</button>
+      </div>
+
+      <!-- 1. 10 Layout Templates Section -->
+      <div class="tab-content" id="layoutsContent">
+        <div class="section-title">Standard Layout Templates</div>
+        <div class="palette-grid">
+          
+          <div class="palette-card" data-layout="pancake">
+            <div class="layout-icon-preview" style="flex-direction: column;">
+              <div style="height:6px; background:#fb006f; border-radius:2px;"></div>
+              <div style="flex:1; background:#334155; border-radius:2px;"></div>
+              <div style="height:6px; background:#fb006f; border-radius:2px;"></div>
+            </div>
+            <span>Pancake Stack</span>
+          </div>
+
+          <div class="palette-card" data-layout="sidebar">
+            <div class="layout-icon-preview" style="flex-direction: row;">
+              <div style="width:12px; background:#fb006f; border-radius:2px;"></div>
+              <div style="flex:1; background:#334155; border-radius:2px;"></div>
+            </div>
+            <span>Sidebar</span>
+          </div>
+
+          <div class="palette-card" data-layout="html5">
+            <div class="layout-icon-preview" style="flex-direction: column;">
+              <div style="height:5px; background:#fb006f; border-radius:2px;"></div>
+              <div style="flex:1; display:flex; gap:2px;">
+                <div style="width:10px; background:#475569; border-radius:2px;"></div>
+                <div style="flex:1; background:#334155; border-radius:2px;"></div>
+              </div>
+              <div style="height:5px; background:#fb006f; border-radius:2px;"></div>
+            </div>
+            <span>HTML5</span>
+          </div>
+
+          <div class="palette-card" data-layout="html5_2">
+            <div class="layout-icon-preview" style="flex-direction: column;">
+              <div style="height:5px; background:#fb006f; border-radius:2px;"></div>
+              <div style="flex:1; display:flex; gap:2px;">
+                <div style="width:8px; background:#475569; border-radius:2px;"></div>
+                <div style="flex:1; background:#334155; border-radius:2px;"></div>
+                <div style="width:8px; background:#475569; border-radius:2px;"></div>
+              </div>
+              <div style="height:5px; background:#fb006f; border-radius:2px;"></div>
+            </div>
+            <span>HTML5 - 2</span>
+          </div>
+
+          <div class="palette-card" data-layout="col12">
+            <div class="layout-icon-preview" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:2px;">
+              <div style="background:#fb006f; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#fb006f; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#fb006f; border-radius:1px;"></div>
+              <div style="background:#fb006f; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+            </div>
+            <span>12 Column System</span>
+          </div>
+
+          <div class="palette-card" data-layout="collage">
+            <div class="layout-icon-preview" style="display:grid; grid-template-columns: 2fr 1fr; gap:2px;">
+              <div style="background:#fb006f; border-radius:2px;"></div>
+              <div style="display:flex; flex-direction:column; gap:2px;">
+                <div style="flex:1; background:#334155; border-radius:2px;"></div>
+                <div style="flex:1; background:#334155; border-radius:2px;"></div>
+              </div>
+            </div>
+            <span>Collage</span>
+          </div>
+
+          <div class="palette-card" data-layout="grid3x3">
+            <div class="layout-icon-preview" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:2px;">
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#fb006f; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+            </div>
+            <span>3x3 Grid</span>
+          </div>
+
+          <div class="palette-card" data-layout="grid4x4">
+            <div class="layout-icon-preview" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:2px;">
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#fb006f; border-radius:1px;"></div>
+              <div style="background:#fb006f; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+              <div style="background:#334155; border-radius:1px;"></div>
+            </div>
+            <span>4x4 Grid</span>
+          </div>
+
+          <div class="palette-card" data-layout="inf_rows">
+            <div class="layout-icon-preview" style="display:flex; flex-direction:column; gap:2px;">
+              <div style="height:6px; background:#334155; border-radius:1px;"></div>
+              <div style="height:6px; background:#fb006f; border-radius:1px;"></div>
+              <div style="height:6px; background:#334155; border-radius:1px;"></div>
+              <div style="height:6px; background:#334155; border-radius:1px;"></div>
+            </div>
+            <span>Infinite Rows</span>
+          </div>
+
+          <div class="palette-card" data-layout="inf_cols">
+            <div class="layout-icon-preview" style="display:flex; flex-direction:row; gap:2px;">
+              <div style="flex:1; background:#334155; border-radius:1px;"></div>
+              <div style="flex:1; background:#fb006f; border-radius:1px;"></div>
+              <div style="flex:1; background:#334155; border-radius:1px;"></div>
+              <div style="flex:1; background:#334155; border-radius:1px;"></div>
+            </div>
+            <span>Infinite Columns</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 2. Building Primitives -->
+      <div class="tab-content" id="paletteContent" style="display: none;">
+        <div>
+          <div class="section-title">Drag or Click to Add Block</div>
+          <div class="palette-grid">
+            <div class="palette-card" draggable="true" data-add="box">
+              <span style="font-size:16px;">📦</span>
+              <span>box (Column)</span>
+            </div>
+            <div class="palette-card" draggable="true" data-add="row">
+              <span style="font-size:16px;">↔️</span>
+              <span>row (Row)</span>
+            </div>
+            <div class="palette-card" draggable="true" data-add="grid">
+              <span style="font-size:16px;">▦</span>
+              <span>grid System</span>
+            </div>
+            <div class="palette-card" draggable="true" data-add="surface">
+              <span style="font-size:16px;">🖼️</span>
+              <span>surface Panel</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-title">Interactive Buttons</div>
+          <div class="palette-grid">
+            <div class="palette-card" draggable="true" data-add="button-default">
+              <span style="font-size:16px;">🔳</span>
+              <span>Default Button</span>
+            </div>
+            <div class="palette-card" draggable="true" data-add="button-primary">
+              <span style="font-size:16px;">💖</span>
+              <span>Primary Button</span>
+            </div>
+            <div class="palette-card" draggable="true" data-add="button-quiet">
+              <span style="font-size:16px;">👻</span>
+              <span>Quiet Button</span>
+            </div>
+            <div class="palette-card" draggable="true" data-add="button-icon">
+              <span style="font-size:16px;">⚙️</span>
+              <span>Icon Button</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Pre-built UI Block Categories -->
+      <div class="tab-content" id="uiBlocksContent" style="display: none;">
+        <div>
+          <div class="section-title">Navigation & Headers</div>
+          <div class="palette-grid">
+            <div class="palette-card" draggable="true" data-add="ui-header">
+              <span style="font-size:16px;">🔝</span>
+              <span>Header Bar</span>
+            </div>
+            <div class="palette-card" draggable="true" data-add="ui-navtabs">
+              <span style="font-size:16px;">📑</span>
+              <span>Nav Tabs</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-title">Card & Content Blocks</div>
+          <div class="palette-grid">
+            <div class="palette-card" draggable="true" data-add="ui-mediacard">
+              <span style="font-size:16px;">🖼️</span>
+              <span>Media Card</span>
+            </div>
+            <div class="palette-card" draggable="true" data-add="ui-hero">
+              <span style="font-size:16px;">🚀</span>
+              <span>Hero Section</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-title">Forms & Inputs</div>
+          <div class="palette-grid">
+            <div class="palette-card" draggable="true" data-add="ui-textinput">
+              <span style="font-size:16px;">🔤</span>
+              <span>Text Input</span>
+            </div>
+            <div class="palette-card" draggable="true" data-add="ui-toggle">
+              <span style="font-size:16px;">🎚️</span>
+              <span>Toggle Switch</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. My Custom Saved Blocks -->
+      <div class="tab-content" id="myBlocksContent" style="display: none;">
+        <div class="section-title">Saved Custom Components</div>
+        <div id="myBlocksContainer" class="palette-grid">
+          <div style="grid-column: 1 / -1; font-size:11px; color:var(--text-muted); text-align:center; padding:12px;">
+            Select any node branch and click "⭐ Save Custom Block" in the header to save reusable components here.
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Tree Hierarchy -->
+      <div class="tab-content" id="treeContent" style="display: none;">
+        <div class="section-title">Tree Hierarchy</div>
+        <div id="treeContainer"></div>
+      </div>
+    </aside>
+
+    <main class="canvas-view" id="canvasView">
+      <div class="device-container mode-desktop" id="deviceFrame">
+        <div class="mobile-notch">
+          <div class="mobile-notch-pill"></div>
+        </div>
+        <div id="canvasRoot"></div>
+      </div>
+    </main>
+
+    <!-- Context Menu for Canvas / Tree Nodes -->
+    <div class="context-menu" id="contextMenu">
+      <div class="context-menu-item" id="ctxDuplicate"><span>📋</span> Duplicate</div>
+      <div class="context-menu-item" id="ctxWrapBox"><span>📦</span> Wrap in Box</div>
+      <div class="context-menu-item" id="ctxWrapRow"><span>↔️</span> Wrap in Row</div>
+      <div class="context-menu-item" id="ctxCopyStyle"><span>🎨</span> Copy Style</div>
+      <div class="context-menu-item" id="ctxPasteStyle"><span>🖌️</span> Paste Style</div>
+      <div class="context-menu-item" id="ctxDelete" style="color:#fca5a5;"><span>🗑️</span> Delete</div>
+    </div>
+
+    <aside class="sidebar-r">
+      <div class="tab-bar">
+        <button class="tab-btn active">Inspector Settings</button>
+      </div>
+      <div class="inspector-body">
+        
+        <!-- Breadcrumb Trail Navigation -->
+        <div class="form-group">
+          <div class="form-label">Hierarchy Breadcrumb</div>
+          <div class="breadcrumb-trail" id="breadcrumbTrail">
+            <span class="crumb-item active">Root</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">Selected Node Name & ID</div>
+          <input type="text" id="inpNodeName" class="form-control" value="Root">
+        </div>
+
+        <div class="form-group" id="grpButtonLabel" style="display: none;">
+          <div class="form-label">Button Text / Label</div>
+          <input type="text" id="inpBtnText" class="form-control" value="Click Me">
+        </div>
+
+        <!-- 1. Display & Direction & Alignment -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Display & Flex Alignment</div>
+          <div class="grid-2col">
+            <div class="form-group">
+              <div class="form-label">display</div>
+              <select id="selDisplay">
+                <option value="flex">flex</option>
+                <option value="grid">grid</option>
+                <option value="block">block</option>
+                <option value="inline-flex">inline-flex</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="form-label">flex-direction</div>
+              <select id="selDirection">
+                <option value="column">column (box)</option>
+                <option value="row">row (row)</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2col">
+            <div class="form-group">
+              <div class="form-label">align-items</div>
+              <select id="selAlignItems">
+                <option value="stretch">stretch</option>
+                <option value="flex-start">flex-start (start)</option>
+                <option value="center">center</option>
+                <option value="flex-end">flex-end (end)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="form-label">justify-content</div>
+              <select id="selJustifyContent">
+                <option value="flex-start">flex-start (start)</option>
+                <option value="center">center</option>
+                <option value="flex-end">flex-end (end)</option>
+                <option value="space-between">space-between</option>
+                <option value="space-around">space-around</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" id="grpGridCols">
+            <div class="form-label">grid-template-columns</div>
+            <select id="selGridCols">
+              <option value="1">grid-cols-1</option>
+              <option value="2">grid-cols-2</option>
+              <option value="3" selected>grid-cols-3</option>
+              <option value="4">grid-cols-4</option>
+              <option value="6">grid-cols-6</option>
+              <option value="12">grid-cols-12</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Grid Item Spanning Controls -->
+        <div class="inspector-section" id="grpGridItemSpans">
+          <div class="inspector-section-title">Grid Item Spanning & Placement</div>
+          <div class="grid-2col">
+            <div class="form-group">
+              <div class="form-label">column span <span id="lblColSpan">1</span></div>
+              <input type="range" id="rngColSpan" min="1" max="12" value="1">
+            </div>
+            <div class="form-group">
+              <div class="form-label">row span <span id="lblRowSpan">1</span></div>
+              <input type="range" id="rngRowSpan" min="1" max="6" value="1">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Cleaned Width & Horizontal Boundaries -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Width & Horizontal Sizing</div>
+          <div class="form-group">
+            <div class="form-label">width mode</div>
+            <select id="selWidth">
+              <option value="auto">auto</option>
+              <option value="100%">100% (w100)</option>
+              <option value="100vw">100vw (vw100)</option>
+              <option value="fill">fill space (grow)</option>
+              <option value="custom">custom px</option>
+              <option value="minmax">min / max range</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="grpCustomWidth" style="display:none;">
+            <div class="form-label">custom width (e.g. 320px)</div>
+            <input type="text" id="inpCustomW" class="form-control" placeholder="320px">
+          </div>
+
+          <div class="grid-2col" id="grpMinMaxW" style="display:none;">
+            <div class="form-group">
+              <div class="form-label">min-width</div>
+              <input type="text" id="inpMinW" class="form-control" placeholder="180px">
+            </div>
+            <div class="form-group">
+              <div class="form-label">max-width</div>
+              <input type="text" id="inpMaxW" class="form-control" placeholder="328px">
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Cleaned Height & Vertical Boundaries -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Height & Vertical Sizing</div>
+          <div class="form-group">
+            <div class="form-label">height mode</div>
+            <select id="selHeight">
+              <option value="auto">auto</option>
+              <option value="100%">100% (h100)</option>
+              <option value="100vh">100vh (vh100)</option>
+              <option value="fill">fill space (grow)</option>
+              <option value="custom">custom px</option>
+              <option value="minmax">min / max range</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="grpCustomHeight" style="display:none;">
+            <div class="form-label">custom height (e.g. 240px)</div>
+            <input type="text" id="inpCustomH" class="form-control" placeholder="240px">
+          </div>
+
+          <div class="grid-2col" id="grpMinMaxH" style="display:none;">
+            <div class="form-group">
+              <div class="form-label">min-height</div>
+              <input type="text" id="inpMinH" class="form-control" placeholder="100px">
+            </div>
+            <div class="form-group">
+              <div class="form-label">max-height</div>
+              <input type="text" id="inpMaxH" class="form-control" placeholder="400px">
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Typography & Text Controls -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Typography & Text Color</div>
+          <div class="grid-2col">
+            <div class="form-group">
+              <div class="form-label">font-size token</div>
+              <select id="selFontSize">
+                <option value="font12">12px (font12)</option>
+                <option value="font14" selected>14px (font14)</option>
+                <option value="font16">16px (font16)</option>
+                <option value="font20">20px (font20)</option>
+                <option value="font24">24px (font24)</option>
+                <option value="font32">32px (font32)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="form-label">text-align</div>
+              <select id="selTextAlign">
+                <option value="left">left</option>
+                <option value="center">center</option>
+                <option value="right">right</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">text color picker</div>
+            <input type="color" id="inpTextColor" class="form-control" value="#cbd5e1">
+          </div>
+        </div>
+
+        <!-- 5. Borders & Shadows -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Borders & Shadow Controls</div>
+          <div class="grid-2col">
+            <div class="form-group">
+              <div class="form-label">border-width</div>
+              <select id="selBorderWidth">
+                <option value="0">none (0px)</option>
+                <option value="1px">1px</option>
+                <option value="2px">2px</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="form-label">shadow token</div>
+              <select id="selShadow">
+                <option value="none">none</option>
+                <option value="shadow-sm">shadow-sm</option>
+                <option value="shadow-md">shadow-md</option>
+                <option value="shadow-lg">shadow-lg</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">border color picker</div>
+            <input type="color" id="inpBorderColor" class="form-control" value="#334155">
+          </div>
+        </div>
+
+        <!-- 6. Responsive Overrides -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Responsive Overrides</div>
+          <div class="form-group">
+            <div class="form-label">mobile (sm) direction</div>
+            <select id="selSmDirection">
+              <option value="default">default (inherit)</option>
+              <option value="column">sm:column</option>
+              <option value="row">sm:row</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 7. Spacing & Margin -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Spacing & Margin</div>
+          <div class="form-group">
+            <div class="form-label">padding (padN) <span id="lblPad">pad0</span></div>
+            <input type="range" id="rngPad" min="0" max="64" step="4" value="0">
+          </div>
+          <div class="form-group">
+            <div class="form-label">gap (gapN) <span id="lblGap">gap0</span></div>
+            <input type="range" id="rngGap" min="0" max="48" step="4" value="0">
+          </div>
+          <div class="form-group">
+            <div class="form-label">margin-bottom (marginbotN) <span id="lblMarginBot">marginbot0</span></div>
+            <input type="range" id="rngMarginBot" min="0" max="48" step="4" value="0">
+          </div>
+        </div>
+
+        <!-- 8. Border Radius Token -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Border Radius Token</div>
+          <div class="row-ctrl" id="radiusOptions">
+            <div class="pill-opt active" data-radius="radius0">0px</div>
+            <div class="pill-opt" data-radius="radius4">4px</div>
+            <div class="pill-opt" data-radius="radius8">8px</div>
+            <div class="pill-opt" data-radius="radius12">12px</div>
+            <div class="pill-opt" data-radius="radius16">16px</div>
+            <div class="pill-opt" data-radius="radiusfull">full</div>
+          </div>
+        </div>
+
+        <!-- 9. Background & Surface -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Background & Surface Color</div>
+          <div class="form-group">
+            <div class="form-label">surface token / background</div>
+            <select id="selSurface">
+              <option value="surface">surface (var(--bg-surface))</option>
+              <option value="panel">panel (var(--bg-app) + border)</option>
+              <option value="raised">raised (var(--bg-raised))</option>
+              <option value="subtle">subtle (var(--slate-100))</option>
+              <option value="none">transparent</option>
+              <option value="custom">custom hex color</option>
+            </select>
+          </div>
+          <div class="form-group" id="grpCustomBg" style="display: none;">
+            <div class="form-label">custom background color picker</div>
+            <input type="color" id="inpCustomBg" class="form-control" value="#0f172a">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 4px;">
+          <button class="btn btn-danger" id="btnDeleteSelected">🗑️ Delete Selected Node (Del)</button>
+        </div>
+
+        <!-- Code Exporters -->
+        <div class="form-group">
+          <div class="form-label">Single-Tab Indented SASS (.sass)</div>
+          <div class="code-box" id="boxSass"></div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">JIT Svelte HTML Composition</div>
+          <div class="code-box" id="boxHtml"></div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">Full Svelte 5 Component Boilerplate</div>
+          <div class="code-box" id="boxFullSvelte"></div>
+        </div>
+
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    let idCounter = 1;
+    let viewMode = 'desktop';
+    let isPreviewMode = false;
+    let snapMode = true;
+    let copiedStyle = null;
+
+    let historyStack = [];
+    let historyIndex = -1;
+    let draggedType = null;
+    let customSavedBlocks = [];
+
+    function saveState() {
+      const stateObj = {
+        root: JSON.parse(JSON.stringify(root)),
+        selectedId: selectedId
+      };
+      const stateStr = JSON.stringify(stateObj);
+
+      if (historyIndex >= 0 && historyStack[historyIndex] && JSON.stringify(historyStack[historyIndex]) === stateStr) {
+        return;
+      }
+
+      if (historyIndex < historyStack.length - 1) {
+        historyStack = historyStack.slice(0, historyIndex + 1);
+      }
+      historyStack.push(JSON.parse(stateStr));
+      historyIndex = historyStack.length - 1;
+      updateUndoRedoButtons();
+    }
+
+    function undo() {
+      if (historyIndex > 0) {
+        historyIndex--;
+        const state = historyStack[historyIndex];
+        root = JSON.parse(JSON.stringify(state.root));
+        selectedId = state.selectedId;
+        renderCanvas(false);
+        updateUndoRedoButtons();
+      }
+    }
+
+    function redo() {
+      if (historyIndex < historyStack.length - 1) {
+        historyIndex++;
+        const state = historyStack[historyIndex];
+        root = JSON.parse(JSON.stringify(state.root));
+        selectedId = state.selectedId;
+        renderCanvas(false);
+        updateUndoRedoButtons();
+      }
+    }
+
+    function updateUndoRedoButtons() {
+      document.getElementById('btnUndo').disabled = historyIndex <= 0;
+      document.getElementById('btnRedo').disabled = historyIndex >= historyStack.length - 1;
+    }
+
+    function createNode(type, options = {}) {
+      return {
+        id: 'node_' + (idCounter++),
+        name: options.name || type,
+        display: options.display || (type === 'grid' ? 'grid' : 'flex'),
+        direction: options.direction || (type === 'row' ? 'row' : 'column'),
+        alignItems: options.alignItems || 'stretch',
+        justifyContent: options.justifyContent || 'flex-start',
+        width: options.width || 'auto',
+        widthVal: options.widthVal || '',
+        minWVal: options.minWVal || '',
+        maxWVal: options.maxWVal || '',
+        height: options.height || 'auto',
+        heightVal: options.heightVal || '',
+        minHVal: options.minHVal || '',
+        maxHVal: options.maxHVal || '',
+        marginBot: options.marginBot !== undefined ? options.marginBot : 0,
+        primitive: options.primitive || 'box',
+        buttonVariant: options.buttonVariant || 'default',
+        padding: options.padding !== undefined ? options.padding : 0,
+        gap: options.gap !== undefined ? options.gap : 0,
+        gridCols: options.gridCols || 3,
+        colSpan: options.colSpan || 1,
+        rowSpan: options.rowSpan || 1,
+        radius: options.radius || 'radius0',
+        surface: options.surface || 'surface',
+        customBg: options.customBg || '#0f172a',
+        borderColor: options.borderColor || '#334155',
+        textColor: options.textColor || '#cbd5e1',
+        fontSize: options.fontSize || 'font14',
+        textAlign: options.textAlign || 'left',
+        borderWidth: options.borderWidth || '0',
+        shadow: options.shadow || 'none',
+        smDirection: options.smDirection || 'default',
+        children: options.children || [],
+        content: options.content || null
+      };
+    }
+
+    function getLayoutTemplate(key) {
+      switch (key) {
+        case 'pancake':
+          return createNode('box', {
+            name: 'PancakeStack',
+            height: '100vh',
+            children: [
+              createNode('box', { name: 'Header', height: 'custom', heightVal: '60', surface: 'panel', content: 'Header' }),
+              createNode('box', { name: 'MainContent', height: 'fill', surface: 'surface', content: 'Main Content Area' }),
+              createNode('box', { name: 'Footer', height: 'custom', heightVal: '50', surface: 'panel', content: 'Footer' })
+            ]
+          });
+
+        case 'sidebar':
+          return createNode('row', {
+            name: 'SidebarLayout',
+            direction: 'row',
+            height: '100vh',
+            children: [
+              createNode('box', { name: 'Sidebar', width: 'custom', widthVal: '240', surface: 'panel', content: 'Sidebar Nav' }),
+              createNode('box', { name: 'MainContent', width: 'fill', surface: 'surface', content: 'Main Content' })
+            ]
+          });
+
+        case 'html5':
+          return createNode('box', {
+            name: 'HTML5Layout',
+            height: '100vh',
+            children: [
+              createNode('box', { name: 'Header', height: 'custom', heightVal: '60', surface: 'panel', content: 'Header' }),
+              createNode('row', {
+                name: 'BodyRow',
+                direction: 'row',
+                height: 'fill',
+                children: [
+                  createNode('box', { name: 'Sidebar', width: 'custom', widthVal: '220', surface: 'panel', content: 'Sidebar' }),
+                  createNode('box', { name: 'Article', width: 'fill', surface: 'surface', content: 'Main Article' })
+                ]
+              }),
+              createNode('box', { name: 'Footer', height: 'custom', heightVal: '50', surface: 'panel', content: 'Footer' })
+            ]
+          });
+
+        case 'html5_2':
+          return createNode('box', {
+            name: 'HTML5_2_Layout',
+            height: '100vh',
+            children: [
+              createNode('box', { name: 'Header', height: 'custom', heightVal: '60', surface: 'panel', content: 'Header' }),
+              createNode('row', {
+                name: 'BodyRow',
+                direction: 'row',
+                height: 'fill',
+                children: [
+                  createNode('box', { name: 'Nav', width: 'custom', widthVal: '180', surface: 'panel', content: 'Left Nav' }),
+                  createNode('box', { name: 'Main', width: 'fill', surface: 'surface', content: 'Main Content' }),
+                  createNode('box', { name: 'Aside', width: 'custom', widthVal: '200', surface: 'panel', content: 'Right Aside' })
+                ]
+              }),
+              createNode('box', { name: 'Footer', height: 'custom', heightVal: '50', surface: 'panel', content: 'Footer' })
+            ]
+          });
+
+        case 'col12':
+          return createNode('grid', {
+            name: 'Grid12Col',
+            display: 'grid',
+            gridCols: 12,
+            gap: 4,
+            children: Array.from({ length: 12 }, (_, i) => 
+              createNode('box', { name: `Col_${i+1}`, surface: 'panel', content: `${i+1}` })
+            )
+          });
+
+        case 'collage':
+          return createNode('grid', {
+            name: 'CollageGrid',
+            display: 'grid',
+            gridCols: 4,
+            gap: 8,
+            children: [
+              createNode('box', { name: 'HeroTile', height: 'custom', heightVal: '160', colSpan: 2, rowSpan: 2, surface: 'panel', content: 'Hero Tile' }),
+              createNode('box', { name: 'Tile1', surface: 'panel', content: 'Tile 1' }),
+              createNode('box', { name: 'Tile2', surface: 'panel', content: 'Tile 2' }),
+              createNode('box', { name: 'Tile3', surface: 'panel', content: 'Tile 3' }),
+              createNode('box', { name: 'Tile4', surface: 'panel', content: 'Tile 4' })
+            ]
+          });
+
+        case 'grid3x3':
+          return createNode('grid', {
+            name: 'Grid3x3',
+            display: 'grid',
+            gridCols: 3,
+            gap: 8,
+            children: Array.from({ length: 9 }, (_, i) => 
+              createNode('box', { name: `Cell_${i+1}`, height: 'custom', heightVal: '80', surface: 'panel', content: `Cell ${i+1}` })
+            )
+          });
+
+        case 'grid4x4':
+          return createNode('grid', {
+            name: 'Grid4x4',
+            display: 'grid',
+            gridCols: 4,
+            gap: 8,
+            children: Array.from({ length: 16 }, (_, i) => 
+              createNode('box', { name: `Cell_${i+1}`, height: 'custom', heightVal: '70', surface: 'panel', content: `${i+1}` })
+            )
+          });
+
+        case 'inf_rows':
+          return createNode('box', {
+            name: 'InfiniteRows',
+            gap: 6,
+            children: Array.from({ length: 5 }, (_, i) => 
+              createNode('row', { name: `Row_${i+1}`, direction: 'row', height: 'custom', heightVal: '50', surface: 'panel', content: `Row Item ${i+1}` })
+            )
+          });
+
+        case 'inf_cols':
+          return createNode('row', {
+            name: 'InfiniteCols',
+            direction: 'row',
+            gap: 6,
+            children: Array.from({ length: 5 }, (_, i) => 
+              createNode('box', { name: `Col_${i+1}`, width: 'custom', widthVal: '140', height: 'custom', heightVal: '160', surface: 'panel', content: `Col Item ${i+1}` })
+            )
+          });
+
+        default:
+          return getLayoutTemplate('pancake');
+      }
+    }
+
+    let root = getLayoutTemplate('pancake');
+    let selectedId = root.id;
+
+    function findNode(node, id) {
+      if (node.id === id) return node;
+      for (const child of node.children) {
+        const found = findNode(child, id);
+        if (found) return found;
+      }
+      return null;
+    }
+
+    function findParent(node, id) {
+      for (let i = 0; i < node.children.length; i++) {
+        if (node.children[i].id === id) return { parent: node, index: i };
+        const res = findParent(node.children[i], id);
+        if (res) return res;
+      }
+      return null;
+    }
+
+    function getNodePath(node, id, path = []) {
+      const currentPath = [...path, node];
+      if (node.id === id) return currentPath;
+      for (const child of node.children) {
+        const res = getNodePath(child, id, currentPath);
+        if (res) return res;
+      }
+      return null;
+    }
+
+    function renderCanvas(recordState = true) {
+      const appShell = document.getElementById('appShell');
+      if (isPreviewMode) {
+        appShell.classList.add('mode-preview');
+      } else {
+        appShell.classList.remove('mode-preview');
+      }
+
+      const container = document.getElementById('canvasRoot');
+      container.innerHTML = '';
+      container.appendChild(renderNodeDOM(root));
+      renderTreeDOM();
+      renderBreadcrumbs();
+      updateInspector();
+      updateCodeOutput();
+      if (recordState) {
+        saveState();
+      }
+    }
+
+    function renderBreadcrumbs() {
+      const container = document.getElementById('breadcrumbTrail');
+      container.innerHTML = '';
+      const path = getNodePath(root, selectedId) || [root];
+
+      path.forEach((node, idx) => {
+        const span = document.createElement('span');
+        span.className = `crumb-item ${idx === path.length - 1 ? 'active' : ''}`;
+        span.textContent = node.name;
+        span.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectedId = node.id;
+          renderCanvas(false);
+        });
+        container.appendChild(span);
+
+        if (idx < path.length - 1) {
+          const sep = document.createElement('span');
+          sep.className = 'crumb-sep';
+          sep.textContent = '>';
+          container.appendChild(sep);
+        }
+      });
+    }
+
+    function makeInlineEditable(textEl, node) {
+      textEl.setAttribute('contenteditable', 'true');
+      textEl.classList.add('inline-text-editing');
+      textEl.focus();
+
+      // Select all text
+      const range = document.createRange();
+      range.selectNodeContents(textEl);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+
+      function saveInlineText() {
+        textEl.removeAttribute('contenteditable');
+        textEl.classList.remove('inline-text-editing');
+        node.content = textEl.textContent;
+        renderCanvas();
+      }
+
+      textEl.addEventListener('blur', saveInlineText, { once: true });
+      textEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === 'Escape') {
+          e.preventDefault();
+          textEl.blur();
+        }
+      });
+    }
+
+    function renderNodeDOM(node) {
+      const isSelected = node.id === selectedId;
+
+      if (node.primitive === 'button') {
+        const btn = document.createElement('button');
+        let btnCls = 'btn-preview';
+        if (node.buttonVariant === 'primary') btnCls += ' btn-preview-primary';
+        if (node.buttonVariant === 'quiet') btnCls += ' btn-preview-quiet';
+        if (node.buttonVariant === 'icon') btnCls = 'btn-preview-icon';
+        btn.className = btnCls;
+        btn.textContent = node.content || 'Button';
+
+        if (isPreviewMode) {
+          btn.addEventListener('click', () => {
+            alert(`Clicked button "${node.content || 'Button'}"!`);
+          });
+        }
+
+        const wrapper = document.createElement('div');
+        wrapper.className = `builder-node ${isSelected ? 'selected' : ''}`;
+        wrapper.style.cssText = 'position: relative; display: inline-block;';
+
+        const tag = document.createElement('div');
+        tag.className = 'node-tag';
+        tag.textContent = `${node.name} (button.${node.buttonVariant || 'default'})`;
+        wrapper.appendChild(tag);
+        wrapper.appendChild(btn);
+
+        if (!isPreviewMode) {
+          wrapper.addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectedId = node.id;
+            renderCanvas(false);
+          });
+
+          // Double click for inline text editing on button
+          wrapper.addEventListener('dblclick', (e) => {
+            e.stopPropagation();
+            makeInlineEditable(btn, node);
+          });
+
+          wrapper.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            selectedId = node.id;
+            renderCanvas(false);
+            showContextMenu(e.clientX, e.clientY);
+          });
+        }
+
+        return wrapper;
+      }
+
+      const el = document.createElement('div');
+      el.className = `builder-node ${isSelected ? 'selected' : ''}`;
+      
+      let style = `padding: ${node.padding}px; gap: ${node.gap}px; margin-bottom: ${node.marginBot}px;`;
+      style += ` display: ${node.display};`;
+      if (node.display === 'flex' || node.display === 'inline-flex') {
+        style += ` flex-direction: ${node.direction};`;
+        if (node.alignItems) style += ` align-items: ${node.alignItems};`;
+        if (node.justifyContent) style += ` justify-content: ${node.justifyContent};`;
+      }
+
+      const effectiveCols = (viewMode === 'mobile' && node.gridCols > 1) ? 1 : node.gridCols;
+      if (node.display === 'grid') style += ` grid-template-columns: repeat(${effectiveCols}, 1fr);`;
+
+      if (node.colSpan && node.colSpan > 1) style += ` grid-column: span ${node.colSpan};`;
+      if (node.rowSpan && node.rowSpan > 1) style += ` grid-row: span ${node.rowSpan};`;
+
+      if (node.width === '100%') style += ' width: 100%;';
+      else if (node.width === '100vw') style += ' width: 100vw;';
+      else if (node.width === 'fill') style += ' flex-grow: 1;';
+      else if (node.width === 'custom' && node.widthVal) style += ` width: ${node.widthVal.includes('px') || node.widthVal.includes('rem') ? node.widthVal : node.widthVal + 'px'};`;
+      else if (node.width === 'minmax') {
+        if (node.minWVal) style += ` min-width: ${node.minWVal.includes('px') || node.minWVal.includes('rem') ? node.minWVal : node.minWVal + 'px'};`;
+        if (node.maxWVal) style += ` max-width: ${node.maxWVal.includes('px') || node.maxWVal.includes('rem') ? node.maxWVal : node.maxWVal + 'px'};`;
+      }
+
+      if (node.height === '100%') style += ' height: 100%;';
+      else if (node.height === '100vh') style += ' height: 100vh;';
+      else if (node.height === 'fill') style += ' flex-grow: 1;';
+      else if (node.height === 'custom' && node.heightVal) style += ` height: ${node.heightVal.includes('px') || node.heightVal.includes('rem') ? node.heightVal : node.heightVal + 'px'};`;
+      else if (node.height === 'minmax') {
+        if (node.minHVal) style += ` min-height: ${node.minHVal.includes('px') || node.minHVal.includes('rem') ? node.minHVal : node.minHVal + 'px'};`;
+        if (node.maxHVal) style += ` max-height: ${node.maxHVal.includes('px') || node.maxHVal.includes('rem') ? node.maxHVal : node.maxHVal + 'px'};`;
+      }
+
+      if (node.surface === 'surface') style += ' background: var(--bg-surface);';
+      else if (node.surface === 'panel') style += ' background: var(--bg-raised); border: 1px solid var(--border);';
+      else if (node.surface === 'raised') style += ' background: var(--bg-hover);';
+      else if (node.surface === 'subtle') style += ' background: #475569;';
+      else if (node.surface === 'custom') style += ` background: ${node.customBg};`;
+
+      if (node.borderWidth && node.borderWidth !== '0') style += ` border: ${node.borderWidth} solid ${node.borderColor || '#334155'};`;
+      if (node.shadow && node.shadow !== 'none') style += ' box-shadow: 0 10px 25px rgba(0,0,0,0.4);';
+
+      const radMap = { radius2: '2px', radius4: '4px', radius8: '8px', radius12: '12px', radius16: '16px', radiusfull: '999px' };
+      if (radMap[node.radius]) style += ` border-radius: ${radMap[node.radius]};`;
+
+      el.style.cssText = style;
+
+      const tag = document.createElement('div');
+      tag.className = 'node-tag';
+      tag.textContent = `${node.name} (${node.display}${node.display === 'flex' ? '-' + node.direction : ''})`;
+      el.appendChild(tag);
+
+      if (isSelected && !isPreviewMode) {
+        const handleR = document.createElement('div');
+        handleR.className = 'resize-handle resize-handle-r';
+        attachResizeHandler(handleR, node, 'r');
+        el.appendChild(handleR);
+
+        const handleB = document.createElement('div');
+        handleB.className = 'resize-handle resize-handle-b';
+        attachResizeHandler(handleB, node, 'b');
+        el.appendChild(handleB);
+
+        const handleBR = document.createElement('div');
+        handleBR.className = 'resize-handle resize-handle-br';
+        attachResizeHandler(handleBR, node, 'br');
+        el.appendChild(handleBR);
+      }
+
+      let textNodeEl = null;
+      if (node.content) {
+        textNodeEl = document.createElement('div');
+        textNodeEl.style.cssText = `color: ${node.textColor || 'var(--text-secondary)'}; font-weight: 600; text-align: ${node.textAlign || 'left'};`;
+        textNodeEl.textContent = node.content;
+        el.appendChild(textNodeEl);
+      }
+
+      for (const child of node.children) {
+        el.appendChild(renderNodeDOM(child));
+      }
+
+      if (!isPreviewMode) {
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          selectedId = node.id;
+          renderCanvas(false);
+        });
+
+        // Double click inline text editing if text present, else select parent
+        el.addEventListener('dblclick', (e) => {
+          e.stopPropagation();
+          if (textNodeEl) {
+            makeInlineEditable(textNodeEl, node);
+          } else {
+            const res = findParent(root, node.id);
+            if (res) {
+              selectedId = res.parent.id;
+              renderCanvas(false);
+            }
+          }
+        });
+
+        el.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          selectedId = node.id;
+          renderCanvas(false);
+          showContextMenu(e.clientX, e.clientY);
+        });
+
+        el.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          el.classList.add('drag-target');
+        });
+
+        el.addEventListener('dragleave', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          el.classList.remove('drag-target');
+        });
+
+        el.addEventListener('drop', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          el.classList.remove('drag-target');
+          if (draggedType) {
+            const newNode = createAddedNode(draggedType);
+            node.children.push(newNode);
+            selectedId = newNode.id;
+            renderCanvas();
+          }
+        });
+      }
+
+      return el;
+    }
+
+    const dimTooltip = document.getElementById('dimTooltip');
+
+    function attachResizeHandler(handleEl, node, direction) {
+      handleEl.addEventListener('mousedown', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        
+        const startX = e.clientX;
+        const startY = e.clientY;
+
+        const targetEl = handleEl.parentElement;
+        const startWidth = targetEl.offsetWidth;
+        const startHeight = targetEl.offsetHeight;
+
+        const parentInfo = findParent(root, node.id);
+        const isParentGrid = parentInfo && parentInfo.parent.display === 'grid';
+        const gridCols = isParentGrid ? (parentInfo.parent.gridCols || 12) : 12;
+        const parentW = isParentGrid ? parentInfo.parent.offsetWidth : 960;
+        const colWidth = parentW / gridCols;
+
+        dimTooltip.style.display = 'block';
+
+        function onMouseMove(me) {
+          me.preventDefault();
+          const dx = me.clientX - startX;
+          const dy = me.clientY - startY;
+
+          dimTooltip.style.left = `${me.clientX + 16}px`;
+          dimTooltip.style.top = `${me.clientY + 16}px`;
+
+          let newW = Math.max(40, startWidth + dx);
+          let newH = Math.max(30, startHeight + dy);
+
+          if (isParentGrid) {
+            const calculatedSpan = Math.min(gridCols, Math.max(1, Math.round(newW / colWidth)));
+            node.colSpan = calculatedSpan;
+            dimTooltip.textContent = `▦ Grid Span: col-span-${calculatedSpan} (${Math.round(newW)}px)`;
+          } else {
+            if (snapMode) {
+              newW = Math.round(newW / 8) * 8;
+              newH = Math.round(newH / 8) * 8;
+            }
+
+            if (direction === 'r' || direction === 'br') {
+              node.width = 'custom';
+              node.widthVal = `${Math.round(newW)}`;
+            }
+
+            if (direction === 'b' || direction === 'br') {
+              node.height = 'custom';
+              node.heightVal = `${Math.round(newH)}`;
+            }
+
+            dimTooltip.textContent = `📐 ${Math.round(targetEl.offsetWidth)}px × ${Math.round(targetEl.offsetHeight)}px`;
+          }
+
+          renderCanvas(false);
+        }
+
+        function onMouseUp() {
+          dimTooltip.style.display = 'none';
+          window.removeEventListener('mousemove', onMouseMove);
+          window.removeEventListener('mouseup', onMouseUp);
+          saveState();
+        }
+
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('mouseup', onMouseUp);
+      });
+    }
+
+    function createAddedNode(addType) {
+      if (addType.startsWith('button-')) {
+        const variant = addType.replace('button-', '');
+        return createNode('button', {
+          name: 'Btn_' + variant,
+          primitive: 'button',
+          buttonVariant: variant,
+          content: variant === 'icon' ? '⚡' : (variant.charAt(0).toUpperCase() + variant.slice(1) + ' Button')
+        });
+      }
+
+      if (addType === 'ui-header') {
+        return createNode('row', {
+          name: 'HeaderBar',
+          direction: 'row',
+          padding: 16,
+          surface: 'panel',
+          children: [
+            createNode('box', { name: 'Logo', primitive: 'box', padding: 0, content: '⚡ Logo' }),
+            createNode('row', { name: 'Nav', primitive: 'row', padding: 0, gap: 12, children: [
+              createNode('button', { name: 'Nav1', primitive: 'button', buttonVariant: 'quiet', content: 'Features' }),
+              createNode('button', { name: 'Nav2', primitive: 'button', buttonVariant: 'quiet', content: 'Pricing' })
+            ]})
+          ]
+        });
+      }
+
+      if (addType === 'ui-navtabs') {
+        return createNode('row', {
+          name: 'NavTabs',
+          direction: 'row',
+          padding: 4,
+          gap: 4,
+          surface: 'panel',
+          children: [
+            createNode('button', { name: 'Tab1', primitive: 'button', buttonVariant: 'primary', content: 'Overview' }),
+            createNode('button', { name: 'Tab2', primitive: 'button', buttonVariant: 'quiet', content: 'Analytics' }),
+            createNode('button', { name: 'Tab3', primitive: 'button', buttonVariant: 'quiet', content: 'Settings' })
+          ]
+        });
+      }
+
+      if (addType === 'ui-mediacard') {
+        return createNode('box', {
+          name: 'MediaCard',
+          padding: 16,
+          gap: 12,
+          surface: 'panel',
+          radius: 'radius8',
+          children: [
+            createNode('box', { name: 'CardImage', height: 'custom', heightVal: '120', surface: 'raised', content: 'Image Banner' }),
+            createNode('box', { name: 'CardTitle', padding: 0, content: 'Card Title' }),
+            createNode('button', { name: 'CardAction', primitive: 'button', buttonVariant: 'primary', content: 'Read More' })
+          ]
+        });
+      }
+
+      if (addType === 'ui-hero') {
+        return createNode('box', {
+          name: 'HeroSection',
+          padding: 32,
+          gap: 16,
+          surface: 'panel',
+          radius: 'radius12',
+          alignItems: 'center',
+          children: [
+            createNode('box', { name: 'HeroHeading', padding: 0, textAlign: 'center', content: 'Build Faster with Styler' }),
+            createNode('button', { name: 'HeroCTA', primitive: 'button', buttonVariant: 'primary', content: 'Get Started Free' })
+          ]
+        });
+      }
+
+      if (addType === 'ui-textinput') {
+        return createNode('box', {
+          name: 'TextInputGroup',
+          padding: 8,
+          gap: 4,
+          surface: 'panel',
+          radius: 'radius4',
+          content: 'Input Field Label'
+        });
+      }
+
+      if (addType === 'ui-toggle') {
+        return createNode('row', {
+          name: 'ToggleGroup',
+          direction: 'row',
+          padding: 8,
+          gap: 8,
+          surface: 'panel',
+          radius: 'radius4',
+          content: 'Enable Feature'
+        });
+      }
+
+      if (addType.startsWith('custom-')) {
+        const idx = parseInt(addType.replace('custom-', ''));
+        if (customSavedBlocks[idx]) {
+          return JSON.parse(JSON.stringify(customSavedBlocks[idx].node));
+        }
+      }
+
+      return createNode(addType.includes('skeleton') || addType.includes('text') ? 'box' : addType, {
+        name: addType.replace('-', '_'),
+        primitive: addType.includes('skeleton') || addType.includes('text') ? 'box' : addType,
+        content: addType.includes('skeleton') || addType.includes('text') ? addType : null
+      });
+    }
+
+    function renderTreeDOM() {
+      const container = document.getElementById('treeContainer');
+      container.innerHTML = '';
+      container.appendChild(renderTreeItem(root, 0));
+    }
+
+    function renderTreeItem(node, indent) {
+      const wrapper = document.createElement('div');
+      const item = document.createElement('div');
+      item.className = `tree-item ${node.id === selectedId ? 'selected' : ''}`;
+      item.style.paddingLeft = (indent * 16 + 10) + 'px';
+      item.draggable = true;
+      item.innerHTML = `<span>${node.name}</span><span class="tree-tag">.${node.primitive === 'button' ? 'btn-' + (node.buttonVariant||'default') : node.display}</span>`;
+
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectedId = node.id;
+        renderCanvas(false);
+      });
+
+      item.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        selectedId = node.id;
+        renderCanvas(false);
+        showContextMenu(e.clientX, e.clientY);
+      });
+
+      wrapper.appendChild(item);
+      for (const child of node.children) {
+        wrapper.appendChild(renderTreeItem(child, indent + 1));
+      }
+      return wrapper;
+    }
+
+    function updateInspector() {
+      const target = findNode(root, selectedId) || root;
+      document.getElementById('inpNodeName').value = target.name;
+      document.getElementById('selDisplay').value = target.display;
+      document.getElementById('selDirection').value = target.direction;
+      document.getElementById('selAlignItems').value = target.alignItems || 'stretch';
+      document.getElementById('selJustifyContent').value = target.justifyContent || 'flex-start';
+
+      document.getElementById('selWidth').value = target.width || 'auto';
+      document.getElementById('inpCustomW').value = target.widthVal || '';
+      document.getElementById('inpMinW').value = target.minWVal || '';
+      document.getElementById('inpMaxW').value = target.maxWVal || '';
+
+      document.getElementById('grpCustomWidth').style.display = target.width === 'custom' ? 'flex' : 'none';
+      document.getElementById('grpMinMaxW').style.display = target.width === 'minmax' ? 'grid' : 'none';
+
+      document.getElementById('selHeight').value = target.height || 'auto';
+      document.getElementById('inpCustomH').value = target.heightVal || '';
+      document.getElementById('inpMinH').value = target.minHVal || '';
+      document.getElementById('inpMaxH').value = target.maxHVal || '';
+
+      document.getElementById('grpCustomHeight').style.display = target.height === 'custom' ? 'flex' : 'none';
+      document.getElementById('grpMinMaxH').style.display = target.height === 'minmax' ? 'grid' : 'none';
+
+      document.getElementById('selFontSize').value = target.fontSize || 'font14';
+      document.getElementById('selTextAlign').value = target.textAlign || 'left';
+      document.getElementById('inpTextColor').value = target.textColor || '#cbd5e1';
+      document.getElementById('selBorderWidth').value = target.borderWidth || '0';
+      document.getElementById('inpBorderColor').value = target.borderColor || '#334155';
+      document.getElementById('selShadow').value = target.shadow || 'none';
+      document.getElementById('selSmDirection').value = target.smDirection || 'default';
+
+      document.getElementById('rngPad').value = target.padding;
+      document.getElementById('lblPad').textContent = `pad${target.padding}`;
+      document.getElementById('rngGap').value = target.gap;
+      document.getElementById('lblGap').textContent = `gap${target.gap}`;
+      document.getElementById('rngMarginBot').value = target.marginBot;
+      document.getElementById('lblMarginBot').textContent = `marginbot${target.marginBot}`;
+      document.getElementById('selGridCols').value = target.gridCols || 3;
+
+      document.getElementById('rngColSpan').value = target.colSpan || 1;
+      document.getElementById('lblColSpan').textContent = target.colSpan || 1;
+      document.getElementById('rngRowSpan').value = target.rowSpan || 1;
+      document.getElementById('lblRowSpan').textContent = target.rowSpan || 1;
+
+      document.getElementById('selSurface').value = target.surface;
+      document.getElementById('inpCustomBg').value = target.customBg || '#0f172a';
+
+      document.getElementById('grpGridCols').style.display = target.display === 'grid' ? 'flex' : 'none';
+      document.getElementById('grpCustomBg').style.display = target.surface === 'custom' ? 'flex' : 'none';
+
+      const parentInfo = findParent(root, target.id);
+      const isParentGrid = parentInfo && parentInfo.parent.display === 'grid';
+      document.getElementById('grpGridItemSpans').style.display = isParentGrid ? 'flex' : 'none';
+
+      const grpBtn = document.getElementById('grpButtonLabel');
+      const inpBtn = document.getElementById('inpBtnText');
+
+      if (target.primitive === 'button' || target.content !== null) {
+        grpBtn.style.display = 'flex';
+        inpBtn.value = target.content || 'Button';
+      } else {
+        grpBtn.style.display = 'none';
+      }
+
+      document.querySelectorAll('#radiusOptions .pill-opt').forEach(pill => {
+        if (pill.getAttribute('data-radius') === (target.radius || 'radius0')) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+    }
+
+    const btnModeEdit = document.getElementById('btnModeEdit');
+    const btnModePreview = document.getElementById('btnModePreview');
+    const btnCanvasThemeDark = document.getElementById('btnCanvasThemeDark');
+    const btnCanvasThemeLight = document.getElementById('btnCanvasThemeLight');
+    const btnModeDesktop = document.getElementById('btnModeDesktop');
+    const btnModeMobile = document.getElementById('btnModeMobile');
+    const btnSnapToggle = document.getElementById('btnSnapToggle');
+    const deviceFrame = document.getElementById('deviceFrame');
+
+    btnModeEdit.addEventListener('click', () => {
+      isPreviewMode = false;
+      btnModeEdit.classList.add('active');
+      btnModePreview.classList.remove('active', 'preview-active');
+      renderCanvas(false);
+    });
+
+    btnModePreview.addEventListener('click', () => {
+      isPreviewMode = true;
+      btnModePreview.classList.add('active', 'preview-active');
+      btnModeEdit.classList.remove('active');
+      renderCanvas(false);
+    });
+
+    btnCanvasThemeDark.addEventListener('click', () => {
+      document.body.setAttribute('data-canvas-theme', 'dark');
+      btnCanvasThemeDark.classList.add('active');
+      btnCanvasThemeLight.classList.remove('active');
+      renderCanvas(false);
+    });
+
+    btnCanvasThemeLight.addEventListener('click', () => {
+      document.body.setAttribute('data-canvas-theme', 'light');
+      btnCanvasThemeLight.classList.add('active');
+      btnCanvasThemeDark.classList.remove('active');
+      renderCanvas(false);
+    });
+
+    btnModeDesktop.addEventListener('click', () => {
+      viewMode = 'desktop';
+      btnModeDesktop.classList.add('active');
+      btnModeMobile.classList.remove('active');
+      deviceFrame.className = 'device-container mode-desktop';
+      renderCanvas(false);
+    });
+
+    btnModeMobile.addEventListener('click', () => {
+      viewMode = 'mobile';
+      btnModeMobile.classList.add('active');
+      btnModeDesktop.classList.remove('active');
+      deviceFrame.className = 'device-container mode-mobile';
+      renderCanvas(false);
+    });
+
+    btnSnapToggle.addEventListener('click', () => {
+      snapMode = !snapMode;
+      btnSnapToggle.innerHTML = snapMode ? '<span>🧲</span> Snap 8px: ON' : '<span>📐</span> Smooth 1px: ON';
+    });
+
+    document.getElementById('btnUndo').addEventListener('click', undo);
+    document.getElementById('btnRedo').addEventListener('click', redo);
+
+    document.getElementById('btnSaveCustom').addEventListener('click', () => {
+      const target = findNode(root, selectedId);
+      if (!target) return;
+      const name = prompt('Enter a name for your custom component:', target.name);
+      if (!name) return;
+
+      customSavedBlocks.push({
+        name: name,
+        node: JSON.parse(JSON.stringify(target))
+      });
+      renderMyBlocks();
+      alert(`Saved "${name}" into "My Blocks" palette tab!`);
+    });
+
+    function renderMyBlocks() {
+      const container = document.getElementById('myBlocksContainer');
+      container.innerHTML = '';
+      if (customSavedBlocks.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1 / -1; font-size:11px; color:var(--text-muted); text-align:center; padding:12px;">Select any node branch and click "⭐ Save Custom Block" in the header to save reusable components here.</div>`;
+        return;
+      }
+      customSavedBlocks.forEach((block, idx) => {
+        const card = document.createElement('div');
+        card.className = 'palette-card';
+        card.draggable = true;
+        card.setAttribute('data-add', `custom-${idx}`);
+        card.innerHTML = `<span style="font-size:16px;">⭐</span><span>${block.name}</span>`;
+
+        card.addEventListener('dragstart', (e) => {
+          draggedType = `custom-${idx}`;
+          e.dataTransfer.setData('text/plain', draggedType);
+        });
+
+        card.addEventListener('click', () => {
+          const parent = findNode(root, selectedId) || root;
+          const newNode = createAddedNode(`custom-${idx}`);
+          parent.children.push(newNode);
+          selectedId = newNode.id;
+          renderCanvas();
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    const contextMenu = document.getElementById('contextMenu');
+    function showContextMenu(x, y) {
+      contextMenu.style.display = 'block';
+      contextMenu.style.left = `${x}px`;
+      contextMenu.style.top = `${y}px`;
+    }
+    window.addEventListener('click', () => { contextMenu.style.display = 'none'; });
+
+    document.getElementById('ctxDuplicate').addEventListener('click', () => {
+      const res = findParent(root, selectedId);
+      if (res) {
+        const clone = JSON.parse(JSON.stringify(res.parent.children[res.index]));
+        clone.id = 'node_' + (idCounter++);
+        clone.name += '_copy';
+        res.parent.children.splice(res.index + 1, 0, clone);
+        selectedId = clone.id;
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('ctxWrapBox').addEventListener('click', () => {
+      const res = findParent(root, selectedId);
+      if (res) {
+        const target = res.parent.children[res.index];
+        const wrapperNode = createNode('box', {
+          name: target.name + 'Wrapper',
+          padding: 16,
+          surface: 'panel',
+          children: [target]
+        });
+        res.parent.children[res.index] = wrapperNode;
+        selectedId = wrapperNode.id;
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('ctxWrapRow').addEventListener('click', () => {
+      const res = findParent(root, selectedId);
+      if (res) {
+        const target = res.parent.children[res.index];
+        const wrapperNode = createNode('row', {
+          name: target.name + 'Wrapper',
+          direction: 'row',
+          padding: 16,
+          surface: 'panel',
+          children: [target]
+        });
+        res.parent.children[res.index] = wrapperNode;
+        selectedId = wrapperNode.id;
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('ctxCopyStyle').addEventListener('click', () => {
+      const target = findNode(root, selectedId);
+      if (target) {
+        copiedStyle = {
+          padding: target.padding,
+          gap: target.gap,
+          marginBot: target.marginBot,
+          surface: target.surface,
+          customBg: target.customBg,
+          borderColor: target.borderColor,
+          textColor: target.textColor,
+          radius: target.radius,
+          borderWidth: target.borderWidth,
+          fontSize: target.fontSize,
+          shadow: target.shadow,
+          textAlign: target.textAlign
+        };
+        alert('Copied style properties!');
+      }
+    });
+
+    document.getElementById('ctxPasteStyle').addEventListener('click', () => {
+      if (!copiedStyle) { alert('No style copied yet!'); return; }
+      const target = findNode(root, selectedId);
+      if (target) {
+        Object.assign(target, copiedStyle);
+        renderCanvas();
+      }
+    });
+
+    document.getElementById('ctxDelete').addEventListener('click', deleteSelectedNode);
+
+    window.addEventListener('keydown', (e) => {
+      const tag = e.target ? e.target.tagName : '';
+      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA' || e.target.isContentEditable) {
+        return;
+      }
+
+      const isMeta = e.metaKey || e.ctrlKey;
+      const keyLow = e.key ? e.key.toLowerCase() : '';
+      const code = e.code;
+
+      if (isMeta && (code === 'KeyZ' || keyLow === 'z')) {
+        e.preventDefault();
+        if (e.shiftKey) redo();
+        else undo();
+      } else if (isMeta && (code === 'KeyY' || keyLow === 'y')) {
+        e.preventDefault();
+        redo();
+      } else if (e.key === 'Backspace' || e.key === 'Delete') {
+        if (selectedId && selectedId !== root.id) {
+          e.preventDefault();
+          deleteSelectedNode();
+        }
+      }
+    });
+
+    document.querySelectorAll('[data-layout]').forEach(card => {
+      card.addEventListener('click', () => {
+        const layoutKey = card.getAttribute('data-layout');
+        root = getLayoutTemplate(layoutKey);
+        selectedId = root.id;
+        renderCanvas();
+      });
+    });
+
+    document.getElementById('inpNodeName').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.name = e.target.value; renderCanvas(); }
+    });
+
+    document.getElementById('inpBtnText').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.content = e.target.value; renderCanvas(); }
+    });
+
+    document.getElementById('selDisplay').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.display = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('selDirection').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.direction = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('selAlignItems').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.alignItems = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('selJustifyContent').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.justifyContent = e.target.value; renderCanvas(); }
+    });
+
+    document.getElementById('rngColSpan').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.colSpan = Number(e.target.value); renderCanvas(); }
+    });
+    document.getElementById('rngRowSpan').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.rowSpan = Number(e.target.value); renderCanvas(); }
+    });
+
+    document.getElementById('selWidth').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.width = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('inpCustomW').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.widthVal = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('inpMinW').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.minWVal = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('inpMaxW').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.maxWVal = e.target.value; renderCanvas(); }
+    });
+
+    document.getElementById('selHeight').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.height = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('inpCustomH').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.heightVal = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('inpMinH').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.minHVal = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('inpMaxH').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.maxHVal = e.target.value; renderCanvas(); }
+    });
+
+    document.getElementById('selFontSize').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.fontSize = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('selTextAlign').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.textAlign = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('inpTextColor').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.textColor = e.target.value; renderCanvas(); }
+    });
+
+    document.getElementById('selBorderWidth').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.borderWidth = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('inpBorderColor').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.borderColor = e.target.value; renderCanvas(); }
+    });
+
+    document.getElementById('selShadow').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.shadow = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('selSmDirection').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.smDirection = e.target.value; renderCanvas(); }
+    });
+
+    document.getElementById('rngPad').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.padding = Number(e.target.value); renderCanvas(); }
+    });
+    document.getElementById('rngGap').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.gap = Number(e.target.value); renderCanvas(); }
+    });
+    document.getElementById('rngMarginBot').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.marginBot = Number(e.target.value); renderCanvas(); }
+    });
+    document.getElementById('selGridCols').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.gridCols = Number(e.target.value); renderCanvas(); }
+    });
+    document.getElementById('selSurface').addEventListener('change', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.surface = e.target.value; renderCanvas(); }
+    });
+    document.getElementById('inpCustomBg').addEventListener('input', (e) => {
+      const target = findNode(root, selectedId);
+      if (target) { target.customBg = e.target.value; renderCanvas(); }
+    });
+
+    document.querySelectorAll('#radiusOptions .pill-opt').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const target = findNode(root, selectedId);
+        if (target) {
+          target.radius = pill.getAttribute('data-radius');
+          renderCanvas();
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-add]').forEach(card => {
+      card.addEventListener('dragstart', (e) => {
+        draggedType = card.getAttribute('data-add');
+        e.dataTransfer.setData('text/plain', draggedType);
+      });
+
+      card.addEventListener('click', () => {
+        const addType = card.getAttribute('data-add');
+        const parent = findNode(root, selectedId) || root;
+        const newNode = createAddedNode(addType);
+        parent.children.push(newNode);
+        selectedId = newNode.id;
+        renderCanvas();
+      });
+    });
+
+    function deleteSelectedNode() {
+      if (selectedId === root.id) { alert('Cannot delete root node!'); return; }
+      const res = findParent(root, selectedId);
+      if (res) {
+        res.parent.children.splice(res.index, 1);
+        selectedId = res.parent.id;
+        renderCanvas();
+      }
+    }
+
+    document.getElementById('btnDeleteSelected').addEventListener('click', deleteSelectedNode);
+    document.getElementById('btnClear').addEventListener('click', () => { root = createNode('box', { name: 'Root', padding: 0, gap: 0 }); selectedId = root.id; renderCanvas(); });
+
+    function updateCodeOutput() {
+      const target = findNode(root, selectedId) || root;
+      document.getElementById('boxSass').textContent = generateSass(target, 0);
+      document.getElementById('boxHtml').textContent = generateHtml(target, 0);
+      document.getElementById('boxFullSvelte').textContent = generateFullSvelteComponent(target);
+    }
+
+    function generateSass(node, depth) {
+      const indent = '\t'.repeat(depth);
+      if (node.primitive === 'button') {
+        const clsMap = { default: '.button', primary: '.button-primary', quiet: '.button-quiet', icon: '.icon-button' };
+        return `${indent}${clsMap[node.buttonVariant || 'default'] || '.button'}\n`;
+      }
+      let out = `${indent}.${node.name.toLowerCase()}\n`;
+      out += `${indent}\tdisplay: ${node.display}\n`;
+      if (node.display === 'flex' || node.display === 'inline-flex') out += `${indent}\tflex-direction: ${node.direction}\n`;
+      if (node.alignItems && node.alignItems !== 'stretch') out += `${indent}\talign-items: ${node.alignItems}\n`;
+      if (node.justifyContent && node.justifyContent !== 'flex-start') out += `${indent}\tjustify-content: ${node.justifyContent}\n`;
+      if (node.display === 'grid') out += `${indent}\tgrid-template-columns: repeat(${node.gridCols}, minmax(0, 1fr))\n`;
+
+      if (node.colSpan && node.colSpan > 1) out += `${indent}\tgrid-column: span ${node.colSpan}\n`;
+      if (node.rowSpan && node.rowSpan > 1) out += `${indent}\tgrid-row: span ${node.rowSpan}\n`;
+
+      if (node.width === '100%') out += `${indent}\twidth: 100%\n`;
+      else if (node.width === '100vw') out += `${indent}\twidth: 100vw\n`;
+      else if (node.width === 'fill') out += `${indent}\tflex-grow: 1\n`;
+      else if (node.width === 'custom' && node.widthVal) out += `${indent}\twidth: ${node.widthVal.includes('px') || node.widthVal.includes('rem') ? node.widthVal : node.widthVal + 'px'}\n`;
+      else if (node.width === 'minmax') {
+        if (node.minWVal) out += `${indent}\tmin-width: ${node.minWVal.includes('px') || node.minWVal.includes('rem') ? node.minWVal : node.minWVal + 'px'}\n`;
+        if (node.maxWVal) out += `${indent}\tmax-width: ${node.maxWVal.includes('px') || node.maxWVal.includes('rem') ? node.maxWVal : node.maxWVal + 'px'}\n`;
+      }
+
+      if (node.height === '100%') out += `${indent}\theight: 100%\n`;
+      else if (node.height === '100vh') out += `${indent}\theight: 100vh\n`;
+      else if (node.height === 'fill') out += `${indent}\tflex-grow: 1\n`;
+      else if (node.height === 'custom' && node.heightVal) out += `${indent}\theight: ${node.heightVal.includes('px') || node.heightVal.includes('rem') ? node.heightVal : node.heightVal + 'px'}\n`;
+      else if (node.height === 'minmax') {
+        if (node.minHVal) out += `${indent}\tmin-height: ${node.minHVal.includes('px') || node.minHVal.includes('rem') ? node.minHVal : node.minHVal + 'px'}\n`;
+        if (node.maxHVal) out += `${indent}\tmax-height: ${node.maxHVal.includes('px') || node.maxHVal.includes('rem') ? node.maxHVal : node.maxHVal + 'px'}\n`;
+      }
+
+      if (node.padding > 0) out += `${indent}\tpadding: ${node.padding}px\n`;
+      if (node.gap > 0) out += `${indent}\tgap: ${node.gap}px\n`;
+      if (node.marginBot > 0) out += `${indent}\tmargin-bottom: ${node.marginBot}px\n`;
+      if (node.surface === 'custom') out += `${indent}\tbackground-color: ${node.customBg}\n`;
+      else if (node.surface !== 'none') out += `${indent}\tbackground-color: var(--bg-${node.surface})\n`;
+
+      if (node.borderWidth && node.borderWidth !== '0') out += `${indent}\tborder-width: ${node.borderWidth}\n`;
+      if (node.borderColor) out += `${indent}\tborder-color: ${node.borderColor}\n`;
+      if (node.textColor) out += `${indent}\tcolor: ${node.textColor}\n`;
+      if (node.textAlign && node.textAlign !== 'left') out += `${indent}\ttext-align: ${node.textAlign}\n`;
+
+      for (const child of node.children) {
+        out += '\n' + generateSass(child, depth + 1);
+      }
+      return out;
+    }
+
+    function generateHtml(node, depth) {
+      const indent = '  '.repeat(depth);
+      if (node.primitive === 'button') {
+        const clsMap = { default: 'button', primary: 'button-primary', quiet: 'button-quiet', icon: 'icon-button' };
+        const cls = clsMap[node.buttonVariant || 'default'] || 'button';
+        return `${indent}<button class="${cls}">${node.content || 'Button'}</button>\n`;
+      }
+
+      const classes = [];
+      if (node.display === 'flex') {
+        classes.push(node.direction === 'row' ? 'row' : 'box');
+      } else if (node.display === 'grid') {
+        classes.push('grid', `grid-cols-${node.gridCols}`);
+      } else {
+        classes.push(node.display);
+      }
+
+      if (node.colSpan && node.colSpan > 1) classes.push(`col-span-${node.colSpan}`);
+      if (node.rowSpan && node.rowSpan > 1) classes.push(`row-span-${node.rowSpan}`);
+
+      if (node.smDirection && node.smDirection !== 'default') classes.push(`sm:${node.smDirection}`);
+      if (node.width === '100%') classes.push('w100');
+      else if (node.width === '100vw') classes.push('w100vw');
+      else if (node.width === 'fill') classes.push('grow');
+
+      if (node.height === '100%') classes.push('h100');
+      else if (node.height === '100vh') classes.push('h100vh');
+      else if (node.height === 'fill') classes.push('grow');
+
+      if (node.padding > 0) classes.push(`pad${node.padding}`);
+      if (node.gap > 0) classes.push(`gap${node.gap}`);
+      if (node.marginBot > 0) classes.push(`marginbot${node.marginBot}`);
+      if (node.radius && node.radius !== 'radius0') classes.push(node.radius);
+      if (node.surface !== 'none' && node.surface !== 'custom') classes.push(node.surface);
+      if (node.fontSize) classes.push(node.fontSize);
+      if (node.shadow && node.shadow !== 'none') classes.push(node.shadow);
+
+      let out = `${indent}<div class="${classes.join(' ')}"${node.surface === 'custom' ? ` style="background:${node.customBg}"` : ''}>\n`;
+      if (node.content) {
+        out += `${indent}  <span>${node.content}</span>\n`;
+      }
+      for (const child of node.children) {
+        out += generateHtml(child, depth + 1);
+      }
+      out += `${indent}</div>\n`;
+      return out;
+    }
+
+    function generateFullSvelteComponent(targetNode) {
+      const compName = targetNode.name || 'LayoutComponent';
+      const htmlCode = generateHtml(targetNode, 0).trim();
+      const sassCode = generateSass(targetNode, 0).trim();
+
+      return `<script lang="ts">
+  // Svelte 5 Runes Component generated by fractals-styler
+  let { title = '${compName}' } = $props();
+</script>
+
+<!-- Markup -->
+${htmlCode}
+
+<!-- External Indented SASS stylesheet: ${compName.toLowerCase()}.sass -->
+<!--
+${sassCode}
+-->
+`;
+    }
+
+    document.getElementById('btnCopySvelteComp').addEventListener('click', () => {
+      const target = findNode(root, selectedId) || root;
+      const fullCode = generateFullSvelteComponent(target);
+      navigator.clipboard.writeText(fullCode);
+      alert('Full Svelte 5 Component copied to clipboard!');
+    });
+
+    document.getElementById('tabLayouts').addEventListener('click', () => { switchTab('tabLayouts', 'layoutsContent'); });
+    document.getElementById('tabPalette').addEventListener('click', () => { switchTab('tabPalette', 'paletteContent'); });
+    document.getElementById('tabUI').addEventListener('click', () => { switchTab('tabUI', 'uiBlocksContent'); });
+    document.getElementById('tabMy').addEventListener('click', () => { switchTab('tabMy', 'myBlocksContent'); });
+    document.getElementById('tabTree').addEventListener('click', () => { switchTab('tabTree', 'treeContent'); });
+
+    function switchTab(btnId, contentId) {
+      ['tabLayouts', 'tabPalette', 'tabUI', 'tabMy', 'tabTree'].forEach(id => {
+        document.getElementById(id).classList.remove('active');
+      });
+      ['layoutsContent', 'paletteContent', 'uiBlocksContent', 'myBlocksContent', 'treeContent'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+      document.getElementById(btnId).classList.add('active');
+      document.getElementById(contentId).style.display = 'flex';
+    }
+
+    renderCanvas();
+  </script>
+</body>
+</html>
