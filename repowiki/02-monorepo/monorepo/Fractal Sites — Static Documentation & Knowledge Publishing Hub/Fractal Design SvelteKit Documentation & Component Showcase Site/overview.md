@@ -1,1 +1,0 @@
-A SvelteKit documentation and component showcase site for Fractal Design, hosting UI component demos, MDX/SVX documentation, blog posts, and interactive play pages built with Svelte 5 runes and mdsvex.

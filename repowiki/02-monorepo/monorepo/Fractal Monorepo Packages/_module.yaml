@@ -1,8 +1,0 @@
-schema_version: 1
-module_path: packages
-title: Fractal Monorepo Packages
-scope:
-    - packages/
-source_files: []
-depends_on: []
-related_to: []

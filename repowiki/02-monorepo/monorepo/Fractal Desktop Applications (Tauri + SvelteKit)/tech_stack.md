@@ -1,1 +1,0 @@
-Tauri 2.x with Rust backends, SvelteKit 2.x frontends, Vite build tooling, TypeScript, and the shared `fractalsvelte` design system. Fracta adds TipTap, KaTeX, Mermaid, and PDF.js for document rendering; Shradhapp adds Tailwind CSS, Embla Carousel, and a Svelte video editor component.

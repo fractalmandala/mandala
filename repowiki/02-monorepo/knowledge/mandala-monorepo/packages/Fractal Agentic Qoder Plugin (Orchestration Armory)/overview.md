@@ -1,1 +1,0 @@
-A host-agnostic coding-agent plugin that provides a startup router, seven domain bosses, a vendored armory of skills/agents/commands, and the /orchestrate delivery runtime with capability lanes and ship|fix-first|rethink review.

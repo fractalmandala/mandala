@@ -31,4 +31,10 @@ Thumbs.db
 .context
 
 ide-workspaces
-repowiki-main
+
+# repowiki tool state (regenerate, never hand-edit)
+repowiki/generated/
+repowiki/meta/
+
+# fractal-agentic per-project generated hook install (regenerate via install-hooks.sh)
+.fractal-agentic/

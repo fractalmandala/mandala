@@ -1,1 +1,0 @@
-A collection of independent static sites (SvelteKit and Astro/Blume) that publish Fractal project documentation, component showcases, knowledge banks, and agent-related content from Markdown vaults into navigable web experiences.

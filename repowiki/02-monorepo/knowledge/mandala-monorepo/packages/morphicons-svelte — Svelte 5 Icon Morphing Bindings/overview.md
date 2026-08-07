@@ -1,1 +1,0 @@
-Svelte 5 component library that wraps the morphicons package to render and animate SVG icon transitions with SSR-safe initial paths and a browser-owned morph driver.

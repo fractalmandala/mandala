@@ -1,1 +1,0 @@
-A Svelte 5 component library built on bits-ui and Tailwind, exposing ~60 base UI primitives plus a large set of AI-chat-oriented components under ai-elements/, with dual distribution via npm package and copy-pasteable source.

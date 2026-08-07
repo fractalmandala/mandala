@@ -1,1 +1,0 @@
-A Svelte 5 component library that renders animated SVG icons from multiple icon sets (Phosphor, Remix, Flowbite, Hero, Ion) using Web Animations API templates with hover, mount, and controlled trigger modes.

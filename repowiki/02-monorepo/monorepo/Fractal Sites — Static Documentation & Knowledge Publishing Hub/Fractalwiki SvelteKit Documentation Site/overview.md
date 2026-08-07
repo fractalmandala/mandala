@@ -1,1 +1,0 @@
-SvelteKit static site that renders a multi-bank digital garden from Markdown vault files, providing navigation, search, frontmatter inspection, and wiki-link resolution across configurable groups and sections.

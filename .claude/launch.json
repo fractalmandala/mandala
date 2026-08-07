@@ -2,9 +2,44 @@
 	"version": "0.0.1",
 	"configurations": [
 		{
+			"name": "docs-kit-i18n",
+			"runtimeExecutable": "pnpm",
+			"runtimeArgs": [
+				"--dir",
+				"docs-kit/apps/playground-i18n",
+				"run",
+				"dev",
+				"--port",
+				"5176",
+				"--strictPort"
+			],
+			"port": 5176,
+			"autoPort": true
+		},
+		{
+			"name": "docs-kit-playground",
+			"runtimeExecutable": "pnpm",
+			"runtimeArgs": [
+				"--dir",
+				"docs-kit/apps/playground-basic",
+				"run",
+				"dev",
+				"--port",
+				"5175",
+				"--strictPort"
+			],
+			"port": 5175,
+			"autoPort": true
+		},
+		{
 			"name": "fractalagentic",
 			"runtimeExecutable": "npm",
-			"runtimeArgs": ["run", "dev", "--prefix", "sites/fractalagentic"],
+			"runtimeArgs": [
+				"run",
+				"dev",
+				"--prefix",
+				"sites/fractalagentic"
+			],
 			"port": 5173,
 			"autoPort": true
 		}

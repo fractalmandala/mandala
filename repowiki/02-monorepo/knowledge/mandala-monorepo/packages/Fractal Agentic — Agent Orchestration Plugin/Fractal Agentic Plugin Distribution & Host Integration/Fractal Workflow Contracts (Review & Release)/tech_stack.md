@@ -1,1 +1,0 @@
-Markdown-based portable specifications; no executable code in this scope. Contracts use JSON schemas for I/O and severity levels (`CRITICAL`/`HIGH`/`MEDIUM`/`LOW`) aligned with the broader Fractal agent catalog.

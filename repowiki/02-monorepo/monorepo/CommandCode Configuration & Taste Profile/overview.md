@@ -1,1 +1,0 @@
-Per-repo CommandCode settings that whitelist shell permissions and a taste profile documenting the user's coding preferences, workflow expectations, and quality standards for AI-assisted development.

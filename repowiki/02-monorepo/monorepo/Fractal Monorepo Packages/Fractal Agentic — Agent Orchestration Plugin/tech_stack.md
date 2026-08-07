@@ -1,1 +1,0 @@
-Node.js CLI (`bin/cli.js`) plus Markdown-driven agent/skill definitions; TOML pins for host-specific agent registration; shell scripts for installation and verification; SvelteKit only in the sibling site consumer.

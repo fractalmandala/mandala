@@ -1,1 +1,0 @@
-Svelte 5 (runes mode via `compilerOptions.runes`), SvelteKit + Vite, Node.js generator script, TypeScript, published as an ESM-only package with `svelte` and `types` fields pointing into `dist/`. Uses `mdsvex` for documentation pages and `@sveltejs/adapter-vercel` for deployment.

@@ -1,1 +1,0 @@
-Markdown-driven agent/skill/command definitions consumed by Claude Code, Codex, Gemini, Kimi, OpenCode, and Cursor plugins; Node.js for hook scripts; shell scripts for installation/verification; TOML for custom-agent templates (`fractal-agentic-routine-implementer.toml`, etc.); JSON manifests per host (`plugin.json`, `.claude-plugin/plugin.json`, `.qoder-plugin/plugin.json`).

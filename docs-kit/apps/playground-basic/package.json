@@ -1,0 +1,34 @@
+{
+	"name": "@docs-kit/playground-basic",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "NODE_OPTIONS=--experimental-strip-types vite dev",
+		"build": "NODE_OPTIONS=--experimental-strip-types vite build",
+		"preview": "NODE_OPTIONS=--experimental-strip-types vite preview",
+		"check": "NODE_OPTIONS=--experimental-strip-types svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"clean": "rm -rf .svelte-kit build"
+	},
+	"devDependencies": {
+		"@docs-kit/core": "workspace:*",
+		"@docs-kit/sveltekit": "workspace:*",
+		"@docs-kit/mdsvex": "workspace:*",
+		"@docs-kit/vite": "workspace:*",
+		"@sveltejs/adapter-auto": "^6.1.1",
+		"@sveltejs/kit": "^2.50.0",
+		"@sveltejs/vite-plugin-svelte": "^7.2.0",
+		"mdsvex": "^0.12.6",
+		"svelte": "^5.49.1",
+		"svelte-check": "^4.3.4",
+		"typescript": "^6.0.0",
+		"vite": "^8.0.0",
+		"@docs-kit/components": "workspace:*",
+		"@docs-kit/theme-default": "workspace:*",
+		"@docs-kit/search": "workspace:*",
+		"@docs-kit/og": "workspace:*",
+		"@docs-kit/ai": "workspace:*",
+		"katex": "^0.16.22",
+		"mermaid": "^11.12.0"
+	}
+}

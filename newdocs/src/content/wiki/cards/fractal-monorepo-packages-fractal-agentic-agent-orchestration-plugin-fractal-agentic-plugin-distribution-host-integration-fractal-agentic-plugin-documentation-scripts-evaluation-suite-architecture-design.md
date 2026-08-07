@@ -1,0 +1,18 @@
+---
+title: Fractal Agentic Plugin Documentation, Scripts & Evaluation Suite — Architecture Design
+description: The module is organized into four orthogonal concerns that all orbit the installable plugin/ directory:
+tags: [packages/fractal_agentic/plugin_core/docs_and_config]
+type: card
+module: packages/fractal_agentic/plugin_core/docs_and_config
+path: packages/fractal_agentic/plugin_core/docs_and_config
+created: 2026-08-05
+updated: 2026-08-06
+---
+
+The module is organized into four orthogonal concerns that all orbit the installable `plugin/` directory:
+- `docs/` — dual-purpose Markdown that ships with the plugin and is also rendered by the website. A top-level `INDEX.md` defines the canonical reading path; section hubs (`bosses/`, `orchestration/`, `armory/`, `wiki/` each have an `INDEX.md` plus domain-specific pages. The source-of-truth split separates narrative guides from live inventories in `skills/`, `agents/`, and `commands/`.
+- `scripts/` — POSIX shell utilities for installation (`install-agents.sh`, `install-hooks.sh`, `install-improve.sh`, `install-periodic-essay.sh`, verification (`verify.sh`, `check-armory.sh`, `check-nonblocking-policy.sh`, `check-progressive-discovery.sh`, runtime inspection (`inspect-agent-runtime.sh`, and discovery (`resolve-plugin-root.sh`. `periodic-essay-runner.js` is the only JS entry point, invoked by the essay installer.
+- `project-integration/AGENTS-SNIPPET.md` — a copy-paste mandate block that projects paste at the top of their own `AGENTS.md` to detect and non-blockingly use the plugin.
+- `evaluation_scripts/` — lightweight health-check tools: `latency_check.sh` for average-latency measurement and `load_test_simulator.py` for load simulation, driven by the README inventory.
+
+Dependency direction is one-way: scripts read assets under `plugin/` (manifests, skills, commands, docs) but are never imported by them; the integration snippet is consumed by host agents, not by the plugin itself. The `verify.sh` orchestrator ties everything together by asserting file presence, JSON/TOML validity, byte-for-byte installer idempotency, and safe allowlist extraction in the runtime inspector.

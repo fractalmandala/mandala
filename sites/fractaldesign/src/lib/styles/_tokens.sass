@@ -1,0 +1,104 @@
+// System Color Tokens & Theme Architecture for FractalDesign
+:root
+	--font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace
+	--text-scale: 1.0
+
+	// Neutral Slate Scale
+	--slate-50: #f8fafc
+	--slate-100: #f1f5f9
+	--slate-200: #e2e8f0
+	--slate-300: #cbd5e1
+	--slate-400: #94a3b8
+	--slate-500: #64748b
+	--slate-600: #475569
+	--slate-700: #334155
+	--slate-800: #1e293b
+	--slate-900: #0f172a
+	--slate-950: #0b0f17
+
+	// Semantic Context Tokens — Light Theme
+	--bg-app: #ffffff
+	--bg-surface: var(--slate-50)
+	--bg-raised: #ffffff
+	--bg-overlay: rgba(15, 23, 42, 0.5)
+	--bg-subtle: var(--slate-100)
+
+	--text-primary: var(--slate-900)
+	--text-secondary: var(--slate-600)
+	--text-muted: var(--slate-400)
+	--text-inverse: #ffffff
+
+	--border: var(--slate-200)
+	--border-secondary: var(--slate-300)
+	--border-focus: var(--brand)
+
+	// Brand Accent Slot — FractalDesign Accent
+	--brand: #c8045c
+	--brand-hover: #a0034a
+	--brand-active: #780237
+	--ring: rgba(200, 4, 92, 0.35)
+
+@media (prefers-color-scheme: dark)
+	:root:not([data-theme="light"])
+		--bg-app: var(--slate-950)
+		--bg-surface: var(--slate-900)
+		--bg-raised: var(--slate-800)
+		--bg-overlay: rgba(0, 0, 0, 0.75)
+		--bg-subtle: var(--slate-800)
+
+		--text-primary: #f9fafb
+		--text-secondary: var(--slate-300)
+		--text-muted: var(--slate-500)
+		--text-inverse: var(--slate-900)
+
+		--border: var(--slate-800)
+		--border-secondary: var(--slate-700)
+		--border-focus: var(--brand)
+
+		--brand: #fb006f
+		--brand-hover: #ff338a
+		--brand-active: #c8045c
+		--ring: rgba(251, 0, 111, 0.35)
+
+[data-theme="dark"], .dark, .theme-dark
+	--bg-app: var(--slate-950)
+	--bg-surface: var(--slate-900)
+	--bg-raised: var(--slate-800)
+	--bg-overlay: rgba(0, 0, 0, 0.75)
+	--bg-subtle: var(--slate-800)
+
+	--text-primary: #f9fafb
+	--text-secondary: var(--slate-300)
+	--text-muted: var(--slate-500)
+	--text-inverse: var(--slate-900)
+
+	--border: var(--slate-800)
+	--border-secondary: var(--slate-700)
+	--border-focus: var(--brand)
+
+	--brand: #fb006f
+	--brand-hover: #ff338a
+	--brand-active: #c8045c
+	--ring: rgba(251, 0, 111, 0.35)
+
+[data-theme="light"], .light, .theme-light
+	--bg-app: #ffffff
+	--bg-surface: var(--slate-50)
+	--bg-raised: #ffffff
+	--bg-overlay: rgba(15, 23, 42, 0.5)
+	--bg-subtle: var(--slate-100)
+
+	--text-primary: var(--slate-900)
+	--text-secondary: var(--slate-600)
+	--text-muted: var(--slate-400)
+	--text-inverse: #ffffff
+
+	--border: var(--slate-200)
+	--border-secondary: var(--slate-300)
+	--border-focus: var(--brand)
+
+	--brand: #c8045c
+	--brand-hover: #a0034a
+	--brand-active: #780237
+	--ring: rgba(200, 4, 92, 0.35)

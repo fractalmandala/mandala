@@ -1,8 +1,0 @@
-schema_version: 1
-module_path: packages/fractal_agentic
-title: Fractal Agentic — Agent Orchestration Plugin
-scope:
-    - packages/fractal-agentic/
-source_files: []
-depends_on: []
-related_to: []

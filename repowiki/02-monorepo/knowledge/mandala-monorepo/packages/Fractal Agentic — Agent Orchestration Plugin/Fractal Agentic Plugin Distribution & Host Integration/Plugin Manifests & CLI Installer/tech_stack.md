@@ -1,1 +1,0 @@
-Plain Node.js (fs, path, os, child_process) — no framework; shell script invocation for verification; JSON manifests consumed by Claude Code Marketplace, Codex, and Google Gemini/Antigravity agents.

@@ -1,0 +1,33 @@
+{
+	"name": "@docs-kit/sveltekit",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"development": "./src/index.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": ["dist", "src"],
+	"scripts": {
+		"build": "tsc --project tsconfig.json",
+		"check": "tsc --noEmit --project tsconfig.json",
+		"test": "vitest run --config vitest.config.ts",
+		"clean": "rm -rf dist coverage"
+	},
+	"dependencies": {
+		"@docs-kit/core": "workspace:*"
+	},
+	"peerDependencies": {
+		"@sveltejs/kit": "^2.50.0",
+		"svelte": "^5.0.0"
+	},
+	"devDependencies": {
+		"@sveltejs/kit": "^2.50.0",
+		"svelte": "^5.0.0",
+		"typescript": "^6.0.0",
+		"vitest": "^4.1.10"
+	}
+}

@@ -1,5 +1,6 @@
 {
     "git.ignoreLimitWarning": true,
     "editor.fontSize": 16,
-    "editor.fontFamily": "'Google Sans Code', monospace"
+		"editor.fontFamily": "'Google Sans Code', monospace",
+		"editor.tabSize": 2
 }

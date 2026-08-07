@@ -1,1 +1,0 @@
-Each package follows the same script convention: `dev` (vite dev), `build` (vite build + prepack), `prepack` (svelte-kit sync && svelte-package && publint), `check` (svelte-kit sync && svelte-check), `lint`, `format`. The fractal-agentic package additionally exposes a `fractal-agentic` CLI binary and ships host plugin manifests (.claude-plugin, .codex-plugin).

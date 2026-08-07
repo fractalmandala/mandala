@@ -1,1 +1,0 @@
-SvelteKit 2 with Svelte 5 runes mode, mdsvex for Markdown/SVX processing, rehype-slug + rehype-autolink-headings + rehype-katex-svelte for heading IDs and math rendering, flexsearch/orama/pagefind for search backends, @takumi-rs/core for headless Open Graph card generation, Sass styling, and Phosphor icons via phosphor-svelte.

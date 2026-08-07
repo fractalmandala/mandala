@@ -1,0 +1,22 @@
+.paper
+	box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0), 0 2px 2px hsl(0deg 0% 0% / 0), 0 4px 4px hsl(0deg 0% 0% / 0), 0 8px 8px hsl(0deg 0% 0% / 0)
+	border: 1px solid var(--border-primary)
+	padding: 16px
+	transition: box-shadow 190ms ease
+	&:hover
+		box-shadow: 0 1px 1px hsl(0deg 0% 0% / 0.015), 0 2px 2px hsl(0deg 0% 0% / 0.025), 0 4px 4px hsl(0deg 0% 0% / 0.075), 0 8px 8px hsl(0deg 0% 0% / 0.015)
+	@media (min-width: 1025px)
+		padding: 24px
+
+.homepage-grid
+	display: grid
+	@media (min-width: 1025px)
+		grid-template-columns: 26% 1fr
+		gap: 64px
+		height: 100%
+		.onside
+			height: 100%
+			.stickybox
+				position: sticky
+				height: max-content
+				top: 96px

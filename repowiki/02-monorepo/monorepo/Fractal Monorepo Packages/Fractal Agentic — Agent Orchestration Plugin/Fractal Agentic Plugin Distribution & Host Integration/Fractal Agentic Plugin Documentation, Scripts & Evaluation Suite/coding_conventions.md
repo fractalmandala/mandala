@@ -1,6 +1,0 @@
-- Shell scripts use `set -eu` and define local `pass()` / `fail()` helpers that print prefixed messages and exit non-zero on failure, keeping output machine-parseable.
-- Each script computes its own directory via `script_dir=$(CDPATH= cd "$(dirname "$0")" && pwd)` and derives sibling paths relative to it, avoiding hardcoded absolute paths.
-- Installer scripts support a `--check` flag that validates existing installations without mutating disk, and always refuse to overwrite a destination file that differs from the shipped template.
-- Documentation files use YAML frontmatter (`title`, `description`, `type: guide`) so the website can render consistent metadata alongside the portable Markdown source.
-- Optional systems (hooks, wiki, self-improvement, scheduled essays) follow a strict non-blocking rule: they may improve a session but must never gate product work, enforced through explicit progression paths documented in `progression.md`.
-- Agent type names are pinned as exact strings across TOML templates, role contracts, SKILL.md preflights, and the project-integration snippet, ensuring cross-file consistency verified by grep assertions in `verify.sh`.

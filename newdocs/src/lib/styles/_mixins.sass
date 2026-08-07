@@ -1,0 +1,20 @@
+// Escape hatch for scoping YOUR OWN custom classes to a breakpoint.
+//   .card
+//   	padding: 8px
+//   	+bp-sm
+//   		padding: 16px
+=bp-sm
+	@media (min-width: 640px)
+		@content
+
+=bp-md
+	@media (min-width: 768px)
+		@content
+
+=bp-lg
+	@media (min-width: 1024px)
+		@content
+
+=bp-xl
+	@media (min-width: 1280px)
+		@content

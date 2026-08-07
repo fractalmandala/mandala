@@ -1,147 +1,104 @@
-// Shared, non-themed base tokens. Theme-specific colors live inside each
-// .theme-* body class below so they can be hot-swapped at runtime.
+// System Color Tokens & Theme Architecture for FractalMandala
 :root
-	--font-ui: "Google Sans Flex", sans-serif
-	--font-editor: "Google Sans Flex", sans-serif
-	--font-mono: "JetBrains Mono", monospace
-	--size2: 2px
-	--size4: 4px
-	--size8: 8px
-	--size16: 16px
-	--size24: 24px
-	--size32: 32px
-	--size64: 64px
-	--size80: 80px
-	--size128: 128px
-	--site-padding: 8px
-	--header-height: 56px
-	--footer-height: 48px
-	box-sizing: border-box
-	@media (min-width: 1025px)
-		--site-padding: 16px
+	--font-sans: "Google Sans Flex", system-ui, -apple-system, BlinkMacSystemFont, sans-serif
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace
+	--text-scale: 1.0
 
-:root
-	--text-scaling: 1.2
-	--text-xs: 10.85px
-	--text-sm: 12.55px
-	--text-md: 14px
-	--text-bs: 1rem
-	--text-lg: calc(var(--text-bs) * var(--text-scaling))
-	--text-xl: calc(var(--text-lg) * var(--text-scaling))
-	--text-2xl: calc(var(--text-xl) * var(--text-scaling))
-	--text-3xl: calc(var(--text-2xl) * var(--text-scaling))
-	--text-4xl: calc(var(--text-3xl) * var(--text-scaling))
-	--text-5xl: calc(var(--text-4xl) * var(--text-scaling))
-	--ls-tight: -0.01rem
-	--ls-tightx: -0.02rem
-	--ls-wide: 0.01rem
-	--ls-widex: 0.02rem
-	--gradient0: #5CF23E
-	--gradient1: #00A34B
+	// Neutral Slate Scale
+	--slate-50: #f8fafc
+	--slate-100: #f1f5f9
+	--slate-200: #e2e8f0
+	--slate-300: #cbd5e1
+	--slate-400: #94a3b8
+	--slate-500: #64748b
+	--slate-600: #475569
+	--slate-700: #334155
+	--slate-800: #1e293b
+	--slate-900: #0f172a
+	--slate-950: #0b0f17
 
-// ─── 1. Default Light ──────────────────────────────────────────────────────
-.theme-light-default
-	--surface-viewer: #FFFFFF
-	--surface-sidebar: #F7F6F3
-	--surface-list: #fafaf8
-	--surface-rightbar: #F7F6F3
-	--surface-footer: #e6e3e3
-	--surface-popover: #e9e9e9
-	--surface-dialog: #F0F0EF
-	--surface-terminal: #eeeeee
-	--surface-sidebar-state: #dadada
-	--surface-input: #FFFFFF
-	--surface-canvas: #FFFFFF
-	--border-default: #ededed
-	--border-darker: #d7d7d7
-	--border-subtle: #f3f3f3
-	--text-primary: #181818
-	--text-secondary: #7c7c7c
-	--text-muted: #a1a1a1
-	--state-hover: #e3e0e0
-	--state-hover-subtle: #ECECEC
-	--state-selected: #d2d2d2
-	--theme-color: #039140
-	--theme-color-alt: #0d6219
-	--text-inverse: #FFFFFF
-	--feedback-error: #C9383E
-	--syntax-heading: #0d6219
-	--syntax-link: #039140
-	--syntax-code: #C9383E
-	--syntax-quote: #676767
-	--syntax-marker: #039140
-	--syntax-meta: #a1a1a1
-	--syntax-comment: #6A737D
-	--canvas-postit-bg: #FEF3C7
-	--canvas-postit-text: #1F1B0A
-	--shadow-popover: 0 4px 12px rgba(0, 0, 0, 0.08)
-	--shadow-drag: 0 8px 24px rgba(0, 0, 0, 0.16)
-	--surface-palette: rgba(0, 0, 0, 0.3)
-	--shadow-palette: rgba(0, 0, 0, 0.28)
-	--surface-badge: rgba(3, 145, 64, 0.1)
-	--shadow-pdf-viewer: rgba(0, 0, 0, 0.05)
-	--scrollbar-thumb: #ededed
-	--md-h1: #181818
-	--md-h2: #05bc20
-	--md-h3: #ad30ee
-	--md-bold: #a2209a
-	--md-code: #ffffff
-	--md-code-back: #1244c2
-	--md-bullet: #b02f3f
-	--md-bullet-in: #b02f3f
-	--md-blockquote: #181818
-	--border-md-table: #d7d7d7
-	--fixed-color-white: #FFFFFF
+	// Semantic Context Tokens — Light Theme
+	--bg-app: #ffffff
+	--bg-surface: var(--slate-50)
+	--bg-raised: #ffffff
+	--bg-overlay: rgba(15, 23, 42, 0.5)
+	--bg-subtle: var(--slate-100)
 
-.theme-dark-default
-	--surface-viewer: #090909
-	--surface-sidebar: #212121
-	--surface-list: #171715
-	--surface-rightbar: #333332
-	--surface-footer: #161313
-	--surface-popover: #333332
-	--surface-dialog: #212121
-	--surface-terminal: #090909
-	--surface-sidebar-state: #555454
-	--surface-input: #090909
-	--surface-canvas: #090909
-	--border-default: #272727
-	--border-darker: #444444
-	--border-subtle: #1e1e1e
-	--text-primary: #ffffff
-	--text-secondary: #aeaeae
-	--text-muted: #a1a1a1
-	--state-hover: #151313
-	--state-hover-subtle: #2f2828
-	--state-selected: #4c4b4b
-	--theme-color: #039140
-	--theme-color-alt: #0d6219
-	--text-inverse: #131313
-	--feedback-error: #C9383E
-	--syntax-heading: #0d6219
-	--syntax-link: #039140
-	--syntax-code: #C9383E
-	--syntax-quote: #676767
-	--syntax-marker: #039140
-	--syntax-meta: #a1a1a1
-	--syntax-comment: #6A737D
-	--canvas-postit-bg: #FEF3C7
-	--canvas-postit-text: #1F1B0A
-	--shadow-popover: 0 4px 12px rgba(0, 0, 0, 0.08)
-	--shadow-drag: 0 8px 24px rgba(0, 0, 0, 0.16)
-	--surface-palette: rgba(0, 0, 0, 0.3)
-	--shadow-palette: rgba(0, 0, 0, 0.28)
-	--surface-badge: rgba(3, 145, 64, 0.1)
-	--shadow-pdf-viewer: rgba(0, 0, 0, 0.05)
-	--scrollbar-thumb: #ededed
-	--md-h1: #181818
-	--md-h2: #05bc20
-	--md-h3: #ad30ee
-	--md-bold: #a2209a
-	--md-code: #ffffff
-	--md-code-back: #1244c2
-	--md-bullet: #b02f3f
-	--md-bullet-in: #b02f3f
-	--md-blockquote: #181818
-	--border-md-table: #d7d7d7
-	--fixed-color-white: #FFFFFF
+	--text-primary: var(--slate-900)
+	--text-secondary: var(--slate-600)
+	--text-muted: var(--slate-400)
+	--text-inverse: #ffffff
+
+	--border: var(--slate-200)
+	--border-secondary: var(--slate-300)
+	--border-focus: var(--brand)
+
+	// Brand Accent Slot — Mandala Green Accent
+	--brand: #039140
+	--brand-hover: #027333
+	--brand-active: #015425
+	--ring: rgba(3, 145, 64, 0.35)
+
+@media (prefers-color-scheme: dark)
+	:root:not([data-theme="light"])
+		--bg-app: var(--slate-950)
+		--bg-surface: var(--slate-900)
+		--bg-raised: var(--slate-800)
+		--bg-overlay: rgba(0, 0, 0, 0.75)
+		--bg-subtle: var(--slate-800)
+
+		--text-primary: #f9fafb
+		--text-secondary: var(--slate-300)
+		--text-muted: var(--slate-500)
+		--text-inverse: var(--slate-900)
+
+		--border: var(--slate-800)
+		--border-secondary: var(--slate-700)
+		--border-focus: var(--brand)
+
+		--brand: #05be54
+		--brand-hover: #039140
+		--brand-active: #027333
+		--ring: rgba(5, 190, 84, 0.35)
+
+[data-theme="dark"], .dark, .theme-dark, .theme-dark-default
+	--bg-app: var(--slate-950)
+	--bg-surface: var(--slate-900)
+	--bg-raised: var(--slate-800)
+	--bg-overlay: rgba(0, 0, 0, 0.75)
+	--bg-subtle: var(--slate-800)
+
+	--text-primary: #f9fafb
+	--text-secondary: var(--slate-300)
+	--text-muted: var(--slate-500)
+	--text-inverse: var(--slate-900)
+
+	--border: var(--slate-800)
+	--border-secondary: var(--slate-700)
+	--border-focus: var(--brand)
+
+	--brand: #05be54
+	--brand-hover: #039140
+	--brand-active: #027333
+	--ring: rgba(5, 190, 84, 0.35)
+
+[data-theme="light"], .light, .theme-light, .theme-light-default
+	--bg-app: #ffffff
+	--bg-surface: var(--slate-50)
+	--bg-raised: #ffffff
+	--bg-overlay: rgba(15, 23, 42, 0.5)
+	--bg-subtle: var(--slate-100)
+
+	--text-primary: var(--slate-900)
+	--text-secondary: var(--slate-600)
+	--text-muted: var(--slate-400)
+	--text-inverse: #ffffff
+
+	--border: var(--slate-200)
+	--border-secondary: var(--slate-300)
+	--border-focus: var(--brand)
+
+	--brand: #039140
+	--brand-hover: #027333
+	--brand-active: #015425
+	--ring: rgba(3, 145, 64, 0.35)

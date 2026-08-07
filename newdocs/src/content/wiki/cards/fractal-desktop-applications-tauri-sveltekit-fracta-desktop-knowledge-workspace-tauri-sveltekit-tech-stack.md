@@ -1,0 +1,12 @@
+---
+title: Fracta Desktop Knowledge Workspace (Tauri + SvelteKit) — Tech Stack
+description: Svelte 5 runes + SvelteKit (static adapter, no SSR) for the webview; Tauri 2.x with Rust 1.77.2 for the native layer; SQLite via rusqlite (bundled), PDF parsing via lopdf, DOCX extraction via quick-x…
+tags: [apps/fracta]
+type: card
+module: apps/fracta
+path: apps/fracta
+created: 2026-08-05
+updated: 2026-08-06
+---
+
+Svelte 5 runes + SvelteKit (static adapter, no SSR) for the webview; Tauri 2.x with Rust 1.77.2 for the native layer; SQLite via `rusqlite` (bundled), PDF parsing via `lopdf`, DOCX extraction via `quick-xml`, CSV/JSON conversion via `csv` + `serde_json`, filesystem watching via `notify`, native file dialogs via `rfd`, window state persistence via `tauri-plugin-window-state`, and optional GGUF/llama-server integration for local LLM inference.

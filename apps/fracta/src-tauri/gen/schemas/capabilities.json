@@ -1,1 +1,0 @@
-{"default":{"identifier":"default","description":"enables default capabilities for fracta","local":true,"windows":["main"],"permissions":["core:default","window-state:default","core:window:allow-start-dragging","core:window:allow-toggle-maximize"]}}

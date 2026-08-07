@@ -1,1 +1,0 @@
-Authoritative boss playbooks that define the seven orchestration roles (Agent, Code, Creator, Design, Meta, Svelte, Workflow) and their agents, skills, commands, phases, handoffs, and verification gates for the fractal-agentic plugin.

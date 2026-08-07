@@ -1,1 +1,0 @@
-SvelteKit 2 with adapter-static, mdsvex for Markdown processing, remark-math + rehype-katex-svelte for LaTeX math, Mermaid for client-side diagrams, FlexSearch (default) or Pagefind/Orama/Typesense/Chroma for search, Takumi (`@takumi-rs/core`) for headless PNG rendering of Open Graph cards, and git-based last-modified date resolution during build.

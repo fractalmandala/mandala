@@ -1,1 +1,0 @@
-A Vite plugin that JIT-generates numeric spacing/size utility classes, breakpoint-suffixed variants, and --pxN CSS custom properties from source scanning, plus a CLI to scaffold themeable SASS partials.

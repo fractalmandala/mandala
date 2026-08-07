@@ -1,0 +1,16 @@
+---
+title: Svelte Animated Icon Library — Coding Conventions
+description: - Each animation template in templates.svelte.ts follows a uniform shape: an object with id, label, optional for ('line'|'fill'), and a run(svg) function returning Animation[] produced via element.an…
+tags: [packages/svelte_animated_icon]
+type: card
+module: packages/svelte_animated_icon
+path: packages/svelte_animated_icon
+created: 2026-08-05
+updated: 2026-08-06
+---
+
+- Each animation template in `templates.svelte.ts` follows a uniform shape: an object with `id`, `label`, optional `for` ('line'|'fill'), and a `run(svg)` function returning `Animation[]` produced via `element.animate(...)`.
+- Generated icon components follow a fixed pattern: declare a `VARIANTS` Record of variant SVG strings, destructure `{ variant = '<default>', ...rest }` via `$props()`, then render `<AnimatedIcon svg={VARIANTS[variant] ?? VARIANTS['<default>']} viewBox="..." {...rest} />`.
+- Per-icon-set modules expose a barrel `index.ts` that re-exports each generated icon as a named default export, enabling imports like `import { Gear } from 'svelte-animated-icon/phosphor'`.
+- SVG preprocessing in `generate.js` normalizes all hardcoded fill/stroke colors to `currentColor`, strips bounding rects, removes `px` units from inline `stroke-width`, and wraps content in a `<g>` preserving any original SVG fill.
+- Svelte components use the new runes syntax exclusively: props via `$props()`, reactive state via `$state`, and side effects via `$effect`, with no legacy `export let` or `onMount` patterns.

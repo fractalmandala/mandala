@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		%sveltekit.head%
+		<script>
+			// Applies a stored colour scheme before first paint, matching the theme's themeScript.
+			(function () {
+				try {
+					var v = localStorage.getItem('docs-kit:color-scheme');
+					if (v === 'light' || v === 'dark') document.documentElement.setAttribute('data-theme', v);
+				} catch (e) {}
+			})();
+		</script>
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>

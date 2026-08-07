@@ -1,0 +1,12 @@
+---
+title: Fractal Agentic Plugin Distribution & Host Integration — Architecture Design
+description: The module is the distribution layer for the fractal-agentic plugin. bin/cli.js is the single entry point (npx fractal-agentic) that detects installed AI coding agents and installs by recursively cop…
+tags: [packages/fractal_agentic/plugin_core]
+type: card
+module: packages/fractal_agentic/plugin_core
+path: packages/fractal_agentic/plugin_core
+created: 2026-08-05
+updated: 2026-08-06
+---
+
+The module is the distribution layer for the fractal-agentic plugin. `bin/cli.js` is the single entry point (`npx fractal-agentic` that detects installed AI coding agents and installs by recursively copying the plugin package root (excluding repo/build artifacts via `PLUGIN_EXCLUDE` into each host's cache directory (`~/.claude/plugins/cache`, `~/.codex/plugins/cache`, `~/.gemini/config/plugins`. For Claude it additionally attempts the official marketplace flow before falling back to direct copy. Project integration is done by prepending an `AGENTS-SNIPPET.md` snippet into the user's `AGENTS.md`. Per-host hook configuration lives under `.fractal-agentic/`: `hooks-installed.json` records the installation state (target, profile, plugin_root, materialized path), while `hooks.claude.json` is the machine-absolute manifest of PreToolUse/SessionStart/Stop hooks that the installer materializes from templated scripts in `plugin/hooks/scripts/`. The same `FRACTAL_HOOK_PROFILE` environment variable drives minimal/standard/strict hook sets across all hosts.

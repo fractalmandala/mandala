@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: packages/fractal_agentic_qoder_plugin
-title: Fractal Agentic Qoder Plugin (Orchestration Armory)
-scope:
-    - packages/fractal-agentic-qoder-plugin/
-source_files: []
-depends_on: []
-related_to:
-    - path: packages/fractal_agentic/plugin_core

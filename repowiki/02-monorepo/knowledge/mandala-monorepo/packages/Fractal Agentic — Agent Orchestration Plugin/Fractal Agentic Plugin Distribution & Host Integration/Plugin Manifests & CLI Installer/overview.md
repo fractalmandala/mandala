@@ -1,1 +1,0 @@
-Host-specific plugin manifests for Claude, Codex, and Antigravity plus a Node.js CLI that installs the fractal-agentic plugin into each AI coding agent's cache directory.

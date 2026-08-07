@@ -1,1 +1,0 @@
-Svelte 5 UI component library offering spring-animated primitives (motion), conversational AI agent components, and product-ready blocks, with a SvelteKit dev site and an upstream beUI catalog sync.

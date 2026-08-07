@@ -1,0 +1,14 @@
+---
+title: CommandCode Configuration & Taste Profile — Architecture Design
+description: Two-part configuration under .commandcode/:
+tags: [commandcode]
+type: card
+module: commandcode
+path: commandcode
+created: 2026-08-05
+updated: 2026-08-06
+---
+
+Two-part configuration under `.commandcode/`:
+- `settings.json` is the CommandCode permission manifest. It declares an allowlist of shell commands (grep, pnpm, curl, python3, node -e scripts, lsof, etc.) used by the project's orchestration and validation commands, with empty deny list and defaultMode set to default.
+- `taste/` holds the user's taste profile as Markdown. A top-level `taste/taste.md` re-exports the canonical file at `taste/taste/taste.md`, which contains 26 preference entries, each with a description and a confidence score (0.6–0.95). The nested structure separates the redirect stub from the authoritative source.

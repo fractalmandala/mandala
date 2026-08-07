@@ -1,0 +1,45 @@
+{
+	"name": "@docs-kit/components",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"svelte": "./src/index.js",
+	"exports": {
+		".": {
+			"types": "./src/index.d.ts",
+			"svelte": "./src/index.js",
+			"default": "./src/index.js"
+		},
+		"./*.svelte": "./src/*.svelte",
+		"./styles.css": "./src/styles.css"
+	},
+	"files": [
+		"src"
+	],
+	"scripts": {
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"test": "vitest run --config vitest.config.ts",
+		"clean": "rm -rf coverage"
+	},
+	"peerDependencies": {
+		"svelte": "^5.0.0",
+		"mermaid": "^11.0.0"
+	},
+	"devDependencies": {
+		"@sveltejs/vite-plugin-svelte": "^7.2.0",
+		"@testing-library/svelte": "^5.2.8",
+		"jsdom": "^28.0.0",
+		"svelte": "^5.49.1",
+		"svelte-check": "^4.3.4",
+		"typescript": "^6.0.0",
+		"vite": "^8.0.0",
+		"vitest": "^4.1.10",
+		"@testing-library/user-event": "^14.6.1",
+		"mermaid": "^11.12.0"
+	},
+	"peerDependenciesMeta": {
+		"mermaid": {
+			"optional": true
+		}
+	}
+}

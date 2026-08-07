@@ -1,0 +1,12 @@
+---
+title: Fractalwiki SvelteKit Documentation Site — Overview
+description: SvelteKit static site that renders a multi-bank digital garden from Markdown vault files, providing navigation, search, frontmatter inspection, and wiki-link resolution across configurable groups and…
+tags: [sites/fractalwiki]
+type: card
+module: sites/fractalwiki
+path: sites/fractalwiki
+created: 2026-08-05
+updated: 2026-08-06
+---
+
+SvelteKit static site that renders a multi-bank digital garden from Markdown vault files, providing navigation, search, frontmatter inspection, and wiki-link resolution across configurable groups and sections.

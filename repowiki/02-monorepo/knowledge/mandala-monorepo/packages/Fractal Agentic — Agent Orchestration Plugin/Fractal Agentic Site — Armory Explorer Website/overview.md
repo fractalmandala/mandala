@@ -1,1 +1,0 @@
-SvelteKit website that renders the Fractal Agentic plugin's armory (agents, bosses, skills, commands, docs) as a browsable site, sourcing all content from the sibling plugin package.

@@ -1,0 +1,12 @@
+---
+title: Fractal Design SvelteKit Documentation & Component Showcase Site — Architecture Design
+description: Built as a SvelteKit 2 application deployed via the Vercel adapter (nodejs24.x runtime). The site is organized into three content layers: src/routes/components/ holds ~130 individual Svelte component…
+tags: [sites/fractaldesign]
+type: card
+module: sites/fractaldesign
+path: sites/fractaldesign
+created: 2026-08-05
+updated: 2026-08-06
+---
+
+Built as a SvelteKit 2 application deployed via the Vercel adapter (nodejs24.x runtime). The site is organized into three content layers: `src/routes/components/` holds ~130 individual Svelte component files plus an `index.ts` barrel re-exporting every component; `src/routes/play/` contains interactive demo pages (canvas, fsvelte, native-dragging, paneforge, themer) under a shared `+layout.svelte`; `src/routes/posts/` serves blog articles from `.md` files, while `src/routes/sveltekit/` hosts extensive tutorial documentation structured in numbered topic folders. Content authoring uses mdsvex to compile `.md` and `.svx` files alongside Svelte components. Shared layout lives in `src/routes/+layout.svelte`, which wires global theme state, drawer navigation, copy-to-clipboard action, and animated social icons. Reusable utilities, styles, assets, and state live under `src/lib/` (components, states, styles, utils), with `$lib` alias imports throughout. Static assets (fonts, images, robots.txt) are served from `static/`. Reference documentation for external libraries (bits-ui, svelte-motion, sveltekit docs) is stored as markdown under `reference/`.

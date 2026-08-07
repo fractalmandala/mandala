@@ -1,1 +1,0 @@
-A collection of independently publishable npm libraries centered on Svelte 5 components, icon sets, a JIT CSS utility plugin, and the fractal-agentic orchestration system that powers AI coding agents.

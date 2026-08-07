@@ -36,6 +36,7 @@
 	},
 	"dependencies": {
 		"flexsearch": "^0.8.212",
+		"fractals-styler": "^2.0.0",
 		"graphology": "^0.26.0",
 		"graphology-layout-forceatlas2": "^0.10.1",
 		"gray-matter": "^4.0.3",

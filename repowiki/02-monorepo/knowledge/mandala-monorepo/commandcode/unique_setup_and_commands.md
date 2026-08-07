@@ -1,1 +1,0 @@
-Permissions in `settings.json` must be updated whenever new shell commands are needed by orchestration scripts (e.g., adding `Shell(grep:*)`, `Shell(pnpm:*)`, or full command strings like the Playwright browser automation and registry health checks already listed).

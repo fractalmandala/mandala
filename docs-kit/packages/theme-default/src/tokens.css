@@ -1,0 +1,54 @@
+/**
+ * Theme tokens.
+ *
+ * Every token has a `--docs-*` name and a sensible default. A host application overrides
+ * any of them — for example `--docs-accent: var(--brand)` — to inherit its own design
+ * system without forking the theme.
+ */
+
+:root {
+	--docs-background: #ffffff;
+	--docs-surface: #f8f9fa;
+	--docs-foreground: #111111;
+	--docs-muted: #5f6672;
+	--docs-border: #e5e7eb;
+	--docs-accent: #00a13a;
+	--docs-accent-contrast: #ffffff;
+	--docs-warning: #b47100;
+	--docs-danger: #c23400;
+
+	--docs-sidebar-width: 17rem;
+	--docs-toc-width: 15rem;
+	--docs-content-width: 46rem;
+	--docs-header-height: 3.5rem;
+	--docs-radius: 0.5rem;
+
+	--docs-font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--docs-font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+}
+
+:root[data-theme='dark'] {
+	--docs-background: #0f1115;
+	--docs-surface: #161920;
+	--docs-foreground: #f3f4f6;
+	--docs-muted: #9aa2b1;
+	--docs-border: #262a33;
+	--docs-accent: #35d46a;
+	--docs-accent-contrast: #06210f;
+	--docs-warning: #e0a33a;
+	--docs-danger: #ff7a54;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		--docs-background: #0f1115;
+		--docs-surface: #161920;
+		--docs-foreground: #f3f4f6;
+		--docs-muted: #9aa2b1;
+		--docs-border: #262a33;
+		--docs-accent: #35d46a;
+		--docs-accent-contrast: #06210f;
+		--docs-warning: #e0a33a;
+		--docs-danger: #ff7a54;
+	}
+}

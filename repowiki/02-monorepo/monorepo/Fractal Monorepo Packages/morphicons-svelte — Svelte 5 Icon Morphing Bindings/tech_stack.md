@@ -1,1 +1,0 @@
-Svelte 5 (with runes: $props, $effect, $derived), SvelteKit adapter-auto, Vite 8, Vitest 4 with jsdom environment, TypeScript 6, and the `morphicons` 1.1.1 runtime plus `morphicons/dom` for SVG path interpolation and animation. Peer dependency on `svelte ^5.0.0`.

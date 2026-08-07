@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "fractaldesign",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 5173,
+      "autoPort": true
+    },
+    {
+      "name": "fractalbuilder",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@fractals/fractalbuilder", "exec", "vite", "dev", "--port", "5188"],
+      "port": 5188,
+      "autoPort": true
+    }
+  ]
+}

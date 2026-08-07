@@ -1,5 +1,0 @@
-- Each UI component is a single-file `.svelte` component colocated under `src/routes/components/` and re-exported through a central `index.ts` barrel file using named default exports.
-- Content pages use mdsvex: blog posts are plain `.md` files under `src/routes/posts/`, while tutorial documentation is organized into numbered topic directories (e.g., `01-introduction/`, `02-runes/`) with an `index.md` per section.
-- Global state and cross-cutting concerns (theme, drawer, native device state) are accessed via `$lib/utils/globalstores` and `$lib/states/nativestate.svelte` imported through the `$lib` alias rather than local module imports.
-- The root layout (`+layout.svelte`) centralizes site-wide concerns: favicon injection, global SASS stylesheet import, theme class binding, drawer overlay, and the `copyAction` directive applied to the main content area.
-- Play/demo pages follow a consistent structure with a shared `+layout.svelte` and per-feature `+page.svelte` files under `src/routes/play/<feature>/`, keeping each demo self-contained.

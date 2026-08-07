@@ -1,0 +1,11 @@
+node_modules/
+.turbo/
+coverage/
+dist/
+build/
+.svelte-kit/
+*.tsbuildinfo
+.DS_Store
+.env
+.env.*
+!.env.example

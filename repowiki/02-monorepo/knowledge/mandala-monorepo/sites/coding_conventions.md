@@ -1,5 +1,0 @@
-- Each site follows the SvelteKit file-based routing convention with `+layout.svelte`, `+page.svelte`, and `+page.ts` files under `src/routes/`.
-- Content is authored as Markdown/MDSVX files in a `content/` directory with frontmatter metadata, processed through mdsvex.
-- Development tooling is standardized: TypeScript, ESLint with `eslint-plugin-svelte`, Prettier with `prettier-plugin-svelte`, and `svelte-check` for type checking.
-- Styling uses Sass alongside Tailwind-compatible CSS, with `fractals-styler` as a shared design system dependency across multiple sites.
-- Build scripts include `prepare: svelte-kit sync || echo ''` and separate `check`/`lint`/`format` scripts for consistent developer experience.

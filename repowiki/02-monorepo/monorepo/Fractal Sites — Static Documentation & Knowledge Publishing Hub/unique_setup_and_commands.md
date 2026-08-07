@@ -1,1 +1,0 @@
-Each site is developed independently via `npm run dev` (or `blume dev` for fractalhome) and built via `npm run build`. Sites using search or OG cards chain postbuild steps (e.g., `scripts/search/postbuild.mjs` and `scripts/og/generate.mjs` in fractalagentic/fractaldocs). The `fractalmandala` site includes a `sync-banks` script to synchronize local Markdown vaults.

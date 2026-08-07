@@ -1,1 +1,0 @@
-Plain Node.js CommonJS modules (no dependencies beyond `fs`, `path`, `os`); Claude hooks use the `type: command` format with per-hook timeouts; Cursor hooks use the v1 `hooks` schema with `command` strings.

@@ -1,1 +1,0 @@
-Distributes the Fractal Agentic orchestration plugin to Claude, Codex, and Antigravity via a Node.js CLI installer that copies the package root into each host's plugin cache and materializes per-host hook manifests.

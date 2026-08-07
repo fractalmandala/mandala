@@ -1,1 +1,0 @@
-`npx fractal-agentic install [--target=<host>]` auto-installs into Claude/Codex/Antigravity caches; `sh scripts/check-armory.sh` validates the armory; `sh scripts/verify.sh` runs full package checks; `sh scripts/install-agents.sh` registers custom-agent TOML pins per host.

@@ -1,1 +1,0 @@
-Optional Node.js hook scripts that Claude/Cursor invoke via PreToolUse, SessionStart, and Stop events to enforce safety, quality checks, session bookkeeping, and essay-due tracking, configurable through minimal/standard/strict profiles.

@@ -1,1 +1,0 @@
-Agents are registered by updating `INDEX.md` rather than modifying any runtime config; the startup router reads this index dynamically. Capability-pinned agents require matching `.toml` files alongside their `.md` so the orchestrator can resolve the correct model and sandbox mode per lane.

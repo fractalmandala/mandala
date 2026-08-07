@@ -1,31 +1,25 @@
 body, html
 	box-sizing: border-box
+	padding: 0
 	margin: 0
-	font-family: var(--font-ui)
+	font-family: var(--font-sans)
+	background-color: var(--bg-app)
 	color: var(--text-primary)
-	background: var(--surface-viewer)
+	transition: background-color 150ms ease, color 150ms ease
+
+:root
+	box-sizing: border-box
+	color: var(--text-primary)
+	background-color: var(--bg-app)
 
 *
 	box-sizing: border-box
 
-:root
-	box-sizing: border-box
-
-button, a, span, pre
-	font-family: var(--font-ui)
+button, a, span, pre, p
+	font-family: var(--font-sans)
 
 button, a
 	cursor: pointer
-
-.mobile-button
-	@media (min-width: 1025px)
-		display: none
-
-//debug class used to temporarily give a visible border to elements while debugging/designing
-.bdr
-	border: 1px solid red
-
-//links and buttons 
 
 a.blank
 	text-decoration: none
@@ -36,12 +30,8 @@ button.blank
 	border: none
 	padding: 0
 
-button.mobile-expand
-	display: flex
-	&.expanded
-		margin-bottom: 16px
-	@media (min-width: 1201px)
-		display: none
+p, h6, h5, h4, h3, h2, h1
+	margin: 0
 
 .bankicon
 	object-fit: contain

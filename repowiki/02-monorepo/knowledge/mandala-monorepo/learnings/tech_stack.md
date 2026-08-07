@@ -1,1 +1,0 @@
-Markdown with YAML frontmatter; entries are tagged with category=learning and dated for chronological reference.

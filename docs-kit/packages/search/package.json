@@ -1,0 +1,43 @@
+{
+	"name": "@docs-kit/search",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"development": "./src/index.ts",
+			"default": "./dist/index.js"
+		},
+		"./client": {
+			"types": "./dist/client.d.ts",
+			"development": "./src/client.ts",
+			"default": "./dist/client.js"
+		}
+	},
+	"files": [
+		"dist",
+		"src"
+	],
+	"scripts": {
+		"build": "tsc --project tsconfig.json",
+		"check": "tsc --noEmit --project tsconfig.json",
+		"test": "vitest run --config vitest.config.ts",
+		"clean": "rm -rf dist coverage"
+	},
+	"dependencies": {
+		"@docs-kit/core": "workspace:*",
+		"flexsearch": "^0.8.0",
+		"@orama/orama": "^3.1.0"
+	},
+	"devDependencies": {
+		"@types/node": "^24.0.0",
+		"typescript": "^7.0.2",
+		"vitest": "^4.1.10"
+	},
+	"peerDependenciesMeta": {
+		"pagefind": {
+			"optional": true
+		}
+	}
+}

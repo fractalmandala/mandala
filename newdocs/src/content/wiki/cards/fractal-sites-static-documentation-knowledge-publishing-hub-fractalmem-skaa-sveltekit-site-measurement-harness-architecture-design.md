@@ -1,0 +1,12 @@
+---
+title: fractalmem — SKAA SvelteKit Site & Measurement Harness — Architecture Design
+description: The module is a SvelteKit static site (adapter-vercel, nodejs24.x runtime) whose src/routes/ provides a two-level layout: a global site shell (+layout.svelte) with header/nav/footer, and a /docs sub-…
+tags: [sites/fractalmem]
+type: card
+module: sites/fractalmem
+path: sites/fractalmem
+created: 2026-08-05
+updated: 2026-08-06
+---
+
+The module is a SvelteKit static site (adapter-vercel, nodejs24.x runtime) whose `src/routes/` provides a two-level layout: a global site shell (`+layout.svelte` with header/nav/footer, and a `/docs` sub-layout (`docs/+layout.svelte` that renders a collapsible sidebar from mdsvex-generated doc metadata. Docs are authored as `.md` files under `src/routes/docs/`, dynamically loaded via `import.meta.glob` in `[doc]/+page.ts` and exposed through `src/lib/index.ts::allDocs()`. Styling comes from the shared `fractals-styler` Vite plugin plus local SASS under `src/lib/styles/`. The Python SKAA MCP server lives inside `src/lib/utils/` (a sibling to the frontend code) as a self-contained package: `skaa_server.py` is the FastMCP entrypoint exposing tools like `memory_query`, `memory_write`, `samskara_proposals`, and `execute`; `tools.py` holds transport-agnostic logic; `models.py`, `db.py`, and `samskara.py` implement the SQLite-backed pramana/karaka data model. The `scripts/` directory contains the installer (`install.sh`, uninstaller, `smriti-metrics.sh`, and probe runners (`run_probes.py`, `behavioral_probes.py` that bootstrap SKAA into a target project under `.skaa/` and log install events directly into the smriti store. Dependency direction is one-way: the SvelteKit site depends on `fractals-styler`; the Python server is independent of the frontend and is only bundled by the installer script.

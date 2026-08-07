@@ -1,0 +1,12 @@
+---
+title: Fractal Monorepo Packages — Architecture Design
+description: Each subdirectory is a self-contained npm package with its own package.json, build pipeline, and peerDependency on svelte ^5.0.0 (except fractal-agentic and fractals-styler, which are Node tooling).…
+tags: [packages]
+type: card
+module: packages
+path: packages
+created: 2026-08-05
+updated: 2026-08-06
+---
+
+Each subdirectory is a self-contained npm package with its own package.json, build pipeline, and peerDependency on svelte ^5.0.0 (except fractal-agentic and fractals-styler, which are Node tooling). The Svelte component packages (fractalsvelte, fractal-svelte, morphicons-svelte, svelte-animated-icon, svelte-icons) share an identical publishing contract: `svelte`/`types`/`exports` fields point to `./dist`, `sideEffects` declares CSS/SASS assets, and `prepack` runs `svelte-kit sync && svelte-package && publint`. The two agent-orchestration packages (fractal-agentic, fractal-agentic-qoder-plugin) are separate from the UI layer — they ship data-driven boss/agent/skill/command registries consumed by host IDEs rather than browsers. The styling tool (fractals-styler) is a Vite plugin + CLI that generates utilities consumed by the Svelte packages at build time. There is no shared code between children; coupling occurs only through the common Svelte 5 runtime and the project's apps/sites that import these packages.
