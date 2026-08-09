@@ -12,6 +12,7 @@ import type {
   ProjectRecord,
   AppSettings,
   RuntimeInfo,
+  SilenceRegion,
   YouTubeVideo
 } from './types';
 import { fallbackThumb } from '../utils';
@@ -69,6 +70,19 @@ export const tauriBackend: Backend = {
 
   cleanupAudio: (id) => invoke<CleanupResult>('cleanup_audio', { id }),
 	repairAudioTicks: (id) => invoke<CleanupResult>('repair_audio_ticks', { id }),
+
+	extractAudioRegion: (id, start, end) =>
+		invoke<CleanupResult>('extract_audio_region', { id, start, end }),
+	cutAudioRegion: (id, start, end) =>
+		invoke<CleanupResult>('cut_audio_region', { id, start, end }),
+	silenceAudioRegion: (id, start, end) =>
+		invoke<CleanupResult>('silence_audio_region', { id, start, end }),
+	fadeAudio: (id, start, duration, fadeIn) =>
+		invoke<CleanupResult>('fade_audio', { id, start, duration, fadeIn }),
+	normalizeAudio: (id) => invoke<CleanupResult>('normalize_audio', { id }),
+	getWaveformData: (id, samples) => invoke<number[]>('get_waveform_data', { id, samples }),
+	detectSilenceRegions: (id) => invoke<SilenceRegion[]>('detect_silence_regions', { id }),
+	generateVideoProxy: (id) => invoke<string>('generate_video_proxy', { id }),
 
   listProjects: () => invoke<ProjectRecord[]>('list_projects'),
   createProject: (name) => invoke<ProjectRecord>('create_project', { name }),

@@ -1,0 +1,146 @@
+.multi-track-timeline
+  display: flex
+  flex-direction: column
+  gap: var(--space-1)
+  overflow-x: auto
+  overflow-y: hidden
+  padding-bottom: var(--space-2)
+  background: var(--surface-0)
+  border-radius: var(--radius-sm)
+
+.mt-ruler
+  position: relative
+  height: 22px
+  flex-shrink: 0
+  border-bottom: 1px solid var(--border)
+  user-select: none
+
+.mt-ruler-mark
+  position: absolute
+  top: 0
+  font-size: 10px
+  color: var(--text-muted)
+  line-height: 22px
+  white-space: nowrap
+  &::before
+    content: ''
+    position: absolute
+    bottom: 0
+    left: 0
+    width: 1px
+    height: 6px
+    background: var(--border)
+
+.mt-track-row
+  display: flex
+  flex-shrink: 0
+
+.mt-track-header
+  width: 132px
+  flex-shrink: 0
+  display: flex
+  align-items: center
+  gap: var(--space-1)
+  padding: 0 var(--space-2)
+  border-right: 1px solid var(--border)
+  background: var(--surface-1)
+  border-radius: var(--radius-xs) 0 0 var(--radius-xs)
+
+.mt-track-name
+  flex: 1
+  font-size: 12px
+  font-weight: 500
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+  color: var(--text-1)
+
+.mt-mute-btn
+  all: unset
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 28px
+  height: 28px
+  border-radius: var(--radius-xs)
+  color: var(--text-2)
+  transition: background var(--dur-fast), color var(--dur-fast)
+  &:hover
+    background: var(--surface-2)
+  &.muted
+    color: var(--text-muted)
+    opacity: 0.6
+
+.mt-add-btn
+  all: unset
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 24px
+  height: 24px
+  border-radius: var(--radius-xs)
+  color: var(--text-muted)
+  transition: background var(--dur-fast), color var(--dur-fast)
+  &:hover
+    background: var(--surface-2)
+    color: var(--text-1)
+
+.mt-track-lane
+  position: relative
+  flex-shrink: 0
+  min-height: 52px
+  padding: var(--space-1)
+  border-radius: 0 var(--radius-xs) var(--radius-xs) 0
+  background: var(--surface-0)
+  &.audio
+    background: color-mix(in srgb, var(--surface-0) 94%, #5ba0c8 6%)
+
+.mt-clip
+  all: unset
+  cursor: pointer
+  position: absolute
+  top: var(--space-1)
+  height: calc(100% - var(--space-2))
+  border-radius: var(--radius-xs)
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  justify-content: center
+  padding: 0 var(--space-2)
+  overflow: hidden
+  box-sizing: border-box
+  opacity: 0.85
+  transition: opacity var(--dur-fast), box-shadow var(--dur-fast)
+  &:hover
+    opacity: 1
+    box-shadow: 0 0 0 2px color-mix(in srgb, white 20%, transparent)
+  &.selected
+    opacity: 1
+    box-shadow: 0 0 0 2px var(--accent)
+  &.muted
+    opacity: 0.4
+
+.mt-clip-label
+  font-size: 11px
+  font-weight: 500
+  color: white
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+  max-width: 100%
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4)
+
+.mt-clip-duration
+  font-size: 9px
+  color: rgba(255, 255, 255, 0.7)
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4)
+
+.mt-empty
+  display: flex
+  align-items: center
+  justify-content: center
+  min-height: 80px
+  color: var(--text-muted)
+  font-size: 13px

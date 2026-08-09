@@ -1,0 +1,92 @@
+.timeline-preview
+  display: flex
+  flex-direction: column
+  background: var(--preview-bg, var(--surface-1))
+  border-radius: var(--radius-md)
+  border: 1px solid var(--border)
+  overflow: hidden
+  box-shadow: var(--shadow-raised)
+
+.preview-video-frame
+  position: relative
+  aspect-ratio: 16 / 9
+  width: 100%
+  background: #000
+  overflow: hidden
+
+  video
+    display: block
+    width: 100%
+    height: 100%
+    object-fit: contain
+
+.preview-placeholder
+  position: absolute
+  inset: 0
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: var(--space-2)
+  color: var(--text-muted)
+  font-size: var(--text-sm)
+  user-select: none
+
+.preview-progress
+  height: 4px
+  background: var(--surface-2)
+  cursor: pointer
+  position: relative
+  flex-shrink: 0
+  transition: height var(--dur-fast) var(--ease-out)
+
+  &:hover
+    height: 8px
+
+.preview-progress-fill
+  height: 100%
+  background: var(--accent)
+  pointer-events: none
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0
+
+.preview-transport
+  display: flex
+  align-items: center
+  gap: var(--space-2)
+  padding: var(--space-1) var(--space-2)
+  border-top: 1px solid var(--border)
+  background: var(--surface-1)
+
+.preview-play-btn
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  min-width: 44px
+  min-height: 44px
+  width: 44px
+  height: 44px
+  border-radius: var(--radius-md)
+  background: var(--surface-2)
+  border: 1px solid var(--border)
+  color: var(--text)
+  cursor: pointer
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-instant) var(--ease-out)
+
+  &:hover:not(:disabled)
+    background: var(--surface-3)
+
+  &:active:not(:disabled)
+    transform: scale(0.93)
+
+  &:disabled
+    opacity: 0.4
+    cursor: not-allowed
+
+.preview-timecode
+  font-family: var(--font-mono, monospace)
+  font-size: var(--text-sm)
+  color: var(--text-muted)
+  letter-spacing: 0.05em
+  user-select: none

@@ -1,0 +1,99 @@
+.audio-editor
+	display: flex
+	flex-direction: column
+	width: 100%
+	background: var(--surface-1)
+	border-top: 1px solid var(--border)
+
+.audio-toolbar
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: var(--space-2)
+	padding: var(--space-2)
+	border-bottom: 1px solid var(--border)
+
+	.group
+		display: flex
+		align-items: center
+		gap: var(--space-1)
+
+	.group-center
+		flex: 1 1 auto
+		justify-content: center
+
+	.timecode
+		padding: 0 var(--space-2)
+		color: var(--text-muted)
+		font-size: var(--text-sm)
+		font-variant-numeric: tabular-nums
+		white-space: nowrap
+
+	.edit-btn
+		display: inline-flex
+		min-height: 44px
+		min-width: 44px
+		align-items: center
+		justify-content: center
+		gap: var(--space-1)
+		padding: 0 var(--space-2)
+		border: 1px solid transparent
+		border-radius: var(--radius-sm)
+		background: transparent
+		color: var(--text)
+		font-size: var(--text-sm)
+		cursor: pointer
+		transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out)
+
+		&:hover:not(:disabled)
+			background: var(--surface-hover)
+			border-color: var(--border)
+
+		&:disabled
+			opacity: 0.35
+			cursor: not-allowed
+
+	.icon-button
+		display: inline-grid
+		width: 44px
+		height: 44px
+		place-items: center
+		border: 1px solid transparent
+		border-radius: var(--radius-sm)
+		background: transparent
+		color: var(--text)
+		cursor: pointer
+		transition: background var(--dur-fast) var(--ease-out)
+
+		&:hover
+			background: var(--surface-hover)
+
+.audio-canvas-wrapper
+	position: relative
+	overflow: hidden
+	min-height: 120px
+	background: var(--surface-1)
+
+.audio-canvas
+	display: block
+	width: 100%
+	height: 120px
+	cursor: crosshair
+
+.region-overlay
+	position: absolute
+	top: 0
+	bottom: 0
+	background: color-mix(in srgb, var(--accent) 18%, transparent)
+	border-left: 1px solid color-mix(in srgb, var(--accent) 50%, transparent)
+	border-right: 1px solid color-mix(in srgb, var(--accent) 50%, transparent)
+	pointer-events: none
+
+.playhead
+	position: absolute
+	top: 0
+	bottom: 0
+	width: 2px
+	background: var(--accent)
+	pointer-events: none
+	will-change: transform

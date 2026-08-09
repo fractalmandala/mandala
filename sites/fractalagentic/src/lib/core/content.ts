@@ -1,5 +1,4 @@
 import GithubSlugger from 'github-slugger';
-import contentDates from 'virtual:svocs-content-dates';
 import type { SearchDocument } from '$lib/search/types';
 import { renderMarkdownWithToc } from '$lib/content/parse';
 import {
@@ -186,7 +185,6 @@ export function getAllContentSummaries(): ContentSummary[] {
 			tags: [],
 			wordCount,
 			readingTimeMinutes: Math.max(1, Math.ceil(wordCount / 200)),
-			lastModified: entry.sourcePath ? contentDates[entry.sourcePath] : undefined,
 			icon: undefined,
 			sourcePath: entry.sourcePath ?? `packages/fractal-agentic/docs/${entry.slug}.md`
 		};

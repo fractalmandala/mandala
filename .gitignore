@@ -24,6 +24,7 @@ dist/
 .svelte-kit/
 build/
 .vercel/
+packages/svelte-animated-icon/.vercel/
 !**/src/**/build/
 .electron-runtime/
 target/
@@ -48,3 +49,5 @@ repowiki/meta/
 
 # ShipStudio metadata
 .shipstudio/
+.vercel
+.env*

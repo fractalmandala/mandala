@@ -1,8 +1,0 @@
-{
-	"items": {
-		"contents": { "order": 1 },
-		"introduction": { "order": 2 },
-		"getting-started": { "order": 3 },
-		"install": { "order": 4}
-	}
-}

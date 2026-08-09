@@ -774,6 +774,226 @@ pub fn repair_audio_ticks(state: State<AppState>, id: String) -> Result<CleanupR
     Ok(CleanupResult { cleaned: row, before_duration: before, after_duration: after })
 }
 
+// --------------------------------------------------------- audio editing
+
+#[derive(Debug, Clone, Serialize)]
+pub struct SilenceRegion {
+    pub start: f64,
+    pub end: f64,
+}
+
+#[tauri::command]
+pub fn extract_audio_region(
+    state: State<AppState>,
+    id: String,
+    start: f64,
+    end: f64,
+) -> Result<CleanupResult, String> {
+    let eng = state.eng()?.clone();
+    let src_row = state.db.lock().unwrap().get_media(&id)?;
+    let src = PathBuf::from(&src_row.path);
+    let new_id = Uuid::new_v4().to_string();
+    let dest = state.lib_dir.join(format!("{}-extracted.m4a", &new_id[..8]));
+    eng.extract_region(&src, start, end, &dest)?;
+
+    let before = eng.probe(&src).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let after = eng.probe(&dest).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let thumb = thumb_for(&state, &new_id, "audio", &dest);
+    let base = src_row.filename.rsplit_once('.').map(|(b, _)| b).unwrap_or(&src_row.filename);
+    let row = MediaRow {
+        id: new_id,
+        kind: "audio".into(),
+        filename: format!("{base} (extracted).m4a"),
+        path: dest.to_string_lossy().to_string(),
+        imported_at: db::now(),
+        duration: Some(after),
+        width: None,
+        height: None,
+        tags: vec!["audio-edit".into()],
+        notes: format!("Extracted region {:.2}s–{:.2}s", start, end),
+        thumb_path: thumb.map(|p| p.to_string_lossy().to_string()),
+    };
+    state.db.lock().unwrap().insert_media(&row)?;
+    Ok(CleanupResult { cleaned: row, before_duration: before, after_duration: after })
+}
+
+#[tauri::command]
+pub fn cut_audio_region(
+    state: State<AppState>,
+    id: String,
+    start: f64,
+    end: f64,
+) -> Result<CleanupResult, String> {
+    let eng = state.eng()?.clone();
+    let src_row = state.db.lock().unwrap().get_media(&id)?;
+    let src = PathBuf::from(&src_row.path);
+    let new_id = Uuid::new_v4().to_string();
+    let dest = state.lib_dir.join(format!("{}-cut.m4a", &new_id[..8]));
+    eng.cut_region(&src, start, end, &dest)?;
+
+    let before = eng.probe(&src).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let after = eng.probe(&dest).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let thumb = thumb_for(&state, &new_id, "audio", &dest);
+    let base = src_row.filename.rsplit_once('.').map(|(b, _)| b).unwrap_or(&src_row.filename);
+    let row = MediaRow {
+        id: new_id,
+        kind: "audio".into(),
+        filename: format!("{base} (cut).m4a"),
+        path: dest.to_string_lossy().to_string(),
+        imported_at: db::now(),
+        duration: Some(after),
+        width: None,
+        height: None,
+        tags: vec!["audio-edit".into()],
+        notes: format!("Removed region {:.2}s–{:.2}s", start, end),
+        thumb_path: thumb.map(|p| p.to_string_lossy().to_string()),
+    };
+    state.db.lock().unwrap().insert_media(&row)?;
+    Ok(CleanupResult { cleaned: row, before_duration: before, after_duration: after })
+}
+
+#[tauri::command]
+pub fn silence_audio_region(
+    state: State<AppState>,
+    id: String,
+    start: f64,
+    end: f64,
+) -> Result<CleanupResult, String> {
+    let eng = state.eng()?.clone();
+    let src_row = state.db.lock().unwrap().get_media(&id)?;
+    let src = PathBuf::from(&src_row.path);
+    let new_id = Uuid::new_v4().to_string();
+    let dest = state.lib_dir.join(format!("{}-silenced.m4a", &new_id[..8]));
+    eng.silence_region(&src, start, end, &dest)?;
+
+    let before = eng.probe(&src).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let after = eng.probe(&dest).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let thumb = thumb_for(&state, &new_id, "audio", &dest);
+    let base = src_row.filename.rsplit_once('.').map(|(b, _)| b).unwrap_or(&src_row.filename);
+    let row = MediaRow {
+        id: new_id,
+        kind: "audio".into(),
+        filename: format!("{base} (silenced).m4a"),
+        path: dest.to_string_lossy().to_string(),
+        imported_at: db::now(),
+        duration: Some(after),
+        width: None,
+        height: None,
+        tags: vec!["audio-edit".into()],
+        notes: format!("Silenced region {:.2}s–{:.2}s", start, end),
+        thumb_path: thumb.map(|p| p.to_string_lossy().to_string()),
+    };
+    state.db.lock().unwrap().insert_media(&row)?;
+    Ok(CleanupResult { cleaned: row, before_duration: before, after_duration: after })
+}
+
+#[tauri::command]
+pub fn fade_audio(
+    state: State<AppState>,
+    id: String,
+    start: f64,
+    duration: f64,
+    fade_in: bool,
+) -> Result<CleanupResult, String> {
+    let eng = state.eng()?.clone();
+    let src_row = state.db.lock().unwrap().get_media(&id)?;
+    let src = PathBuf::from(&src_row.path);
+    let new_id = Uuid::new_v4().to_string();
+    let suffix = if fade_in { "faded-in" } else { "faded-out" };
+    let dest = state.lib_dir.join(format!("{}-{suffix}.m4a", &new_id[..8]));
+    eng.fade_audio(&src, start, duration, fade_in, &dest)?;
+
+    let before = eng.probe(&src).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let after = eng.probe(&dest).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let thumb = thumb_for(&state, &new_id, "audio", &dest);
+    let base = src_row.filename.rsplit_once('.').map(|(b, _)| b).unwrap_or(&src_row.filename);
+    let fade_label = if fade_in { "fade in" } else { "fade out" };
+    let row = MediaRow {
+        id: new_id,
+        kind: "audio".into(),
+        filename: format!("{base} ({suffix}).m4a"),
+        path: dest.to_string_lossy().to_string(),
+        imported_at: db::now(),
+        duration: Some(after),
+        width: None,
+        height: None,
+        tags: vec!["audio-edit".into()],
+        notes: format!("Applied {fade_label} at {:.2}s for {:.2}s", start, duration),
+        thumb_path: thumb.map(|p| p.to_string_lossy().to_string()),
+    };
+    state.db.lock().unwrap().insert_media(&row)?;
+    Ok(CleanupResult { cleaned: row, before_duration: before, after_duration: after })
+}
+
+#[tauri::command]
+pub fn normalize_audio(state: State<AppState>, id: String) -> Result<CleanupResult, String> {
+    let eng = state.eng()?.clone();
+    let src_row = state.db.lock().unwrap().get_media(&id)?;
+    let src = PathBuf::from(&src_row.path);
+    let new_id = Uuid::new_v4().to_string();
+    let dest = state.lib_dir.join(format!("{}-normalized.m4a", &new_id[..8]));
+    eng.normalize_audio(&src, &dest)?;
+
+    let before = eng.probe(&src).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let after = eng.probe(&dest).ok().and_then(|p| p.duration).unwrap_or(0.0);
+    let thumb = thumb_for(&state, &new_id, "audio", &dest);
+    let base = src_row.filename.rsplit_once('.').map(|(b, _)| b).unwrap_or(&src_row.filename);
+    let row = MediaRow {
+        id: new_id,
+        kind: "audio".into(),
+        filename: format!("{base} (normalized).m4a"),
+        path: dest.to_string_lossy().to_string(),
+        imported_at: db::now(),
+        duration: Some(after),
+        width: None,
+        height: None,
+        tags: vec!["audio-edit".into()],
+        notes: "Loudness normalised (EBU R128, -16 LUFS).".into(),
+        thumb_path: thumb.map(|p| p.to_string_lossy().to_string()),
+    };
+    state.db.lock().unwrap().insert_media(&row)?;
+    Ok(CleanupResult { cleaned: row, before_duration: before, after_duration: after })
+}
+
+#[tauri::command]
+pub fn get_waveform_data(
+    state: State<AppState>,
+    id: String,
+    samples: usize,
+) -> Result<Vec<f32>, String> {
+    let eng = state.eng()?.clone();
+    let src_row = state.db.lock().unwrap().get_media(&id)?;
+    let src = PathBuf::from(&src_row.path);
+    eng.waveform_data(&src, samples)
+}
+
+#[tauri::command]
+pub fn detect_silence_regions(
+    state: State<AppState>,
+    id: String,
+) -> Result<Vec<SilenceRegion>, String> {
+    let eng = state.eng()?.clone();
+    let src_row = state.db.lock().unwrap().get_media(&id)?;
+    let src = PathBuf::from(&src_row.path);
+    let regions = eng.detect_silence(&src, -45.0, 0.3)?;
+    Ok(regions
+        .into_iter()
+        .map(|(start, end)| SilenceRegion { start, end })
+        .collect())
+}
+
+// --------------------------------------------------------- video proxy
+
+#[tauri::command]
+pub fn generate_video_proxy(state: State<AppState>, id: String) -> Result<String, String> {
+    let eng = state.eng()?;
+    let row = state.db.lock().unwrap().get_media(&id)?;
+    let src = PathBuf::from(&row.path);
+    let proxy_path = state.thumb_dir.join(format!("{id}-proxy.mp4"));
+    eng.generate_proxy(&src, &proxy_path)?;
+    Ok(proxy_path.to_string_lossy().to_string())
+}
+
 // --------------------------------------------------------------- projects
 
 /// Versioned project format (v1). Kept in sync with the frontend type.

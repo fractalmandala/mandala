@@ -5,6 +5,7 @@
 //! these same functions through the same Tauri commands as the UI.
 
 use serde::{Deserialize, Serialize};
+use std::io::Read;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -69,24 +70,55 @@ fn fallback_dirs() -> Vec<PathBuf> {
     }
 }
 
+/// Returns the directory containing bundled ffmpeg binaries shipped with the app.
+///
+/// In Tauri 2, bundled resources are placed relative to the executable.
+/// We look for a `ffmpeg/` subdirectory next to the running executable.
+fn bundled_ffmpeg_dir() -> Option<PathBuf> {
+    let exe = std::env::current_exe().ok()?;
+    let exe_dir = exe.parent()?;
+    // Tauri 2 maps "bundler/ffmpeg/" -> "ffmpeg/" inside the installed app.
+    let bundled = exe_dir.join("ffmpeg");
+    if bundled.is_dir() {
+        Some(bundled)
+    } else {
+        None
+    }
+}
+
 const FFMPEG_MISSING: &str = "Couldn't find ffmpeg on this computer. \
      Please install it (for example with Homebrew: `brew install ffmpeg`) and restart the app.";
 
 impl Ffmpeg {
-    /// Locate ffmpeg + ffprobe via PATH first, then platform-typical locations.
+    /// Locate ffmpeg + ffprobe. Search order:
+    /// 1. Bundled binaries shipped with the app (resources/ffmpeg/)
+    /// 2. System PATH
+    /// 3. Platform-typical fallback directories
     pub fn locate() -> Result<Self, String> {
-        let ffmpeg = find_on_path("ffmpeg").or_else(|| {
-            fallback_dirs()
-                .into_iter()
-                .map(|d| d.join(exe_name("ffmpeg")))
-                .find(|p| p.is_file())
-        });
-        let ffprobe = find_on_path("ffprobe").or_else(|| {
-            fallback_dirs()
-                .into_iter()
-                .map(|d| d.join(exe_name("ffprobe")))
-                .find(|p| p.is_file())
-        });
+        // 1. Try bundled ffmpeg next to the executable
+        let bundled = bundled_ffmpeg_dir();
+        let ffmpeg = bundled
+            .as_ref()
+            .map(|d| d.join(exe_name("ffmpeg")))
+            .filter(|p| p.is_file())
+            .or_else(|| find_on_path("ffmpeg"))
+            .or_else(|| {
+                fallback_dirs()
+                    .into_iter()
+                    .map(|d| d.join(exe_name("ffmpeg")))
+                    .find(|p| p.is_file())
+            });
+        let ffprobe = bundled
+            .as_ref()
+            .map(|d| d.join(exe_name("ffprobe")))
+            .filter(|p| p.is_file())
+            .or_else(|| find_on_path("ffprobe"))
+            .or_else(|| {
+                fallback_dirs()
+                    .into_iter()
+                    .map(|d| d.join(exe_name("ffprobe")))
+                    .find(|p| p.is_file())
+            });
         match (ffmpeg, ffprobe) {
             (Some(ffmpeg), Some(ffprobe)) => Ok(Self { ffmpeg, ffprobe }),
             (Some(f), None) => {
@@ -246,6 +278,26 @@ impl Ffmpeg {
                 .arg(input)
                 .args(["-af", &chain, "-c:a", "aac", "-b:a", "160k"])
                 .arg(out_m4a),
+        )
+    }
+
+    // ---------------------------------------------------- proxy generation
+
+    /// Create a 480p low-quality proxy copy for smooth preview playback.
+    pub fn generate_proxy(&self, input: &Path, output: &Path) -> Result<(), String> {
+        run_quiet(
+            Command::new(&self.ffmpeg)
+                .args(["-y", "-i"])
+                .arg(input)
+                .args([
+                    "-vf", "scale=-2:480",
+                    "-c:v", "libx264",
+                    "-preset", "fast",
+                    "-crf", "28",
+                    "-c:a", "aac",
+                    "-b:a", "128k",
+                ])
+                .arg(output),
         )
     }
 
@@ -652,6 +704,306 @@ impl Ffmpeg {
             ));
         }
         Ok(())
+    }
+
+    // --------------------------------------------------- audio editing ops
+
+    /// Generate normalised peak sample data for frontend waveform rendering.
+    /// Converts to raw PCM f32 at 8 kHz mono, then downsamples to `samples` peaks.
+    pub fn waveform_data(&self, input: &Path, samples: usize) -> Result<Vec<f32>, String> {
+        let mut child = Command::new(&self.ffmpeg)
+            .args(["-i"])
+            .arg(input)
+            .args(["-af", "aresample=8000", "-f", "f32le", "-ac", "1", "-"])
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .spawn()
+            .map_err(|e| format!("Could not start ffmpeg for waveform data: {e}"))?;
+
+        let mut stdout = child.stdout.take().expect("piped stdout");
+        let mut raw_bytes: Vec<u8> = Vec::new();
+        stdout
+            .read_to_end(&mut raw_bytes)
+            .map_err(|e| format!("Could not read ffmpeg waveform output: {e}"))?;
+        let _ = child.wait();
+
+        if raw_bytes.is_empty() {
+            return Err("ffmpeg produced no waveform data.".into());
+        }
+
+        // Interpret as little-endian f32 samples
+        let sample_count = raw_bytes.len() / 4;
+        let pcm: Vec<f32> = raw_bytes
+            .chunks_exact(4)
+            .map(|chunk| f32::from_le_bytes([chunk[0], chunk[1], chunk[2], chunk[3]]))
+            .collect();
+
+        let target = samples.max(1);
+        if sample_count <= target {
+            // Already fewer samples than requested — just return abs values
+            return Ok(pcm.iter().map(|s| s.abs()).collect());
+        }
+
+        // Downsample: take the peak (max abs) in each window
+        let window = sample_count / target;
+        let mut peaks = Vec::with_capacity(target);
+        for i in 0..target {
+            let start = i * window;
+            let end = if i + 1 == target {
+                sample_count
+            } else {
+                (i + 1) * window
+            };
+            let peak = pcm[start..end]
+                .iter()
+                .map(|s| s.abs())
+                .fold(0.0f32, f32::max);
+            peaks.push(peak);
+        }
+        Ok(peaks)
+    }
+
+    /// Trim a time range to a new AAC file.
+    pub fn extract_region(
+        &self,
+        input: &Path,
+        start: f64,
+        end: f64,
+        output: &Path,
+    ) -> Result<(), String> {
+        let duration = (end - start).max(0.01);
+        run_quiet(
+            Command::new(&self.ffmpeg)
+                .args(["-y", "-ss", &format!("{start:.3}")])
+                .arg("-i")
+                .arg(input)
+                .args([
+                    "-t",
+                    &format!("{duration:.3}"),
+                    "-c:a",
+                    "aac",
+                    "-b:a",
+                    "160k",
+                ])
+                .arg(output),
+        )
+    }
+
+    /// Remove a region and join the remainder (non-destructive).
+    pub fn cut_region(
+        &self,
+        input: &Path,
+        start: f64,
+        end: f64,
+        output: &Path,
+    ) -> Result<(), String> {
+        let tmp = std::env::temp_dir().join(format!("mvs-cut-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&tmp);
+        std::fs::create_dir_all(&tmp)
+            .map_err(|e| format!("Cannot create temp folder for cut: {e}"))?;
+
+        let result = (|| -> Result<(), String> {
+            let total_dur = self
+                .probe(input)
+                .ok()
+                .and_then(|p| p.duration)
+                .unwrap_or(0.0);
+
+            let part_a = tmp.join("part_a.m4a");
+            let part_b = tmp.join("part_b.m4a");
+
+            // Extract [0..start]
+            if start > 0.01 {
+                run_quiet(
+                    Command::new(&self.ffmpeg)
+                        .args(["-y", "-ss", "0", "-i"])
+                        .arg(input)
+                        .args([
+                            "-t",
+                            &format!("{:.3}", start),
+                            "-c:a",
+                            "aac",
+                            "-b:a",
+                            "160k",
+                        ])
+                        .arg(&part_a),
+                )?;
+            }
+
+            // Extract [end..total_dur]
+            if end < total_dur - 0.01 {
+                let remaining = (total_dur - end).max(0.01);
+                run_quiet(
+                    Command::new(&self.ffmpeg)
+                        .args(["-y", "-ss", &format!("{:.3}", end), "-i"])
+                        .arg(input)
+                        .args([
+                            "-t",
+                            &format!("{:.3}", remaining),
+                            "-c:a",
+                            "aac",
+                            "-b:a",
+                            "160k",
+                        ])
+                        .arg(&part_b),
+                )?;
+            }
+
+            // Concat the parts
+            let mut parts = Vec::new();
+            if part_a.is_file() {
+                parts.push(part_a.clone());
+            }
+            if part_b.is_file() {
+                parts.push(part_b.clone());
+            }
+            if parts.is_empty() {
+                return Err("Cut operation removed the entire audio.".into());
+            }
+            if parts.len() == 1 {
+                std::fs::copy(&parts[0], output)
+                    .map_err(|e| format!("Could not write output: {e}"))?;
+                return Ok(());
+            }
+
+            let list_path = tmp.join("concat.txt");
+            let list = parts
+                .iter()
+                .map(|p| format!("file '{}'", p.display().to_string().replace('\'', "'\\''")))
+                .collect::<Vec<_>>()
+                .join("\n");
+            std::fs::write(&list_path, list)
+                .map_err(|e| format!("Cannot write concat list: {e}"))?;
+
+            run_quiet(
+                Command::new(&self.ffmpeg)
+                    .args(["-y", "-f", "concat", "-safe", "0", "-i"])
+                    .arg(&list_path)
+                    .args(["-c", "copy"])
+                    .arg(output),
+            )
+        })();
+
+        let _ = std::fs::remove_dir_all(&tmp);
+        result
+    }
+
+    /// Replace a region with silence (non-destructive).
+    pub fn silence_region(
+        &self,
+        input: &Path,
+        start: f64,
+        end: f64,
+        output: &Path,
+    ) -> Result<(), String> {
+        // Use volume=0 to mute the region while preserving the rest
+        let filter = format!(
+            "volume=enable='between(t,{start:.3},{end:.3})':volume=0"
+        );
+        run_quiet(
+            Command::new(&self.ffmpeg)
+                .args(["-y", "-i"])
+                .arg(input)
+                .args([
+                    "-af",
+                    &filter,
+                    "-c:a",
+                    "aac",
+                    "-b:a",
+                    "160k",
+                ])
+                .arg(output),
+        )
+    }
+
+    /// Apply fade in or fade out.
+    pub fn fade_audio(
+        &self,
+        input: &Path,
+        start: f64,
+        duration: f64,
+        fade_in: bool,
+        output: &Path,
+    ) -> Result<(), String> {
+        let fade_type = if fade_in { "in" } else { "out" };
+        let filter = format!(
+            "afade=t={fade_type}:ss={start:.3}:d={duration:.3}"
+        );
+        run_quiet(
+            Command::new(&self.ffmpeg)
+                .args(["-y", "-i"])
+                .arg(input)
+                .args(["-af", &filter, "-c:a", "aac", "-b:a", "160k"])
+                .arg(output),
+        )
+    }
+
+    /// Loudness normalisation (EBU R128, same parameters as the cleanup chain).
+    pub fn normalize_audio(&self, input: &Path, output: &Path) -> Result<(), String> {
+        run_quiet(
+            Command::new(&self.ffmpeg)
+                .args(["-y", "-i"])
+                .arg(input)
+                .args([
+                    "-af",
+                    "loudnorm=I=-16:TP=-1.5:LRA=11",
+                    "-c:a",
+                    "aac",
+                    "-b:a",
+                    "160k",
+                ])
+                .arg(output),
+        )
+    }
+
+    /// Detect silent stretches using ffmpeg's `silencedetect` filter.
+    /// Returns a list of (start, end) time pairs in seconds.
+    pub fn detect_silence(
+        &self,
+        input: &Path,
+        threshold_db: f64,
+        min_duration: f64,
+    ) -> Result<Vec<(f64, f64)>, String> {
+        let filter = format!(
+            "silencedetect=noise={threshold_db}dB:d={min_duration:.3}"
+        );
+        let out = Command::new(&self.ffmpeg)
+            .args(["-i"])
+            .arg(input)
+            .args(["-af", &filter, "-f", "null", "-"])
+            .stdout(Stdio::null())
+            .stderr(Stdio::piped())
+            .output()
+            .map_err(|e| format!("Could not run ffmpeg for silence detection: {e}"))?;
+
+        let stderr = String::from_utf8_lossy(&out.stderr);
+        let mut regions: Vec<(f64, f64)> = Vec::new();
+        let mut current_start: Option<f64> = None;
+
+        for line in stderr.lines() {
+            if let Some(pos) = line.find("silence_start:") {
+                let val_str = &line[pos + "silence_start:".len()..];
+                if let Ok(val) = val_str.trim().split_whitespace().next().unwrap_or("").parse::<f64>() {
+                    current_start = Some(val);
+                }
+            }
+            if let Some(pos) = line.find("silence_end:") {
+                let val_str = &line[pos + "silence_end:".len()..];
+                if let Ok(val) = val_str.trim().split_whitespace().next().unwrap_or("").parse::<f64>() {
+                    if let Some(s) = current_start.take() {
+                        regions.push((s, val));
+                    }
+                }
+            }
+        }
+
+        // If a silence_start was found but no matching end, it extends to EOF
+        if let Some(s) = current_start {
+            let total = self.probe(input).ok().and_then(|p| p.duration).unwrap_or(s);
+            regions.push((s, total));
+        }
+
+        Ok(regions)
     }
 }
 

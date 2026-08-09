@@ -99,6 +99,11 @@ export interface CleanupResult {
   after_duration: number;
 }
 
+export interface SilenceRegion {
+	start: number;
+	end: number;
+}
+
 export interface YouTubeVideo {
 	id: string;
 	title: string;
@@ -134,6 +139,19 @@ export interface Backend {
   cleanupAudio(id: string): Promise<CleanupResult>;
 	/** Detect and repair short impulsive clicks/ticks into a separate local copy. */
 	repairAudioTicks(id: string): Promise<CleanupResult>;
+
+	// Audio editing
+	extractAudioRegion(id: string, start: number, end: number): Promise<CleanupResult>;
+	cutAudioRegion(id: string, start: number, end: number): Promise<CleanupResult>;
+	silenceAudioRegion(id: string, start: number, end: number): Promise<CleanupResult>;
+	fadeAudio(id: string, start: number, duration: number, fadeIn: boolean): Promise<CleanupResult>;
+	normalizeAudio(id: string): Promise<CleanupResult>;
+	getWaveformData(id: string, samples: number): Promise<number[]>;
+	detectSilenceRegions(id: string): Promise<SilenceRegion[]>;
+
+	// Video proxy
+	/** Generate a low-resolution proxy for smoother preview playback. Returns the proxy file path. */
+	generateVideoProxy(id: string): Promise<string>;
 
   // Projects
   listProjects(): Promise<ProjectRecord[]>;

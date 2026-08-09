@@ -8,8 +8,6 @@
 		"build": "vite build && node scripts/search/postbuild.mjs && node scripts/og/generate.mjs",
 		"search:index": "pagefind --site build",
 		"preview": "vite preview",
-		"dev:deno": "deno task dev",
-		"build:deno": "deno task build",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",

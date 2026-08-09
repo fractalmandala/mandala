@@ -2,9 +2,7 @@
 	import { AnimatePresence, motion, useReducedMotion } from '@humanspeak/svelte-motion';
 	import {
 		CaretRightIcon,
-		FilmReelIcon,
 		MagicWandIcon,
-		PlayIcon,
 		PlusIcon,
 		ScissorsIcon,
 		TrashIcon,
@@ -12,14 +10,20 @@
 	} from 'phosphor-svelte';
 	import { backend } from '$lib/backend';
 	import type { MediaItem, ProjectData } from '$lib/backend/types';
+	import type { ProjectDataV2 } from '$lib/timeline/model';
 	import { motionConfig } from '$lib/motion';
-	import ActionTooltip from './ActionTooltip.svelte';
+	import AudioEditor from './AudioEditor.svelte';
+	import MultiTrackTimeline from './MultiTrackTimeline.svelte';
+	import TimelinePreview from './TimelinePreview.svelte';
 
 	interface Props {
 		clips: ProjectData['clips'];
 		moments: MediaItem[];
 		selectedMoment: number;
 		voiceover?: MediaItem;
+		audioUrl: string;
+		timelineData: ProjectDataV2;
+		allMedia: readonly MediaItem[];
 		repairOpen: boolean;
 		selectedMarker: number[];
 		cleaning: boolean;
@@ -28,6 +32,11 @@
 		onToggleRepair: () => void;
 		onToggleMarker: (marker: number) => void;
 		onCleanVoiceover: () => void;
+		onAudioCut: (region: { start: number; end: number }) => void;
+		onAudioSilence: (region: { start: number; end: number }) => void;
+		onAudioFadeIn: (region: { start: number; end: number }) => void;
+		onAudioFadeOut: (region: { start: number; end: number }) => void;
+		onAudioNormalize: () => void;
 		onChooseVoiceover: () => void;
 		onOpenGather: () => void;
 		onSplitSelected: () => void;
@@ -40,6 +49,9 @@
 		moments,
 		selectedMoment,
 		voiceover,
+		audioUrl,
+		timelineData,
+		allMedia,
 		repairOpen,
 		selectedMarker,
 		cleaning,
@@ -48,6 +60,11 @@
 		onToggleRepair,
 		onToggleMarker,
 		onCleanVoiceover,
+		onAudioCut,
+		onAudioSilence,
+		onAudioFadeIn,
+		onAudioFadeOut,
+		onAudioNormalize,
 		onChooseVoiceover,
 		onOpenGather,
 		onSplitSelected,
@@ -56,17 +73,9 @@
 	}: Props = $props();
 
 	const reducedMotion = useReducedMotion();
-	let previewVideo = $state<HTMLVideoElement | undefined>();
-	const currentMoment = $derived(moments[selectedMoment]);
 
 	function transition(name: 'fast' | 'normal' = 'normal', essential = false) {
 		return motionConfig.transition(name, reducedMotion.current, essential);
-	}
-
-	function togglePreview() {
-		if (!previewVideo) return;
-		if (previewVideo.paused) void previewVideo.play();
-		else previewVideo.pause();
 	}
 
 	function scrollTimeline(event: WheelEvent) {
@@ -82,39 +91,115 @@
 		row.scrollLeft += event.key === 'ArrowRight' ? 80 : -80;
 		event.preventDefault();
 	}
+
+	/* ── Audio editor state & playback ───────────────────── */
+	let audioEl = $state<HTMLAudioElement | null>(null);
+	let peaks = $state<number[]>([]);
+	let audioDuration = $state(0);
+	let audioPlaying = $state(false);
+	let audioCurrentTime = $state(0);
+
+	/* ── Timeline preview playback state ────────────────── */
+	let timelinePlaying = $state(false);
+	let timelineTime = $state(0);
+
+	function onTimelineTimeUpdate(time: number) {
+		timelineTime = time;
+	}
+
+	function onTimelinePlayChange(playing: boolean) {
+		timelinePlaying = playing;
+		if (!playing) {
+			// Pause audio too when timeline stops
+			if (audioEl && !audioEl.paused) audioEl.pause();
+			audioPlaying = false;
+		}
+	}
+
+	function onTimelineSeek(time: number) {
+		timelineTime = time;
+		if (audioEl) audioEl.currentTime = Math.max(0, Math.min(time, audioDuration));
+		audioCurrentTime = time;
+	}
+
+	function toggleAudioPlay() {
+		if (!audioEl) return;
+		if (audioEl.paused) {
+			void audioEl.play();
+			audioPlaying = true;
+			// Also start timeline playback
+			timelinePlaying = true;
+		} else {
+			audioEl.pause();
+			audioPlaying = false;
+			timelinePlaying = false;
+		}
+	}
+
+	function seekAudio(time: number) {
+		if (!audioEl) return;
+		audioEl.currentTime = Math.max(0, Math.min(time, audioDuration));
+		timelineTime = time;
+		audioCurrentTime = time;
+	}
+
+	function onAudioTimeUpdate() {
+		if (!audioEl) return;
+		audioCurrentTime = audioEl.currentTime;
+	}
+
+	$effect(() => {
+		const id = voiceover?.id;
+		const dur = voiceover?.duration ?? 0;
+		if (!id) {
+			peaks = [];
+			audioDuration = 0;
+			audioPlaying = false;
+			audioCurrentTime = 0;
+			return;
+		}
+		audioDuration = dur;
+		audioPlaying = false;
+		audioCurrentTime = 0;
+		backend.getWaveformData(id, 800).then((p) => { peaks = p; });
+	});
+
+	$effect(() => {
+		const el = audioEl;
+		const url = audioUrl;
+		if (!el) return;
+		if (url) {
+			el.src = url;
+			el.load();
+		} else {
+			el.removeAttribute('src');
+		}
+	});
+
+	$effect(() => {
+		const el = audioEl;
+		if (!el) return;
+		const onEnded = () => { audioPlaying = false; };
+		el.addEventListener('timeupdate', onAudioTimeUpdate);
+		el.addEventListener('ended', onEnded);
+		return () => {
+			el.removeEventListener('timeupdate', onAudioTimeUpdate);
+			el.removeEventListener('ended', onEnded);
+		};
+	});
 </script>
 
 <div class="embedded-page">
 	<div class="preview-surface">
-		<div class="preview-frame">
-			{#if currentMoment?.kind === 'video'}
-				<!-- svelte-ignore a11y_media_has_caption -->
-				<video
-					bind:this={previewVideo}
-					src={backend.mediaUrl(currentMoment)}
-					controls
-					preload="metadata">
-				</video>
-			{:else if currentMoment}
-				<img src={backend.mediaUrl(currentMoment)} alt={currentMoment.filename} />
-			{:else}
-				<div class="preview-placeholder">
-					<FilmReelIcon size={44} />
-					<p>Add a photo or video to see it here.</p>
-				</div>
-			{/if}
-		</div>
-		<div class="transport">
-			<ActionTooltip
-				class="icon-button"
-				label="Play or pause preview"
-				onclick={togglePreview}
-				disabled={!previewVideo}>
-				<PlayIcon size={24} weight="fill" />
-			</ActionTooltip>
-			<span>{selectedMoment + 1} of {moments.length} moments</span>
-			<span class="transport-note">Tell the story</span>
-		</div>
+		<TimelinePreview
+			data={timelineData}
+			mediaItems={allMedia}
+			currentTime={timelineTime}
+			playing={timelinePlaying}
+			onTimeUpdate={onTimelineTimeUpdate}
+			onPlayStateChange={onTimelinePlayChange}
+			onSeek={onTimelineSeek}
+		/>
 	</div>
 	<section class="repair-drawer" class:open={repairOpen}>
 		<motion.button
@@ -143,7 +228,22 @@
 					transition={transition('fast', true)}>
 					<div class="waveform" aria-label="Voiceover waveform">
 						{#if voiceover}
-							<img src={backend.thumbUrl(voiceover)} alt={`Waveform for ${voiceover.filename}`} />
+							<!-- svelte-ignore a11y_media_has_caption -->
+							<audio bind:this={audioEl} preload="metadata" style="display: none"></audio>
+							<AudioEditor
+								audioId={voiceover.id}
+								peaks={peaks}
+								duration={audioDuration}
+								playing={audioPlaying}
+								currentTime={audioCurrentTime}
+								onTogglePlay={toggleAudioPlay}
+								onSeek={seekAudio}
+								onCut={onAudioCut}
+								onSilence={onAudioSilence}
+								onFadeIn={onAudioFadeIn}
+								onFadeOut={onAudioFadeOut}
+								onNormalize={onAudioNormalize}
+							/>
 						{:else}
 							<span class="text-muted text-xs">
 								Choose or record a voiceover to review it here.
@@ -207,49 +307,8 @@
 			</button>
 			<span>{clips.length} moments</span>
 		</div>
-		<div class="timeline-ruler">
-			<span>00:00</span>
-			<span>00:20</span>
-			<span>00:40</span>
-			<span>01:00</span>
-			<span>01:20</span>
-		</div>
-		<div class="track">
-			<strong>Moments</strong>
-			<motion.div
-				class="clip-row"
-				role="region"
-				aria-label="Timeline moments. Use the mouse wheel or arrow keys to move across clips."
-				onwheel={scrollTimeline}
-				onkeydown={moveTimeline}
-				tabindex="0">
-				{#each moments as item, index (item.id)}
-					<motion.button
-						class={`timeline-clip ${selectedMoment === index ? 'selected' : ''}`}
-						whileHover={reducedMotion.current ? {} : { y: -4 }}
-						whileTap={reducedMotion.current ? {} : { scale: 0.96 }}
-						transition={transition('fast')}
-						onclick={() => onSelectMoment(index)}>
-						<img src={backend.thumbUrl(item)} alt={item.filename} />
-					</motion.button>
-				{/each}
-				{#if moments.length === 0}
-					<button class="timeline-add" onclick={onOpenGather}>
-						<PlusIcon size={20} />
-					</button>
-				{/if}
-			</motion.div>
-		</div>
-		<div class="track">
-			<strong>Voiceover</strong>
-			<div class="audio-track">
-				<WaveformIcon size={22} />
-				<span>{voiceover?.filename ?? 'Choose a voiceover in Polish sound'}</span>
-			</div>
-		</div>
-		<div class="track">
-			<strong>Music</strong>
-			<div class="music-track">Add and arrange music on its own track.</div>
-		</div>
+		<MultiTrackTimeline
+			data={timelineData}
+			mediaItems={allMedia} />
 	</section>
 </div>

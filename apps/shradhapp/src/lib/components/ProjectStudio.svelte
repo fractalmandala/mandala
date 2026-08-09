@@ -9,7 +9,7 @@
 	import { motionConfig } from '$lib/motion';
 	import { settingsStore } from '$lib/settings.svelte';
 	import { mediaStore } from '$lib/stores.svelte';
-	import { isProjectDataV2, projectV2ToV1 } from '$lib/timeline/mapper';
+	import { isProjectDataV2, projectV1ToV2, projectV2ToV1 } from '$lib/timeline/mapper';
 	import { UndoStack, snapshotCommand } from '$lib/undo.svelte';
 	import { clone, sanitizeFileName } from '$lib/utils';
 	import ExportPanel from './ExportPanel.svelte';
@@ -107,6 +107,7 @@
 	const voiceover = $derived(
 		data.voiceover_media_id ? mediaStore.byId(data.voiceover_media_id) : undefined
 	);
+	const v2Data = $derived(projectV1ToV2(data, { mediaItems: mediaStore.items }));
 	const availableMedia = $derived(mediaStore.items.filter((item) => item.kind !== 'audio'));
 	const audioMedia = $derived(mediaStore.items.filter((item) => item.kind === 'audio'));
 	const recentProjects = $derived(projects.slice(0, 6));
@@ -251,6 +252,68 @@
 			status = error instanceof Error ? error.message : String(error);
 		} finally {
 			cleaning = false;
+		}
+	}
+
+	async function onAudioCut(region: { start: number; end: number }) {
+		if (!voiceover || !isTauri) return;
+		try {
+			const result = await backend.cutAudioRegion(voiceover.id, region.start, region.end);
+			await mediaStore.load();
+			setVoiceover(result.cleaned.id);
+			status = 'Cut region removed. Original unchanged.';
+		} catch (error) {
+			status = error instanceof Error ? error.message : String(error);
+		}
+	}
+
+	async function onAudioSilence(region: { start: number; end: number }) {
+		if (!voiceover || !isTauri) return;
+		try {
+			const result = await backend.silenceAudioRegion(voiceover.id, region.start, region.end);
+			await mediaStore.load();
+			setVoiceover(result.cleaned.id);
+			status = 'Selected region silenced. Original unchanged.';
+		} catch (error) {
+			status = error instanceof Error ? error.message : String(error);
+		}
+	}
+
+	async function onAudioFadeIn(region: { start: number; end: number }) {
+		if (!voiceover || !isTauri) return;
+		try {
+			const duration = region.end - region.start;
+			const result = await backend.fadeAudio(voiceover.id, region.start, duration, true);
+			await mediaStore.load();
+			setVoiceover(result.cleaned.id);
+			status = 'Fade in applied. Original unchanged.';
+		} catch (error) {
+			status = error instanceof Error ? error.message : String(error);
+		}
+	}
+
+	async function onAudioFadeOut(region: { start: number; end: number }) {
+		if (!voiceover || !isTauri) return;
+		try {
+			const duration = region.end - region.start;
+			const result = await backend.fadeAudio(voiceover.id, region.start, duration, false);
+			await mediaStore.load();
+			setVoiceover(result.cleaned.id);
+			status = 'Fade out applied. Original unchanged.';
+		} catch (error) {
+			status = error instanceof Error ? error.message : String(error);
+		}
+	}
+
+	async function onAudioNormalize() {
+		if (!voiceover || !isTauri) return;
+		try {
+			const result = await backend.normalizeAudio(voiceover.id);
+			await mediaStore.load();
+			setVoiceover(result.cleaned.id);
+			status = 'Audio normalized (EBU R128). Original unchanged.';
+		} catch (error) {
+			status = error instanceof Error ? error.message : String(error);
 		}
 	}
 
@@ -509,6 +572,9 @@
 				{moments}
 				{selectedMoment}
 				{voiceover}
+				audioUrl={voiceover ? backend.mediaUrl(voiceover) : ''}
+				timelineData={v2Data}
+				allMedia={mediaStore.items}
 				{repairOpen}
 				{selectedMarker}
 				{cleaning}
@@ -517,6 +583,11 @@
 				onToggleRepair={() => (repairOpen = !repairOpen)}
 				onToggleMarker={toggleMarker}
 				onCleanVoiceover={cleanVoiceover}
+				onAudioCut={onAudioCut}
+				onAudioSilence={onAudioSilence}
+				onAudioFadeIn={onAudioFadeIn}
+				onAudioFadeOut={onAudioFadeOut}
+				onAudioNormalize={onAudioNormalize}
 				onChooseVoiceover={() => onNavigate('record')}
 				onOpenGather={openGather}
 				onSplitSelected={splitSelected}
