@@ -19,7 +19,7 @@ Activate this skill when:
 
 Do not activate this skill for adjacent work owned by other skills:
 - General token-efficiency tactics such as masking, prefix caching, or partitioning: `context-optimization`.
-- Diagnosing why a long context is failing before choosing a mitigation: `context-degradation`.
+- Diagnosing why a long context is failing before choosing a mitigation: `context-fallback`.
 - Writing raw outputs, logs, or plans to files without summarizing them: `filesystem-context`.
 - Designing long-term semantic memory across sessions: `memory-systems`.
 
@@ -249,7 +249,7 @@ The structured response preserves endpoint, error code, and root cause. The aggr
 
 This skill connects to several others in the collection:
 
-- context-degradation - Compression is a mitigation strategy for degradation
+- context-fallback - Compression is a mitigation strategy for fallback
 - context-optimization - Compression is one optimization technique among many
 - evaluation - Probe-based evaluation applies to compression testing
 - memory-systems - Compression relates to scratchpad and summary memory patterns
@@ -260,7 +260,7 @@ Internal reference:
 - [Evaluation Framework Reference](./references/evaluation-framework.md) - Read when: building or calibrating a probe-based evaluation pipeline, or when needing scoring rubrics and LLM judge configuration for compression quality assessment
 
 Related skills in this collection:
-- context-degradation - Read when: diagnosing why agent performance drops over long sessions, before applying compression as a mitigation
+- context-fallback - Read when: diagnosing why agent performance drops over long sessions, before applying compression as a mitigation
 - context-optimization - Read when: compression alone is insufficient and broader optimization strategies (pruning, caching, routing) are needed
 - evaluation - Read when: designing evaluation frameworks beyond compression-specific probes, including general LLM-as-judge methodology
 

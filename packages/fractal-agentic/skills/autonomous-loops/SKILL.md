@@ -343,7 +343,7 @@ Adding "don't test type systems" or "don't add unnecessary checks" to the Implem
 
 - The model becomes hesitant about ALL testing
 - It skips legitimate edge case tests
-- Quality degrades unpredictably
+- Quality falls back unpredictably
 
 ### The Solution: Separate Pass
 

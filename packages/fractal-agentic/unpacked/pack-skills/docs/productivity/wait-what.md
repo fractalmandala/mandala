@@ -29,7 +29,7 @@ If you have no `CONTEXT.md`, the skill still works. You lose only the domain-voc
 - The re-pitch is **shorter and clearer**, not shorter and blunter.
 - It adds the premise you were missing, instead of only deleting words.
 - Project nouns replace invented ones. The terms in your `CONTEXT.md` come back.
-- You can use it twice in a row, and it does not degrade into terseness.
+- You can use it twice in a row, and it does not fall back into terseness.
 
 ## Where it fits
 

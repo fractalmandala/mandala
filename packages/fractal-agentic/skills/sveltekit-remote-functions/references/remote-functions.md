@@ -95,7 +95,7 @@ export const getWeather = query.batch(v.string(), async (cityIds) => {
 
 ## form()
 
-Use `form()` for mutations that should gracefully degrade when JavaScript is
+Use `form()` for mutations that should gracefully fall back when JavaScript is
 disabled.
 
 ```ts

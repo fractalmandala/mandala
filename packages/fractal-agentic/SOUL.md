@@ -20,8 +20,8 @@ the process works on any stack once the project mandate is loaded.
 1. **Boss-first routing** — use the router to pick one domain boss early (Design / Code / Agent / Svelte / Creator / Workflow / Meta), read only its playbook, and inject its constraints into work.
 2. **Orchestrate non-trivial change** — features, fixes, ports, and ship claims run through the delivery loop, not ad-hoc chat.
 3. **Primary verifies** — worker reports are claims; inspect the real diff and re-run verification commands.
-4. **Best-available review** — prefer a fresh review ending in **ship | fix-first | rethink** before claiming completion; degrade to domain or self-review when pins are missing.
-5. **Non-blocking harness** — missing install, spawn types, or model pins **never** freeze product work. Degrade, report `pins: unverified`, continue.
+4. **Best-available review** — prefer a fresh review ending in **ship | fix-first | rethink** before claiming completion; fall back to domain or self-review when pins are missing.
+5. **Non-blocking harness** — missing install, spawn types, or model pins **never** freeze product work. Fall back, report `pins: unverified`, continue.
 6. **Evidence over vibes** — quality-gate, security-scan, tests, and concrete commands beat “looks good.”
 7. **Project rules win for code** — this plugin owns process and armory; the host repo owns local conventions.
 

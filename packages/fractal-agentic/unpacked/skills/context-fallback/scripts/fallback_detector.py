@@ -1,13 +1,13 @@
 """
-Context Degradation Detection — Public API
+Context Fallback Detection — Public API
 ============================================
 
-Detect, measure, and diagnose context degradation patterns in LLM agent systems.
+Detect, measure, and diagnose context fallback patterns in LLM agent systems.
 
 Public API:
     measure_attention_distribution  — Map attention weight across context positions.
-    detect_lost_in_middle           — Flag critical information in degraded-attention regions.
-    analyze_context_structure       — Assess structural degradation risk factors.
+    detect_lost_in_middle           — Flag critical information in fallback-attention regions.
+    analyze_context_structure       — Assess structural fallback risk factors.
     PoisoningDetector               — Detect context poisoning indicators (error accumulation,
                                       contradictions, hallucination markers).
     ContextHealthAnalyzer           — Run composite health analysis combining attention,
@@ -71,7 +71,7 @@ def measure_attention_distribution(
         attention_by_position.append({
             "position": position,
             "attention": attention,
-            "region": "attention_favored" if (is_beginning or is_end) else "attention_degraded",
+            "region": "attention_favored" if (is_beginning or is_end) else "attention_fallback",
             "tokens": context_tokens[position][:50] if position < 5 or position > n - 5 else None,
         })
 
@@ -89,7 +89,7 @@ def _estimate_attention(
     Simulates the U-shaped attention curve documented in lost-in-middle research:
     - Beginning tokens receive high attention (primacy / attention-sink effect).
     - End tokens receive high attention (recency effect).
-    - Middle tokens receive degraded attention.
+    - Middle tokens receive fallback attention.
 
     IMPORTANT: This is a simulation for demonstration. Production systems should
     extract actual attention weights from model forward passes or use
@@ -113,7 +113,7 @@ def detect_lost_in_middle(
     critical_positions: List[int],
     attention_distribution: List[Dict[str, object]],
 ) -> Dict[str, object]:
-    """Check if critical information sits in attention-degraded positions.
+    """Check if critical information sits in attention-fallback positions.
 
     Use when: context has been assembled and you need to verify that
     high-priority content is not buried in the low-attention middle zone.
@@ -124,13 +124,13 @@ def detect_lost_in_middle(
 
     Returns:
         Dict with keys: at_risk (list[int]), safe (list[int]),
-        recommendations (list[str]), degradation_score (float 0-1).
+        recommendations (list[str]), fallback_score (float 0-1).
     """
     results: Dict[str, object] = {
         "at_risk": [],
         "safe": [],
         "recommendations": [],
-        "degradation_score": 0.0,
+        "fallback_score": 0.0,
     }
 
     at_risk_count = 0
@@ -139,21 +139,21 @@ def detect_lost_in_middle(
     for pos in critical_positions:
         if pos < len(attention_distribution):
             region = attention_distribution[pos]["region"]
-            if region == "attention_degraded":
+            if region == "attention_fallback":
                 results["at_risk"].append(pos)
                 at_risk_count += 1
             else:
                 results["safe"].append(pos)
 
     if total_critical > 0:
-        results["degradation_score"] = at_risk_count / total_critical
+        results["fallback_score"] = at_risk_count / total_critical
 
     if results["at_risk"]:
         results["recommendations"].extend([
             "Move critical information to attention-favored positions",
             "Use explicit markers to highlight critical information",
             "Consider splitting context to reduce middle section",
-            f"{at_risk_count}/{total_critical} critical items are in degraded region",
+            f"{at_risk_count}/{total_critical} critical items are in fallback region",
         ])
 
     return results
@@ -164,7 +164,7 @@ def detect_lost_in_middle(
 # ---------------------------------------------------------------------------
 
 def analyze_context_structure(context: str) -> Dict[str, object]:
-    """Assess structural degradation risk factors in a context string.
+    """Assess structural fallback risk factors in a context string.
 
     Use when: evaluating whether a context layout puts too much content
     in the low-attention middle zone before sending it to a model.
@@ -174,7 +174,7 @@ def analyze_context_structure(context: str) -> Dict[str, object]:
 
     Returns:
         Dict with total_lines, sections list, middle_content_ratio,
-        and degradation_risk level (low / medium / high).
+        and fallback_risk level (low / medium / high).
     """
     lines = context.split("\n")
     sections: List[Dict[str, object]] = []
@@ -210,7 +210,7 @@ def analyze_context_structure(context: str) -> Dict[str, object]:
         "total_lines": n,
         "sections": sections,
         "middle_content_ratio": middle_ratio,
-        "degradation_risk": (
+        "fallback_risk": (
             "high" if middle_ratio > 0.5
             else "medium" if middle_ratio > 0.3
             else "low"
@@ -225,7 +225,7 @@ def analyze_context_structure(context: str) -> Dict[str, object]:
 class PoisoningDetector:
     """Detect context poisoning indicators via pattern matching.
 
-    Use when: context quality is suspect — outputs degrade on previously
+    Use when: context quality is suspect — outputs fall back on previously
     successful tasks, tool calls misalign, or hallucinations persist
     despite corrections.
     """
@@ -279,7 +279,7 @@ class PoisoningDetector:
     def detect_poisoning(self, context: str) -> Dict[str, object]:
         """Detect potential context poisoning indicators.
 
-        Use when: agent output quality has degraded and context
+        Use when: agent output quality has fallback and context
         contamination is suspected. Checks for error accumulation,
         contradictions, and hallucination markers.
 
@@ -387,7 +387,7 @@ class ContextHealthAnalyzer:
 
     Use when: performing routine health checks on agent context during
     long-running sessions, or when setting up automated monitoring that
-    triggers compaction or isolation before degradation hits.
+    triggers compaction or isolation before fallback hits.
 
     Combines attention distribution, poisoning detection, and utilization
     metrics into a single 0-1 health score with status interpretation.
@@ -426,7 +426,7 @@ class ContextHealthAnalyzer:
             "current_task",
         )
 
-        degradation = detect_lost_in_middle(
+        fallback = detect_lost_in_middle(
             critical_positions or list(range(10)),
             attention_dist,
         )
@@ -435,7 +435,7 @@ class ContextHealthAnalyzer:
 
         health_score = self._calculate_health_score(
             utilization=utilization,
-            degradation=degradation["degradation_score"],
+            fallback=fallback["fallback_score"],
             poisoning_risk=1.0 if poisoning["poisoning_risk"] else 0.0,
         )
 
@@ -445,15 +445,15 @@ class ContextHealthAnalyzer:
             "metrics": {
                 "token_count": token_count,
                 "utilization": utilization,
-                "degradation_score": degradation["degradation_score"],
+                "fallback_score": fallback["fallback_score"],
                 "poisoning_risk": poisoning["overall_risk"],
             },
             "issues": {
-                "lost_in_middle": degradation,
+                "lost_in_middle": fallback,
                 "poisoning": poisoning,
             },
             "recommendations": self._generate_recommendations(
-                utilization, degradation, poisoning
+                utilization, fallback, poisoning
             ),
         }
 
@@ -463,15 +463,15 @@ class ContextHealthAnalyzer:
     def _calculate_health_score(
         self,
         utilization: float,
-        degradation: float,
+        fallback: float,
         poisoning_risk: float,
     ) -> float:
         """Calculate composite health score (0-1, higher is healthier)."""
         utilization_penalty = min(utilization * 0.5, 0.3)
-        degradation_penalty = degradation * 0.3
+        fallback_penalty = fallback * 0.3
         poisoning_penalty = poisoning_risk * 0.2
 
-        score = 1.0 - utilization_penalty - degradation_penalty - poisoning_penalty
+        score = 1.0 - utilization_penalty - fallback_penalty - poisoning_penalty
         return max(0.0, min(1.0, score))
 
     def _interpret_score(self, score: float) -> str:
@@ -481,14 +481,14 @@ class ContextHealthAnalyzer:
         elif score > 0.6:
             return "warning"
         elif score > 0.4:
-            return "degraded"
+            return "fallback"
         else:
             return "critical"
 
     def _generate_recommendations(
         self,
         utilization: float,
-        degradation: Dict[str, object],
+        fallback: Dict[str, object],
         poisoning: Dict[str, object],
     ) -> List[str]:
         """Generate actionable recommendations based on analysis."""
@@ -498,8 +498,8 @@ class ContextHealthAnalyzer:
             recommendations.append("Context near limit - consider compaction")
             recommendations.append("Implement observation masking for tool outputs")
 
-        if degradation.get("at_risk"):
-            recommendations.append("Critical information in degraded attention region")
+        if fallback.get("at_risk"):
+            recommendations.append("Critical information in fallback attention region")
             recommendations.append("Move key information to beginning or end of context")
 
         if poisoning["poisoning_risk"]:
@@ -557,7 +557,7 @@ def analyze_agent_context(
 if __name__ == "__main__":
     # Demonstrate the public API with synthetic context
     print("=" * 60)
-    print("Context Degradation Detector — Demo")
+    print("Context Fallback Detector — Demo")
     print("=" * 60)
 
     # Build a synthetic context with identifiable sections
@@ -573,16 +573,16 @@ if __name__ == "__main__":
     structure = analyze_context_structure(sample_context)
     print(f"  Lines: {structure['total_lines']}")
     print(f"  Middle content ratio: {structure['middle_content_ratio']:.2f}")
-    print(f"  Degradation risk: {structure['degradation_risk']}")
+    print(f"  Fallback risk: {structure['fallback_risk']}")
 
     # 2. Attention distribution (first 50 tokens for brevity)
     print("\n--- Attention Distribution (first 50 tokens) ---")
     tokens = sample_context.split()[:50]
     attention = measure_attention_distribution(tokens, "quarterly revenue")
     favored = sum(1 for a in attention if a["region"] == "attention_favored")
-    degraded = sum(1 for a in attention if a["region"] == "attention_degraded")
+    fallback = sum(1 for a in attention if a["region"] == "attention_fallback")
     print(f"  Favored positions: {favored}")
-    print(f"  Degraded positions: {degraded}")
+    print(f"  Fallback positions: {fallback}")
 
     # 3. Lost-in-middle detection
     print("\n--- Lost-in-Middle Detection ---")
@@ -590,7 +590,7 @@ if __name__ == "__main__":
     lim_result = detect_lost_in_middle(critical, attention)
     print(f"  At risk: {lim_result['at_risk']}")
     print(f"  Safe: {lim_result['safe']}")
-    print(f"  Degradation score: {lim_result['degradation_score']:.2f}")
+    print(f"  Fallback score: {lim_result['fallback_score']:.2f}")
 
     # 4. Poisoning detection
     print("\n--- Poisoning Detection ---")

@@ -510,7 +510,7 @@
     },
     {
       "title": "Capability lanes never gate",
-      "body": "The three spawn pins (routine, complex, fresh-reviewer) are quality levers only — missing pins degrade to 'unverified' and delivery continues per progression.md.",
+      "body": "The three spawn pins (routine, complex, fresh-reviewer) are quality levers only — missing pins fall back to 'unverified' and delivery continues per progression.md.",
       "severity": "info",
       "path": "svc:lanes"
     },

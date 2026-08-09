@@ -96,7 +96,7 @@ Organized by what you're trying to achieve, not by technology name.
 
 ### Progressive enhancement is non-negotiable
 
-Every technique must degrade gracefully. The experience without the enhancement must still be good.
+Every technique must fall back gracefully. The experience without the enhancement must still be good.
 
 ```css
 @supports (animation-timeline: scroll()) {

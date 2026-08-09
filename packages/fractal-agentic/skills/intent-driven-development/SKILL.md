@@ -199,7 +199,7 @@ Consider these categories, but include only categories that apply:
 | Authorization/privacy   | Data or actions have access boundaries           | Denied access and no sensitive disclosure                |
 | Persistence/migration   | Stored data or schemas change                    | Backward read, migration, rollback or backup behavior    |
 | Compatibility           | Public APIs, files, events, or clients may break | Existing contract or fixture remains valid               |
-| Failure recovery        | Network, service, or asynchronous failure exists | No partial state or clear retry/degraded behavior        |
+| Failure recovery        | Network, service, or asynchronous failure exists | No partial state or clear retry/fallback behavior        |
 | Idempotency/concurrency | Repeats or simultaneous writes are plausible     | No duplicate side effect or invalid final state          |
 | Performance             | A user or service threshold matters              | Defined measurement conditions and threshold             |
 | UX/accessibility        | A person interacts with the result               | Keyboard, feedback, error recovery, visual/manual review |

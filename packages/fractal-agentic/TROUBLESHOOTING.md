@@ -23,4 +23,4 @@ sh "$FRACTAL_AGENTIC_ROOT/scripts/check-armory.sh"
 sh "$FRACTAL_AGENTIC_ROOT/scripts/check-nonblocking-policy.sh"
 ```
 
-**Rule:** missing pins, hooks, or wiki never block product work — degrade and continue.
+**Rule:** missing pins, hooks, or wiki never block product work — fall back and continue.

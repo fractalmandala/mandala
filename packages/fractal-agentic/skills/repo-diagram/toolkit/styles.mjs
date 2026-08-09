@@ -11,7 +11,7 @@
  *
  * A class is AUTHORED if something in the repo defines it, and UTILITY otherwise
  * (Tailwind, Bootstrap, whatever). That rule needs no framework knowledge and
- * degrades gracefully: authored classes get listed and linked to their
+ * falls back gracefully: authored classes get listed and linked to their
  * definition site; utility classes get counted, because listing 400 of them per
  * node is noise, not information.
  */

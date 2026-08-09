@@ -1,6 +1,6 @@
 ---
 name: boss-orchestration
-description: 'Fractal Agentic delivery runtime: domain boss selection, best-effort capability lanes (pinned when session-exposed, else degrade), primary verification, and ship|fix-first|rethink review. Non-blocking: missing install or spawn types never stop product work. Use for multi-step features, fixes, ports, refactors, lane selection, five-part specs, and completion review.'
+description: 'Fractal Agentic delivery runtime: domain boss selection, best-effort capability lanes (pinned when session-exposed, else fall back), primary verification, and ship|fix-first|rethink review. Non-blocking: missing install or spawn types never stop product work. Use for multi-step features, fixes, ports, refactors, lane selection, five-part specs, and completion review.'
 ---
 
 # Fractal Agentic Orchestration
@@ -55,8 +55,8 @@ After detection, set `capability_mode` per
 | Mode | Meaning |
 |---|---|
 | `plugin_missing` | No readable plugin — project AGENTS only |
-| `degraded` | Plugin OK; no pin types in this session (or install incomplete) |
-| `pinned_partial` | Some pin types exposed — use those; degrade the rest |
+| `fallback` | Plugin OK; no pin types in this session (or install incomplete) |
+| `pinned_partial` | Some pin types exposed — use those; fall back the rest |
 | `pinned` | All three pin types exposed in this session |
 
 State once when not fully `pinned`. Prefer any exposed pin; never require all three.
@@ -130,7 +130,7 @@ Prefer these types **only if listed in this task’s spawn catalog**:
 - `fractal_agentic_complex_implementer`
 - `fractal_agentic_fresh_reviewer`
 
-Use **whichever exist** (`pinned_partial` is valid). Empty list → `degraded`.
+Use **whichever exist** (`pinned_partial` is valid). Empty list → `fallback`.
 
 When a pin spawn runs, optional model/effort note (not a gate):
 
@@ -150,7 +150,7 @@ reviewer sandbox when observable; never claim OS read-only unless observed.
 
 ### progression path (first-class)
 
-Default when mode is `degraded` or a given pin is not exposed:
+Default when mode is `fallback` or a given pin is not exposed:
 
 1. **Implement** in primary and/or general / stack subagents (no invented type names).
 2. Keep the **five-part contract** + boss constraints for non-trivial work.
@@ -197,7 +197,7 @@ If that type is not exposed → primary or strongest available implementer.
 ### Routing rules
 
 - Route by **task shape**, not prestige.
-- Prefer pins when present; otherwise degrade without ceremony.
+- Prefer pins when present; otherwise fall back without ceremony.
 - One worker per owned file set or bounded responsibility when delegating.
 - Workers are not alone: preserve concurrent edits; do not revert unrelated work.
 - Independent non-overlapping work may run in parallel; shared files and dependency

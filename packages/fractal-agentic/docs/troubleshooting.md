@@ -8,7 +8,7 @@ type: guide
 
 Operator runbook for Fractal Agentic. Root pointer: [`../TROUBLESHOOTING.md`](../TROUBLESHOOTING.md).
 
-**Doctrine:** missing pins, hooks, marketplace, or wiki **never** freeze product work. Degrade and continue — [progression.md](./progression.md).
+**Doctrine:** missing pins, hooks, marketplace, or wiki **never** freeze product work. Fall back and continue — [progression.md](./progression.md).
 
 ## Quick health
 
@@ -63,7 +63,7 @@ Catalog vs package layout: [02-install.md](./02-install.md).
 
 | Symptom | Fix |
 |---|---|
-| Install passed, types “not exposed” | Disk (layer B) OK; session (C) needs new task — **keep coding** degraded |
+| Install passed, types “not exposed” | Disk (layer B) OK; session (C) needs new task — **keep coding** fallback |
 | Agent refuses work without pins | Wrong behavior — upgrade plugin docs; non-blocking policy forbids freezes |
 | `--check` fails conflict | Manual merge; installer never overwrites differing files |
 | Unsure of capability_mode | See [capability-mode.md](../skills/boss-orchestration/references/capability-mode.md) |
@@ -120,7 +120,7 @@ sh "$FRACTAL_AGENTIC_ROOT/skills/llm-wiki/scripts/wiki-resolve-root.sh"
 |---|---|
 | Skill never loads | Host skill discovery must include `plugin/skills`; check frontmatter `description` |
 | Wrong boss | Re-read the [startup router](../AGENTS.md) and [boss hub](./bosses/INDEX.md); Creator can commandeer mid-build |
-| Subagent type unknown | Only use types listed in **this session’s** spawn catalog; degrade otherwise |
+| Subagent type unknown | Only use types listed in **this session’s** spawn catalog; fall back otherwise |
 
 ---
 

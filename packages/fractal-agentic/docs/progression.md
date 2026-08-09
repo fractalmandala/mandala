@@ -22,7 +22,7 @@ contradict it. Prefer linking here over re-stating hard gates.
 |---|---|---|---|
 | **A — Content** | Can we read the startup router, nested boss playbooks, and `boss-orchestration`? | `resolve-plugin-root.sh`, filesystem | Soft: project AGENTS only; **still do the work** |
 | **B — Install** | Are capability TOML files on disk under `$CODEX_HOME/agents` (or `~/.codex/agents`)? | `install-agents.sh` / `--check` | Soft: warn once + installer path; **still do the work** |
-| **C — Session** | Does *this* task’s spawn tool list `fractal_agentic_*` types? | Host spawn `agent_type` catalog only | Soft: degrade; mark `pins: unverified`; **still do the work** |
+| **C — Session** | Does *this* task’s spawn tool list `fractal_agentic_*` types? | Host spawn `agent_type` catalog only | Soft: fall back; mark `pins: unverified`; **still do the work** |
 
 ### Critical distinction
 
@@ -45,14 +45,14 @@ tool call.
 | Mode | When | Behavior |
 |---|---|---|
 | `plugin_missing` | Layer A failed | Project AGENTS only; no Fractal process claims |
-| `degraded` | Layer A OK; B and/or C incomplete | Selected boss playbook + contracts; primary/general/domain agents; `pins: unverified` |
+| `fallback` | Layer A OK; B and/or C incomplete | Selected boss playbook + contracts; primary/general/domain agents; `pins: unverified` |
 | `pinned` | Layer A OK and at least one pin type listed in **this** session’s spawn catalog | Prefer those types; use whichever of the three exist (not “all or nothing”) |
-| `pinned_partial` | Some pin types exposed, not all | Use available pins; degrade only the missing roles |
+| `pinned_partial` | Some pin types exposed, not all | Use available pins; fall back only the missing roles |
 
 Report in delivery notes:
 
 ```text
-capability_mode: degraded | pinned | pinned_partial | plugin_missing
+capability_mode: fallback | pinned | pinned_partial | plugin_missing
 pins: verified | unverified | n/a
 layers: content=ok|miss install=ok|miss|skip session=ok|miss|skip
 ```
@@ -61,7 +61,7 @@ Full algorithm: [skills/boss-orchestration/references/capability-mode.md](../ski
 
 ---
 
-## Default path = degrade, not refuse
+## Default path = fall back, not refuse
 
 ```text
 prefer(session-exposed pin for this role)
@@ -84,7 +84,7 @@ exfiltration, etc.) — not missing Luna/Sol/Terra pins.
 | `--check` must pass before coding | If spawn lists type → use it |
 | All three types required or stop | Use any of the three that exist |
 | Fresh task mandatory after install | Optional tip; work continues now |
-| “Never substitute” | Degrade openly; never **claim** a pin was used when it wasn’t |
+| “Never substitute” | Fall back openly; never **claim** a pin was used when it wasn’t |
 
 Optional install tip (once, non-blocking):
 
@@ -100,12 +100,12 @@ sh <plugin>/scripts/install-agents.sh
 | # | Scenario | Expected |
 |---|---|---|
 | 1 | Plugin not found | Continue under project AGENTS; no fake path |
-| 2 | Plugin found, agents never installed | Continue degraded; one install tip |
-| 3 | Just installed in **same** task | Continue degraded (or pinned if host hot-reloads); do not refuse |
+| 2 | Plugin found, agents never installed | Continue in fallback mode; one install tip |
+| 3 | Just installed in **same** task | Continue in fallback mode (or pinned if host hot-reloads); do not refuse |
 | 4 | Installed + **new** task + types listed | Prefer pins (`capability_mode: pinned` or `pinned_partial`) |
-| 5 | Only reviewer pin present | Implement degraded; review with pin if useful |
+| 5 | Only reviewer pin present | Implement in fallback mode; review with pin if useful |
 | 6 | User: “just fix the UI” | Never blocked by preflight |
-| 7 | `--check` fails (missing/stale/conflict) | Warn; continue degraded |
+| 7 | `--check` fails (missing/stale/conflict) | Warn; continue in fallback mode |
 | 8 | Model cannot observe sandbox | Note residual risk; do not block ship on that alone |
 
 If any scenario requires “open a new task **before** writing code,” the design has failed.
@@ -156,9 +156,9 @@ is soft. Missing vault or write errors **never** fail delivery. See
 |---|---|
 | Prefer pins when listed in **this** session | Infer pins from `~/.codex/agents` alone |
 | One non-blocking rule in boss-orchestration | Duplicate hard stops across 4 files |
-| Degrade + `pins: unverified` | “Forbidden to substitute” / refuse Sol or general agents |
+| Fall back + `pins: unverified` | “Forbidden to substitute” / refuse Sol or general agents |
 | Installer: disk vs session messaging | Imply install = immediately spawnable |
-| Test degraded path as first-class | Only test full pin path |
+| Test fallback path as first-class | Only test full pin path |
 | Lint via `check-nonblocking-policy.sh` | Rely on memory |
 
 ---

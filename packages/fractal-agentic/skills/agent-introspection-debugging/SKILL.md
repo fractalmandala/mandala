@@ -15,7 +15,7 @@ This is a workflow skill, not a hidden runtime. It teaches the agent to debug it
 
 - Maximum tool call / loop-limit failures
 - Repeated retries with no forward progress
-- Context growth or prompt drift that starts degrading output quality
+- Context growth or prompt drift that starts worsening output quality
 - File-system or environment state mismatch between expectation and reality
 - Tool failures that are likely recoverable with diagnosis and a smaller corrective action
 
@@ -69,7 +69,7 @@ Match the failure to a known pattern before changing anything.
 | Pattern                                    | Likely Cause                                    | Check                                                      |
 | ------------------------------------------ | ----------------------------------------------- | ---------------------------------------------------------- |
 | Maximum tool calls / repeated same command | loop or no-exit observer path                   | inspect the last N tool calls for repetition               |
-| Context overflow / degraded reasoning      | unbounded notes, repeated plans, oversized logs | inspect recent context for duplication and low-signal bulk |
+| Context overflow / fallback reasoning      | unbounded notes, repeated plans, oversized logs | inspect recent context for duplication and low-signal bulk |
 | `ECONNREFUSED` / timeout                   | service unavailable or wrong port               | verify service health, URL, and port assumptions           |
 | `429` / quota exhaustion                   | retry storm or missing backoff                  | count repeated calls and inspect retry spacing             |
 | file missing after write / stale diff      | race, wrong cwd, or branch drift                | re-check path, cwd, git status, and actual file existence  |

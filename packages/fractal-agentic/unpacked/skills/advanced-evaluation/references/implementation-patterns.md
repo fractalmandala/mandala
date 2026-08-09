@@ -230,7 +230,7 @@ def format_output(scores, metadata) -> EvaluationResult:
 
 ## Error Handling Patterns
 
-### Graceful Degradation
+### Graceful Fallback
 
 ```python
 async def evaluate_with_fallback(response, prompt, criteria):

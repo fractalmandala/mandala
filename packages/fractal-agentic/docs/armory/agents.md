@@ -39,7 +39,7 @@ A successful disk install does not prove that the current session exposes the sp
 - Use a specialist to narrow a question or review a change; keep ownership of the real diff in the primary session.
 - Do not invent a spawn type that is absent from the host’s current catalog.
 - Treat worker reports as claims until the primary session verifies the commands and result.
-- Keep optional pins non-blocking. Missing lanes should produce a documented degraded mode, not a refused task.
+- Keep optional pins non-blocking. Missing lanes should produce a documented fallback mode, not a refused task.
 
 When adding an agent, update the Markdown file, the live
 [`agents/INDEX.md`](../../agents/INDEX.md), and the relevant nested boss playbook.

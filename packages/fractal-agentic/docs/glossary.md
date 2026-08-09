@@ -12,7 +12,7 @@ type: guide
 | **Boss** | Executive domain (Design, Code, Agent, Svelte, Creator, Workflow, Meta) |
 | **Boss playbook** | One authoritative `docs/bosses/<boss>/INDEX.md` read after selection |
 | **boss-orchestration** | Delivery skill behind `/orchestrate` |
-| **capability_mode** | Session pin status: `pinned` \| `pinned_partial` \| `degraded` \| `plugin_missing` |
+| **capability_mode** | Session pin status: `pinned` \| `pinned_partial` \| `fallback` \| `plugin_missing` |
 | **Capability lane** | Routine / complex / fresh-review implementer roles |
 | **Crystallize / ingest** | Promote raw material into structured wiki pages |
 | **ECC** | Engineering Capability Collection |

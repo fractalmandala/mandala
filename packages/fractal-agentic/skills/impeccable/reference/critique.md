@@ -33,9 +33,9 @@ Delegate Assessment A and Assessment B to separate sub-agents when possible. The
 Sub-agent gate (pin-capable hosts):
 - If `spawn_agent` is exposed and the user explicitly allowed sub-agents, delegation, or parallel agent work, spawn A and B immediately.
 - If `spawn_agent` is exposed but the user did not explicitly allow sub-agents, ask exactly once: "Impeccable critique is designed to run two independent sub-agents for an unanchored assessment. May I use sub-agents for this critique?" Then stop until the user answers.
-- If allowed, spawn A and B. If declined, run sequentially and report `Assessment independence: degraded (sub-agents declined by user)`.
-- If `spawn_agent` is not exposed, do not ask; run sequentially and report `Assessment independence: degraded (spawn_agent unavailable in this session)`.
-- If spawning fails after permission, run sequentially and report `Assessment independence: degraded (sub-agent spawn failed: <exact error>)`.
+- If allowed, spawn A and B. If declined, run sequentially and report `Assessment independence: fallback (sub-agents declined by user)`.
+- If `spawn_agent` is not exposed, do not ask; run sequentially and report `Assessment independence: fallback (spawn_agent unavailable in this session)`.
+- If spawning fails after permission, run sequentially and report `Assessment independence: fallback (sub-agent spawn failed: <exact error>)`.
 Prefer `fork_context: false` with self-contained prompts containing cwd, target, live URL, references, product context, and output contract. If using `fork_context: true`, omit `agent_type`, `model`, and `reasoning_effort`.
 </codex>
 

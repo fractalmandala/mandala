@@ -47,7 +47,7 @@ Do not activate this skill for adjacent work owned by other skills:
 |----------|------------------|
 | LLM summarization | High latency, lossy abstraction, and no guarantee the summary preserves what the next subtask needs |
 | Retrieval / RAG | Depends on chunking and embeddings; can miss cross-chunk or cross-step dependencies |
-| Pass full trajectory | Cost scales with every worker call and irrelevant context can degrade worker quality |
+| Pass full trajectory | Cost scales with every worker call and irrelevant context can fall back worker quality |
 
 Latent Briefing is useful when the bottleneck is not document retrieval itself, but **how to transfer orchestrator state into a worker efficiently and precisely**.
 

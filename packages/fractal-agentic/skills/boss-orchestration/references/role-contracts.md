@@ -13,14 +13,14 @@ field.
 [capability-mode.md](capability-mode.md).
 
 Missing install, missing spawn types, or unverifiable pins do **not** stop
-implementation. Degrade per SKILL.md (primary / general agents / domain reviewers)
-and mark `pins: unverified` / `capability_mode: degraded|pinned_partial`. Never refuse
+implementation. Fall back per SKILL.md (primary / general agents / domain reviewers)
+and mark `pins: unverified` / `capability_mode: fallback|pinned_partial`. Never refuse
 user work waiting for a fresh task.
 
 When capability pins *are* available:
 
 1. Optionally run `../../scripts/install-agents.sh --check` relative to SKILL.md.
-   Non-zero → warn once with the installer path; continue degraded.
+   Non-zero → warn once with the installer path; continue in fallback mode.
 2. Prefer native types when exposed:
    `fractal_agentic_routine_implementer`, `fractal_agentic_complex_implementer`,
    `fractal_agentic_fresh_reviewer`.

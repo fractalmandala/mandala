@@ -57,7 +57,7 @@ type: episode
 boss: svelte
 status: ship
 project: fractalsvelte
-capability_mode: degraded
+capability_mode: fallback
 created: 2026-08-02
 updated: 2026-08-02
 ---

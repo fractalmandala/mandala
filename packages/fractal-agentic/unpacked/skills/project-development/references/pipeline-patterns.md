@@ -229,7 +229,7 @@ def extract_score(text: str, field_name: str, min_val: int, max_val: int) -> int
     return max(min_val, min(max_val, score))  # Clamp to valid range
 ```
 
-### Graceful Degradation
+### Graceful Fallback
 
 ```python
 @dataclass

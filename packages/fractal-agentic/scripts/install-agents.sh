@@ -115,7 +115,7 @@ done
 if [ "$check_only" -eq 1 ]; then
   printf '%s\n' "CHECK PASSED: all Fractal Agentic agent files exactly match $template_dir."
   printf '%s\n' "NOTE: This is disk install health only (layer B). It does not prove the current Codex task exposes spawn types (layer C)."
-  printf '%s\n' "      If types are missing mid-session, continue work degraded (pins: unverified) or start a new task later for rediscovery."
+  printf '%s\n' "      If types are missing mid-session, continue work fallback (pins: unverified) or start a new task later for rediscovery."
   printf '%s\n' "      Policy: docs/progression.md — product work must never wait on pins."
   exit 0
 fi
@@ -170,7 +170,7 @@ printf '%s\n' "  • Layer C (session): this task may NOT list them until Codex 
 printf '%s\n' ""
 printf '%s\n' "Next steps (optional — do not block product work):"
 printf '%s\n' "  1. Start a new Codex task in the workspace if you want spawn types rediscovered."
-printf '%s\n' "  2. Until then, agents should continue with capability_mode=degraded (pins: unverified)."
+printf '%s\n' "  2. Until then, agents should continue with capability_mode=fallback (pins: unverified)."
 printf '%s\n' "  3. See plugin docs/progression.md for the three-layer model."
 printf '%s\n' ""
 printf '%s\n' "Installed agent_type names (from TOML name= fields):"

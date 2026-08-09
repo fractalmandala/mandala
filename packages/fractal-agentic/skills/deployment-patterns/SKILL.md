@@ -283,7 +283,7 @@ app.get('/health/detailed', async (req, res) => {
 	const allHealthy = Object.values(checks).every((c) => c.status === 'ok');
 
 	res.status(allHealthy ? 200 : 503).json({
-		status: allHealthy ? 'ok' : 'degraded',
+		status: allHealthy ? 'ok' : 'fallback',
 		timestamp: new Date().toISOString(),
 		version: process.env.APP_VERSION || 'unknown',
 		uptime: process.uptime(),

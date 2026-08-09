@@ -16,7 +16,7 @@ orchestration guidance. Detection and pins are **best-effort** — they must **n
 user’s project work.
 
 **Project work always proceeds.** Missing plugin, missing `install-agents` files, or
-missing spawn types → continue with `capability_mode: plugin_missing|degraded` and
+missing spawn types → continue with `capability_mode: plugin_missing|fallback` and
 `pins: unverified`. Never freeze for a “fresh task” or refuse to implement.
 Policy: `<root>/docs/progression.md` when the plugin is present.
 
@@ -61,7 +61,7 @@ the task** because the plugin is missing.
    - `<root>/skills/boss-orchestration/SKILL.md` — only for non-trivial delivery and non-blocking preflight
    - `<root>/skills/boss-orchestration/references/capability-mode.md` — set mode once when runtime work needs it
    - `<root>/docs/progression.md` — three layers (content / install / session)
-2. **Set `capability_mode` once** (`pinned` | `pinned_partial` | `degraded` | `plugin_missing`)
+2. **Set `capability_mode` once** (`pinned` | `pinned_partial` | `fallback` | `plugin_missing`)
    from the **session spawn catalog**, not from disk alone. Prefer any exposed
    `fractal_agentic_*` types; never require all three.
 3. **Prefer** the plugin process:
@@ -92,7 +92,7 @@ sh <root>/scripts/install-agents.sh
 # optional: start a new agent session/task so types are re-discovered
 ```
 
-If types or templates are missing, **degrade immediately**:
+If types or templates are missing, **fall back immediately**:
 
 1. Implement in the primary session and/or any available general / stack agents.
 2. Review with domain agents (`svelte-reviewer`, `code-reviewer`, …) or structured

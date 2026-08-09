@@ -22,7 +22,7 @@ When the plugin is available, the agent should:
 2. read the startup `AGENTS.md`, select exactly one nested boss playbook, and read `SOUL.md` only when relevant;
 3. load `boss-orchestration` for non-trivial work;
 4. use `/orchestrate` for work that changes the repository or claims completion; and
-5. continue in a degraded mode when pins, hooks, or the wiki are absent.
+5. continue in a fallback mode when pins, hooks, or the wiki are absent.
 
 If detection fails, the agent should say once that Fractal Agentic was not found and continue with the project’s own rules. It should not invent a path or refuse the task.
 

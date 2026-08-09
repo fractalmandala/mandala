@@ -16,7 +16,7 @@ A diagnostic workflow for agent systems that hide failures behind wrapper layers
 
 - Releasing any agent or LLM-powered application to production
 - Shipping features with tool calling, memory, or multi-step workflows
-- Agent behavior degrades after adding wrapper layers
+- Agent behavior falls back after adding wrapper layers
 - User reports "the agent is getting worse" or "tools are flaky"
 - Same model works in playground but breaks inside your wrapper
 - Debugging agent behavior for more than 15 minutes without finding root cause
@@ -64,7 +64,7 @@ The base model produces correct answers, but the wrapper layers make it worse.
 **Symptoms:**
 
 - Model works fine in playground or direct API call, breaks in your agent
-- Added a new prompt layer, existing behavior degraded
+- Added a new prompt layer, existing behavior fallback
 - Agent sounds confident but is confidently wrong
 - "It was working before the last update"
 
@@ -77,7 +77,7 @@ Old topics leak into new conversations through history, memory retrieval, or dis
 - Agent brings up unrelated past topics
 - User corrections don't stick (old memory overwrites new)
 - Same-session artifacts re-enter as pseudo-facts
-- Memory grows without bound, degrading response quality over time
+- Memory grows without bound, worsening response quality over time
 
 ### 3. Tool Discipline Failure
 
@@ -184,7 +184,7 @@ Default fix order (code-first, not prompt-first):
 | Level      | Meaning                                                        | Action                  |
 | ---------- | -------------------------------------------------------------- | ----------------------- |
 | `critical` | Agent can confidently produce wrong operational behavior       | Fix before next release |
-| `high`     | Agent frequently degrades correctness or stability             | Fix this sprint         |
+| `high`     | Agent frequently falls back correctness or stability             | Fix this sprint         |
 | `medium`   | Correctness usually survives but output is fragile or wasteful | Plan for next cycle     |
 | `low`      | Mostly cosmetic or maintainability issues                      | Backlog                 |
 
