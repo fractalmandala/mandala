@@ -69,9 +69,8 @@ and retain Code/Security review for cross-stack discipline.
 - [Error Handling](../../../skills/error-handling/SKILL.md),
   [Verification Loop](../../../skills/verification-loop/SKILL.md), and
   [Gateguard](../../../skills/gateguard/SKILL.md).
-- [Database Migrations](../../../skills/database-migrations/SKILL.md),
-  [Postgres Patterns](../../../skills/postgres-patterns/SKILL.md), and
-  [Redis Patterns](../../../skills/redis-patterns/SKILL.md).
+- Database Migrations, Postgres Patterns, and Redis Patterns
+  (host-level skills — use them from the agent host, not the plugin armory).
 - [App Documenter](../../../skills/app-documenter/SKILL.md),
   [Doc Frontmatter](../../../skills/doc-frontmatter/SKILL.md), and
   [Browser Use](../../../skills/browser-use/SKILL.md).

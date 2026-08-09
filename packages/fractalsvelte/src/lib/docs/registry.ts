@@ -1,7 +1,7 @@
 // The component registry — the single source of truth for the docs navigation and for
 // tracking the port.
 //
-// `wave` is the dependency-ordered build order (see AGENTS.md §5). `status` is updated as
+// `wave` is the dependency-ordered build order (see the workspace AGENTS.md). `status` is updated as
 // each component lands. The sidebar renders everything, so unported components are visible
 // as planned work rather than silently absent.
 

@@ -8,7 +8,14 @@ fail() { printf '%s\n' "FAIL: $*" >&2; exit 1; }
 
 script_dir=$(CDPATH= cd "$(dirname "$0")" && pwd) || exit 1
 plugin_dir=$(CDPATH= cd "$script_dir/.." && pwd) || exit 1
-repo_dir=$(CDPATH= cd "$plugin_dir/.." && pwd) || exit 1
+# Repo root: walk up to the .git boundary. The plugin may be nested more than
+# one level below the root (e.g. packages/fractal-agentic in the mandala monorepo).
+repo_dir=$plugin_dir
+while [ "$repo_dir" != "/" ] && [ ! -e "$repo_dir/.git" ]; do
+  repo_dir=$(CDPATH= cd "$repo_dir/.." && pwd) || exit 1
+done
+[ -e "$repo_dir/.git" ] || fail "cannot locate repository root above $plugin_dir"
+rel_plugin=$(python3 -c 'import os, sys; print(os.path.relpath(sys.argv[2], sys.argv[1]))' "$repo_dir" "$plugin_dir") || exit 1
 router=$plugin_dir/AGENTS.md
 root_trampoline=$repo_dir/AGENTS.md
 bosses='design code agent svelte creator workflow meta'
@@ -20,8 +27,8 @@ router_lines=$(wc -l < "$router" | tr -d ' ')
 [ "$router_lines" -le 180 ] || fail "plugin router is $router_lines lines (maximum 180)"
 pass "plugin router is $router_lines lines (maximum 180)"
 
-if ! grep -Fq '(./plugin/AGENTS.md)' "$root_trampoline"; then fail "root trampoline does not link to plugin/AGENTS.md"; fi
-if ! grep -Fq 'plugin/docs/bosses/INDEX.md' "$root_trampoline"; then fail "root trampoline does not link to boss hub"; fi
+if ! grep -Fq "(./$rel_plugin/AGENTS.md)" "$root_trampoline"; then fail "root trampoline does not link to $rel_plugin/AGENTS.md"; fi
+if ! grep -Fq "$rel_plugin/docs/bosses/INDEX.md" "$root_trampoline"; then fail "root trampoline does not link to boss hub"; fi
 pass "root trampoline links to plugin router and boss hub"
 
 if ! grep -Fq 'skills/boss-orchestration/SKILL.md' "$router"; then fail "plugin router does not link to runtime skill"; fi
@@ -53,6 +60,7 @@ import sys
 
 repo = Path(sys.argv[1]).resolve()
 files = [Path(value).resolve() for value in sys.argv[2:]]
+plugin_dir = Path(sys.argv[3]).resolve().parent
 link = re.compile(r'!?\[[^\]]*\]\(([^)\n]+)\)')
 scheme = re.compile(r'^[A-Za-z][A-Za-z0-9+.-]*:')
 errors: list[str] = []
@@ -121,7 +129,7 @@ for source in repo.rglob("*"):
         continue
     if any(part in ignored_parts for part in source.parts):
         continue
-    if source.resolve() == (repo / "plugin/scripts/check-progressive-discovery.sh").resolve():
+    if source.resolve() == (plugin_dir / "scripts/check-progressive-discovery.sh").resolve():
         continue
     try:
         content = source.read_text(encoding="utf-8")
