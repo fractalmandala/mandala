@@ -1,3 +1,7 @@
+---
+description: Run the scheduled essay pipeline only when due, or force an intentional immediate run.
+---
+
 # /essay-run
 
 Run the scheduled essay pipeline.

@@ -1,6 +1,6 @@
 {
   "name": "fractal-agentic",
-  "version": "2.6.4",
+  "version": "2.6.5",
   "description": "Progressive one-boss discovery, /orchestrate delivery runtime, and vendored skills for AI coding agents.",
   "main": "plugin.json",
   "bin": {

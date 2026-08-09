@@ -1,3 +1,7 @@
+---
+description: Configure the local 48-hour wiki capture, ingest, writing, and scheduled-post pipeline.
+---
+
 # /essay-init
 
 Configure the local scheduled essay pipeline.

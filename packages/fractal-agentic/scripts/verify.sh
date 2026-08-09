@@ -164,6 +164,8 @@ pass "SKILL.md preflight, lanes, and implementation receipt verification"
 for cmd_file in "$plugin_dir"/commands/*.md; do
   [ -f "$cmd_file" ] || continue
   basename=$(basename "$cmd_file")
+  # INDEX.md is the inventory page, not a command — no frontmatter required
+  [ "$basename" = "INDEX.md" ] && continue
   # Each command must have a YAML frontmatter with description
   head -3 "$cmd_file" | grep -q '^---' || fail "command missing frontmatter: $basename"
   head -3 "$cmd_file" | grep -q '^description:' || fail "command missing description in frontmatter: $basename"
