@@ -12,7 +12,10 @@ const PLUGIN_EXCLUDE = new Set([
 	'.DS_Store', 'bin', 'package.json', 'pnpm-lock.yaml',
 	'LAYOUT.md', 'credits.json'
 ]);
-const pluginCopyFilter = (src) => !PLUGIN_EXCLUDE.has(path.basename(src));
+const pluginCopyFilter = (src) => {
+	const base = path.basename(src);
+	return !PLUGIN_EXCLUDE.has(base) && base !== '__pycache__' && !base.endsWith('.pyc');
+};
 
 // ── Root resolution ────────────────────────────────────────────────
 
