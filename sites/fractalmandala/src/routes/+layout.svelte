@@ -6,14 +6,12 @@
 	import { AppShell, toc } from 'fractals-styler/lib';
 	import { themeState, toggleThemeState } from '$lib/utils/globalstores';
 	import { browser } from '$app/environment';
-	import { Agentation, type AnnotationProps } from 'fractal-agentation';
 	import { slide, fly } from 'svelte/transition';
 	import { backOut } from 'svelte/easing';
 	import Sun from '$lib/comps/icon-sun.svelte';
 	import Moon from '$lib/comps/icon-moon.svelte';
 	import Search from '$lib/comps/search.svelte';
 	import { sidebarExtras } from '$lib/state/sidebar-extras.svelte';
-	import { page } from '$app/state';
 
 	let { data, children } = $props<{ data: LayoutData; children: any }>();
 	let openIndex = $state<number | null>(null);
@@ -38,20 +36,12 @@
 		openIndex = openIndex === index ? null : index;
 	}
 
-  const workspaceRoot = '/Users/amrit/mandala/sites/fractalmandala';
-  const annotationProps: AnnotationProps = {
-    workspaceRoot
-	}
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-
-{#if browser}
-	<Agentation {...annotationProps} />
-{/if}
 
 <AppShell bind:mobileOpen ambient={false} showRight={toc.items.length >= 2 || sidebarExtras.alsoSee.length > 0}>
 	{#snippet header(nav)}
