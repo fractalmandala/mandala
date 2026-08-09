@@ -55,7 +55,7 @@ An orchestrator prime - charioteer: domain bosses, a single orchestrator, and a 
 **Full documentation:** [`docs/INDEX.md`](./docs/INDEX.md).  
 Browse online: [fractal-agentic.vercel.app](https://fractal-agentic.vercel.app/) · [Docs hub](https://fractal-agentic.vercel.app/docs/guide)
 
-**Contents:** [Install](#install) · [Auto-use](#auto-use-from-any-project-agentsmd-mandate) · [Quick start](#quick-start) · [Bosses](#domain-bosses) · [Orchestration](#orchestration-runtime-detail) · [Layout](#layout) · [Customize](./CUSTOMIZE.md) · [Docs KB](./docs/INDEX.md)
+**Contents:** [Install](#install) · [CLI health & sync](#cli-health--sync) · [Auto-use](#auto-use-from-any-project-agentsmd-mandate) · [Quick start](#quick-start) · [Bosses](#domain-bosses) · [Orchestration](#orchestration-runtime-detail) · [Layout](#layout) · [Customize](./CUSTOMIZE.md) · [Docs KB](./docs/INDEX.md)
 
 ---
 
@@ -137,6 +137,26 @@ See [`docs/02-install.md`](./docs/02-install.md) — AGENTS snippet + `FRACTAL_A
 4. Health: `sh scripts/check-armory.sh`
 
 Missing pins → keep shipping with `pins: unverified` ([progression.md](./docs/progression.md)).
+
+---
+
+## CLI health & sync
+
+The installer CLI (`npx fractal-agentic` or `fractal-agentic` when linked) also
+keeps installed copies healthy:
+
+```sh
+# Armory health + host-copy drift check (exit 1 when unhealthy)
+fractal-agentic doctor              # fa-doctor · --json for machines
+
+# Sync every host copy to the root version
+fractal-agentic update              # fa-update · --dry-run · --force · --target=<host|all>
+```
+
+`doctor` statuses: `ok` · `drift` · `missing` · `symlink` · `fail` — healthy means
+the armory check passes and every detected host copy is `ok`, `symlink`, or absent.
+`update` refreshes drifted copies (Antigravity, Claude Code, Codex, Agents) and never
+overwrites symlinks or matching versions. Full flag reference: [`bin/README.md`](./bin/README.md).
 
 ---
 
