@@ -1,6 +1,6 @@
 ---
 task: harness-trigger-handoff
-status: active
+status: done
 host: qoder
 branch: feat/harness-trigger-handoff
 boss: agent
@@ -41,12 +41,9 @@ Implemented in worktree `feat/harness-trigger-handoff`:
 
 ## Remaining
 
-- [ ] Run check-armory.sh + check-nonblocking-policy.sh in worktree
-- [ ] Commit, merge --no-ff into main, prune worktree
-- [ ] `node packages/fractal-agentic/bin/cli.js update` → all hosts 2.6.4
-- [ ] `doctor` → healthy
-- [ ] Fix user's stale `~/.zshrc` line 76: FRACTAL_AGENTIC_ROOT ends with
-      `/plugin` (legacy path) — must be `.../packages/fractal-agentic`
+All done. Merged as 58f410f77; all four hosts at v2.6.4; doctor healthy;
+`~/.zshrc:76` now points at `.../packages/fractal-agentic` (open a new shell
+for the env change).
 
 ## Gotchas
 
