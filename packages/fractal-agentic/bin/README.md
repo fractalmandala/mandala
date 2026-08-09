@@ -207,6 +207,52 @@ fractal-agentic fa-skill show boss-orchestration | head -40
 
 ---
 
+## Health & sync verbs
+
+### `doctor` / `fa-doctor`
+
+Read-only health report: resolved plugin root + version, armory health
+(`check-armory.sh`), the project marker (`.fractal-agentic/project.json` in the
+current directory), and every known host copy with version-drift status.
+
+```sh
+fractal-agentic doctor
+fractal-agentic fa-doctor --json
+```
+
+Per-host statuses:
+
+| Status | Meaning |
+|---|---|
+| `ok` | Present and matches the root version |
+| `drift` | Present but older than the root version |
+| `missing` | Not installed |
+| `symlink` | Symlinked — managed externally, `update` skips it |
+| `fail` | Present but unreadable or missing a version |
+
+Exits `1` when anything is unhealthy (armory failure, `drift`, or `fail`).
+
+---
+
+### `update` / `fa-update`
+
+Re-syncs stale host copies from the resolved root using the same copy filter as
+`fa-install` (excludes `bin`, `node_modules`, lockfiles, etc.).
+
+```sh
+fractal-agentic update                       # all stale hosts
+fractal-agentic update --target=claude       # one host
+fractal-agentic update --dry-run             # preview only
+fractal-agentic update --force               # re-copy even when up to date
+```
+
+**Targets:** `all` (default), `antigravity`, `claude`, `codex`, `agents`.
+
+Skips `symlink` and `ok` copies. For marketplace-nested hosts (Claude Code) it
+writes a fresh `<semver>` directory instead of overwriting a cached version.
+
+---
+
 ## Flags reference
 
 | Flag | Verbs | Effect |
