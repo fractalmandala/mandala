@@ -1,10 +1,5 @@
 export const allBanks = [
 	{
-		"title": "Archaeology",
-		"description": "Wiki for Indian Journal of Archaeology - antiquities, excavations, explorations, museum collections, and research across the Indian subcontinent, spanning from the Lower Palaeolithic to the modern period.",
-		"slug": "archaeology"
-	},
-	{
 		"title": "Civilization",
 		"description": "Indian civilization across multiple dimensions: its religious and philosophical traditions, mythic and ritual structures, historical development, and phenomenological study.",
 		"slug": "civilization"

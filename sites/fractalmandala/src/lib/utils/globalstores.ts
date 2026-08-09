@@ -15,11 +15,23 @@ export function toggleMenuState() {
 
 const storedThemeState = browser ? JSON.parse(localStorage.getItem('themeState') || 'false') : false;
 export const themeState = writable(storedThemeState);
+
+function applyDataTheme(dark: boolean) {
+	if (browser) {
+		document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+	}
+}
+
+if (browser) {
+	applyDataTheme(storedThemeState);
+}
+
 export function toggleThemeState() {
 	if (browser) {
 		themeState.update((mode) => {
 			const newMode = !mode;
 			localStorage.setItem('themeState', JSON.stringify(newMode));
+			applyDataTheme(newMode);
 			return newMode;
 		});
 	}
