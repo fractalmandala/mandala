@@ -11,12 +11,12 @@
 
 	const getPageMap = getContext<(() => PageMapNode[]) | undefined>(DOCS_PAGE_MAP_CONTEXT);
 
-	// /docs itself renders the introduction document under the hood (see
+	// /docs itself renders the guide document under the hood (see
 	// docs/+page.ts), so sibling lookups need the same substitution the
 	// pager in docs/+layout.svelte uses.
 	const currentPath = $derived(
 		(page.url.pathname.replace(/\/$/, '') || '/docs') === '/docs'
-			? '/docs/introduction'
+			? '/docs/guide'
 			: page.url.pathname.replace(/\/$/, '')
 	);
 	const siblings = $derived(

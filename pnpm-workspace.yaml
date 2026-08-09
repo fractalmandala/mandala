@@ -1,0 +1,22 @@
+packages:
+  - apps/*
+  - '!apps/fractalai'
+  - sites/*
+  - packages/*
+
+allowBuilds:
+  '@parcel/watcher': true
+  '@prisma/engines': true
+  '@swc/core': true
+  '@tailwindcss/oxide': true
+  esbuild: true
+  prisma: true
+  protobufjs: set this to true or false
+  sharp: false
+
+overrides:
+  dompurify: '>=3.4.11'
+  esbuild: '>=0.28.1'
+  js-yaml@<3.15.0: 3.15.0
+
+strictDepBuilds: false

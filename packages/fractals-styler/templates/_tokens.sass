@@ -11,6 +11,25 @@
 	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace
 	--text-scale: 1.0
 
+	// Layout tokens (drive the .appshell Composition layer)
+	--header-height: 80px
+	--footer-height: 56px
+	--shell-pad: 20px
+	--layout-max: 1440px
+	--sidebar-min: 200px
+	--sidebar-max: 320px
+	--body-min: 600px
+	--body-max: 720px
+
+	// Ambient background — decorative blobs (green wash, light theme default)
+	--ambient-blur: 60px
+	--ambient-1-bg: linear-gradient(135deg, #bbf7d0, #d9f99d, #6ee7b7)
+	--ambient-1-op: 0.20
+	--ambient-2-bg: linear-gradient(45deg, #5eead4, #86efac, #d9f99d)
+	--ambient-2-op: 0.38
+	--ambient-3-bg: linear-gradient(180deg, #6ee7b7, #bbf7d0, #ecfccb)
+	--ambient-3-op: 0.55
+
 	// Primitive Palette - Neutral Slate Scale
 	--slate-50: #f8fafc
 	--slate-100: #f1f5f9
@@ -81,6 +100,12 @@
 		--brand-active: #2563eb
 		--ring: rgba(59, 130, 246, 0.35)
 
+		// Ambient wash dims to a single subtle glow in the dark
+		--ambient-1-op: 0
+		--ambient-2-op: 0
+		--ambient-3-bg: linear-gradient(180deg, #16a34a, #10b981, #2dd4bf)
+		--ambient-3-op: 0.28
+
 // Explicit Dark Theme Override
 [data-theme="dark"]
 	--bg-app: var(--slate-950)
@@ -102,6 +127,12 @@
 	--brand-hover: #60a5fa
 	--brand-active: #2563eb
 	--ring: rgba(59, 130, 246, 0.35)
+
+	// Ambient wash dims to a single subtle glow in the dark
+	--ambient-1-op: 0
+	--ambient-2-op: 0
+	--ambient-3-bg: linear-gradient(180deg, #16a34a, #10b981, #2dd4bf)
+	--ambient-3-op: 0.28
 
 // Explicit Light Theme Override
 [data-theme="light"]

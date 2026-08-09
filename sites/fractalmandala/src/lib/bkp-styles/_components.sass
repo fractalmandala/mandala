@@ -1,0 +1,237 @@
+.sidebar-items-list
+	list-style: none
+	margin: 0
+	padding: 0
+	gap: 16px
+	@media (min-width: 1025px)
+		gap: 8px
+		padding: 0 0 0 8px
+
+.mobile-navigation
+	@media (max-width: 1024px)
+		.sidebar-items-list
+			padding: 8px 0
+		.accordion-trigger
+			text-align: right
+			justify-content: flex-end
+
+.accordion-item
+	padding-bottom: 16px
+	transition: all 90ms ease
+	border-color: var(--border-default)
+	@media (min-width: 1025px)
+		&.active
+			border-top: 1px solid var(--border-default)
+			padding-top: 16px
+			border-bottom: 1px solid var(--border-default)
+
+//sidebar section labels
+.accordion-trigger
+	background: none
+	border: none
+	padding: 4px 0
+	cursor: pointer
+	&.active
+		padding: 4px 0 8px 0
+
+a.accordion-trigger
+	text-decoration: none
+	color: inherit
+	font-size: var(--text-sm)
+
+.bordered
+	border: 1px solid var(--border-default)
+	padding: 12px
+	border-radius: 4px
+	@media (min-width: 1025px)
+		padding: 20px
+
+a.bordered
+	&:hover
+		background: var(--surface-rightbar)
+
+// Search Component
+.search-container
+	position: relative
+	font-family: var(--font-ui)
+	width: 200px
+	@media (min-width: 768px)
+		width: 280px
+
+	.search-input
+		width: 100%
+		padding: 8px 12px 8px 32px
+		border-radius: 6px
+		border: 1px solid var(--border-default)
+		background: var(--surface-input)
+		color: var(--text-primary)
+		font-size: var(--text-sm)
+		outline: none
+		transition: border-color 0.15s ease, box-shadow 0.15s ease
+		&:focus
+			border-color: var(--theme-color)
+			box-shadow: 0 0 0 2px var(--surface-badge)
+
+	.search-icon
+		position: absolute
+		left: 10px
+		top: 50%
+		transform: translateY(-50%)
+		color: var(--text-muted)
+		pointer-events: none
+		display: flex
+		align-items: center
+		justify-content: center
+
+	.results-dropdown
+		position: absolute
+		top: calc(100% + 8px)
+		right: 0
+		width: 320px
+		@media (min-width: 768px)
+			width: 420px
+		max-height: 400px
+		overflow-y: auto
+		background: var(--surface-viewer)
+		border: 1px solid var(--border-darker)
+		border-radius: 8px
+		box-shadow: var(--shadow-popover)
+		z-index: 1000
+		display: none
+		&.visible
+			display: block
+		&::-webkit-scrollbar
+			width: 6px
+		&::-webkit-scrollbar-thumb
+			background-color: var(--scrollbar-thumb)
+			border-radius: 3px
+
+		ul
+			list-style: none
+			margin: 0
+			padding: 4px 0
+
+		li
+			border-bottom: 1px solid var(--border-subtle)
+			&:last-child
+				border-bottom: none
+
+		a
+			display: flex
+			flex-direction: column
+			padding: 10px 16px
+			text-decoration: none
+			color: var(--text-primary)
+			transition: background 0.1s ease
+			&:hover
+				background: var(--state-hover-subtle)
+
+			.result-header
+				display: flex
+				justify-content: space-between
+				align-items: center
+				margin-bottom: 4px
+				gap: 8px
+
+			.result-title
+				font-weight: 500
+				font-size: var(--text-sm)
+				color: var(--text-primary)
+				mark
+					background: var(--surface-badge)
+					color: var(--theme-color-alt)
+					font-weight: 600
+					border-radius: 2px
+					padding: 0 2px
+
+			.result-bank
+				font-size: var(--text-xs)
+				color: var(--text-secondary)
+				background: var(--state-hover)
+				padding: 2px 6px
+				border-radius: 4px
+				text-transform: uppercase
+				letter-spacing: 0.03em
+				white-space: nowrap
+
+			.result-excerpt
+				font-size: var(--text-xs)
+				color: var(--text-secondary)
+				margin: 4px 0 0 0
+				line-height: 1.4
+				mark
+					background: var(--surface-badge)
+					color: var(--theme-color-alt)
+					font-weight: 600
+					border-radius: 2px
+					padding: 0 2px
+
+	.search-loading
+		padding: 16px
+		text-align: center
+		color: var(--text-secondary)
+		font-size: var(--text-sm)
+
+	.search-empty
+		padding: 16px
+		text-align: center
+		color: var(--text-secondary)
+		font-size: var(--text-sm)
+
+.header-panel
+	border-bottom: 1px solid var(--border-default)
+	padding-bottom: 32px
+	@media (min-width: 1025px)
+		padding-top: 32px
+
+#second-nav
+	border-top: 1px solid var(--border-default)
+	padding-top: 16px
+
+.animated-icon
+	color: var(--text-primary)
+
+.theme-toggle
+	border: 1px solid var(--border-default)
+	background: none
+	border-radius: 12px
+	position: relative
+	padding-left: 4px
+	padding-right: 2px
+	height: 20px
+	width: 40px
+	.toggler-circle
+		position: absolute
+		left: 2px
+		height: 16px
+		width: 16px
+		border-radius: 8px
+		background: #dfdfdf
+		transition: all 320ms ease
+		z-index: 0
+	svg
+		z-index: 1
+	&.toggled
+		.toggler-circle
+			left: 22px
+			background: #FFFFFF
+
+button.blank.icon-box
+	height: 16px
+	display: flex
+	align-items: center
+	padding: 0
+	img
+		filter: saturate(0.1)
+	&:hover
+		img
+			filter: saturate(1)
+
+.primary-btn
+	background: var(--theme-color)
+	color: #FFFFFF
+	padding: 4px 12px
+	width: max-content
+	text-decoration: none
+	&:hover
+		background: var(--theme-color-alt)

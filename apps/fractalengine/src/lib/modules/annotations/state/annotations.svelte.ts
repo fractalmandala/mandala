@@ -1,4 +1,4 @@
-import type { AgentationAnnotationSnapshot } from 'sv-agentation';
+import type { AgentationAnnotationSnapshot } from 'fractal-agentation';
 import { deleteAnnotation, listAnnotations, upsertAnnotation } from '$lib/ipc';
 import { UndoHistory } from '$lib/state/undoHistory.svelte';
 import { registerUndoDomain } from '$lib/state/undo.svelte';

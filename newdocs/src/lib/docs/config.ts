@@ -13,7 +13,7 @@ export const docsConfig: DocsConfig = {
 	},
 	sidebar: [
 		{
-			label: 'Projects',
+			label: 'Posts',
 			icon: RocketIcon,
 			autogenerate: { directory: 'projects' }
 		},

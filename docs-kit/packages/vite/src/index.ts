@@ -24,6 +24,7 @@ import {
 	discoverLocalSections
 } from '@docs-kit/core/discovery';
 import { generateDocsOgCards, type GenerateDocsOgCardsOptions } from '@docs-kit/og/server';
+import { generateApiDocs, type DocsApiSourceConfig } from '@docs-kit/openapi';
 import {
 	createDocsRobots,
 	createDocsSitemap,
@@ -91,6 +92,22 @@ export interface DocsPluginOptions {
 	seo?: DocsSeoOptions;
 	/** Raw Markdown module generation. Set `false` to omit `virtual:docs-kit/raw`. */
 	raw?: false;
+	/**
+	 * API specifications compiled into documentation pages.
+	 *
+	 * Each specification is rendered to Markdown in `openapiOutDir` and mounted as an
+	 * additional content root, so its pages are ordinary manifest pages: they appear in
+	 * navigation, search, the sitemap, Open Graph cards, and the AI outputs with no further
+	 * configuration.
+	 */
+	openapi?: readonly DocsApiOptions[];
+	/** Where generated API Markdown is written. Defaults to `.docs-kit/generated/openapi`. */
+	openapiOutDir?: string;
+}
+
+export interface DocsApiOptions extends DocsApiSourceConfig {
+	/** Collection the generated pages belong to. Defaults to `default`. */
+	collection?: string;
 }
 
 export interface DocsSeoOptions {
@@ -540,13 +557,73 @@ export function docs(options: DocsPluginOptions): Plugin {
 		...(options.i18n === undefined ? {} : { locales: options.i18n })
 	});
 
+	/**
+	 * Compiles API specifications and returns their generated directories as content roots.
+	 *
+	 * Errors fail the build rather than producing a documentation set that silently omits an
+	 * API; warnings are logged and generation continues.
+	 */
+	const generateApiSources = async (): Promise<ResolvedContentSource[]> => {
+		const resolvedConfig = config;
+		if (!resolvedConfig || options.openapi === undefined || options.openapi.length === 0) {
+			return [];
+		}
+
+		const outDir = options.openapiOutDir ?? '.docs-kit/generated/openapi';
+		const result = await generateApiDocs({
+			cwd: resolvedConfig.root,
+			outDir,
+			sources: options.openapi.map(({ collection, ...source }) => ({
+				...source,
+				// Generated pages link to one another, so they need the mount point of the
+				// collection they belong to.
+				basePath:
+					source.basePath ??
+					collections?.find((entry) => entry.id === (collection ?? 'default'))?.basePath ??
+					'/'
+			}))
+		});
+
+		const errors = result.diagnostics.filter((diagnostic) => diagnostic.severity === 'error');
+		for (const diagnostic of result.diagnostics) {
+			if (diagnostic.severity !== 'error') {
+				resolvedConfig.logger.warn(
+					`@docs-kit/vite [${diagnostic.sourceId}] ${diagnostic.code}: ${diagnostic.message}`
+				);
+			}
+		}
+
+		if (errors.length > 0) {
+			throw new Error(
+				`@docs-kit/vite could not compile ${errors.length} API specification(s):\n${errors
+					.map((diagnostic) => `  [${diagnostic.sourceId}] ${diagnostic.code}: ${diagnostic.message}`)
+					.join('\n')}`
+			);
+		}
+
+		return options.openapi.map((source) => ({
+			root: resolve(resolvedConfig.root, outDir),
+			collection: source.collection ?? 'default'
+		}));
+	};
+
 	const regenerateManifest = async (): Promise<GeneratedManifestModule> => {
 		if (!config || !configuredSources || !collections) {
 			throw new Error('@docs-kit/vite was not given a resolved Vite configuration.');
 		}
 
+		const apiSources = await generateApiSources();
+		const allSources = [
+			...configuredSources,
+			// Several specifications share one generated root, so it is mounted once.
+			...apiSources.filter(
+				(source, index, all) =>
+					all.findIndex((entry) => entry.root === source.root && entry.collection === source.collection) === index
+			)
+		];
+
 		const content = (await Promise.all(
-			configuredSources.map(async (source) => {
+			allSources.map(async (source) => {
 				const discovered = await discoverLocalContent({
 					root: source.root,
 					readSources: true,
@@ -591,6 +668,8 @@ export function docs(options: DocsPluginOptions): Plugin {
 				versionPrefix: options.versionPrefix,
 				localePrefix: options.localePrefix,
 				sourceCacheDir: options.sourceCacheDir,
+				openapi: options.openapi,
+				openapiOutDir: options.openapiOutDir,
 				seo: options.seo,
 				includeHidden: options.includeHidden,
 				links: options.links,
@@ -652,6 +731,22 @@ export function docs(options: DocsPluginOptions): Plugin {
 	return {
 		name: '@docs-kit/vite',
 		enforce: 'pre',
+		config(userConfig) {
+			// Generated content lives outside the source tree, and SvelteKit narrows Vite's
+			// file-serving allowlist, so these directories are declared here or the dev server
+			// refuses to load their modules.
+			const root = userConfig.root ?? process.cwd();
+			const generated = [
+				options.openapi === undefined
+					? undefined
+					: (options.openapiOutDir ?? '.docs-kit/generated/openapi'),
+				options.sourceCacheDir
+			]
+				.filter((directory): directory is string => directory !== undefined)
+				.map((directory) => resolve(root, directory));
+
+			return generated.length === 0 ? undefined : { server: { fs: { allow: generated } } };
+		},
 		configResolved(resolvedConfig) {
 			config = resolvedConfig;
 			collections = resolvePluginCollections(options);

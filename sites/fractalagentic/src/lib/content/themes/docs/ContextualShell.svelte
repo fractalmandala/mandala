@@ -4,6 +4,8 @@
 	import GlobalSidebar, { type SidebarSection } from './GlobalSidebar.svelte';
 	import Toc from './Toc.svelte';
 	import { observeHeadings } from './scroll-spy';
+	import { enhanceCodeBlocks } from './code-blocks';
+	import { renderMermaidBlocks } from './mermaid';
 
 	let {
 		sections,
@@ -21,9 +23,12 @@
 	let contentEl: HTMLElement | undefined = $state();
 	let activeHeadingId: string | undefined = $state();
 
-	// Re-attach the scroll-spy whenever navigation swaps in a new detail page.
+	// Re-attach the scroll-spy, re-scan for un-enhanced code blocks, and render
+	// mermaid diagrams whenever navigation swaps in a new detail page.
 	$effect(() => {
 		void currentPath;
+		enhanceCodeBlocks(contentEl ?? null);
+		renderMermaidBlocks(contentEl ?? null);
 		return observeHeadings(
 			contentEl ?? null,
 			toc.map((item) => item.id),

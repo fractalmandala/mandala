@@ -9,6 +9,7 @@ export default defineConfig({
 				{ id: 'default', content: 'src/lib/docs', basePath: '/docs' },
 				{ id: 'guide', content: 'src/lib/guide', basePath: '/guide' }
 			],
+			openapi: [{ id: 'api', source: 'openapi.json' }],
 			seo: { siteUrl: 'https://example.com', siteName: 'Acme Documentation' }
 		}),
 		sveltekit()

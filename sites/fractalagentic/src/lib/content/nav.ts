@@ -11,7 +11,7 @@ import {
 	toSummaries
 } from './catalog';
 
-/** Reading order for humans on the site (content still sourced from plugin/). */
+/** Reading order for humans on the site (content sourced from packages/fractal-agentic). */
 export const DOCS_SEQUENCE: string[] = [
 	'guide',
 	'00-overview',
@@ -40,7 +40,9 @@ export const DOCS_SEQUENCE: string[] = [
 	'wiki/schema',
 	'hooks',
 	'self-improvement',
+	'scheduled-essays',
 	'troubleshooting',
+	'degradation',
 	'glossary',
 	'scripts',
 	'doc-ownership',

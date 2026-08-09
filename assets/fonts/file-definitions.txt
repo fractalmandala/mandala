@@ -1,5 +1,0 @@
-CabinetGrotesk - "Cabinet Grotesk", sans-serif
-GoogleSans - "Google Sans", sans-serif
-GoogleSansFlex - "Google Sans Flex", sans-serif
-MonaSansVF - "Mona Sans", sans-serif
-FunnelSans - "Funnel Sans", sans-serif

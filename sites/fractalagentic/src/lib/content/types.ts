@@ -6,9 +6,7 @@ export interface Credit {
 	name: string;
 	/** Upstream source or GitHub URL */
 	source: string;
-}
-
-export interface CatalogEntry {
+}	export interface CatalogEntry {
 	kind: CatalogKind;
 	slug: string;
 	title: string;
@@ -17,6 +15,8 @@ export interface CatalogEntry {
 	href: string;
 	/** Markdown body without frontmatter */
 	body: string;
+	/** Repo-relative source path (e.g. `packages/fractal-agentic/docs/foo.md`) — backs "Edit on GitHub". */
+	sourcePath?: string;
 }
 
 export interface CatalogSummary {

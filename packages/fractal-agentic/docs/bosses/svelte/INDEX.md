@@ -35,8 +35,9 @@ are migration-only secondary reviewers, not peer defaults.
 
 ### Secondary agents
 
-- [React Reviewer](../../../agents/react-reviewer.md) and
-  [Vue Reviewer](../../../agents/vue-reviewer.md) — migration reviews only.
+- [React Reviewer](../../../agents/react-reviewer.md) — stack-neutral
+  reactivity/a11y/security lanes; [Vue Reviewer](../../../agents/vue-reviewer.md) —
+  architecture/state-flow lanes. Complementary to `svelte-reviewer`, not stack-specific.
 
 ## Mapped skills — core contract
 

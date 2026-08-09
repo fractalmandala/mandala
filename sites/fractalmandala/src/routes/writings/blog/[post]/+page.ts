@@ -18,6 +18,8 @@ export const load: PageLoad = async ({ params }) => {
 		title: mod.metadata?.title ?? params.post,
 		description: mod.metadata?.description ?? '',
 		tags: mod.metadata?.tags ?? [],
-		posts
+		posts,
+		/** Sibling post slugs for the "Also See" rail. */
+		related: posts.filter((p) => p.slug !== params.post).map((p) => p.slug)
 	};
 };

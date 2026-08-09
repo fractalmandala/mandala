@@ -81,11 +81,9 @@ migration. This package defaults to Svelte, but project-local instructions win.
 | Stack | Primary reviewer | Secondary |
 | --- | --- | --- |
 | Svelte 5 / SvelteKit | svelte-reviewer | code-reviewer, a11y-architect |
-| React / Next | react-reviewer | code-reviewer |
-| Vue / Nuxt | vue-reviewer | code-reviewer |
-| Flutter | flutter-reviewer | a11y-architect |
+| UI components (any framework) | react-reviewer (rules/a11y/security), vue-reviewer (architecture), flutter-reviewer (performance) | code-reviewer |
 | Rust / Tauri | rust-reviewer | rust-build-resolver |
 | Unknown / polyglot | code-reviewer | stack specialists as files appear |
 
-[Frontend Patterns](../../skills/frontend-patterns/SKILL.md) is React-leaning:
-treat it as agnostic reference content and prefer the Svelte-specific skills here.
+[Frontend Patterns](../../skills/frontend-patterns/SKILL.md) is Svelte 5 /
+SvelteKit native; use it as the default frontend reference.

@@ -314,6 +314,62 @@ its canonical source URL, and partitions into numbered parts for large sites **w
 splitting a page**. Raw Markdown is served per page at `/docs/<slug>.md`. Hidden and draft
 pages are excluded from all three, and ordering is deterministic.
 
+## Project lifecycle
+
+```sh
+docs init                # plan the setup; nothing is written
+docs init --write        # apply it
+docs generate            # every artifact, without starting a bundler
+docs generate --watch    # regenerate as content changes
+docs clean --dry-run     # list what would be removed
+docs clean               # remove it
+```
+
+`init` adds the framework to an existing SvelteKit application: it writes `docs.config.js`,
+the catch-all route, and a starter page, then patches `vite.config.ts`, `svelte.config.js`,
+and `.gitignore`. It prints a plan by default and only touches the project with `--write`.
+Existing files are never replaced without `--force`, and a configuration file that does not
+match the expected shape is left alone with a manual instruction instead of being rewritten
+— so a second run is a no-op rather than a duplicate. Patches preserve what is already
+there: the documentation preprocessors are appended after the project's own, because mdsvex
+has to see the Markdown last, while the Vite plugin is inserted before `sveltekit()`. The
+suggested install command follows the lockfile, searching upwards so a package inside a
+monorepo gets the workspace's package manager.
+
+`generate` produces outside a Vite build exactly what the plugin produces inside one:
+synced sources, compiled OpenAPI pages, `manifest.json`, search records, the sitemap,
+`robots.txt`, and Open Graph cards. That makes the artifacts available to CI, a pre-commit
+hook, or another framework with no bundler running. `clean` removes only what the framework
+writes — `static/og` is removed just when it holds the card generator's `cache.json`, so a
+hand-made directory of that name survives — and it refuses any path outside the project.
+
+## Phase 10 API reference
+
+An OpenAPI or AsyncAPI specification is compiled to ordinary Markdown pages:
+
+```ts
+// vite.config.ts
+docs({
+	content: 'src/lib/docs',
+	basePath: '/docs',
+	openapi: [{ id: 'api', source: 'openapi.json' }]
+});
+```
+
+```js
+// docs.config.js — the same list, for `docs generate`
+openapi: [{ id: 'api', source: 'openapi.json' }];
+```
+
+Each specification yields an overview, a page per tag, per operation, per schema, and an
+authentication page when security schemes exist. They are written to
+`.docs-kit/generated/openapi` and mounted as an extra content root, which is what makes them
+first class: navigation, search, the sitemap, Open Graph cards, `llms.txt`, and the MCP
+surface pick them up with no special handling anywhere downstream. Generated pages link to
+each other through the collection's `basePath`, so `/docs/api/operations/listprojects`
+resolves during prerendering like any hand-written page. A specification that fails to parse
+fails the build; softer problems are reported as warnings.
+
 ## Validation and diagnostics
 
 ```sh

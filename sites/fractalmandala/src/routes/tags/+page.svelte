@@ -19,8 +19,8 @@
 <Shell>
 	{#snippet children()}
 		<div class="box rgap8">
-			<h1 class="text-3xl w600">All Tags</h1>
-			<p class="text-bs col2">Browse all topics by tags across the entire knowledge base.</p>
+			<h1 class="text-3xl fw600 lh11">All Tags</h1>
+			<p class="text-bs sec">Browse all topics by tags across the entire knowledge base.</p>
 			<div class="row gap8 padtop8 padbot8">
 				<input 
 					type="text" 
@@ -34,11 +34,11 @@
 		{#if filteredTags.length > 0}
 			<div class="row gap4 wrap">
 				{#each filteredTags as tag}
-					<a  class="pill large"  href="/tags/{tag}">{tag.replaceAll('-',' ')}</a>
+					<a  class="pill text-xs tt-u fw500 ls-wide inverse large"  href="/tags/{tag}">{tag.replaceAll('-',' ')}</a>
 				{/each}
 			</div>
 		{:else}
-			<p class="text-md col3 italic">No tags match your search.</p>
+			<p class="text-md muted italic">No tags match your search.</p>
 		{/if}
 	{/snippet}
 </Shell>

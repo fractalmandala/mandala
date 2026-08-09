@@ -26,7 +26,10 @@
 		"@docs-kit/sources": "workspace:*",
 		"@docs-kit/migration": "workspace:*",
 		"@docs-kit/registry": "workspace:*",
-		"@docs-kit/create": "workspace:*"
+		"@docs-kit/create": "workspace:*",
+		"@docs-kit/og": "workspace:*",
+		"@docs-kit/openapi": "workspace:*",
+		"@docs-kit/seo": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^24.0.0",

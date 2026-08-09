@@ -1,3 +1,5 @@
+@use 'mixins' as *
+
 body, html
 	box-sizing: border-box
 	padding: 0
@@ -5,7 +7,6 @@ body, html
 	font-family: var(--font-sans)
 	background-color: var(--bg-app)
 	color: var(--text-primary)
-	transition: background-color 150ms ease, color 150ms ease
 
 :root
 	box-sizing: border-box
@@ -15,10 +16,8 @@ body, html
 *
 	box-sizing: border-box
 
-button, a, span, pre, p
-	font-family: var(--font-sans)
-
 button, a
+	font-family: var(--font-sans)
 	cursor: pointer
 
 a.blank
@@ -28,10 +27,21 @@ a.blank
 button.blank
 	background: none
 	border: none
+	cursor: pointer
 	padding: 0
 
 p, h6, h5, h4, h3, h2, h1
 	margin: 0
+
+.w100
+	width: 100%
+.h100
+	height: 100%
+
+.pagemotif
+	object-fit: contain
+	width: 88px
+	transform-origin: center center
 
 .bankicon
 	object-fit: contain
@@ -40,20 +50,45 @@ p, h6, h5, h4, h3, h2, h1
 	filter: saturate(0.1)
 	transition: filter 140ms ease
 
-.accordion-item
-	&:hover
-		.bankicon
-			filter: saturate(1)
-
-.pagemotif
-	object-fit: contain
-	width: 88px
-	transform-origin: center center
+.accordion-item:hover .bankicon
+	filter: saturate(1)
 
 .icon16
 	width: 16px
 	height: 16px
 
 .icon20
-	height: 20px
 	width: 20px
+	height: 20px
+
+// Header / footer inner layout
+.appheader-inner
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: space-between
+	width: 100%
+	gap: 16px
+
+.appheader-inner img
+	object-fit: contain
+	height: 20px
+
+.appfooter-inner
+	display: flex
+	flex-direction: row
+	align-items: center
+	justify-content: space-between
+	width: 100%
+	gap: 16px
+
+// Responsive visibility
+.mobile-only
+	display: flex
+	@media (min-width: 1024px)
+		display: none
+
+.desktop-only
+	display: none
+	@media (min-width: 1024px)
+		display: flex

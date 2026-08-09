@@ -1,5 +1,6 @@
 import { marked, Marked } from 'marked';
 import GithubSlugger from 'github-slugger';
+import { highlightCodeBlock, preloadFenceLanguages } from './prism';
 
 marked.setOptions({
 	gfm: true,
@@ -92,19 +93,24 @@ function normalizePath(parts: string[]): string[] {
 }
 
 /**
- * Resolve relative links from a plugin/docs page before applying the generic
- * asset rewrites below. The renderer does not otherwise know whether
- * `./runtime.md` lives beside a root guide or inside a section hub.
+ * Resolve relative links from a guide page before applying the generic asset
+ * rewrites below. The renderer does not otherwise know whether `./runtime.md`
+ * lives beside a root guide, inside a section hub, or inside a nested boss
+ * folder — so callers of the docs renderer pass the source file's real repo
+ * directory (`repoDir`, relative to `docs/`). When omitted, the old
+ * slug-guessing applies (armory pages, which only carry root-relative links).
  */
-function rewriteRelativeGuideLinks(html: string, sourceSlug: string): string {
-	if (CORE_DOC_SLUGS.has(sourceSlug)) return html;
+function rewriteRelativeGuideLinks(html: string, sourceSlug: string, repoDir?: string[]): string {
+	if (CORE_DOC_SLUGS.has(sourceSlug) && !repoDir) return html;
 
 	const sourceParts = sourceSlug.split('/');
-	const sourceDir = GUIDE_INDEX_SLUGS.has(sourceSlug)
-		? [sourceSlug]
-		: sourceParts.length > 1
-			? sourceParts.slice(0, -1)
-			: [];
+	const sourceDir =
+		repoDir ??
+		(GUIDE_INDEX_SLUGS.has(sourceSlug)
+			? [sourceSlug]
+			: sourceParts.length > 1
+				? sourceParts.slice(0, -1)
+				: []);
 
 	return html.replace(/href="([^"]+)"/g, (attribute, href: string) => {
 		if (/^(?:[a-z][a-z0-9+.-]*:|\/|#)/i.test(href)) return attribute;
@@ -149,8 +155,8 @@ function routeForRepoPath(parts: string[]): string | null {
  * Rewrite common in-repo relative .md links to explorer routes.
  * Nested skill reference files (references/*.md) are left alone / warned at prerender.
  */
-export function rewriteMarkdownLinks(html: string, sourceSlug?: string): string {
-	const contextualHtml = sourceSlug ? rewriteRelativeGuideLinks(html, sourceSlug) : html;
+export function rewriteMarkdownLinks(html: string, sourceSlug?: string, repoDir?: string[]): string {
+	const contextualHtml = sourceSlug ? rewriteRelativeGuideLinks(html, sourceSlug, repoDir) : html;
 
 	return (
 		contextualHtml
@@ -216,9 +222,13 @@ export function rewriteMarkdownLinks(html: string, sourceSlug?: string): string 
 	);
 }
 
-export async function renderMarkdown(body: string, sourceSlug?: string): Promise<string> {
+export async function renderMarkdown(
+	body: string,
+	sourceSlug?: string,
+	repoDir?: string[]
+): Promise<string> {
 	const html = await marked.parse(body);
-	return rewriteMarkdownLinks(typeof html === 'string' ? html : String(html), sourceSlug);
+	return rewriteMarkdownLinks(typeof html === 'string' ? html : String(html), sourceSlug, repoDir);
 }
 
 /**
@@ -231,7 +241,8 @@ export async function renderMarkdown(body: string, sourceSlug?: string): Promise
  */
 export async function renderMarkdownWithToc(
 	body: string,
-	sourceSlug?: string
+	sourceSlug?: string,
+	repoDir?: string[]
 ): Promise<{ html: string; toc: TocHeading[] }> {
 	// The detail page already renders the entry title as the page <h1>, so drop
 	// the markdown's own leading '# Heading' to avoid showing the title twice.
@@ -239,6 +250,9 @@ export async function renderMarkdownWithToc(
 
 	const slugger = new GithubSlugger();
 	const toc: TocHeading[] = [];
+	// On-demand Prism grammars: load exactly the languages this document's
+	// fences use before the synchronous renderer runs.
+	await preloadFenceLanguages(source);
 	const instance = new Marked({ gfm: true, breaks: false });
 
 	instance.use({
@@ -259,13 +273,24 @@ export async function renderMarkdownWithToc(
 					toc.push({ id, text: plain, depth });
 				}
 				return `<h${depth} id="${id}">${inner}</h${depth}>\n`;
+			},
+			// Prism-highlight fenced code into the site's .code-frame markup
+			// (filename header + copy-button body). marked puts the whole info
+			// string in token.lang (e.g. `sh filename="deploy.sh"`), so the
+			// language + filename are parsed out of it here.
+			code(token) {
+				return highlightCodeBlock(token.text, token.lang ?? '');
 			}
 		}
 	});
 
 	const html = await instance.parse(source);
 	return {
-		html: rewriteMarkdownLinks(typeof html === 'string' ? html : String(html), sourceSlug),
+		html: rewriteMarkdownLinks(
+			typeof html === 'string' ? html : String(html),
+			sourceSlug,
+			repoDir
+		),
 		toc
 	};
 }

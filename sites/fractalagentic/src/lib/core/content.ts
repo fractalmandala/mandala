@@ -1,20 +1,15 @@
-import type { Component } from 'svelte';
 import GithubSlugger from 'github-slugger';
 import contentDates from 'virtual:svocs-content-dates';
 import type { SearchDocument } from '$lib/search/types';
-import { listAgents, listCommands, listSkills, listBossEntries } from '$lib/content/catalog';
-
-type ContentModule = {
-	default: Component;
-	metadata?: {
-		title?: string;
-		description?: string;
-		order?: number;
-		tags?: string[];
-		/** Name from the curated icon set ($lib/icons/icon-set.ts). */
-		icon?: string;
-	};
-};
+import { renderMarkdownWithToc } from '$lib/content/parse';
+import {
+	listAgents,
+	listBossEntries,
+	listCommands,
+	listDocs,
+	listSkills
+} from '$lib/content/catalog';
+import { listDocsInSequence } from '$lib/content/nav';
 
 export type MetaItemConfig = {
 	title?: string;
@@ -25,18 +20,6 @@ export type MetaItemConfig = {
 	/** Separators are virtual sidebar headings with no backing file, so
 	 *  `title` and `order` are required. */
 	type?: 'separator';
-};
-
-type DirectoryMetaModule = {
-	items?: Record<string, MetaItemConfig>;
-};
-
-type PageMetaModule = {
-	title?: string;
-	description?: string;
-	order?: number;
-	tags?: string[];
-	icon?: string;
 };
 
 export type ContentSummary = {
@@ -52,7 +35,7 @@ export type ContentSummary = {
 	lastModified?: string;
 	/** Name from the curated icon set ($lib/icons/icon-set.ts). */
 	icon?: string;
-	/** Repo-relative source path, e.g. `content/guides/index.md` — backs "Edit on GitHub". */
+	/** Repo-relative source path, e.g. `packages/fractal-agentic/docs/foo.md` — backs "Edit on GitHub". */
 	sourcePath: string;
 };
 
@@ -70,32 +53,6 @@ export type LlmsDocument = {
 	description?: string;
 	raw: string;
 };
-
-const contentModules = import.meta.glob('/content/**/*.{md,svx}', { eager: true }) as Record<
-	string,
-	ContentModule
->;
-const rawContentModules = import.meta.glob('/content/**/*.{md,svx}', {
-	eager: true,
-	query: '?raw',
-	import: 'default'
-}) as Record<string, string>;
-const directoryMetaModules = import.meta.glob('/content/**/_meta.json', {
-	eager: true,
-	import: 'default'
-}) as Record<string, DirectoryMetaModule>;
-const pageMetaModules = import.meta.glob('/content/**/*.meta.json', {
-	eager: true,
-	import: 'default'
-}) as Record<string, PageMetaModule>;
-
-const CONTENT_PREFIX = '/content/';
-const EXTENSION_RE = /\.(md|svx)$/;
-
-function toSlug(filePath: string): string {
-	const relativePath = filePath.slice(CONTENT_PREFIX.length).replace(EXTENSION_RE, '');
-	return relativePath === 'index' ? '' : relativePath.replace(/\/index$/, '');
-}
 
 const MONTHS = [
 	'January',
@@ -118,20 +75,8 @@ export function formatLastUpdated(isoDate: string): string {
 	return `${MONTHS[month - 1]} ${day}, ${year}`;
 }
 
-function titleFromSlug(slug: string): string {
-	const fallback = slug.split('/').pop() || 'home';
-	return fallback
-		.split('-')
-		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-		.join(' ');
-}
-
 function routeFromSlug(slug: string): string {
 	return slug ? `/docs/${slug}` : '/docs';
-}
-
-function metaPathFromContentPath(filePath: string): string {
-	return filePath.replace(EXTENSION_RE, '.meta.json');
 }
 
 function extractTocFromMarkdown(raw: string): TocItem[] {
@@ -217,207 +162,101 @@ function extractWordCount(raw: string): number {
 	return words.length;
 }
 
-/** Directory path ('' for the content root) → that directory's `_meta.json` items. */
+/** Directory `_meta.json` sidecars no longer apply — content is sourced from
+ *  the package, which carries no site sidebar metadata. Keep the signature so
+ *  consumers (docs layout, llms.txt) compile unchanged. */
 export function loadMetaByDirectory(): Map<string, Record<string, MetaItemConfig>> {
-	const metaByDirectory = new Map<string, Record<string, MetaItemConfig>>();
-
-	for (const [filePath, mod] of Object.entries(directoryMetaModules)) {
-		const folder = filePath.slice(CONTENT_PREFIX.length).replace(/\/?_meta\.json$/, '');
-
-		if (mod.items) {
-			metaByDirectory.set(folder, mod.items);
-		}
-	}
-
-	return metaByDirectory;
+	return new Map();
 }
 
-function applyMetaFallback(
-	entry: Omit<ContentSummary, 'title' | 'order' | 'wordCount' | 'readingTimeMinutes'> & {
-		title?: string;
-		order?: number;
-		wordCount: number;
-		readingTimeMinutes: number;
-	},
-	metaByDirectory: Map<string, Record<string, MetaItemConfig>>
-): ContentSummary {
-	const pieces = entry.slug.split('/');
-	const fileName = pieces[pieces.length - 1] || 'index';
-	const directory = pieces.slice(0, -1).join('/');
-	const directoryMeta = metaByDirectory.get(directory);
-	const itemMeta = directoryMeta?.[fileName];
-
-	return {
-		...entry,
-		// _meta.json wins over the page's own frontmatter/sidecar so nav can
-		// always be reordered centrally.
-		title: itemMeta?.title || entry.title || titleFromSlug(entry.slug),
-		order: itemMeta?.order ?? entry.order ?? 999,
-		icon: itemMeta?.icon || entry.icon
-	};
-}
-
+/**
+ * All content summaries in reading order (DOCS_SEQUENCE, then any stragglers
+ * alphabetically). Docs are sourced from `packages/fractal-agentic` via the
+ * catalog — the site's own `content/` folder is no longer the source of truth.
+ */
 export function getAllContentSummaries(): ContentSummary[] {
-	const metaByDirectory = loadMetaByDirectory();
-	const entries: ContentSummary[] = [];
-
-	for (const [filePath, mod] of Object.entries(contentModules)) {
-		if (filePath.endsWith('/_meta.md') || filePath.endsWith('/_meta.svx')) {
-			continue;
-		}
-
-		const slug = toSlug(filePath);
-		const sidecarMeta = pageMetaModules[metaPathFromContentPath(filePath)];
-		const raw = rawContentModules[filePath] ?? '';
-		const wordCount = extractWordCount(raw);
-		const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
-
-		const enriched = applyMetaFallback(
-			{
-				slug,
-				path: routeFromSlug(slug),
-				title: sidecarMeta?.title ?? mod.metadata?.title,
-				description: sidecarMeta?.description ?? mod.metadata?.description,
-				order: sidecarMeta?.order ?? mod.metadata?.order,
-				tags: sidecarMeta?.tags ?? mod.metadata?.tags ?? [],
-				icon: sidecarMeta?.icon ?? mod.metadata?.icon,
-				wordCount,
-				readingTimeMinutes,
-				lastModified: contentDates[filePath.slice(1)],
-				sourcePath: filePath.slice(1)
-			},
-			metaByDirectory
-		);
-
-		entries.push(enriched);
-	}
-
-	return entries.sort((a, b) => {
-		if (a.order !== b.order) {
-			return a.order - b.order;
-		}
-
-		return a.slug.localeCompare(b.slug);
+	return listDocsInSequence().map((entry, index) => {
+		const wordCount = extractWordCount(entry.body);
+		return {
+			slug: entry.slug,
+			path: routeFromSlug(entry.slug),
+			title: entry.title,
+			description: entry.description,
+			order: index,
+			tags: [],
+			wordCount,
+			readingTimeMinutes: Math.max(1, Math.ceil(wordCount / 200)),
+			lastModified: entry.sourcePath ? contentDates[entry.sourcePath] : undefined,
+			icon: undefined,
+			sourcePath: entry.sourcePath ?? `packages/fractal-agentic/docs/${entry.slug}.md`
+		};
 	});
 }
 
 export function getDocsEntries(): ContentSummary[] {
-	const entries = getAllContentSummaries();
-	return entries.filter((entry) => !entry.slug.startsWith('blog/'));
+	return getAllContentSummaries();
 }
 
 export function getDocEntryBySlug(slugParts: string[]): ContentSummary | null {
 	const slug = slugParts.join('/');
-	const docsEntries = getDocsEntries();
-	return docsEntries.find((entry) => entry.slug === slug) ?? null;
+	return getDocsEntries().find((entry) => entry.slug === slug) ?? null;
 }
 
-export function getDocComponentBySlug(slugParts: string[]): Component | null {
-	const slug = slugParts.join('/');
-	const targetPath = Object.keys(contentModules).find((path) => toSlug(path) === slug);
-
-	if (!targetPath) {
-		return null;
+/**
+ * Render one doc page's markdown body to HTML with an "On this page" TOC.
+ * Relative links resolve from the source file's real repo directory (so
+ * `../agent/INDEX.md` inside `docs/bosses/creator/` lands on the right boss),
+ * while core root docs (AGENTS.md, SOUL.md, …) keep the generic rewrites.
+ */
+export async function renderDocEntry(entry: ContentSummary): Promise<{
+	html: string;
+	toc: TocItem[];
+}> {
+	const doc = listDocs().find((d) => d.slug === entry.slug);
+	if (!doc) {
+		return { html: '', toc: [] };
 	}
 
-	const mod = contentModules[targetPath];
-	if (!mod || targetPath.endsWith('/_meta.md')) {
-		return null;
-	}
-
-	return mod.default;
+	const m = doc.sourcePath?.match(/packages\/fractal-agentic\/docs\/(.*)\/[^/]+\.md$/);
+	const repoDir = m ? m[1].split('/').filter(Boolean) : undefined;
+	return renderMarkdownWithToc(doc.body, doc.slug, repoDir);
 }
 
-export function getDocTocBySlug(slugParts: string[]): TocItem[] {
-	const slug = slugParts.join('/');
-	const targetPath = Object.keys(rawContentModules).find((path) => toSlug(path) === slug);
-
-	if (!targetPath) {
-		return [];
-	}
-
-	const raw = rawContentModules[targetPath];
-	if (!raw) {
-		return [];
-	}
-
-	return extractTocFromMarkdown(raw);
-}
-
-/** Raw, unstripped markdown source for one page — backs the /docs/*.md route. */
+/** Markdown body (frontmatter stripped) for one page — backs the /docs/*.md route. */
 export function getRawMarkdownBySlug(slugParts: string[]): string | null {
 	const slug = slugParts.join('/');
-	const targetPath = Object.keys(rawContentModules).find((path) => toSlug(path) === slug);
-
-	if (!targetPath) {
-		return null;
-	}
-
-	return rawContentModules[targetPath] ?? null;
+	return listDocs().find((doc) => doc.slug === slug)?.body ?? null;
 }
 
 /** Backs llms.txt and llms-full.txt — raw source, unlike search documents. */
 export function getAllLlmsDocuments(): LlmsDocument[] {
-	const docsEntries = getDocsEntries();
-	const entryBySlug = new Map(docsEntries.map((entry) => [entry.slug, entry]));
-
-	const documents: LlmsDocument[] = [];
-
-	for (const [filePath, raw] of Object.entries(rawContentModules)) {
-		if (filePath.endsWith('/_meta.md') || filePath.endsWith('/_meta.svx')) {
-			continue;
-		}
-
-		const slug = toSlug(filePath);
-		const entry = entryBySlug.get(slug);
-		if (!entry) {
-			continue;
-		}
-
-		documents.push({
-			slug: entry.slug,
-			url: entry.path,
-			title: entry.title,
-			description: entry.description,
-			raw
-		});
-	}
-
-	return documents.sort((a, b) => a.slug.localeCompare(b.slug));
+	return listDocsInSequence().map((entry) => ({
+		slug: entry.slug,
+		url: entry.href,
+		title: entry.title,
+		description: entry.description,
+		raw: entry.body
+	}));
 }
 
 /** The canonical source every search backend's indexer builds from. */
 export function getAllSearchDocuments(): SearchDocument[] {
-	const docsEntries = getDocsEntries();
-	const entryBySlug = new Map(docsEntries.map((entry) => [entry.slug, entry]));
-
 	const documents: SearchDocument[] = [];
 
-	for (const [filePath, raw] of Object.entries(rawContentModules)) {
-		if (filePath.endsWith('/_meta.md') || filePath.endsWith('/_meta.svx')) {
-			continue;
-		}
-
-		const slug = toSlug(filePath);
-		const entry = entryBySlug.get(slug);
-		if (!entry) {
-			continue;
-		}
-
+	for (const entry of listDocsInSequence()) {
 		documents.push({
 			id: entry.slug,
-			url: entry.path,
+			url: entry.href,
 			title: entry.title,
 			description: entry.description,
-			content: stripMarkdownToText(raw),
-			headings: extractTocFromMarkdown(raw).map(({ id, text }) => ({ id, text }))
+			content: stripMarkdownToText(entry.body),
+			headings: extractTocFromMarkdown(entry.body).map(({ id, text }) => ({ id, text }))
 		});
 	}
 
-	// The armory catalog (skills, agents, commands, bosses) lives in the sibling
-	// plugin package, not under content/. Those pages are prerendered and fully
-	// searchable, so index them from their raw markdown bodies too — otherwise
-	// ⌘K only ever finds the handful of docs/ pages.
+	// The armory catalog (skills, agents, commands, bosses) lives in the
+	// sibling package and is prerendered, so index it from raw markdown bodies
+	// too — otherwise ⌘K only ever finds the docs pages.
 	const catalogEntries = [
 		...listSkills(),
 		...listAgents(),

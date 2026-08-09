@@ -1,10 +1,36 @@
-// System Color Tokens & Theme Architecture for FractalMandala
+// System Color Tokens & Theme Architecture
+// ----------------------------------------------------------------------
+// 1. Primitive Palette (Base Scales)
+// 2. Semantic Context Tokens (Themeable custom properties)
+// 3. Theme Switching Protocol ([data-theme="light" | "dark"])
+// ----------------------------------------------------------------------
+
 :root
-	--font-sans: "Google Sans Flex", system-ui, -apple-system, BlinkMacSystemFont, sans-serif
-	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace
+	// Fonts & Scale
+	--font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace
 	--text-scale: 1.0
 
-	// Neutral Slate Scale
+	// Layout tokens (drive the .appshell Composition layer)
+	--header-height: 64px
+	--footer-height: 48px
+	--shell-pad: 24px
+	--layout-max: 1440px
+	--sidebar-min: 220px
+	--sidebar-max: 280px
+	--body-min: 600px
+	--body-max: 740px
+
+	// Ambient background — decorative blobs (green wash, light theme default)
+	--ambient-blur: 60px
+	--ambient-1-bg: linear-gradient(135deg, #bbf7d0, #d9f99d, #6ee7b7)
+	--ambient-1-op: 0.20
+	--ambient-2-bg: linear-gradient(45deg, #5eead4, #86efac, #d9f99d)
+	--ambient-2-op: 0.38
+	--ambient-3-bg: linear-gradient(180deg, #6ee7b7, #bbf7d0, #ecfccb)
+	--ambient-3-op: 0.55
+
+	// Primitive Palette - Neutral Slate Scale
 	--slate-50: #f8fafc
 	--slate-100: #f1f5f9
 	--slate-200: #e2e8f0
@@ -17,7 +43,13 @@
 	--slate-900: #0f172a
 	--slate-950: #0b0f17
 
-	// Semantic Context Tokens — Light Theme
+	// Primitive Palette - Feedback Scales
+	--red-500: #ef4444
+	--amber-500: #f59e0b
+	--emerald-500: #10b981
+	--sky-500: #0ea5e9
+
+	// Semantic Context Tokens — Default Light Theme
 	--bg-app: #ffffff
 	--bg-surface: var(--slate-50)
 	--bg-raised: #ffffff
@@ -33,17 +65,24 @@
 	--border-secondary: var(--slate-300)
 	--border-focus: var(--brand)
 
-	// Brand Accent Slot — Mandala Green Accent
-	--brand: #039140
-	--brand-hover: #027333
-	--brand-active: #015425
-	--ring: rgba(3, 145, 64, 0.35)
+	// Brand Accent Slot (Override in site's local _tokens.sass)
+	--brand: #2563eb
+	--brand-hover: #1d4ed8
+	--brand-active: #1e40af
+	--ring: rgba(37, 99, 235, 0.35)
 
+	// Feedback Tokens
+	--feedback-danger: var(--red-500)
+	--feedback-warning: var(--amber-500)
+	--feedback-success: var(--emerald-500)
+	--feedback-info: var(--sky-500)
+
+// System preference auto dark-mode (when data-theme is not explicitly set)
 @media (prefers-color-scheme: dark)
 	:root:not([data-theme="light"])
-		--bg-app: var(--slate-950)
-		--bg-surface: var(--slate-900)
-		--bg-raised: var(--slate-800)
+		--bg-app: #121212
+		--bg-surface: #1e1e1e
+		--bg-raised: #2a2a2a
 		--bg-overlay: rgba(0, 0, 0, 0.75)
 		--bg-subtle: var(--slate-800)
 
@@ -56,15 +95,22 @@
 		--border-secondary: var(--slate-700)
 		--border-focus: var(--brand)
 
-		--brand: #05be54
-		--brand-hover: #039140
-		--brand-active: #027333
-		--ring: rgba(5, 190, 84, 0.35)
+		--brand: #3b82f6
+		--brand-hover: #60a5fa
+		--brand-active: #2563eb
+		--ring: rgba(59, 130, 246, 0.35)
 
-[data-theme="dark"], .dark, .theme-dark, .theme-dark-default
-	--bg-app: var(--slate-950)
-	--bg-surface: var(--slate-900)
-	--bg-raised: var(--slate-800)
+		// Ambient wash dims to a single subtle glow in the dark
+		--ambient-1-op: 0
+		--ambient-2-op: 0
+		--ambient-3-bg: linear-gradient(180deg, #16a34a, #10b981, #2dd4bf)
+		--ambient-3-op: 0.28
+
+// Explicit Dark Theme Override
+[data-theme="dark"]
+	--bg-app: #121212
+	--bg-surface: #1e1e1e
+	--bg-raised: #2a2a2a
 	--bg-overlay: rgba(0, 0, 0, 0.75)
 	--bg-subtle: var(--slate-800)
 
@@ -77,12 +123,19 @@
 	--border-secondary: var(--slate-700)
 	--border-focus: var(--brand)
 
-	--brand: #05be54
-	--brand-hover: #039140
-	--brand-active: #027333
-	--ring: rgba(5, 190, 84, 0.35)
+	--brand: #3b82f6
+	--brand-hover: #60a5fa
+	--brand-active: #2563eb
+	--ring: rgba(59, 130, 246, 0.35)
 
-[data-theme="light"], .light, .theme-light, .theme-light-default
+	// Ambient wash dims to a single subtle glow in the dark
+	--ambient-1-op: 0
+	--ambient-2-op: 0
+	--ambient-3-bg: linear-gradient(180deg, #16a34a, #10b981, #2dd4bf)
+	--ambient-3-op: 0.28
+
+// Explicit Light Theme Override
+[data-theme="light"]
 	--bg-app: #ffffff
 	--bg-surface: var(--slate-50)
 	--bg-raised: #ffffff
@@ -98,7 +151,7 @@
 	--border-secondary: var(--slate-300)
 	--border-focus: var(--brand)
 
-	--brand: #039140
-	--brand-hover: #027333
-	--brand-active: #015425
-	--ring: rgba(3, 145, 64, 0.35)
+	--brand: #2563eb
+	--brand-hover: #1d4ed8
+	--brand-active: #1e40af
+	--ring: rgba(37, 99, 235, 0.35)

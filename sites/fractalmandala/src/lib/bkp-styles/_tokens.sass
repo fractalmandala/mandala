@@ -1,0 +1,179 @@
+// System Color Tokens & Theme Architecture for FractalMandala
+:root
+	--font-sans: "Google Sans Flex", system-ui, -apple-system, BlinkMacSystemFont, sans-serif
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace
+	--text-scale: 1.0
+
+	// Layout tokens (drive the .appshell Composition layer)
+	--header-height: 80px
+	--footer-height: 56px
+	--shell-pad: 20px
+	--layout-max: 1440px
+	--sidebar-min: 200px
+	--sidebar-max: 320px
+	--body-min: 600px
+	--body-max: 720px
+
+	// Ambient background — green wash (light theme default)
+	--ambient-blur: 60px
+	--ambient-1-bg: linear-gradient(135deg, #bbf7d0, #d9f99d, #6ee7b7)
+	--ambient-1-op: 0.20
+	--ambient-2-bg: linear-gradient(45deg, #5eead4, #86efac, #d9f99d)
+	--ambient-2-op: 0.38
+	--ambient-3-bg: linear-gradient(180deg, #6ee7b7, #bbf7d0, #ecfccb)
+	--ambient-3-op: 0.55
+
+	// Type scale
+	--text-xs: 0.75rem
+	--text-sm: 0.8125rem
+	--text-md: 0.875rem
+	--text-bs: 1rem
+	--text-lg: 1.125rem
+	--text-xl: 1.25rem
+	--text-2xl: 1.5rem
+	--text-3xl: 1.875rem
+	--text-4xl: 2.25rem
+	--text-5xl: 3rem
+
+	// Spacing scale
+	--size2: 2px
+	--size4: 4px
+	--size8: 8px
+	--size16: 16px
+	--size32: 32px
+	--size64: 64px
+
+	// Letter spacing
+	--ls-tight: -0.01em
+	--ls-tightx: -0.02em
+	--ls-wide: 0.03em
+	--ls-widex: 0.08em
+
+	// Compatibility aliases — legacy vocabulary → semantic system (auto-themes)
+	--font-ui: var(--font-sans)
+	--site-padding: var(--shell-pad)
+	--text-tertiary: var(--text-muted)
+	--border-default: var(--border)
+	--border-darker: var(--border-secondary)
+	--border-subtle: var(--border)
+	--surface-viewer: var(--bg-app)
+	--surface-rightbar: var(--bg-surface)
+	--surface-input: var(--bg-surface)
+	--surface-badge: color-mix(in srgb, var(--brand) 16%, transparent)
+	--theme-color: var(--brand)
+	--theme-color-alt: var(--brand-hover)
+	--scrollbar-thumb: var(--border-secondary)
+	--state-hover: var(--bg-subtle)
+	--state-hover-subtle: var(--bg-surface)
+	--shadow-popover: 0 8px 24px rgba(15, 23, 42, 0.12)
+	--feedback-error: #ef4444
+
+	// Neutral Slate Scale
+	--slate-50: #f8fafc
+	--slate-100: #f1f5f9
+	--slate-200: #e2e8f0
+	--slate-300: #cbd5e1
+	--slate-400: #94a3b8
+	--slate-500: #64748b
+	--slate-600: #475569
+	--slate-700: #334155
+	--slate-800: #1e293b
+	--slate-900: #0f172a
+	--slate-950: #0b0f17
+
+	// Semantic Context Tokens — Light Theme
+	--bg-app: #ffffff
+	--bg-surface: var(--slate-50)
+	--bg-raised: #ffffff
+	--bg-overlay: rgba(15, 23, 42, 0.5)
+	--bg-subtle: var(--slate-100)
+
+	--text-primary: var(--slate-900)
+	--text-secondary: var(--slate-600)
+	--text-muted: var(--slate-400)
+	--text-inverse: #ffffff
+
+	--border: var(--slate-200)
+	--border-secondary: var(--slate-300)
+	--border-focus: var(--brand)
+
+	// Brand Accent Slot — Mandala Green Accent
+	--brand: #039140
+	--brand-hover: #027333
+	--brand-active: #015425
+	--ring: rgba(3, 145, 64, 0.35)
+
+@media (prefers-color-scheme: dark)
+	:root:not([data-theme="light"])
+		--bg-app: var(--slate-950)
+		--bg-surface: var(--slate-900)
+		--bg-raised: var(--slate-800)
+		--bg-overlay: rgba(0, 0, 0, 0.75)
+		--bg-subtle: var(--slate-800)
+
+		--text-primary: #f9fafb
+		--text-secondary: var(--slate-300)
+		--text-muted: var(--slate-500)
+		--text-inverse: var(--slate-900)
+
+		--border: var(--slate-800)
+		--border-secondary: var(--slate-700)
+		--border-focus: var(--brand)
+
+		--brand: #05be54
+		--brand-hover: #039140
+		--brand-active: #027333
+		--ring: rgba(5, 190, 84, 0.35)
+
+		--ambient-1-op: 0
+		--ambient-2-op: 0
+		--ambient-3-bg: linear-gradient(180deg, #16a34a, #10b981, #2dd4bf)
+		--ambient-3-op: 0.26
+
+[data-theme="dark"], .dark, .theme-dark, .theme-dark-default
+	--bg-app: var(--slate-950)
+	--bg-surface: var(--slate-900)
+	--bg-raised: var(--slate-800)
+	--bg-overlay: rgba(0, 0, 0, 0.75)
+	--bg-subtle: var(--slate-800)
+
+	--text-primary: #f9fafb
+	--text-secondary: var(--slate-300)
+	--text-muted: var(--slate-500)
+	--text-inverse: var(--slate-900)
+
+	--border: var(--slate-800)
+	--border-secondary: var(--slate-700)
+	--border-focus: var(--brand)
+
+	--brand: #05be54
+	--brand-hover: #039140
+	--brand-active: #027333
+	--ring: rgba(5, 190, 84, 0.35)
+
+	// Ambient wash dims to a single subtle glow in the dark
+	--ambient-1-op: 0
+	--ambient-2-op: 0
+	--ambient-3-bg: linear-gradient(180deg, #16a34a, #10b981, #2dd4bf)
+	--ambient-3-op: 0.26
+
+[data-theme="light"], .light, .theme-light, .theme-light-default
+	--bg-app: #ffffff
+	--bg-surface: var(--slate-50)
+	--bg-raised: #ffffff
+	--bg-overlay: rgba(15, 23, 42, 0.5)
+	--bg-subtle: var(--slate-100)
+
+	--text-primary: var(--slate-900)
+	--text-secondary: var(--slate-600)
+	--text-muted: var(--slate-400)
+	--text-inverse: #ffffff
+
+	--border: var(--slate-200)
+	--border-secondary: var(--slate-300)
+	--border-focus: var(--brand)
+
+	--brand: #039140
+	--brand-hover: #027333
+	--brand-active: #015425
+	--ring: rgba(3, 145, 64, 0.35)

@@ -409,3 +409,236 @@ describe('docs doctor', () => {
 		expect(bareContext.out.join('\n')).toContain('FAIL configuration');
 	});
 });
+
+describe('docs init', () => {
+	const existingProject = {
+		'package.json': JSON.stringify({ devDependencies: { svelte: '^5.0.0' } }),
+		'pnpm-lock.yaml': 'lockfileVersion: 9',
+		'vite.config.ts':
+			"import { sveltekit } from '@sveltejs/kit/vite';\nimport { defineConfig } from 'vite';\n\nexport default defineConfig({\n\tplugins: [sveltekit()]\n});\n",
+		'svelte.config.js':
+			"import adapter from '@sveltejs/adapter-auto';\nimport { vitePreprocess } from '@sveltejs/vite-plugin-svelte';\n\nconst config = {\n\tpreprocess: [vitePreprocess()],\n\tkit: { adapter: adapter() }\n};\n\nexport default config;\n",
+		'.gitignore': 'node_modules\n'
+	};
+
+	it('plans without touching the project by default', async () => {
+		const root = await mkdtemp(join(tmpdir(), 'docs-kit-cli-'));
+		temporaryRoots.push(root);
+		for (const [path, content] of Object.entries(existingProject)) {
+			await writeFile(join(root, path), content, 'utf8');
+		}
+		const context = createContext(root);
+
+		expect(await runDocsCli(['init'], { context })).toBe(0);
+		const output = context.out.join('\n');
+		expect(output).toContain('nothing was written');
+		expect(output).toContain('create  docs.config.js');
+		expect(output).toContain('patch   vite.config.ts');
+		expect(output).toContain('pnpm add -D @docs-kit/core');
+		await expect(readFile(join(root, 'docs.config.js'), 'utf8')).rejects.toThrow();
+	});
+
+	it('creates files and patches configuration with --write', async () => {
+		const root = await mkdtemp(join(tmpdir(), 'docs-kit-cli-'));
+		temporaryRoots.push(root);
+		for (const [path, content] of Object.entries(existingProject)) {
+			await writeFile(join(root, path), content, 'utf8');
+		}
+		const context = createContext(root);
+
+		expect(await runDocsCli(['init', '--write', '--title', 'Acme'], { context })).toBe(0);
+
+		expect(await readFile(join(root, 'docs.config.js'), 'utf8')).toContain('title: "Acme"');
+		expect(await readFile(join(root, 'src/lib/docs/index.md'), 'utf8')).toContain('# Acme');
+		expect(await readFile(join(root, 'src/routes/docs/[...slug]/+page.svelte'), 'utf8')).toContain(
+			'@docs-kit/theme-default'
+		);
+
+		const viteConfig = await readFile(join(root, 'vite.config.ts'), 'utf8');
+		expect(viteConfig).toContain("import { docs } from '@docs-kit/vite';");
+		// The plugin must run before sveltekit().
+		expect(viteConfig.indexOf('docs({')).toBeLessThan(viteConfig.indexOf('sveltekit()'));
+
+		const svelteConfig = await readFile(join(root, 'svelte.config.js'), 'utf8');
+		expect(svelteConfig).toContain('docsMarkdown()');
+		expect(svelteConfig).toContain("extensions: ['.svelte', '.md', '.svx']");
+		// mdsvex has to see the Markdown last, and the project's own preprocessor is kept.
+		expect(svelteConfig.indexOf('vitePreprocess()')).toBeLessThan(
+			svelteConfig.indexOf('docsMarkdown()')
+		);
+		expect(svelteConfig.indexOf('docsMarkdown()')).toBeLessThan(svelteConfig.indexOf('mdsvex({'));
+		expect(svelteConfig).toContain('\t\tvitePreprocess(),\n\t\tdocsMarkdown(),\n\t\tmdsvex({');
+		expect(svelteConfig).toContain('kit: { adapter: adapter() }');
+		expect(await readFile(join(root, '.gitignore'), 'utf8')).toContain('.docs-kit');
+	});
+
+	it('never overwrites existing files or already-wired configuration', async () => {
+		const root = await mkdtemp(join(tmpdir(), 'docs-kit-cli-'));
+		temporaryRoots.push(root);
+		for (const [path, content] of Object.entries(existingProject)) {
+			await writeFile(join(root, path), content, 'utf8');
+		}
+		await writeFile(join(root, 'docs.config.js'), '// mine\n', 'utf8');
+		await runDocsCli(['init', '--write'], { context: createContext(root) });
+
+		expect(await readFile(join(root, 'docs.config.js'), 'utf8')).toBe('// mine\n');
+
+		// A second run leaves the already-patched configuration alone.
+		const second = createContext(root);
+		await runDocsCli(['init', '--write'], { context: second });
+		const output = second.out.join('\n');
+		expect(output).toContain('was left unchanged');
+		expect((await readFile(join(root, 'vite.config.ts'), 'utf8')).match(/@docs-kit\/vite/g)).toHaveLength(1);
+	});
+
+	it('detects the package manager and reports manual steps', async () => {
+		const root = await mkdtemp(join(tmpdir(), 'docs-kit-cli-'));
+		temporaryRoots.push(root);
+		await writeFile(join(root, 'yarn.lock'), '', 'utf8');
+		const context = createContext(root);
+
+		expect(await runDocsCli(['init'], { context })).toBe(0);
+		const output = context.out.join('\n');
+		expect(output).toContain('yarn add -D');
+		expect(output).toContain('vite.config.ts does not exist');
+	});
+
+	it('finds the package manager from a workspace root above the project', async () => {
+		const root = await mkdtemp(join(tmpdir(), 'docs-kit-cli-'));
+		temporaryRoots.push(root);
+		await writeFile(join(root, 'pnpm-lock.yaml'), 'lockfileVersion: 9', 'utf8');
+		const project = join(root, 'apps', 'site');
+		await mkdir(project, { recursive: true });
+		await writeFile(join(project, 'package.json'), '{"name":"site"}', 'utf8');
+		const context = createContext(project);
+
+		expect(await runDocsCli(['init'], { context })).toBe(0);
+		expect(context.out.join('\n')).toContain('pnpm add -D');
+	});
+});
+
+describe('docs generate', () => {
+	it('writes the manifest, search records, and discovery artifacts', async () => {
+		const root = await makeProject(
+			{
+				site: { title: 'Acme', url: 'https://acme.com' },
+				content: { directory: 'docs' }
+			},
+			{
+				'docs/index.md': '---\ntitle: Home\n---\n\nWelcome.\n\n## Details\n\nMore.',
+				'docs/guide.md': '---\ntitle: Guide\n---\n\nBody.'
+			}
+		);
+		const context = createContext(root);
+
+		expect(await runDocsCli(['generate'], { context })).toBe(0);
+		expect(context.out.join('\n')).toContain('Generated 2 page(s)');
+
+		const manifest = JSON.parse(await readFile(join(root, '.docs-kit/manifest.json'), 'utf8'));
+		expect(manifest.pages).toHaveLength(2);
+
+		const records = JSON.parse(await readFile(join(root, '.docs-kit/search/records.json'), 'utf8'));
+		expect(records.length).toBeGreaterThan(2);
+
+		expect(await readFile(join(root, 'static/sitemap.xml'), 'utf8')).toContain('https://acme.com/docs');
+		expect(await readFile(join(root, 'static/robots.txt'), 'utf8')).toContain('Sitemap:');
+		expect(await readFile(join(root, 'static/og/index.svg'), 'utf8')).toContain('Home');
+	});
+
+	it('compiles configured API specifications into pages', async () => {
+		const root = await makeProject(
+			{
+				site: { title: 'Acme' },
+				content: { directory: 'docs' },
+				openapi: [{ id: 'api', source: 'openapi.json' }]
+			},
+			{
+				'docs/index.md': '---\ntitle: Home\n---\n\nWelcome.',
+				'openapi.json': JSON.stringify({
+					openapi: '3.1.0',
+					info: { title: 'Acme API', version: '1.0.0' },
+					paths: {
+						'/things': {
+							get: { operationId: 'listThings', summary: 'List things', responses: {} }
+						}
+					}
+				})
+			}
+		);
+		const context = createContext(root);
+
+		expect(await runDocsCli(['generate'], { context })).toBe(0);
+
+		const manifest = JSON.parse(await readFile(join(root, '.docs-kit/manifest.json'), 'utf8'));
+		const pathnames = manifest.pages.map((page: { pathname: string }) => page.pathname);
+		expect(pathnames).toContain('/docs/api/operations/listthings');
+		expect(context.out.join('\n')).toContain('site.url is not configured');
+	});
+
+	it('fails with a useful message for a malformed specification', async () => {
+		const root = await makeProject(
+			{
+				site: { title: 'Acme' },
+				content: { directory: 'docs' },
+				openapi: [{ id: 'api', source: 'openapi.json' }]
+			},
+			{ 'docs/index.md': '# Home', 'openapi.json': '{ "swagger": "2.0" }' }
+		);
+		const context = createContext(root);
+
+		expect(await runDocsCli(['generate'], { context })).toBe(1);
+		expect(context.err.join('\n')).toContain('Swagger 2.0 is not supported');
+	});
+});
+
+describe('docs clean', () => {
+	async function generated() {
+		const root = await makeProject(
+			{ site: { title: 'Acme', url: 'https://acme.com' }, content: { directory: 'docs' } },
+			{ 'docs/index.md': '---\ntitle: Home\n---\n\nWelcome.' }
+		);
+		await runDocsCli(['generate'], { context: createContext(root) });
+		return root;
+	}
+
+	it('lists what it would remove without touching anything', async () => {
+		const root = await generated();
+		const context = createContext(root);
+
+		expect(await runDocsCli(['clean', '--dry-run'], { context })).toBe(0);
+		expect(context.out.join('\n')).toContain('Would remove');
+		expect(await readFile(join(root, '.docs-kit/manifest.json'), 'utf8')).toBeTruthy();
+	});
+
+	it('removes generated state, including cards it wrote', async () => {
+		const root = await generated();
+		const context = createContext(root);
+
+		expect(await runDocsCli(['clean'], { context })).toBe(0);
+		expect(context.out.join('\n')).toContain('Removed');
+		await expect(readFile(join(root, '.docs-kit/manifest.json'), 'utf8')).rejects.toThrow();
+		await expect(readFile(join(root, 'static/sitemap.xml'), 'utf8')).rejects.toThrow();
+		await expect(readFile(join(root, 'static/og/index.svg'), 'utf8')).rejects.toThrow();
+		// Source content is never touched.
+		expect(await readFile(join(root, 'docs/index.md'), 'utf8')).toContain('Welcome.');
+	});
+
+	it('keeps a static directory it did not generate', async () => {
+		const root = await generated();
+		await rm(join(root, 'static/og'), { recursive: true, force: true });
+		await mkdir(join(root, 'static/og'), { recursive: true });
+		await writeFile(join(root, 'static/og/hand-made.svg'), '<svg />', 'utf8');
+
+		await runDocsCli(['clean'], { context: createContext(root) });
+		expect(await readFile(join(root, 'static/og/hand-made.svg'), 'utf8')).toBe('<svg />');
+	});
+
+	it('can keep static artifacts entirely', async () => {
+		const root = await generated();
+		const context = createContext(root);
+
+		await runDocsCli(['clean', '--keep-static'], { context });
+		expect(await readFile(join(root, 'static/sitemap.xml'), 'utf8')).toBeTruthy();
+		await expect(readFile(join(root, '.docs-kit/manifest.json'), 'utf8')).rejects.toThrow();
+	});
+});

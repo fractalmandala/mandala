@@ -1,0 +1,41 @@
+#!/bin/sh
+# Root commit-msg gate: advisory checks for the commit policy declared in
+# admin/repo-management.md §2. Warns (never blocks) on:
+#   1. Direct commits on main / master (branch-first is advisory here;
+#      direct pushes to main are what the block-level rules target).
+#   2. Non-Conventional commit messages: <type>(<scope>): <subject>
+#      with type in feat fix refactor chore docs experiment test perf ci.
+
+msg_file="$1"
+
+# First real line of the message (skip blanks and comment lines).
+subject=$(grep -v '^#' "$msg_file" | sed -n '/[^[:space:]]/s/^[[:space:]]*//p' | head -n 1)
+
+if [ -z "$subject" ]; then
+  exit 0
+fi
+
+# Pass through git-generated and agent-flow messages that are never hand-written.
+case "$subject" in
+  'Merge '*|'Revert '*|'fixup!'*|'squash!'*|'amend!'*)
+    exit 0
+    ;;
+esac
+
+branch=$(git symbolic-ref --short -q HEAD || echo '(detached)')
+
+if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+  echo "commit-msg: WARNING — direct commit on '$branch'." >&2
+  echo "commit-msg: branch-first policy (admin/repo-management.md §1, §2): create a scoped branch," >&2
+  echo "commit-msg: e.g. git worktree add -b fix/<scope>-<thing> <path> main. Advisory; commit proceeds." >&2
+fi
+
+if ! printf '%s\n' "$subject" | grep -Eq '^(feat|fix|refactor|chore|docs|experiment|test|perf|ci)(\([^)]+\))?!?: .+'; then
+  echo "commit-msg: WARNING — message is not Conventional Commits." >&2
+  echo "commit-msg: expected '<type>(<scope>): <subject>', ≤72 chars, imperative mood" >&2
+  echo "commit-msg: (admin/repo-management.md §2). Types: feat fix refactor chore docs experiment test perf ci." >&2
+  echo "commit-msg: got: $subject" >&2
+  echo "commit-msg: example: feat(fracta): add markdown export to clipboard. Advisory; commit proceeds." >&2
+fi
+
+exit 0

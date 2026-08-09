@@ -1,0 +1,33 @@
+// Offline font faces — served from this site's static/fonts (URL root = /fonts).
+// Only the families the token system actually uses are loaded; everything else
+// falls back to system fonts.
+
+@font-face
+	font-family: 'Google Sans Flex'
+	src: url('/fonts/GoogleSansFlex.woff2') format('woff2')
+	font-weight: 100 900
+	font-style: normal
+	font-display: swap
+
+@font-face
+	font-family: 'Familjen Grotesk'
+	src: url('/fonts/FamiljenGrotesk-Variable.woff2') format('woff2')
+	font-weight: 400 700
+	font-style: normal
+	font-display: swap
+
+@font-face
+	font-family: 'Familjen Grotesk'
+	src: url('/fonts/FamiljenGrotesk-VariableItalic.woff2') format('woff2')
+	font-weight: 400 700
+	font-style: italic
+	font-display: swap
+
+.font-googleflex
+	font-family: 'Google Sans Flex', sans-serif
+
+.font-familjen
+	font-family: 'Familjen Grotesk', sans-serif
+
+.font-jetbrains
+	font-family: var(--font-mono)

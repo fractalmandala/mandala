@@ -166,7 +166,7 @@
 					{/each}
 				</ul>
 			{:else}
-				<div class="search-empty">No results found for "{query}"</div>
+				<div class="search-empty ta-c sec text-sm">No results found for "{query}"</div>
 			{/if}
 		</div>
 	{/if}

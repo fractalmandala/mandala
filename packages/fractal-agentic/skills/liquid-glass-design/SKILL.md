@@ -1,280 +1,136 @@
 ---
 name: liquid-glass-design
-description: iOS 26 Liquid Glass design system — dynamic glass material with blur, reflection, and interactive morphing for SwiftUI, UIKit, and WidgetKit.
+description: Liquid glass design system for the web — dynamic glass material with blur, tint, specular highlights, and interactive morphing, built with CSS backdrop filters, custom properties, and indented SASS tokens.
 ---
 
-# Liquid Glass Design System (iOS 26)
+# Liquid Glass Design System (Web)
 
-Patterns for implementing Apple's Liquid Glass — a dynamic material that blurs content behind it, reflects color and light from surrounding content, and reacts to touch and pointer interactions. Covers SwiftUI, UIKit, and WidgetKit integration.
+Patterns for implementing a liquid-glass material on the web — a dynamic surface that blurs and saturates content behind it, picks up ambient tint, carries a specular edge highlight, and reacts to hover and press. Built entirely with CSS/SASS so it works in any SvelteKit app, desktop webview, or browser.
 
 ## When to Activate
 
-- Building or updating apps for iOS 26+ with the new design language
-- Implementing glass-style buttons, cards, toolbars, or containers
-- Creating morphing transitions between glass elements
-- Applying Liquid Glass effects to widgets
-- Migrating existing blur/material effects to the new Liquid Glass API
+- Designing or restyling floating surfaces: toolbars, panels, dialogs, docks, HUDs
+- Adding depth layers over content-rich backgrounds (canvases, editors, media)
+- Creating hover/press feedback that feels fluid rather than mechanical
 
-## Core Pattern — SwiftUI
+## The Material, Four Layers
 
-### Basic Glass Effect
+1. **Backdrop** — `backdrop-filter: blur() saturate()` over live content.
+2. **Tint** — translucent fill that samples the ambient palette via custom properties.
+3. **Specular edge** — bright 1px-ish inner border + subtle outer shadow for the "lens" rim.
+4. **Motion** — scale/blur radius/opacity respond to interaction with springy easing.
 
-The simplest way to add Liquid Glass to any view:
+## Base Token Set (indented SASS)
 
-```swift
-Text("Hello, World!")
-    .font(.title)
-    .padding()
-    .glassEffect()  // Default: regular variant, capsule shape
+```sass
+// _tokens.glass.sass — merge into the project token layer
+:root
+	--glass-blur: 18px
+	--glass-saturate: 1.6
+	--glass-tint-light: rgba(255, 255, 255, 0.55)
+	--glass-tint-dark: rgba(30, 30, 34, 0.45)
+	--glass-border: rgba(255, 255, 255, 0.35)
+	--glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.18)
+	--glass-radius: 18px
+	--glass-spring: cubic-bezier(0.34, 1.56, 0.64, 1)
 ```
 
-### Customizing Shape and Tint
+Follow the house rule: single-tab indented SASS, no braces, no semicolons, tokens drive everything.
 
-```swift
-Text("Hello, World!")
-    .font(.title)
-    .padding()
-    .glassEffect(.regular.tint(.orange).interactive(), in: .rect(cornerRadius: 16.0))
+## The Glass Surface
+
+```sass
+.glass
+	position: relative
+	border-radius: var(--glass-radius)
+	background: var(--glass-tint-light)
+	backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))
+	-webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate))
+	border: 1px solid var(--glass-border)
+	box-shadow: var(--glass-shadow)
+	transition: transform 240ms var(--glass-spring), box-shadow 240ms ease
+
+	@media (prefers-color-scheme: dark)
+		background: var(--glass-tint-dark)
+		border-color: rgba(255, 255, 255, 0.12)
 ```
 
-Key customization options:
+## Specular Edge Highlight
 
-- `.regular` — standard glass effect
-- `.tint(Color)` — add color tint for prominence
-- `.interactive()` — react to touch and pointer interactions
-- Shape: `.capsule` (default), `.rect(cornerRadius:)`, `.circle`
+A soft inner top-light sells the "lens" look:
 
-### Glass Button Styles
-
-```swift
-Button("Click Me") { /* action */ }
-    .buttonStyle(.glass)
-
-Button("Important") { /* action */ }
-    .buttonStyle(.glassProminent)
+```sass
+.glass::before
+	content: ''
+	position: absolute
+	inset: 0
+	border-radius: inherit
+	padding: 1px
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0.2))
+	-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)
+	-webkit-mask-composite: xor
+	mask-composite: exclude
+	pointer-events: none
 ```
 
-### GlassEffectContainer for Multiple Elements
+## Interactive Morphing
 
-Always wrap multiple glass views in a container for performance and morphing:
+```sass
+.glass-button
+	&:hover
+		transform: scale(1.03)
+		--glass-blur: 22px
+	&:active
+		transform: scale(0.97)
+		transition-duration: 90ms
 
-```swift
-GlassEffectContainer(spacing: 40.0) {
-    HStack(spacing: 40.0) {
-        Image(systemName: "scribble.variable")
-            .frame(width: 80.0, height: 80.0)
-            .font(.system(size: 36))
-            .glassEffect()
-
-        Image(systemName: "eraser.fill")
-            .frame(width: 80.0, height: 80.0)
-            .font(.system(size: 36))
-            .glassEffect()
-    }
-}
+	@media (prefers-reduced-motion: reduce)
+		transition: none
+		&:hover, &:active
+			transform: none
 ```
 
-The `spacing` parameter controls merge distance — closer elements blend their glass shapes together.
+Content under a pressed glass surface can brighten slightly to imply light refraction:
 
-### Uniting Glass Effects
-
-Combine multiple views into a single glass shape with `glassEffectUnion`:
-
-```swift
-@Namespace private var namespace
-
-GlassEffectContainer(spacing: 20.0) {
-    HStack(spacing: 20.0) {
-        ForEach(symbolSet.indices, id: \.self) { item in
-            Image(systemName: symbolSet[item])
-                .frame(width: 80.0, height: 80.0)
-                .glassEffect()
-                .glassEffectUnion(id: item < 2 ? "group1" : "group2", namespace: namespace)
-        }
-    }
-}
+```sass
+.glass-panel:active ~ .underlay
+	filter: brightness(1.04)
 ```
 
-### Morphing Transitions
+## Usage in Svelte
 
-Create smooth morphing when glass elements appear/disappear:
-
-```swift
-@State private var isExpanded = false
-@Namespace private var namespace
-
-GlassEffectContainer(spacing: 40.0) {
-    HStack(spacing: 40.0) {
-        Image(systemName: "scribble.variable")
-            .frame(width: 80.0, height: 80.0)
-            .glassEffect()
-            .glassEffectID("pencil", in: namespace)
-
-        if isExpanded {
-            Image(systemName: "eraser.fill")
-                .frame(width: 80.0, height: 80.0)
-                .glassEffect()
-                .glassEffectID("eraser", in: namespace)
-        }
-    }
-}
-
-Button("Toggle") {
-    withAnimation { isExpanded.toggle() }
-}
-.buttonStyle(.glass)
+```svelte
+<div class="glass panel">
+	{@render children()}
+</div>
 ```
 
-### Extending Horizontal Scrolling Under Sidebar
+- Use transitions (`transition:scale`, `in:fly`) gated on `prefers-reduced-motion` for mount/unmount morphing.
+- Keep glass surfaces **above content, below modals** in the z-order; stacking too many blur layers is the main performance trap.
 
-To allow horizontal scroll content to extend under a sidebar or inspector, ensure the `ScrollView` content reaches the leading/trailing edges of the container. The system automatically handles the under-sidebar scrolling behavior when the layout extends to the edges — no additional modifier is needed.
+## Performance Rules
 
-## Core Pattern — UIKit
+1. **Limit blur layers** — each `backdrop-filter` forces a repaint of everything beneath it. Cap simultaneous glass surfaces (≤ 3 visible is a sane default).
+2. **Animate transform/opacity, not blur radius**, where possible — blur radius changes are expensive.
+3. Prefer `will-change: transform` on interactive glass only while interacting.
+4. Test at 2× content density — blur over text-heavy UIs tanks frame rate first.
 
-### Basic UIGlassEffect
+## Fallbacks
 
-```swift
-let glassEffect = UIGlassEffect()
-glassEffect.tintColor = UIColor.systemBlue.withAlphaComponent(0.3)
-glassEffect.isInteractive = true
-
-let visualEffectView = UIVisualEffectView(effect: glassEffect)
-visualEffectView.translatesAutoresizingMaskIntoConstraints = false
-visualEffectView.layer.cornerRadius = 20
-visualEffectView.clipsToBounds = true
-
-view.addSubview(visualEffectView)
-NSLayoutConstraint.activate([
-    visualEffectView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-    visualEffectView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-    visualEffectView.widthAnchor.constraint(equalToConstant: 200),
-    visualEffectView.heightAnchor.constraint(equalToConstant: 120)
-])
-
-// Add content to contentView
-let label = UILabel()
-label.text = "Liquid Glass"
-label.translatesAutoresizingMaskIntoConstraints = false
-visualEffectView.contentView.addSubview(label)
-NSLayoutConstraint.activate([
-    label.centerXAnchor.constraint(equalTo: visualEffectView.contentView.centerXAnchor),
-    label.centerYAnchor.constraint(equalTo: visualEffectView.contentView.centerYAnchor)
-])
+```sass
+@supports not (backdrop-filter: blur(1px))
+	.glass
+		background: var(--glass-tint-fallback) // higher-opacity solid tint
 ```
 
-### UIGlassContainerEffect for Multiple Elements
+- Ship an opaque-ish fallback tint; never rely on blur alone for legibility.
+- Verify contrast of text on glass at both color-scheme extremes — 4.5:1 minimum.
 
-```swift
-let containerEffect = UIGlassContainerEffect()
-containerEffect.spacing = 40.0
+## Review Checklist
 
-let containerView = UIVisualEffectView(effect: containerEffect)
-
-let firstGlass = UIVisualEffectView(effect: UIGlassEffect())
-let secondGlass = UIVisualEffectView(effect: UIGlassEffect())
-
-containerView.contentView.addSubview(firstGlass)
-containerView.contentView.addSubview(secondGlass)
-```
-
-### Scroll Edge Effects
-
-```swift
-scrollView.topEdgeEffect.style = .automatic
-scrollView.bottomEdgeEffect.style = .hard
-scrollView.leftEdgeEffect.isHidden = true
-```
-
-### Toolbar Glass Integration
-
-```swift
-let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(favoriteAction))
-favoriteButton.hidesSharedBackground = true  // Opt out of shared glass background
-```
-
-## Core Pattern — WidgetKit
-
-### Rendering Mode Detection
-
-```swift
-struct MyWidgetView: View {
-    @Environment(\.widgetRenderingMode) var renderingMode
-
-    var body: some View {
-        if renderingMode == .accented {
-            // Tinted mode: white-tinted, themed glass background
-        } else {
-            // Full color mode: standard appearance
-        }
-    }
-}
-```
-
-### Accent Groups for Visual Hierarchy
-
-```swift
-HStack {
-    VStack(alignment: .leading) {
-        Text("Title")
-            .widgetAccentable()  // Accent group
-        Text("Subtitle")
-            // Primary group (default)
-    }
-    Image(systemName: "star.fill")
-        .widgetAccentable()  // Accent group
-}
-```
-
-### Image Rendering in Accented Mode
-
-```swift
-Image("myImage")
-    .widgetAccentedRenderingMode(.monochrome)
-```
-
-### Container Background
-
-```swift
-VStack { /* content */ }
-    .containerBackground(for: .widget) {
-        Color.blue.opacity(0.2)
-    }
-```
-
-## Key Design Decisions
-
-| Decision                           | Rationale                                                                  |
-| ---------------------------------- | -------------------------------------------------------------------------- |
-| GlassEffectContainer wrapping      | Performance optimization, enables morphing between glass elements          |
-| `spacing` parameter                | Controls merge distance — fine-tune how close elements must be to blend    |
-| `@Namespace` + `glassEffectID`     | Enables smooth morphing transitions on view hierarchy changes              |
-| `interactive()` modifier           | Explicit opt-in for touch/pointer reactions — not all glass should respond |
-| UIGlassContainerEffect in UIKit    | Same container pattern as SwiftUI for consistency                          |
-| Accented rendering mode in widgets | System applies tinted glass when user selects tinted Home Screen           |
-
-## Best Practices
-
-- **Always use GlassEffectContainer** when applying glass to multiple sibling views — it enables morphing and improves rendering performance
-- **Apply `.glassEffect()` after** other appearance modifiers (frame, font, padding)
-- **Use `.interactive()`** only on elements that respond to user interaction (buttons, toggleable items)
-- **Choose spacing carefully** in containers to control when glass effects merge
-- **Use `withAnimation`** when changing view hierarchies to enable smooth morphing transitions
-- **Test across appearances** — light mode, dark mode, and accented/tinted modes
-- **Ensure accessibility contrast** — text on glass must remain readable
-
-## Anti-Patterns to Avoid
-
-- Using multiple standalone `.glassEffect()` views without a GlassEffectContainer
-- Nesting too many glass effects — degrades performance and visual clarity
-- Applying glass to every view — reserve for interactive elements, toolbars, and cards
-- Forgetting `clipsToBounds = true` in UIKit when using corner radii
-- Ignoring accented rendering mode in widgets — breaks tinted Home Screen appearance
-- Using opaque backgrounds behind glass — defeats the translucency effect
-
-## When to Use
-
-- Navigation bars, toolbars, and tab bars with the new iOS 26 design
-- Floating action buttons and card-style containers
-- Interactive controls that need visual depth and touch feedback
-- Widgets that should integrate with the system's Liquid Glass appearance
-- Morphing transitions between related UI states
+1. Glass used only for floating surfaces, not body backgrounds.
+2. Blur + saturate behind live content; fallback tint when unsupported.
+3. Specular edge present but ≤ 1px equivalent — no heavy borders (quiet UI rule).
+4. Interaction feedback via transform with spring easing; `prefers-reduced-motion` honored.
+5. Contrast verified in light and dark; no legibility loss over busy content.
+6. Total simultaneous blur layers bounded and profiled.

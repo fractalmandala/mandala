@@ -456,3 +456,20 @@ describe('Scalar integration', () => {
 		});
 	});
 });
+
+describe('generated links', () => {
+	it('links between generated pages from the mount point', async () => {
+		const { document } = await parseOpenApi(JSON.stringify(petstore));
+		const pages = generateApiPages(document as DocsApiDocument, {
+			directory: 'api',
+			basePath: '/docs'
+		});
+
+		expect(pages.find((page) => page.relativePath === 'api/pets.md')?.content).toContain(
+			'](/docs/api/operations/listpets)'
+		);
+		expect(pages.find((page) => page.relativePath === 'api/index.md')?.content).toContain(
+			'](/docs/api/pets)'
+		);
+	});
+});

@@ -1,435 +1,244 @@
 ---
 name: motion-patterns
-description: Production-ready animation patterns for React / Next.js — button, modal, toast, stagger, page transitions, exit animations, scroll, and layout — built on motion-foundations tokens and springs.
-version: 1.0
-tags: [motion, animation, ui-patterns]
+description: Production-ready animation patterns for Svelte 5 with @humanspeak/svelte-motion — buttons, toggles, badges, tab indicators, presence/exit animations, staggers, page transitions, scroll progress, and in-view reveals. Built on motion-foundations tokens and springs.
+version: 2.0
+tags: [motion, animation, ui-patterns, svelte-motion]
 category: frontend
 author: jeff
 ---
 
-# Motion Patterns
+# Motion Patterns (svelte-motion)
 
-Copy-paste patterns for the most common UI animation needs.
-Every pattern here is built on `motion-foundations` tokens and springs.
-Do not define new duration or easing values here — import them.
+Production-ready recipes on `@humanspeak/svelte-motion`. Assumes motion-foundations. All springs/durations below are values proven in the reference corpus (`sites/fractaldesign/src/routes/sveltekit/svelte-motion/examples/`).
 
 ## When to Activate
 
-- Animating a button, card, modal, or toast notification
-- Building list entrances with stagger
-- Setting up page transitions in Next.js App Router
-- Adding entrance or exit animations to conditional content
-- Implementing scroll-reveal, scroll-linked progress, or sticky story sections
-- Building expanding cards, accordions, or shared-element transitions
+- Implementing buttons, toggles, badges, tabs, modals, toasts, lists, page transitions, or scroll effects
+- Adding exit animations to conditional or keyed content
+- Wiring scroll-linked or in-view-reveal motion
 
-## Outputs
+## Buttons and Micro-interactions
 
-This skill produces:
+Gesture props are temporary states that blend in and auto-revert — no `$state` or handlers needed:
 
-- Accessible, SSR-safe animation for all standard UI components
-- `AnimatePresence`-wrapped conditional renders with correct exit behavior
-- Page transition wrapper component for Next.js App Router
-- Scroll-reveal and scroll-linked patterns using `useScroll` + `useTransform`
-- Layout animation patterns (`layout`, `layoutId`) for expanding and crossfading elements
+```svelte
+<motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }} />
+```
 
-## Principles
+Canonical button physics — tap 0.97 / hover lift, spring `400 / 25` (matches the shadcn AnimatedButton spec):
 
-- Every pattern imports from `motion-foundations`. No raw numbers.
-- Every conditional render is wrapped in `AnimatePresence` with a `key`.
-- Exit animations are always defined alongside enter animations — never as an afterthought.
-- `layout` is used only for small, isolated shifts. Large subtrees get explicit transforms.
-
-## Rules
-
-1. **Always wrap conditional renders in `AnimatePresence` with a `key`** on the direct child. Without a key, exit animations never fire.
-2. **Always define `exit` when defining `initial` + `animate`.** An animation without an exit is incomplete.
-3. **Use `mode="wait"` on page transitions.** Enter must not start until exit completes.
-4. **Never use `layout` on subtrees with more than ~5 children or deeply nested DOM.** Use explicit `x`/`y` transforms instead.
-5. **Stagger interval must stay between `0.05s` and `0.10s`.** Below feels mechanical; above feels sluggish.
-6. **Modals must always include:** focus trap, Escape-key close, scroll lock, `role="dialog"`, `aria-modal="true"`.
-7. **Scroll reveals use `viewport={{ once: true }}`.** Repeating on scroll-out is distracting, not informative.
-8. **All token values are imported from `motion-foundations`.** No inline numbers.
-
-## Decision Guidance
-
-### Choosing the right pattern
-
-| Situation                               | Pattern                      |
-| --------------------------------------- | ---------------------------- |
-| Element appears / disappears            | `AnimatePresence`            |
-| List of items loading in sequence       | Stagger variants             |
-| Navigating between routes               | Page transition wrapper      |
-| Element changes size in place           | `layout` prop                |
-| Same element moves across page contexts | `layoutId`                   |
-| Element enters when scrolled into view  | `whileInView`                |
-| Value tied to scroll position           | `useScroll` + `useTransform` |
-
-### When to use `mode="wait"` vs `mode="sync"`
-
-| Mode        | Use when                                            |
-| ----------- | --------------------------------------------------- |
-| `wait`      | Page transitions, content swaps (one at a time)     |
-| `sync`      | Stacked notifications, list items (overlap is fine) |
-| `popLayout` | Items removed from a reflow list                    |
-
-## Core Concepts
-
-### AnimatePresence contract
-
-Three things must always be true:
-
-1. `AnimatePresence` wraps the conditional
-2. The direct child has a `key`
-3. The child has an `exit` prop
-
-Miss any one of these and the exit animation silently fails.
-
-### layout vs layoutId
-
-- `layout` — animates the element's own size/position change in place
-- `layoutId` — links two separate elements, crossfading between them across renders
-
-Use `layout="position"` on text inside an expanding container to prevent text reflow from animating.
-
-## Code Examples
-
-### Button feedback
-
-```tsx
-'use client';
-import { motion } from 'motion/react';
-import { springs, motionTokens } from '@/lib/motion-tokens';
-
+```svelte
 <motion.button
-	whileHover={{ scale: motionTokens.scale.pop }}
-	whileTap={{ scale: motionTokens.scale.press }}
-	transition={springs.snappy}
-/>;
+	whileHover={{ y: -1 }}
+	whileTap={{ scale: 0.97 }}
+	transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+>…</motion.button>
 ```
 
-### Stagger list
+Icon buttons: tap `scale: 0.9`, hover `scale: 1.08`. Link-style: tap `0.97`, hover `1.03`. Opt-out convention: an `animated={false}` prop that falls back to static behavior.
 
-```tsx
-"use client"
-import { motion } from "motion/react"
-import { motionTokens, springs } from "@/lib/motion-tokens"
+Mount tween (replay by bumping `{#key}`):
 
-const container = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,   // within the 0.05–0.10 rule
-      delayChildren: 0.1,
-    },
-  },
-}
-
-const item = {
-  hidden:  { opacity: 0, y: motionTokens.distance.md },
-  visible: { opacity: 1, y: 0, transition: springs.gentle },
-}
-
-<motion.ul variants={container} initial="hidden" animate="visible">
-  {items.map((i) => (
-    <motion.li key={i.id} variants={item} />
-  ))}
-</motion.ul>
+```svelte
+{#key replayKey}
+	<motion.button
+		initial={{ opacity: 0, y: 10 }}
+		animate={{ opacity: 1, y: 0 }}
+		transition={{ duration: 0.6, ease: 'linear' }}
+	>…</motion.button>
+{/key}
 ```
 
-### Modal
+## Toggles, Switches, Badges
 
-```tsx
-'use client';
-import { motion, AnimatePresence } from 'motion/react';
-import { motionTokens, springs } from '@/lib/motion-tokens';
+Toggle switch from a single `layout` prop — flip `align-items` and FLIP does the rest; directional transition per state:
 
-// Wrap at the call site:
-// <AnimatePresence>{isOpen && <Modal key="modal" />}</AnimatePresence>
-
-export function Modal({ onClose }: { onClose: () => void }) {
-	return (
-		<>
-			{/* Overlay */}
-			<motion.div
-				className="fixed inset-0 bg-black/50"
-				initial={{ opacity: 0 }}
-				animate={{ opacity: 1 }}
-				exit={{ opacity: 0 }}
-				onClick={onClose}
-			/>
-
-			{/* Panel — accessibility requirements: focus trap, Escape close,
-          scroll lock, role="dialog", aria-modal="true" */}
-			<motion.div
-				role="dialog"
-				aria-modal="true"
-				className="fixed inset-x-4 top-1/2 -translate-y-1/2 rounded-xl bg-white p-6"
-				initial={{
-					opacity: 0,
-					scale: motionTokens.scale.press,
-					y: motionTokens.distance.sm
-				}}
-				animate={{ opacity: 1, scale: 1, y: 0 }}
-				exit={{
-					opacity: 0,
-					scale: motionTokens.scale.press,
-					y: motionTokens.distance.sm
-				}}
-				transition={springs.gentle}
-			/>
-		</>
-	);
-}
-```
-
-### Toast stack
-
-```tsx
-'use client';
-import { motion, AnimatePresence } from 'motion/react';
-import { motionTokens, springs } from '@/lib/motion-tokens';
-
-<AnimatePresence mode="sync">
-	{toasts.map((t) => (
-		<motion.div
-			key={t.id}
-			layout
-			initial={{
-				opacity: 0,
-				x: motionTokens.distance.xl,
-				scale: motionTokens.scale.subtle
-			}}
-			animate={{ opacity: 1, x: 0, scale: 1 }}
-			exit={{
-				opacity: 0,
-				x: motionTokens.distance.xl,
-				scale: motionTokens.scale.subtle
-			}}
-			transition={springs.snappy}
-		/>
-	))}
-</AnimatePresence>;
-```
-
-### Page transition (Next.js App Router)
-
-```tsx
-// components/page-transition.tsx
-'use client';
-import { motion, AnimatePresence } from 'motion/react';
-import { usePathname } from 'next/navigation';
-import { motionTokens } from '@/lib/motion-tokens';
-
-const variants = {
-	initial: { opacity: 0, y: motionTokens.distance.sm },
-	enter: { opacity: 1, y: 0 },
-	exit: { opacity: 0, y: -motionTokens.distance.sm }
-};
-
-export function PageTransition({ children }: { children: React.ReactNode }) {
-	const pathname = usePathname();
-	return (
-		<AnimatePresence mode="wait">
-			<motion.div
-				key={pathname}
-				variants={variants}
-				initial="initial"
-				animate="enter"
-				exit="exit"
-				transition={{
-					duration: motionTokens.duration.normal,
-					ease: motionTokens.easing.smooth
-				}}
-			>
-				{children}
-			</motion.div>
-		</AnimatePresence>
-	);
-}
-```
-
-### Scroll reveal
-
-```tsx
-'use client';
-import { motion } from 'motion/react';
-import { motionTokens, springs } from '@/lib/motion-tokens';
-
+```svelte
 <motion.div
-	initial={{ opacity: 0, y: motionTokens.distance.lg }}
-	whileInView={{ opacity: 1, y: 0 }}
-	viewport={{ once: true, margin: '-80px' }} // once: true — rule 7
-	transition={{ duration: motionTokens.duration.slow, ease: motionTokens.easing.smooth }}
-/>;
+	layout
+	transition={isOn
+		? { type: 'spring', stiffness: 700, damping: 30 }
+		: { ease: bounceEase }}
+/>
 ```
 
-### Scroll progress bar
+Multi-state badge — keyed child inside `AnimatePresence`, directional blur + scale swap (corpus: enter from above, exit below, identical magnitudes):
 
-```tsx
-'use client';
-import { motion, useScroll } from 'motion/react';
+```svelte
+<AnimatePresence>
+	<motion.div key={state}
+		initial={{ y: -40, scale: 0.5, filter: 'blur(6px)' }}
+		animate={{ y: 0, scale: 1, filter: 'blur(0px)' }}
+		exit={{ y: 40, scale: 0.5, filter: 'blur(6px)' }}
+		transition={{ duration: 0.15, ease: 'easeInOut' }}
+	>…</motion.div>
+</AnimatePresence>
+```
 
-export function ScrollProgress() {
-	const { scrollYProgress } = useScroll();
-	return (
+Cycle states with `useCycle`:
+
+```svelte
+<script>
+	const variant = useCycle('idle', 'active', 'done')
+</script>
+
+<motion.div animate={variant.current} variants={states} onclick={() => variant.cycle()} />
+```
+
+## Tab Indicators (shared layoutId)
+
+Only the active tab renders the indicator; all instances share one `layoutId`; wrap the conditional in `AnimatePresence` for a clean handoff. Spring `500 / 30` (shadcn AnimatedTabs default):
+
+```svelte
+<AnimatePresence>
+	{#if selectedTab === tab}
+		<motion.div layoutId="selected-indicator" transition={{ type: 'spring', stiffness: 500, damping: 30 }} />
+	{/if}
+</AnimatePresence>
+```
+
+- Multiple tab strips on a page: wrap each in `<LayoutGroup id="strip-a">` so registry keys don't collide (`strip-a::selected-indicator`).
+- Content swap underneath: `AnimatePresence mode="wait"` keyed by the selected tab.
+
+## Presence and Exit Animations
+
+Svelte's `{#if}` tears nodes down instantly — `AnimatePresence` captures the last state, runs `exit` on a visual clone, then removes it.
+
+```svelte
+<AnimatePresence>
+	{#if show}
 		<motion.div
-			className="fixed top-0 left-0 h-1 bg-indigo-500 origin-left w-full"
-			style={{ scaleX: scrollYProgress }}
+			initial={{ opacity: 0, scale: 0.8 }}
+			animate={{ opacity: 1, scale: 1 }}
+			exit={{ opacity: 0, scale: 0.8 }}
+			transition={{ type: 'spring', stiffness: 300, damping: 25 }}
 		/>
-	);
-}
+	{/if}
+</AnimatePresence>
 ```
 
-### Expanding card
+Rules:
 
-```tsx
-'use client';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { springs, motionTokens } from '@/lib/motion-tokens';
+- `key` prop (string) is required inside `AnimatePresence`; keyed `{#each}` needs matching `key={String(item.id)}`.
+- Use the **same spring in and out** (300/25) for a symmetric feel — corpus keeps `transition` as a sibling of `exit`, never nested inside it.
+- Clone vs owned: default children run exits on a visual clone; the `present={bool}` + `{#snippet child()}` form runs the exit on the **real node** (use when exit needs live element state).
+- Modes: `'sync'` (default), `'wait'` (sequential swap), `'popLayout'` (exiting pops out of layout while the next enters).
 
-export function ExpandingCard({ title, body }: { title: string; body: string }) {
-	const [expanded, setExpanded] = useState(false);
+Directional exits — forward live data into the exiting child's dynamic variants:
 
-	return (
-		<motion.div layout onClick={() => setExpanded(!expanded)} className="cursor-pointer">
-			{/* layout="position" prevents text reflow from animating */}
-			<motion.h2 layout="position" className="font-semibold">
-				{title}
-			</motion.h2>
-
-			<AnimatePresence>
-				{expanded && (
-					<motion.p
-						key="body"
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						transition={{ duration: motionTokens.duration.fast }}
-					>
-						{body}
-					</motion.p>
-				)}
-			</AnimatePresence>
-		</motion.div>
-	);
-}
+```svelte
+<AnimatePresence custom={direction} mode="popLayout">
+	<motion.div key={slide}
+		variants={{
+			enter: (dir) => ({ x: dir > 0 ? 100 : -100, opacity: 0 }),
+			exit: (dir) => ({ x: dir > 0 ? -100 : 100, opacity: 0 })
+		}}
+	/>
+</AnimatePresence>
+<!-- deep child can read it: const direction = $derived(usePresenceData<1 | -1>() ?? 1) -->
 ```
 
-### Shared-element crossfade
+Fully custom exits (CSS transitions, third-party teardown): `<PresenceChild present={bool}>` + `$derived(usePresence())` → `[isPresent, safeToRemove]`; call `safeToRemove()` when done (e.g. on `transitionend`). Inside `PresenceChild`, descendant `exit` props are ignored — pick one approach per element.
 
-```tsx
-// Source context
-<motion.img layoutId="hero-image" src={src} className="w-16 h-16 rounded" />
+## Page Transitions
 
-// Destination context (same layoutId — motion handles the transition)
-<motion.img layoutId="hero-image" src={src} className="w-full rounded-xl" />
+```svelte
+<AnimatePresence>
+	{#key $page.url.pathname}
+		<motion.main
+			key={$page.url.pathname}
+			initial={{ opacity: 0, x: 20 }}
+			animate={{ opacity: 1, x: 0 }}
+			exit={{ opacity: 0, x: -20 }}
+		>
+			{@render children()}
+		</motion.main>
+	{/key}
+</AnimatePresence>
 ```
 
-### Accordion
+## Lists and Stagger
 
-```tsx
-<motion.div
-	initial={false}
-	animate={{ opacity: open ? 1 : 0, scaleY: open ? 1 : 0 }}
-	style={{ transformOrigin: 'top', overflow: 'hidden' }}
-	transition={{
-		duration: motionTokens.duration.normal,
-		ease: motionTokens.easing.smooth
-	}}
->
-	{' '}
-	{children}
+Named-variant cascade with per-index delay (corpus: `i * 0.04` tight stacks, `i * 0.1` standard):
+
+```svelte
+<motion.div animate={isOpen ? 'open' : 'closed'} variants={container}>
+	{#each notifications as n, i}
+		<motion.li variants={item(i)} transition={{ delay: i * 0.04 }} />
+	{/each}
 </motion.div>
 ```
 
-## End-to-End Example
+FLIP reorder — `layout` on each item, keyed `{#each}` by stable identity (corpus spring `300 / 20`):
 
-A staggered list that enters on mount, handles conditional presence, and
-respects reduced motion — combining tokens, springs, AnimatePresence, and
-the accessibility hook from `motion-foundations`:
-
-```tsx
-'use client';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { motionTokens, springs } from '@/lib/motion-tokens';
-import { useSafeMotion } from '@/hooks/use-reduced-motion';
-
-const containerVariants = {
-	hidden: {},
-	visible: {
-		transition: { staggerChildren: 0.08, delayChildren: 0.1 }
-	}
-};
-
-function ListItem({ label, onRemove }: { label: string; onRemove: () => void }) {
-	const safe = useSafeMotion(motionTokens.distance.sm);
-	return (
-		<motion.li
-			variants={{
-				hidden: safe.initial,
-				visible: safe.animate
-			}}
-			exit={safe.exit}
-			transition={springs.gentle}
-			className="flex items-center justify-between p-3 rounded-lg bg-white shadow-sm"
-		>
-			<span>{label}</span>
-			<button onClick={onRemove}>Remove</button>
-		</motion.li>
-	);
-}
-
-export function AnimatedList({
-	items,
-	onRemove
-}: {
-	items: { id: string; label: string }[];
-	onRemove: (id: string) => void;
-}) {
-	return (
-		<motion.ul
-			variants={containerVariants}
-			initial="hidden"
-			animate="visible"
-			className="space-y-2"
-		>
-			<AnimatePresence mode="popLayout">
-				{items.map((item) => (
-					<ListItem key={item.id} label={item.label} onRemove={() => onRemove(item.id)} />
-				))}
-			</AnimatePresence>
-		</motion.ul>
-	);
-}
+```svelte
+{#each items as item (item.id)}
+	<motion.li layout>{item.label}</motion.li>
+{/each}
 ```
 
-## Constraints / Non-Goals
+Drag-reorder uses the dedicated `Reorder` API instead:
 
-This skill does **not** cover:
+```svelte
+<Reorder.Group axis="y" values={items} onReorder={(v) => (items = v)}>
+	{#each items as item (item)}
+		<Reorder.Item value={item} whileDrag={{ scale: 1.03 }}>{item.label}</Reorder.Item>
+	{/each}
+</Reorder.Group>
+```
 
-- Token and spring definitions → see `motion-foundations`
-- Drag interactions, swipe gestures, reorderable lists → see `motion-advanced`
-- Text animations (word/character reveal, counters) → see `motion-advanced`
-- SVG path drawing or morphing → see `motion-advanced`
-- Custom animation hooks → see `motion-advanced`
-- CSS-only transitions not using `motion/react`
+## Scroll and In-View
 
-## Anti-Patterns
+Scroll-linked progress bar — `useScroll` → spring-smoothed → `scaleX`:
 
-| Anti-pattern                                      | Rule violated | Fix                                           |
-| ------------------------------------------------- | ------------- | --------------------------------------------- |
-| `AnimatePresence` child missing `key`             | Rule 1        | Add stable `key` to the direct child          |
-| `initial` + `animate` without `exit`              | Rule 2        | Always define all three together              |
-| Page transition without `mode="wait"`             | Rule 3        | Add `mode="wait"` to `AnimatePresence`        |
-| `layout` on a 50-item list                        | Rule 4        | Use `mode="popLayout"` or explicit transforms |
-| `staggerChildren: 0.2` on a 10-item list          | Rule 5        | Cap at `0.08–0.10`                            |
-| Modal without focus trap                          | Rule 6        | Add `focus-trap-react` or Radix Dialog        |
-| `whileInView` without `viewport={{ once: true }}` | Rule 7        | Repeating entrances distract, not inform      |
-| `transition={{ duration: 0.3 }}` inline           | Rule 8        | Use `motionTokens.duration.normal`            |
+```svelte
+<script>
+	const { scrollYProgress } = useScroll({ container: () => containerEl })
+	const smoothed = useSpring(scrollYProgress)
+</script>
 
-## Related Skills
+<motion.div style={{ scaleX: smoothed }} />
+```
 
-- **`motion-foundations`** — defines all tokens, springs, the `useSafeMotion` hook, and SSR guards that every pattern here imports. Must be set up first.
-- **`motion-advanced`** — extends these patterns with drag, gestures, SVG, text, custom hooks, and imperative sequencing. Does not redefine any patterns from this skill.
+In-view reveal — put the transition **inside** the `whileInView` target so it binds to the gesture:
+
+```svelte
+<motion.div
+	initial={{ opacity: 0, y: 40 }}
+	whileInView={{ opacity: 1, y: 0, transition: { duration: 0.5 } }}
+	viewport={{ once: true, amount: 0.4 }}
+/>
+```
+
+`viewport` options: `once` (latch), `amount` (`'some' | 'all' | 0..1`), `margin` (rootMargin string), `root`. For non-motion logic use `const inView = useInView(() => el, { once: true })` and read `inView.current`.
+
+## Keyframes and Ambient Loops
+
+```svelte
+<motion.div
+	animate={{ scale: [1, 2, 2, 1, 1], rotate: [0, 0, 180, 180, 0] }}
+	transition={{ duration: 4, times: [0, 0.2, 0.5, 0.8, 1], repeat: Infinity, repeatDelay: 1 }}
+/>
+```
+
+Spinner: `animate={{ rotate: 360 }}` + `transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}`.
+
+## Per-Key Transition Timing (particles, bursts)
+
+```svelte
+<motion.span
+	initial={{ x: 0, y: 0, opacity: 1 }}
+	animate={{ x: randX, y: randY, opacity: 0 }}
+	transition={{ x: { duration: 0.5 }, y: { duration: 0.9 }, opacity: { duration: 1.2 } }}
+/>
+```
+
+## Prefab Components (shadcn registry)
+
+- `AnimatedButton`: `npx shadcn-svelte@latest add https://motion.svelte.page/r/animated-button.json` — full shadcn Button API plus `animated` opt-out, `href` renders `motion.a`.
+- `AnimatedTabs`: `…/r/animated-tabs.json` — bits-ui ARIA (roving tabindex, arrows/Home/End), layoutId indicator 500/30, content entrance `{ opacity: 0, y: 8 } → { opacity: 1, y: 0 }` at `duration: 0.3, ease: 'easeOut'`.
+
+## Related
+
+- Skills: `motion-foundations` (tokens/presets/a11y), `motion-advanced` (drag, SVG, imperative), `motion-ui` (system policy)
+- Corpus: `sites/fractaldesign/src/routes/sveltekit/svelte-motion/examples/`

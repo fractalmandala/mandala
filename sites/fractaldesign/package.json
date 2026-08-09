@@ -36,9 +36,11 @@
 	"dependencies": {
 		"@mistweaverco/mdsvex-shiki": "1.3.7",
 		"bits-ui": "^2.18.1",
-		"fractals-styler": "^2.0.0",
+		"fractals-styler": "link:../../packages/fractals-styler",
 		"fractalsvelte": "^0.4.2",
+		"mode-watcher": "^1.1.0",
 		"paneforge": "^1.0.2",
+		"fractal-agentation": "^0.0.1",
 		"svelte-animated-icon": "^1.0.2"
 	}
 }

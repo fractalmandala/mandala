@@ -1,220 +1,174 @@
+// ----------------------------------------------------------------------
+// Component-level styles for sidebar, search, icons, and header/footer.
+// ----------------------------------------------------------------------
+
+@use 'mixins' as *
+
+// Sidebar accordion ----------------------------------------------------
+
 .sidebar-items-list
 	list-style: none
 	margin: 0
 	padding: 0
-	gap: 16px
-	@media (min-width: 1025px)
-		gap: 8px
+	gap: 4px
+	+ bp-lg
+		gap: 2px
 		padding: 0 0 0 8px
 
-.mobile-navigation
-	@media (max-width: 1024px)
-		.sidebar-items-list
-			padding: 8px 0
-		.accordion-trigger
-			text-align: right
-			justify-content: flex-end
-
 .accordion-item
-	padding-bottom: 16px
-	transition: all 90ms ease
-	border-color: var(--border-default)
-	@media (min-width: 1025px)
+	padding-bottom: 8px
+	transition: border-color 90ms ease
+	border-color: var(--border)
+	+ bp-lg
 		&.active
-			border-top: 1px solid var(--border-default)
-			padding-top: 16px
-			border-bottom: 1px solid var(--border-default)
+			border-top: 1px solid var(--border)
+			padding-top: 12px
+			border-bottom: 1px solid var(--border)
+			padding-bottom: 12px
 
-//sidebar section labels
 .accordion-trigger
 	background: none
 	border: none
-	padding: 4px 0
+	padding: 6px 8px
 	cursor: pointer
+	border-radius: 6px
+	transition: background 120ms ease
+	&:hover
+		background: var(--bg-surface)
+		.sidebar-bank-label
+			color: var(--text-primary)
 	&.active
-		padding: 4px 0 8px 0
+		padding: 6px 8px 8px 8px
 
 a.accordion-trigger
 	text-decoration: none
 	color: inherit
-	font-size: var(--text-sm)
+	display: flex
+	align-items: center
 
-.bordered
-	border: 1px solid var(--border-default)
-	padding: 12px
-	border-radius: 4px
-	@media (min-width: 1025px)
-		padding: 20px
+.accordion-content
+	overflow: hidden
 
-a.bordered
-	&:hover
-		background: var(--surface-rightbar)
+// Search component -----------------------------------------------------
 
-// Search Component
 .search-container
 	position: relative
-	font-family: var(--font-ui)
 	width: 200px
-	@media (min-width: 768px)
+	+ bp-md
 		width: 280px
 
-	.search-input
-		width: 100%
-		padding: 8px 12px 8px 32px
-		border-radius: 6px
-		border: 1px solid var(--border-default)
-		background: var(--surface-input)
-		color: var(--text-primary)
-		font-size: var(--text-sm)
-		outline: none
-		transition: border-color 0.15s ease, box-shadow 0.15s ease
-		&:focus
-			border-color: var(--theme-color)
-			box-shadow: 0 0 0 2px var(--surface-badge)
+.search-input
+	width: 100%
+	padding: 8px 12px 8px 32px
+	border-radius: 6px
+	border: 1px solid var(--border)
+	background: var(--bg-app)
+	outline: none
+	transition: border-color 0.15s ease, box-shadow 0.15s ease
+	&:focus
+		border-color: var(--brand)
+		box-shadow: 0 0 0 2px var(--ring)
 
-	.search-icon
-		position: absolute
-		left: 10px
-		top: 50%
-		transform: translateY(-50%)
-		color: var(--text-muted)
-		pointer-events: none
+.search-icon
+	position: absolute
+	left: 10px
+	top: 50%
+	transform: translateY(-50%)
+	color: var(--text-muted)
+	pointer-events: none
+	display: flex
+	align-items: center
+	justify-content: center
+
+.results-dropdown
+	position: absolute
+	top: calc(100% + 8px)
+	right: 0
+	width: 320px
+	+ bp-md
+		width: 420px
+	max-height: 400px
+	overflow-y: auto
+	background: var(--bg-raised)
+	border: 1px solid var(--border-secondary)
+	border-radius: 8px
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12)
+	z-index: 1000
+	display: none
+	&.visible
+		display: block
+	scrollbar-width: thin
+	scrollbar-color: var(--border-secondary) transparent
+
+	ul
+		list-style: none
+		margin: 0
+		padding: 4px 0
+
+	li
+		border-bottom: 1px solid var(--border)
+		&:last-child
+			border-bottom: none
+
+	a
 		display: flex
-		align-items: center
-		justify-content: center
+		flex-direction: column
+		padding: 10px 16px
+		text-decoration: none
+		transition: background 0.1s ease
+		&:hover
+			background: var(--bg-surface)
 
-	.results-dropdown
-		position: absolute
-		top: calc(100% + 8px)
-		right: 0
-		width: 320px
-		@media (min-width: 768px)
-			width: 420px
-		max-height: 400px
-		overflow-y: auto
-		background: var(--surface-viewer)
-		border: 1px solid var(--border-darker)
-		border-radius: 8px
-		box-shadow: var(--shadow-popover)
-		z-index: 1000
-		display: none
-		&.visible
-			display: block
-		&::-webkit-scrollbar
-			width: 6px
-		&::-webkit-scrollbar-thumb
-			background-color: var(--scrollbar-thumb)
-			border-radius: 3px
-
-		ul
-			list-style: none
-			margin: 0
-			padding: 4px 0
-
-		li
-			border-bottom: 1px solid var(--border-subtle)
-			&:last-child
-				border-bottom: none
-
-		a
+		.result-header
 			display: flex
-			flex-direction: column
-			padding: 10px 16px
-			text-decoration: none
+			justify-content: space-between
+			align-items: center
+			margin-bottom: 4px
+			gap: 8px
+
+		// result-title / result-bank / result-excerpt children are
+		// rendered from {@html} — legitimate text-property exception
+		.result-title
+			font-weight: 500
+			font-size: var(--text-sm)
 			color: var(--text-primary)
-			transition: background 0.1s ease
-			&:hover
-				background: var(--state-hover-subtle)
 
-			.result-header
-				display: flex
-				justify-content: space-between
-				align-items: center
-				margin-bottom: 4px
-				gap: 8px
+		.result-bank
+			font-size: var(--text-xs)
+			color: var(--text-secondary)
+			background: var(--bg-surface)
+			padding: 2px 6px
+			border-radius: 4px
+			text-transform: uppercase
+			letter-spacing: 0.03em
+			white-space: nowrap
 
-			.result-title
-				font-weight: 500
-				font-size: var(--text-sm)
-				color: var(--text-primary)
-				mark
-					background: var(--surface-badge)
-					color: var(--theme-color-alt)
-					font-weight: 600
-					border-radius: 2px
-					padding: 0 2px
+		.result-excerpt
+			font-size: var(--text-xs)
+			color: var(--text-secondary)
+			background: var(--bg-surface)
+			padding: 2px 6px
+			border-radius: 4px
+			text-transform: uppercase
+			letter-spacing: 0.03em
+			white-space: nowrap
 
-			.result-bank
-				font-size: var(--text-xs)
-				color: var(--text-secondary)
-				background: var(--state-hover)
-				padding: 2px 6px
-				border-radius: 4px
-				text-transform: uppercase
-				letter-spacing: 0.03em
-				white-space: nowrap
+		.result-excerpt
+			font-size: var(--text-xs)
+			color: var(--text-secondary)
+			margin: 4px 0 0 0
+			line-height: 1.4
+			:global(mark)
+				background: color-mix(in srgb, var(--brand) 15%, transparent)
+				color: var(--brand)
+				font-weight: 600
+				border-radius: 2px
+				padding: 0 2px
 
-			.result-excerpt
-				font-size: var(--text-xs)
-				color: var(--text-secondary)
-				margin: 4px 0 0 0
-				line-height: 1.4
-				mark
-					background: var(--surface-badge)
-					color: var(--theme-color-alt)
-					font-weight: 600
-					border-radius: 2px
-					padding: 0 2px
+.search-empty
+	padding: 16px
 
-	.search-loading
-		padding: 16px
-		text-align: center
-		color: var(--text-secondary)
-		font-size: var(--text-sm)
-
-	.search-empty
-		padding: 16px
-		text-align: center
-		color: var(--text-secondary)
-		font-size: var(--text-sm)
-
-.header-panel
-	border-bottom: 1px solid var(--border-default)
-	padding-bottom: 32px
-	@media (min-width: 1025px)
-		padding-top: 32px
-
-#second-nav
-	border-top: 1px solid var(--border-default)
-	padding-top: 16px
-
-.animated-icon
-	color: var(--text-primary)
-
-.theme-toggle
-	border: 1px solid var(--border-default)
-	background: none
-	border-radius: 12px
-	position: relative
-	padding-left: 4px
-	padding-right: 2px
-	height: 20px
-	width: 40px
-	.toggler-circle
-		position: absolute
-		left: 2px
-		height: 16px
-		width: 16px
-		border-radius: 8px
-		background: #dfdfdf
-		transition: all 320ms ease
-		z-index: 0
-	svg
-		z-index: 1
-	&.toggled
-		.toggler-circle
-			left: 22px
-			background: #FFFFFF
+// Icon box wrapper -----------------------------------------------------
 
 button.blank.icon-box
 	height: 16px
@@ -223,15 +177,67 @@ button.blank.icon-box
 	padding: 0
 	img
 		filter: saturate(0.1)
-	&:hover
-		img
-			filter: saturate(1)
+	&:hover img
+		filter: saturate(1)
 
-.primary-btn
-	background: var(--theme-color)
-	color: #FFFFFF
+// Card borders ----------------------------------------------------------
+
+.bordered
+	border: 1px solid var(--border)
+	border-radius: 4px
+
+a.bordered:hover
+	background: var(--bg-surface)
+
+// Primary button --------------------------------------------------------
+
+.button-primary
+	display: inline-flex
+	background: var(--brand)
 	padding: 4px 12px
 	width: max-content
 	text-decoration: none
+	border-radius: 4px
 	&:hover
-		background: var(--theme-color-alt)
+		filter: brightness(0.9)
+
+// Header panel ----------------------------------------------------------
+
+.header-panel
+	border-bottom: 1px solid var(--border)
+	padding-bottom: 32px
+	@media (min-width: 1024px)
+		padding-top: 32px
+
+// Sticky sidebar box ----------------------------------------------------
+
+.sticky-box
+	position: sticky
+	top: calc(var(--header-height) + 32px)
+	align-self: flex-start
+
+// Page wrapper ----------------------------------------------------------
+
+.page-wrapper
+	padding-inline: var(--shell-pad, 20px)
+	max-width: var(--layout-max, 1440px)
+	margin-inline: auto
+	width: 100%
+
+// Misc helpers ----------------------------------------------------------
+
+.empty-msg
+.italic
+	font-style: italic
+
+.hover-underline
+	text-decoration: none
+	&:hover
+		text-decoration: underline
+
+// Radius ----------------------------------------------------------------
+
+.r2
+	border-radius: 2px
+.r4
+	border-radius: 4px

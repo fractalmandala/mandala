@@ -41,9 +41,9 @@ and behavioral E2E as the primary owner (Code). Media/video grammar
 
 ### Secondary agents
 
-- [React Reviewer](../../../agents/react-reviewer.md) — React/Next only.
-- [Vue Reviewer](../../../agents/vue-reviewer.md) — Vue/Nuxt only.
-- [Flutter Reviewer](../../../agents/flutter-reviewer.md) — Flutter only.
+- [React Reviewer](../../../agents/react-reviewer.md) — stack-neutral UI component review: reactivity rules, accessibility, component security.
+- [Vue Reviewer](../../../agents/vue-reviewer.md) — component architecture and state-flow review.
+- [Flutter Reviewer](../../../agents/flutter-reviewer.md) — UI performance review: render cost, animation, leaks.
 
 ## Mapped skills
 
@@ -77,8 +77,8 @@ and behavioral E2E as the primary owner (Code). Media/video grammar
   [Canvas Design](../../../skills/canvas-design/SKILL.md),
   [Algorithmic Art](../../../skills/algorithmic-art/SKILL.md), and
   [Styling Docs Builder](../../../skills/styling-docs-builder/SKILL.md).
-- [Frontend Patterns](../../../skills/frontend-patterns/SKILL.md) — an
-  agnostic/React-leaning reference; prefer the Svelte contract in this monorepo.
+- [Frontend Patterns](../../../skills/frontend-patterns/SKILL.md) —
+  Svelte 5 / SvelteKit native patterns for this monorepo.
 
 ## Mapped commands
 
@@ -87,7 +87,7 @@ and behavioral E2E as the primary owner (Code). Media/video grammar
 - [`/quality-gate`](../../../commands/quality-gate.md) — visual and accessibility release checks.
 - [`/react-build`](../../../commands/react-build.md),
   [`/react-review`](../../../commands/react-review.md), and
-  [`/vue-review`](../../../commands/vue-review.md) — stack-detected secondary paths.
+  [`/vue-review`](../../../commands/vue-review.md) — stack-neutral secondary paths (prefer the Svelte commands in this monorepo).
 
 ## Playbook
 

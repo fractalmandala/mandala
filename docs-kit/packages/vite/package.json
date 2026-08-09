@@ -23,7 +23,8 @@
 	"dependencies": {
 		"@docs-kit/core": "workspace:*",
 		"@docs-kit/og": "workspace:*",
-		"@docs-kit/seo": "workspace:*"
+		"@docs-kit/seo": "workspace:*",
+		"@docs-kit/openapi": "workspace:*"
 	},
 	"peerDependencies": {
 		"vite": "^8.0.0"

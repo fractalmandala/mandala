@@ -495,3 +495,96 @@ describe('collection route conflicts', () => {
 		);
 	});
 });
+
+describe('docs openapi', () => {
+	const spec = {
+		openapi: '3.1.0',
+		info: { title: 'Petstore', version: '1.0.0', description: 'A tiny API.' },
+		tags: [{ name: 'pets' }],
+		paths: {
+			'/pets': {
+				get: {
+					operationId: 'listPets',
+					summary: 'List pets',
+					tags: ['pets'],
+					responses: { '200': { description: 'ok' } }
+				}
+			}
+		}
+	};
+
+	async function project(): Promise<string> {
+		const root = await mkdtemp(join(tmpdir(), 'docs-kit-vite-'));
+		temporaryRoots.push(root);
+		await mkdir(join(root, 'src/lib/docs'), { recursive: true });
+		await writeFile(join(root, 'src/lib/docs/index.md'), '---\ntitle: Home\n---\n\n# Home');
+		await writeFile(join(root, 'openapi.json'), JSON.stringify(spec));
+		return root;
+	}
+
+	it('compiles a specification into ordinary manifest pages', async () => {
+		const root = await project();
+		const plugin = docs({
+			content: 'src/lib/docs',
+			basePath: '/docs',
+			openapi: [{ id: 'api', source: 'openapi.json' }]
+		});
+		hook<(config: ResolvedConfig) => void>(plugin, 'configResolved')({ root } as ResolvedConfig);
+
+		const load = hook<(id: string) => Promise<string>>(plugin, 'load');
+		const code = await load.call({} as PluginContext, `\0${virtualManifestId}`);
+		const manifest = JSON.parse(
+			code.slice(code.indexOf('{'), code.lastIndexOf('};\n\nexport const pageImporters') + 1)
+		);
+		const pathnames = manifest.pages.map((page: { pathname: string }) => page.pathname).sort();
+
+		expect(pathnames).toContain('/docs/api');
+		expect(pathnames).toContain('/docs/api/operations/listpets');
+		expect(pathnames).toContain('/docs/api/pets');
+
+		// API pages participate in navigation like any other page.
+		const navigation = JSON.stringify(manifest.navigation);
+		expect(navigation).toContain('Petstore');
+		expect(navigation).toContain('List pets');
+	});
+
+	it('includes API pages in search records and the sitemap', async () => {
+		const root = await project();
+		const plugin = docs({
+			content: 'src/lib/docs',
+			basePath: '/docs',
+			openapi: [{ id: 'api', source: 'openapi.json' }],
+			seo: { siteUrl: 'https://acme.com' }
+		});
+		hook<(config: ResolvedConfig) => void>(plugin, 'configResolved')({ root } as ResolvedConfig);
+
+		const load = hook<(id: string) => Promise<string>>(plugin, 'load');
+		const search = await load.call({} as PluginContext, `\0virtual:docs-kit/search`);
+		expect(search).toContain('/docs/api/operations/listpets');
+
+		const buildStart = hook<(this: PluginContext) => Promise<void>>(plugin, 'buildStart');
+		await buildStart.call({ addWatchFile: () => {} } as unknown as PluginContext);
+		expect(await readFile(join(root, 'static/sitemap.xml'), 'utf8')).toContain(
+			'https://acme.com/docs/api/operations/listpets'
+		);
+	});
+
+	it('fails the build with a useful message for a malformed specification', async () => {
+		const root = await project();
+		await writeFile(join(root, 'openapi.json'), JSON.stringify({ swagger: '2.0' }));
+
+		const plugin = docs({
+			content: 'src/lib/docs',
+			openapi: [{ id: 'api', source: 'openapi.json' }]
+		});
+		hook<(config: ResolvedConfig) => void>(plugin, 'configResolved')({
+			root,
+			logger: { warn: () => {} }
+		} as unknown as ResolvedConfig);
+
+		const load = hook<(id: string) => Promise<string>>(plugin, 'load');
+		await expect(load.call({} as PluginContext, `\0${virtualManifestId}`)).rejects.toThrow(
+			/Swagger 2.0 is not supported/
+		);
+	});
+});

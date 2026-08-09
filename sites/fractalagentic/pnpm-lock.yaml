@@ -23,6 +23,12 @@ importers:
       marked:
         specifier: ^18.0.5
         version: 18.0.9
+      prism-svelte:
+        specifier: ^0.4.7
+        version: 0.4.7
+      prismjs:
+        specifier: ^1.30.0
+        version: 1.30.0
       unist-util-visit:
         specifier: ^5.1.0
         version: 5.1.0
@@ -45,6 +51,9 @@ importers:
       '@types/node':
         specifier: ^24
         version: 24.13.3
+      '@types/prismjs':
+        specifier: ^1.26.5
+        version: 1.26.6
       eslint:
         specifier: ^10.4.1
         version: 10.8.0
@@ -671,6 +680,9 @@ packages:
 
   '@types/node@24.13.3':
     resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
+
+  '@types/prismjs@1.26.6':
+    resolution: {integrity: sha512-vqlvI7qlMvcCBbVe0AKAb4f97//Hy0EBTaiW8AalRnG/xAN5zOiWWyrNqNXeq8+KAuvRewjCVY1+IPxk4RdNYw==}
 
   '@types/sax@1.2.7':
     resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
@@ -2346,6 +2358,8 @@ snapshots:
   '@types/node@24.13.3':
     dependencies:
       undici-types: 7.18.2
+
+  '@types/prismjs@1.26.6': {}
 
   '@types/sax@1.2.7':
     dependencies:

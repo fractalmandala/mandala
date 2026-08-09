@@ -123,3 +123,88 @@ e.g. `class="pad24 pad8-sm box row-md text-lg"`.
 | `text-lg` | `text-lg` | Large font size |
 | `font-bold` | `bold` | Bold weight |
 
+
+---
+
+## CUBE CSS mapping
+
+fractals-styler follows [CUBE CSS](https://cube.fyi/) (Composition · Utility · Block · Exception) — it works *with* the cascade instead of against it, and there is **no BEM** (`block__element--modifier`) anywhere.
+
+| CUBE layer | What it is here | Where |
+|---|---|---|
+| **Composition** | Named, token-driven layout skeletons — the app shell + `.stack` / `.cluster` / `.with-sidebar` / `.reel`, plus the `.ambient` background. Arrangement only, no colour. | `_compositions.sass`, `<AppShell>` |
+| **Utility** | Single-job classes: JIT numeric spacing/sizing (`padN`, `gapN`, `widthN`…), the type scale (`text-*`, `w*`, `bold`), radius tokens. | JIT plugin + `_typography.sass` |
+| **Block** | The few genuine components — buttons, links, controls, `.panel`. | `_buttonslinks.sass`, `_primitives.sass` |
+| **Exception** | State variants — prefer `data-*` / `aria-*` attributes over new classes: `[data-mobile-open="true"]`, `[aria-current="page"]`, `[data-state="active"]`. | markup + `_compositions.sass` |
+
+## App-shell layout (Composition)
+
+A canonical docs shell, driven entirely by layout tokens:
+
+```
+section.appshell
+  header.appheader          height: var(--header-height)   /* 80px */
+  main.appbody              display: grid
+    aside.sidebarleft       nav / accordion
+    article.bodymain        reading column (--body-min → --body-max)
+    aside.sidebarright      table of contents
+  footer.appfooter
+```
+
+- **`< 1025px`** — single column; `.sidebarleft` becomes an off-canvas drawer (open via `[data-mobile-open="true"]` on `.appbody`), `.sidebarright` is hidden.
+- **`≥ 1025px`** — `clamp(200px, 20vw, 320px)` rails either side of a fluid middle; `.bodymain` content grows `clamp(600px, 58vw, 720px)`, centred. Both rails are sticky, `height: calc(100vh - var(--header-height))`, and scroll independently.
+- Absent a rail, add `.no-left` / `.no-right` / `.no-both` to `.appbody` to collapse the grid.
+
+### Layout tokens (`_tokens.sass`)
+
+```
+--header-height  --footer-height  --shell-pad  --layout-max
+--sidebar-min (200px)  --sidebar-max (320px)
+--body-min (600px)     --body-max (720px)
+--ambient-blur  --ambient-{1,2,3}-bg  --ambient-{1,2,3}-op   /* themed light/dark */
+```
+
+## `<AppShell>` component
+
+```svelte
+<script>
+	import { AppShell, toc } from 'fractals-styler/lib';
+	let mobileOpen = $state(false);
+</script>
+
+<AppShell bind:mobileOpen>
+	{#snippet header(nav)}
+		<button onclick={nav.toggle}>menu</button>
+		<!-- logo, search, theme toggle… -->
+	{/snippet}
+	{#snippet sidebarleft()} <!-- nav / accordion --> {/snippet}
+	{#snippet sidebarright()} <!-- toc.items --> {/snippet}
+	{#snippet footer()} <!-- copyright --> {/snippet}
+
+	<!-- default slot = .bodymain page content -->
+</AppShell>
+```
+
+`header` receives `nav = { open, toggle, close }`. Pass `ambient={false}` to drop the background, or `showLeft` / `showRight` to force a rail on/off (defaults follow snippet presence — e.g. `showRight={toc.items.length > 0}`).
+
+## Shared TOC store
+
+One reactive source for the on-this-page nav, so the right rail can live in the layout while pages just register their headings:
+
+```svelte
+<!-- a post page -->
+<script>
+	import { toc } from 'fractals-styler/lib';
+	let article = $state(null);
+	$effect(() => {
+		if (!article) return;
+		toc.setHeadings(article);          // slugs h2/h3 in place, publishes items
+		const stop = toc.observe(article); // scroll-spy → toc.activeId
+		return () => { stop(); toc.clear(); };
+	});
+</script>
+
+<div bind:this={article}><Content /></div>
+```
+
+`toc.items` (`{ id, text, level }[]`), `toc.activeId`, and `toc.goTo(id)` are read by the layout's `sidebarright` snippet.

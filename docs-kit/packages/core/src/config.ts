@@ -57,6 +57,26 @@ export interface DocsSourcesConfig {
 	entries?: readonly DocsSourceConfig[];
 }
 
+/** An API specification compiled into documentation pages. */
+export interface DocsOpenApiConfig {
+	/** Stable id, used for the generated directory and diagnostics. */
+	id: string;
+	/** Specification file relative to the project root, or an absolute HTTPS URL. */
+	source: string;
+	/** Specification kind. Detected from the document when omitted. */
+	kind?: 'openapi' | 'asyncapi';
+	/** Directory the generated pages live under. Defaults to the id. */
+	directory?: string;
+	/** Collection the pages belong to. Defaults to `default`. */
+	collection?: string;
+	/** Emit a page per schema. Defaults to true. */
+	schemas?: boolean;
+	/** Emit a page per tag. Defaults to true. */
+	tags?: boolean;
+	/** Include request and response examples. Defaults to true. */
+	examples?: boolean;
+}
+
 export interface DocsConfig {
 	site: DocsSiteConfig;
 	content?: DocsContentConfig;
@@ -66,6 +86,8 @@ export interface DocsConfig {
 	versions?: DocsVersionsConfig;
 	i18n?: DocsI18nConfig;
 	sources?: DocsSourcesConfig;
+	/** API specifications compiled into documentation pages. */
+	openapi?: readonly DocsOpenApiConfig[];
 	/** Directory for generated artifacts, relative to the project root. */
 	outDir?: string;
 }
@@ -80,6 +102,8 @@ export interface DocsResolvedConfig {
 	sources: Required<Pick<DocsSourcesConfig, 'onConflict' | 'cacheDir'>> & {
 		entries: DocsSourceConfig[];
 	};
+	/** API specifications, validated and defaulted. */
+	openapi: DocsOpenApiConfig[];
 	outDir: string;
 }
 
@@ -106,6 +130,7 @@ const knownKeys = new Set([
 	'versions',
 	'i18n',
 	'sources',
+	'openapi',
 	'outDir'
 ]);
 
@@ -385,6 +410,25 @@ export function resolveDocsConfig(config: DocsConfig): DocsResolvedConfig {
 		seen.add(id);
 	}
 
+	const openapi = (config.openapi ?? []).map((entry, index) => {
+		const id = requireString(entry.id, `openapi[${index}].id`);
+		requireString(entry.source, `openapi[${id}].source`);
+
+		if (entry.kind !== undefined && entry.kind !== 'openapi' && entry.kind !== 'asyncapi') {
+			throw new Error(`Docs configuration field "openapi[${id}].kind" must be openapi or asyncapi.`);
+		}
+
+		return { ...entry, id, directory: entry.directory ?? id };
+	});
+
+	const apiIds = new Set<string>();
+	for (const entry of openapi) {
+		if (apiIds.has(entry.id)) {
+			throw new Error(`Duplicate docs openapi id "${entry.id}".`);
+		}
+		apiIds.add(entry.id);
+	}
+
 	return {
 		site: { ...config.site, title: requireString(config.site?.title, 'site.title') },
 		// Keep this field for legacy consumers; collections[0] is the resolved routing authority.
@@ -402,6 +446,7 @@ export function resolveDocsConfig(config: DocsConfig): DocsResolvedConfig {
 			cacheDir: config.sources?.cacheDir?.trim() || `${outDir}/cache/sources`,
 			entries: entries.map((entry) => ({ ...entry }))
 		},
+		openapi,
 		outDir
 	};
 }

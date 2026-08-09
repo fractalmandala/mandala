@@ -8,8 +8,8 @@
 
 <section class="page-wrapper padtop32 padbot32">
 	<div class="box rgap16">
-		<h1 class="text-3xl bold col-theme ls-tight">#{data.tag}</h1>
-		<p class="text-md col2">Wiki articles tagged with #{data.tag} across all banks:</p>
+		<h1 class="text-3xl bold lh11">#{data.tag}</h1>
+		<p class="text-md sec">Wiki articles tagged with #{data.tag} across all banks:</p>
 		
 		<hr style="border: 0; border-top: 1px solid var(--border-default); width: 100%; margin: 8px 0;" />
 		
@@ -20,12 +20,12 @@
 						<a class="text-lg hover-underline" href={item.linkpath} style="color: var(--theme-color); font-weight: 500;">
 							{item.title}
 						</a>
-						<span class="text-xs col3">Bank: {item.bank}</span>
+						<span class="text-xs muted">Bank: {item.bank}</span>
 					</li>
 				{/each}
 			</ul>
 		{:else}
-			<p class="text-md col3 italic">No articles found with this tag.</p>
+			<p class="text-md muted italic">No articles found with this tag.</p>
 		{/if}
 		
 		<div class="padtop16">

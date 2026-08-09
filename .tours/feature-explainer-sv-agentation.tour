@@ -1,0 +1,55 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "sv-agentation Svelte 5 Package - Feature Architecture Tour",
+  "description": "Step-by-step tour tracing how every feature of agentation is implemented in Svelte 5 using runes and TypeScript.",
+  "ref": "main",
+  "steps": [
+    {
+      "directory": "packages/sv-agentation/src",
+      "title": "1. Svelte 5 Package Architecture Root",
+      "description": "Situation: The Svelte 5 implementation lives under packages/sv-agentation with components/, state/, types.ts, and utils/."
+    },
+    {
+      "file": "packages/sv-agentation/src/Agentation.svelte",
+      "line": 1,
+      "title": "2. Agentation Root Component & Event Listeners",
+      "description": "Situation: Root component wrapping the full application.\nMechanism: Uses <svelte:window> event handlers for live mouse position tracking and click capture locking. Manages hover highlight box (.hoverHighlightBox) and popup triggers."
+    },
+    {
+      "file": "packages/sv-agentation/src/state/agentation.svelte.ts",
+      "line": 1,
+      "title": "3. Svelte 5 Runes State Store",
+      "description": "Situation: Reactive state management.\nMechanism: Uses $state and $derived runes to manage annotations array, dark/light theme toggle, inspection state, and design mode state without external store libraries."
+    },
+    {
+      "file": "packages/sv-agentation/src/components/page-toolbar-css/index.svelte",
+      "line": 1,
+      "title": "4. PageToolbarCSS Floating Bar",
+      "description": "Situation: Fixed floating bottom toolbar.\nMechanism: Renders Capture, Layout, Copy, Markers Toggle, Clear, and Settings action buttons with position: fixed and z-index: 999999."
+    },
+    {
+      "file": "packages/sv-agentation/src/components/annotation-popup-css/index.svelte",
+      "line": 1,
+      "title": "5. AnnotationPopupCSS Modal",
+      "description": "Situation: Feedback editor popover.\nMechanism: Receives element selector, calculates popover bounds, and binds text input to add or edit annotations."
+    },
+    {
+      "file": "packages/sv-agentation/src/components/page-toolbar-css/annotation-marker/index.svelte",
+      "line": 1,
+      "title": "6. AnnotationMarker Pin Badge",
+      "description": "Situation: Numbered pin marker badge.\nMechanism: Renders reactive pin markers with hover tooltips and click-to-delete callbacks."
+    },
+    {
+      "file": "packages/sv-agentation/src/components/design-mode/index.svelte",
+      "line": 1,
+      "title": "7. DesignMode Overlay & Palette",
+      "description": "Situation: Wireframe layout mode.\nMechanism: Integrates Palette sidebar and Rearrange section overlays to construct visual page wireframes."
+    },
+    {
+      "file": "packages/sv-agentation/src/components/page-toolbar-css/settings-panel/index.svelte",
+      "line": 1,
+      "title": "8. SettingsPanel Modal",
+      "description": "Situation: Configuration settings modal.\nMechanism: Controls theme switches, detail level options, and clear-on-copy preferences."
+    }
+  ]
+}

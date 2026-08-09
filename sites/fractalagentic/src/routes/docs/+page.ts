@@ -1,23 +1,19 @@
 import type { PageLoad } from './$types';
-import { getDocEntryBySlug, getDocsEntries, getDocTocBySlug } from '$lib/core/content';
+import { getDocEntryBySlug, getDocsEntries, renderDocEntry } from '$lib/core/content';
 
 export const prerender = true;
 
 /**
- * /docs lands on the introduction page when one exists, otherwise the
- * content root's index page, otherwise the first page in sidebar order —
- * so renaming or replacing the starter content never breaks the route.
+ * /docs lands on the guide (docs/INDEX.md) when present, otherwise the first
+ * page in reading order — so renames or additions never break the route.
  */
 export const load: PageLoad = async () => {
 	const entry =
 		getDocEntryBySlug(['introduction']) ?? getDocEntryBySlug(['']) ?? getDocsEntries()[0];
 
 	if (!entry) {
-		throw new Error('No content found: add a markdown file under content/.');
+		throw new Error('No docs found: add markdown under packages/fractal-agentic/docs/.');
 	}
 
-	return {
-		entry,
-		toc: getDocTocBySlug(entry.slug.split('/'))
-	};
+	return { entry, ...(await renderDocEntry(entry)) };
 };

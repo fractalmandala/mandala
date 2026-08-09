@@ -1,0 +1,121 @@
+import type {
+	DragSelectionState,
+	GroupSelectionPreviewState,
+	InspectorHoverInfo,
+	ResolvedAgentationKeyBindings,
+	InspectorPosition,
+	OutputMode,
+	NoteComposerState,
+	NotesSettings,
+	RenderedInspectorNote,
+	ToolbarState
+} from '../types';
+import type { DeleteAllState } from './controller-state.svelte';
+
+export interface HoverCardProps {
+	hoverInfo: InspectorHoverInfo | null;
+	openShortcut: string | null;
+	onOpen: () => boolean;
+	hosted?: boolean;
+}
+
+export interface NoteComposerProps {
+	composer: NoteComposerState | null;
+	keyBindings: Pick<ResolvedAgentationKeyBindings, 'delete' | 'submit'>;
+	value: string;
+	onCancel: () => void;
+	onDelete: (noteId: string) => void;
+	onInput: (value: string) => void;
+	onSubmit: () => boolean | Promise<boolean>;
+	hosted?: boolean;
+}
+
+export interface NoteMarkersProps {
+	activeNoteId: string | null;
+	composerNoteId: string | null;
+	notes: RenderedInspectorNote[];
+	visible: boolean;
+	onOpenNote: (noteId: string) => Promise<boolean>;
+	hosted?: boolean;
+}
+
+export interface SelectionPreviewProps {
+	selectionPreview: GroupSelectionPreviewState | null;
+	dragSelection: DragSelectionState | null;
+}
+
+export interface InspectorToolProps {
+	active: boolean;
+	deleteAllState: DeleteAllState;
+	notes: RenderedInspectorNote[];
+	settings: NotesSettings;
+	toolbar: ToolbarState;
+	toolbarDragEnabled: boolean;
+	toolbarPosition: InspectorPosition;
+	keyBindings: ResolvedAgentationKeyBindings;
+	onCloseToolbar: () => void;
+	onCloseToolbarPanel: () => void;
+	onCopyNotes: () => Promise<boolean>;
+	onDeleteAll: () => void;
+	onOpenNote: (noteId: string) => Promise<boolean>;
+	onSetBlockPageInteractions: (value: boolean) => void;
+	onSetClearOnCopy: (value: boolean) => void;
+	onSetIncludeComponentContext: (value: boolean) => void;
+	onSetIncludeComputedStyles: (value: boolean) => void;
+	onSetMarkerColor: (color: string) => void;
+	onSetOutputMode: (mode: OutputMode) => void;
+	onSetPauseAnimations: (value: boolean) => void;
+	onSetToolbarPosition: (position: InspectorPosition) => void;
+	onToggle: () => void;
+	onToggleLayout: () => void;
+	onToggleNotesVisibility: () => void;
+	onTogglePreview: () => void;
+	onToggleSettings: () => void;
+	onToggleThemeMode: () => void;
+	onToggleToolbar: () => void;
+	onToolbarPointerDown: (event: PointerEvent) => void;
+	hosted?: boolean;
+}
+
+export interface InspectorToolbarActionsProps {
+	active: boolean;
+	deleteAllState: DeleteAllState;
+	keyBindings: ResolvedAgentationKeyBindings;
+	notes: RenderedInspectorNote[];
+	toolbar: ToolbarState;
+	onCloseToolbar: () => void;
+	onCopyNotes: () => Promise<boolean>;
+	onDeleteAll: () => void;
+	onToggle: () => void;
+	onToggleLayout: () => void;
+	onToggleNotesVisibility: () => void;
+	onTogglePreview: () => void;
+	onToggleSettings: () => void;
+}
+
+export interface InspectorToolbarLauncherProps {
+	notes: RenderedInspectorNote[];
+	badgeFloating: boolean;
+	badgeVisible: boolean;
+	onToggleToolbar: () => void;
+}
+
+export interface InspectorToolbarSettingsProps {
+	keyBindings: ResolvedAgentationKeyBindings;
+	settings: NotesSettings;
+	toolbarPosition: InspectorPosition;
+	onSetBlockPageInteractions: (value: boolean) => void;
+	onSetClearOnCopy: (value: boolean) => void;
+	onSetIncludeComponentContext: (value: boolean) => void;
+	onSetIncludeComputedStyles: (value: boolean) => void;
+	onSetMarkerColor: (color: string) => void;
+	onSetOutputMode: (mode: OutputMode) => void;
+	onSetPauseAnimations: (value: boolean) => void;
+	onSetToolbarPosition: (position: InspectorPosition) => void;
+	onToggleThemeMode: () => void;
+}
+
+export interface InspectorToolbarPreviewProps {
+	notes: RenderedInspectorNote[];
+	onOpenNote: (noteId: string) => Promise<boolean>;
+}

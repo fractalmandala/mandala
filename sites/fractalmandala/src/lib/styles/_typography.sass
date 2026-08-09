@@ -6,9 +6,18 @@
 	font-optical-sizing: auto
 	font-display: swap
 
-p, h6, h5, h4, h3, h2, h1
-	margin: 0
-
+:root
+	--text-scaling: 1.25
+	--text-xs: 11px
+	--text-sm: 13px
+	--text-md: 15px
+	--text-bs: 1rem
+	--text-lg: calc(var(--text-bs) * var(--text-scaling))
+	--text-xl: calc(var(--text-lg) * var(--text-scaling))
+	--text-2xl: calc(var(--text-xl) * var(--text-scaling))
+	--text-3xl: calc(var(--text-2xl) * var(--text-scaling))
+	--text-4xl: calc(var(--text-3xl) * var(--text-scaling))
+	--text-5xl: calc(var(--text-4xl) * var(--text-scaling))
 .text-xs
 	font-size: var(--text-xs)
 .text-sm
@@ -29,136 +38,163 @@ p, h6, h5, h4, h3, h2, h1
 	font-size: var(--text-4xl)
 .text-5xl
 	font-size: var(--text-5xl)
-
-.col2
-	color: var(--text-secondary)
-.col3
-	color: var(--text-muted)
-.col-theme
-	color: var(--theme-color)
-
 .tt-u
 	text-transform: uppercase
 .tt-c
 	text-transform: capitalize
-
-.w400
+.ta-l
+	text-align: left
+.ta-r
+	text-align: right
+.ta-c
+	text-align: center
+.fw400
 	font-weight: 400
-.w500
+.fw500
 	font-weight: 500
-.w600, .bold
+.fw600
 	font-weight: 600
+.bold
+	font-weight: bold
+.lh11
+	line-height: 1.1
+.lh125
+	line-height: 1.25
+.lh15
+	line-height: 1.5
+.lh16
+	line-height: 1.6
 
 .ls-tight
-	letter-spacing: var(--ls-tight)
+	letter-spacing: -0.02rem
 .ls-tightx
-	letter-spacing: var(--ls-tightx)
+	letter-spacing: -0.06rem
 .ls-wide
-	letter-spacing: var(--ls-wide)
+	letter-spacing: 0.005rem
 .ls-widex
-	letter-spacing: var(--ls-widex)
+	letter-spacing: 0.04em
 
-h1
-	font-weight: 600
-	line-height: 1.1
-	letter-spacing: -0.05rem
+.prim
+	color: var(--text-primary)
+.sec
+	color: var(--text-secondary)
+.muted
+	color: var(--text-muted)
+.inverse
+	color: var(--text-inverse)
 
-.article-body
-	a
-		color: var(--text-primary)
-		text-decoration-color: var(--theme-color) !important
-		text-decoration: underline
-	p, li
-		font-size: var(--text-lg)
-		line-height: 1.6
-		margin-bottom: 0.5rem
-		letter-spacing: -0.01rem
-	h2
-		margin-bottom: 0.5rem
-		margin-top: 2rem
-		font-size: var(--text-xl)
-		font-weight: 600
-	h3
-		font-size: var(--text-lg)
-		margin-bottom: 0.5rem
-		margin-top: 2rem
-		font-weight: 600
-	h5
-		font-style: italic
-		font-weight: 400
-		font-size: var(--text-xl)
-		margin-top: 1.5rem
-		margin-bottom: 1.5rem
-		line-height: 1.6
-
-.mobile-navigation
-	@media (max-width: 1024px)
-		.sidebar-bank-label
-			font-size: var(--text-lg)
-		.sidebar-items-list
-			text-align: right
-			li
-				font-size: var(--text-lg)
-
+// Sidebar typography
 .sidebar-bank-label
 	color: var(--text-secondary)
 	letter-spacing: -0.01rem
 
-.accordion-trigger
-	&:hover
-		.sidebar-bank-label
-			color: var(--text-primary)
+.accordion-trigger:hover .sidebar-bank-label
+	color: var(--text-primary)
 
 .sidebar-items-list
 	li
-		font-size: var(--text-md)
-		color: var(--text-primary)
-		line-height: 1.15
-		letter-spacing: -0.01rem
+		line-height: 1.4
+		letter-spacing: -0.005rem
+		padding: 4px 8px
+		border-radius: 4px
+		transition: background 100ms ease, color 100ms ease
 		&:hover
-			color: var(--theme-color)
+			background: var(--bg-surface)
 		a
 			color: inherit
 			text-decoration: none
+			display: block
 
+// Card styles
 .card-title
-	font-weight: 600
-	font-size: var(--text-lg)
 	letter-spacing: -0.01rem
 .card-desc
-	color: var(--text-muted)
-	font-size: var(--text-md)
 
-a
-	&:hover
-		.a-hover
-			color: var(--theme-color)
-
-a.link-theme
-	color: var(--theme-color)
-	text-decoration: none
-	&:hover
-		text-decoration: underline
-
+// Pill badge
 .pill
-	background: var(--theme-color)
-	color: #FFFFFF
-	font-size: 8px
-	text-transform: uppercase
-	font-weight: 500
+	background: var(--brand)
 	padding: 4px
-	letter-spacing: 0.005rem
 	text-decoration: none
 	&:hover
-		background: var(--theme-color-alt)
+		filter: brightness(0.9)
 	&.large
-		font-size: var(--text-md)
 		padding: 8px 12px
 
+// Breadcrumb
 .breadcrumb
 	text-decoration: none
-	color: var(--text-muted)
-	font-weight: 600
-	letter-spacing: -0.02rem
 	&:hover
-		color: var(--theme-color)
+		color: var(--brand)
+
+// Article body
+.article-body
+	a
+		color: var(--text-primary)
+		text-decoration-color: var(--brand)
+		text-decoration: underline
+		text-underline-offset: 2px
+		&:hover
+			color: var(--brand)
+	p
+		font-size: var(--text-bs)
+		line-height: 1.75
+		margin-bottom: 1.25rem
+		letter-spacing: -0.005rem
+	li
+		font-size: var(--text-bs)
+		line-height: 1.7
+		margin-bottom: 0.5rem
+	h2
+		margin-bottom: 0.75rem
+		margin-top: 2.5rem
+		font-size: var(--text-xl)
+		font-weight: 600
+		line-height: 1.3
+		letter-spacing: -0.02rem
+	h3
+		font-size: var(--text-lg)
+		margin-bottom: 0.75rem
+		margin-top: 2rem
+		font-weight: 600
+		line-height: 1.35
+	h4
+		font-size: var(--text-bs)
+		margin-bottom: 0.5rem
+		margin-top: 1.5rem
+		font-weight: 600
+		text-transform: uppercase
+		letter-spacing: 0.03em
+		color: var(--text-secondary)
+	h5
+		font-style: italic
+		font-weight: 400
+		font-size: var(--text-lg)
+		margin-top: 1.5rem
+		margin-bottom: 1.5rem
+		line-height: 1.6
+	blockquote
+		border-left: 3px solid var(--brand)
+		padding-left: 1rem
+		margin: 1.5rem 0
+		color: var(--text-secondary)
+		font-style: italic
+	code
+		font-family: var(--font-mono)
+		font-size: 0.85em
+		background: var(--bg-surface)
+		padding: 0.15em 0.4em
+		border-radius: 3px
+	pre
+		background: var(--bg-surface)
+		border: 1px solid var(--border)
+		border-radius: 6px
+		padding: 1rem
+		overflow-x: auto
+		margin: 1.5rem 0
+		code
+			background: none
+			padding: 0
+	img
+		max-width: 100%
+		border-radius: 6px
+		margin: 1.5rem 0

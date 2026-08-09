@@ -1,6 +1,6 @@
 {
 	"name": "fractals-styler",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"description": "JIT numeric styling classes (gapN, padN, marginN, heightN, widthN...), breakpoint-suffixed variants, a themeable SASS token system, and a live `StylerPreview` token editor for any SvelteKit + SASS project.",
 	"type": "module",
 	"bin": {
@@ -18,7 +18,8 @@
 			"types": "./src/lib/index.ts",
 			"svelte": "./src/lib/index.ts",
 			"import": "./src/lib/index.ts"
-		}
+		},
+		"./fonts/*": "./fonts/*"
 	},
 	"files": [
 		"dist",

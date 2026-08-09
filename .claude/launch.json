@@ -32,6 +32,36 @@
 			"autoPort": true
 		},
 		{
+			"name": "fractaldesign",
+			"runtimeExecutable": "sh",
+			"runtimeArgs": [
+				"-c",
+				"cd sites/fractaldesign && exec node_modules/.bin/vite dev --port 5181 --strictPort"
+			],
+			"port": 5181,
+			"autoPort": true
+		},
+		{
+			"name": "fractalmandala",
+			"runtimeExecutable": "sh",
+			"runtimeArgs": [
+				"-c",
+				"cd sites/fractalmandala && exec node_modules/.bin/vite dev --port 5180 --strictPort"
+			],
+			"port": 5180,
+			"autoPort": true
+		},
+		{
+			"name": "eddd-svelte",
+			"runtimeExecutable": "sh",
+			"runtimeArgs": [
+				"-c",
+				"cd admin/eddd-svelte && exec node_modules/.bin/vite dev --port 8000 --strictPort"
+			],
+			"port": 8000,
+			"autoPort": true
+		},
+		{
 			"name": "fractalagentic",
 			"runtimeExecutable": "npm",
 			"runtimeArgs": [

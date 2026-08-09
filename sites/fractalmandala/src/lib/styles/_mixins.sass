@@ -1,6 +1,8 @@
-// Mobile-First Media Query Mixins for FractalMandala
-// Use ONLY internally or in core stylesheets — NO mixins in consumer template code!
-
+// Escape hatch for scoping YOUR OWN custom classes to a breakpoint.
+//   .card
+//   	padding: 8px
+//   	+bp-sm
+//   		padding: 16px
 =bp-sm
 	@media (min-width: 640px)
 		@content

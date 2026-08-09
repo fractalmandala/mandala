@@ -1,0 +1,162 @@
+// Docs section chrome — left nav tree, right TOC, article prose.
+
+// Responsive visibility helpers (shell breakpoint = 1025px)
+.mobile-only
+	display: flex
+@media (min-width: 1025px)
+	.mobile-only
+		display: none
+
+// Left navigation tree
+.docs-nav
+	width: 100%
+	.docs-nav-list
+		list-style: none
+		margin: 0
+		padding: 0
+		display: flex
+		flex-direction: column
+		gap: 2px
+		&.nested
+			margin-left: 8px
+			padding-left: 8px
+			border-left: 1px solid var(--border)
+	.docs-nav-row
+		gap: 4px
+		justify-content: space-between
+	.docs-nav-link
+		flex: 1
+		display: block
+		padding: 4px 6px
+		border-radius: 6px
+		font-size: var(--text-sm, 0.8125rem)
+		color: var(--text-secondary)
+		text-decoration: none
+		text-align: left
+		line-height: 1.35
+		transition: color 120ms ease, background 120ms ease
+		&[data-depth="0"]
+			font-weight: 600
+			color: var(--text-primary)
+		&:hover
+			color: var(--brand)
+			background: var(--bg-subtle)
+		&.active
+			color: var(--brand)
+			background: color-mix(in srgb, var(--brand) 12%, transparent)
+			font-weight: 600
+	.docs-nav-toggle
+		width: 22px
+		height: 22px
+		display: flex
+		align-items: center
+		justify-content: center
+		color: var(--text-muted)
+		font-size: 14px
+		border-radius: 6px
+		&:hover
+			color: var(--brand)
+			background: var(--bg-subtle)
+
+// Right table of contents
+.docs-toc
+	width: 100%
+	.docs-toc-link
+		display: block
+		padding: 2px 0
+		font-size: var(--text-sm, 0.8125rem)
+		color: var(--text-muted)
+		text-decoration: none
+		line-height: 1.4
+		transition: color 120ms ease
+		&.sub
+			padding-left: 12px
+		&:hover
+			color: var(--brand)
+		&.active
+			color: var(--brand)
+			font-weight: 600
+
+// Header bits
+.docs-brand-title
+	font-weight: 700
+	letter-spacing: -0.01em
+	color: var(--text-primary)
+.docs-icon-btn
+	width: 32px
+	height: 32px
+	display: flex
+	align-items: center
+	justify-content: center
+	border-radius: 8px
+	color: var(--text-secondary)
+	font-size: 16px
+	&:hover
+		color: var(--brand)
+		background: var(--bg-subtle)
+
+// Article prose
+.docs-content
+	width: 100%
+	h1
+		font-size: var(--text-4xl, 2.25rem)
+		line-height: 1.15
+		letter-spacing: -0.02em
+		margin-bottom: 8px
+	h2
+		font-size: var(--text-2xl, 1.5rem)
+		margin-top: 40px
+		margin-bottom: 12px
+		padding-top: 8px
+		border-top: 1px solid var(--border)
+	h3
+		font-size: var(--text-xl, 1.25rem)
+		margin-top: 28px
+		margin-bottom: 8px
+	p
+		line-height: 1.7
+		margin: 12px 0
+		color: var(--text-secondary)
+	ul, ol
+		margin: 12px 0
+		padding-left: 22px
+		line-height: 1.7
+		color: var(--text-secondary)
+	li
+		margin: 4px 0
+	a
+		color: var(--brand)
+		text-decoration: underline
+		text-underline-offset: 2px
+	code
+		font-family: var(--font-mono)
+		font-size: 0.9em
+		background: var(--bg-subtle)
+		padding: 1px 5px
+		border-radius: 4px
+	pre
+		margin: 16px 0
+		padding: 16px
+		overflow-x: auto
+		border-radius: 10px
+		border: 1px solid var(--border)
+		code
+			background: none
+			padding: 0
+	blockquote
+		margin: 16px 0
+		padding-left: 16px
+		border-left: 3px solid var(--brand)
+		color: var(--text-muted)
+
+.docs-render-error
+	margin-top: 16px
+	padding: 16px
+	border: 1px solid var(--border)
+	border-radius: 10px
+	background: var(--bg-subtle)
+	pre
+		margin-top: 8px
+		white-space: pre-wrap
+		font-size: var(--text-sm, 0.8125rem)
+		color: var(--text-muted)

@@ -76,7 +76,7 @@
 				<span class="accented-x"><FilePlusIcon size={28}/></span>
 				<span class="text-md fw600 accented">orchestrators</span>
 			</a>
-			<a class="badge box xcenter ycenter" href="/docs/introduction">
+			<a class="badge box xcenter ycenter" href="/docs/guide">
 				<span class="accented-x"><StarFourIcon size={28}/></span>
 				<span class="text-md fw600 accented">Start</span>
 			</a>

@@ -9,5 +9,8 @@ export default defineDocsConfig({
 	collections: [
 		{ id: 'default', content: 'src/lib/docs', basePath: '/docs' },
 		{ id: 'guide', content: 'src/lib/guide', basePath: '/guide' }
-	]
+	],
+	// Mirrors the `openapi` option passed to the Vite plugin, so `docs generate` produces
+	// the same pages outside a bundler run.
+	openapi: [{ id: 'api', source: 'openapi.json' }]
 });

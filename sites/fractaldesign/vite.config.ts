@@ -6,5 +6,11 @@ export default defineConfig({
 	plugins: [
 		fractalsStyler(),
 		sveltekit()
-	]
+	],
+	optimizeDeps: {
+		exclude: ['fractals-styler']
+	},
+	ssr: {
+		noExternal: ['@lucide/svelte']
+	}
 });

@@ -1,12 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { formatLastUpdated, getDocComponentBySlug } from '$lib/core/content';
+	import { formatLastUpdated } from '$lib/core/content';
 	import { getEditUrl } from '$lib/site';
 	import PageActions from '$lib/content/themes/docs/PageActions.svelte';
 	import PageIcon from '$lib/icons/PageIcon.svelte';
 
 	let { data }: { data: PageData } = $props();
-	const Content = $derived(getDocComponentBySlug(data.entry.slug.split('/')));
 </script>
 
 <svelte:head>
@@ -26,11 +25,7 @@
 		<PageActions slug={data.entry.slug} editHref={getEditUrl(data.entry.sourcePath)} />
 	</header>
 
-	{#if Content}
-		<Content />
-	{:else}
-		<p>Unable to render this document component.</p>
-	{/if}
+	{@html data.html}
 
 	{#if data.entry.lastModified}
 		<footer class="doc-colophon">

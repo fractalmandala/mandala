@@ -44,7 +44,7 @@ const bossFiles = import.meta.glob('../../../../../packages/fractal-agentic/boss
 	eager: true
 }) as Record<string, string>;
 
-/** Agent identity + package entrypoints (always under plugin/, never site-only). */
+/** Agent identity + package entrypoints (package root files, never site-only). */
 const coreDocFiles = import.meta.glob(
 	[
 		'../../../../../packages/fractal-agentic/AGENTS.md',
@@ -62,8 +62,9 @@ const coreDocFiles = import.meta.glob(
 ) as Record<string, string>;
 
 /**
- * Dual support docs under plugin/docs/ — ship with the plugin; site renders them for humans.
- * Source of truth remains plugin/; do not duplicate agent policy only under site/.
+ * Dual support docs under packages/fractal-agentic/docs/ — ship with the package;
+ * site renders them for humans. Source of truth remains the package; do not
+ * duplicate agent policy only under the site.
  */
 const guideFiles = import.meta.glob('../../../../../packages/fractal-agentic/docs/**/*.md', {
 	query: '?raw',
@@ -98,16 +99,19 @@ function docSlugFromPath(path: string): string | null {
 	if (path.endsWith('/AGENTS.md')) return 'agents';
 	if (path.endsWith('/SOUL.md')) return 'soul';
 	if (path.endsWith('/CUSTOMIZE.md')) return 'customize';
-	if (path.endsWith('/TROUBLESHOOTING.md') && path.includes('/plugin/TROUBLESHOOTING.md'))
-		return 'troubleshooting-root';
-	if (path.endsWith('/README.md') && path.includes('/plugin/README.md')) return 'readme';
+	if (path.endsWith('/TROUBLESHOOTING.md')) return 'troubleshooting-root';
+	if (path.endsWith('/README.md')) return 'readme';
 	if (path.endsWith('/AGENTS-SNIPPET.md')) return 'integration-snippet';
 
-	const m = path.match(/\/plugin\/docs\/(.+)\.md$/i);
+	const m = path.match(/\/docs\/(.+)\.md$/i);
 	if (!m) return null;
 	const rel = m[1].replace(/\\/g, '/');
 	if (/^INDEX$/i.test(rel)) return 'guide';
-	return rel.replace(/\/INDEX$/i, '').replace(/\/index$/i, '');
+	// Lowercased so URL slugs are case-insensitive-safe (DEGRADATION.md → degradation)
+	return rel
+		.replace(/\/INDEX$/i, '')
+		.replace(/\/index$/i, '')
+		.toLowerCase();
 }
 
 function toEntry(kind: CatalogKind, path: string, raw: string): CatalogEntry | null {
@@ -223,7 +227,8 @@ function collectDocs(): CatalogEntry[] {
 			description,
 			descriptionHtml: renderInlineMarkdown(description),
 			href: `/docs/${slug}`,
-			body: websiteDocBody(path, content)
+			body: websiteDocBody(path, content),
+			sourcePath: path.substring(path.indexOf('packages/fractal-agentic'))
 		});
 	}
 	// Alphabetical by slug; reading order for prev/next is DOCS_SEQUENCE in nav.ts

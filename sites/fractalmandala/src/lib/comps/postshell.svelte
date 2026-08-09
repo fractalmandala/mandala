@@ -16,8 +16,8 @@
 
 <div class="box rgap8 header-panel">
 	<a href="/{crumb}" class="tt-u text-xs breadcrumb">{crumb}</a>
-	<h1 class="text-4xl">{title}</h1>
-	<p class="text-bs col2 padbot8">{description}</p>
+	<h1 class="text-4xl fw600 lh11">{title}</h1>
+	<p class="text-bs sec padbot8">{description}</p>
 	{#if tags}{@render tags()}{/if}
 </div>
 {#if articleBody}{@render articleBody()}{/if}

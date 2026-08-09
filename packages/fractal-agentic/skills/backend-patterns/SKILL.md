@@ -1,564 +1,183 @@
 ---
 name: backend-patterns
-description: Backend architecture patterns, API design, database optimization, and server-side best practices for Node.js, Express, and Next.js API routes.
+description: Backend architecture patterns, API design, database optimization, and server-side best practices for SvelteKit server routes, hooks, and form actions.
 metadata:
   origin: ECC
 ---
 
 # Backend Development Patterns
 
-Backend architecture patterns and best practices for scalable server-side applications.
+Server-side architecture patterns for SvelteKit applications — load functions, form actions, standalone endpoints, middleware, and data access.
 
 ## When to Activate
 
-- Designing REST or GraphQL API endpoints
-- Implementing repository, service, or controller layers
-- Optimizing database queries (N+1, indexing, connection pooling)
-- Adding caching (Redis, in-memory, HTTP cache headers)
-- Setting up background jobs or async processing
-- Structuring error handling and validation for APIs
-- Building middleware (auth, logging, rate limiting)
+- Writing `+page.server.ts` / `+server.ts` / `hooks.server.ts`
+- Designing APIs consumed by SvelteKit or external clients
+- Structuring database access, validation, and error handling
+- Reviewing server-side security and performance
 
-## API Design Patterns
+## Layering in SvelteKit
 
-### RESTful API Structure
-
-```typescript
-// PASS: Resource-based URLs
-GET    /api/markets                 # List resources
-GET    /api/markets/:id             # Get single resource
-POST   /api/markets                 # Create resource
-PUT    /api/markets/:id             # Replace resource
-PATCH  /api/markets/:id             # Update resource
-DELETE /api/markets/:id             # Delete resource
-
-// PASS: Query parameters for filtering, sorting, pagination
-GET /api/markets?status=active&sort=volume&limit=20&offset=0
+```
+src/
+  hooks.server.ts          # middleware: auth, logging, locals setup
+  routes/**/+page.server.ts # page-scoped loads + form actions
+  routes/**/+server.ts      # standalone JSON/binary endpoints
+  lib/server/               # data access, services, secrets — never importable client-side
+  lib/schemas/              # Zod schemas shared by server and client
 ```
 
-### Repository Pattern
+Rules:
+
+- Anything touching secrets, the database, or the filesystem lives in `src/lib/server/` — the `server`/`client` module guards enforce this.
+- `+page.server.ts` stays thin: parse input, call a service, return plain serializable data.
+- Domain logic lives in `lib/server/` modules, testable without HTTP.
+
+## Data Loading
+
+### Server Load Functions
 
 ```typescript
-// Abstract data access logic
-interface MarketRepository {
-	findAll(filters?: MarketFilters): Promise<Market[]>;
-	findById(id: string): Promise<Market | null>;
-	create(data: CreateMarketDto): Promise<Market>;
-	update(id: string, data: UpdateMarketDto): Promise<Market>;
-	delete(id: string): Promise<void>;
-}
+// PASS: GOOD: typed, error-aware load
+import { error } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
-class SupabaseMarketRepository implements MarketRepository {
-	async findAll(filters?: MarketFilters): Promise<Market[]> {
-		let query = supabase.from('markets').select('*');
-
-		if (filters?.status) {
-			query = query.eq('status', filters.status);
-		}
-
-		if (filters?.limit) {
-			query = query.limit(filters.limit);
-		}
-
-		const { data, error } = await query;
-
-		if (error) throw new Error(error.message);
-		return data;
-	}
-
-	// Other methods...
-}
+export const load: PageServerLoad = async ({ locals, params, depends }) => {
+	depends('entry:detail');
+	const entry = await locals.entries.get(params.id);
+	if (!entry) error(404, 'Entry not found');
+	return { entry };
+};
 ```
 
-### Service Layer Pattern
+### Streaming Slow Work
 
 ```typescript
-// Business logic separated from data access
-class MarketService {
-	constructor(private marketRepo: MarketRepository) {}
-
-	async searchMarkets(query: string, limit: number = 10): Promise<Market[]> {
-		// Business logic
-		const embedding = await generateEmbedding(query);
-		const results = await this.vectorSearch(embedding, limit);
-
-		// Fetch full data
-		const markets = await this.marketRepo.findByIds(results.map((r) => r.id));
-
-		// Sort by similarity
-		return markets.sort((a, b) => {
-			const scoreA = results.find((r) => r.id === a.id)?.score || 0;
-			const scoreB = results.find((r) => r.id === b.id)?.score || 0;
-			return scoreA - scoreB;
-		});
-	}
-
-	private async vectorSearch(embedding: number[], limit: number) {
-		// Vector search implementation
-	}
-}
-```
-
-### Middleware Pattern
-
-```typescript
-// Request/response processing pipeline
-export function withAuth(handler: NextApiHandler): NextApiHandler {
-	return async (req, res) => {
-		const token = req.headers.authorization?.replace('Bearer ', '');
-
-		if (!token) {
-			return res.status(401).json({ error: 'Unauthorized' });
-		}
-
-		try {
-			const user = await verifyToken(token);
-			req.user = user;
-			return handler(req, res);
-		} catch (error) {
-			return res.status(401).json({ error: 'Invalid token' });
-		}
-	};
-}
-
-// Usage
-export default withAuth(async (req, res) => {
-	// Handler has access to req.user
+// PASS: GOOD: unresolved promises stream — fast shell first
+export const load: PageServerLoad = async ({ locals }) => ({
+	headline: await locals.entries.headline(),
+	report: locals.entries.buildReport() // streamed
 });
 ```
 
-## Database Patterns
+### Private vs Public Data
 
-### Query Optimization
+- Data returned from `+page.server.ts` `load` reaches the browser — strip secrets before returning.
+- Use `+server.ts` endpoints for machine-to-machine APIs; add `export const prerender = false` where needed.
 
-```typescript
-// PASS: GOOD: Select only needed columns
-const { data } = await supabase
-	.from('markets')
-	.select('id, name, status, volume')
-	.eq('status', 'active')
-	.order('volume', { ascending: false })
-	.limit(10);
-
-// FAIL: BAD: Select everything
-const { data } = await supabase.from('markets').select('*');
-```
-
-### N+1 Query Prevention
+## Mutations via Form Actions
 
 ```typescript
-// FAIL: BAD: N+1 query problem
-const markets = await getMarkets();
-for (const market of markets) {
-	market.creator = await getUser(market.creator_id); // N queries
-}
+// PASS: GOOD: validate, fail with context, redirect on success
+import { fail, redirect } from '@sveltejs/kit';
+import { entrySchema } from '$lib/schemas/entry';
 
-// PASS: GOOD: Batch fetch
-const markets = await getMarkets();
-const creatorIds = markets.map((m) => m.creator_id);
-const creators = await getUsers(creatorIds); // 1 query
-const creatorMap = new Map(creators.map((c) => [c.id, c]));
-
-markets.forEach((market) => {
-	market.creator = creatorMap.get(market.creator_id);
-});
-```
-
-### Transaction Pattern
-
-```typescript
-async function createMarketWithPosition(
-  marketData: CreateMarketDto,
-  positionData: CreatePositionDto
-) {
-  // Use Supabase transaction
-  const { data, error } = await supabase.rpc('create_market_with_position', {
-    market_data: marketData,
-    position_data: positionData
-  })
-
-  if (error) throw new Error('Transaction failed')
-  return data
-}
-
-// SQL function in Supabase
-CREATE OR REPLACE FUNCTION create_market_with_position(
-  market_data jsonb,
-  position_data jsonb
-)
-RETURNS jsonb
-LANGUAGE plpgsql
-AS $$
-BEGIN
-  -- Start transaction automatically
-  INSERT INTO markets VALUES (market_data);
-  INSERT INTO positions VALUES (position_data);
-  RETURN jsonb_build_object('success', true);
-EXCEPTION
-  WHEN OTHERS THEN
-    -- Rollback happens automatically
-    RETURN jsonb_build_object('success', false, 'error', SQLERRM);
-END;
-$$;
-```
-
-## Caching Strategies
-
-### Redis Caching Layer
-
-```typescript
-class CachedMarketRepository implements MarketRepository {
-	constructor(
-		private baseRepo: MarketRepository,
-		private redis: RedisClient
-	) {}
-
-	async findById(id: string): Promise<Market | null> {
-		// Check cache first
-		const cached = await this.redis.get(`market:${id}`);
-
-		if (cached) {
-			return JSON.parse(cached);
+export const actions = {
+	create: async ({ request, locals }) => {
+		const form = await request.formData();
+		const parsed = entrySchema.safeParse(Object.fromEntries(form));
+		if (!parsed.success) {
+			return fail(400, {
+				values: Object.fromEntries(form),
+				errors: parsed.error.flatten().fieldErrors
+			});
 		}
-
-		// Cache miss - fetch from database
-		const market = await this.baseRepo.findById(id);
-
-		if (market) {
-			// Cache for 5 minutes
-			await this.redis.setex(`market:${id}`, 300, JSON.stringify(market));
-		}
-
-		return market;
+		const id = await locals.entries.create(parsed.data);
+		redirect(303, `/entries/${id}`);
 	}
-
-	async invalidateCache(id: string): Promise<void> {
-		await this.redis.del(`market:${id}`);
-	}
-}
+};
 ```
 
-### Cache-Aside Pattern
+- Always re-validate server-side; client validation is a convenience, not a gate.
+- Return `fail()` with enough data to re-render the form with values and errors.
+- Pair with `use:enhance` in the UI for SPA-style submissions that still work without JS.
+
+## Middleware (`hooks.server.ts`)
 
 ```typescript
-async function getMarketWithCache(id: string): Promise<Market> {
-	const cacheKey = `market:${id}`;
+// PASS: GOOD: single funnel for auth + locals
+import type { Handle } from '@sveltejs/kit';
 
-	// Try cache
-	const cached = await redis.get(cacheKey);
-	if (cached) return JSON.parse(cached);
+export const handle: Handle = async ({ event, resolve }) => {
+	event.locals.user = await authenticate(event.cookies.get('session'));
 
-	// Cache miss - fetch from DB
-	const market = await db.markets.findUnique({ where: { id } });
-
-	if (!market) throw new Error('Market not found');
-
-	// Update cache
-	await redis.setex(cacheKey, 300, JSON.stringify(market));
-
-	return market;
-}
+	if (event.url.pathname.startsWith('/admin') && !event.locals.user) {
+		return new Response(null, { status: 401 });
+	}
+	return resolve(event);
+};
 ```
 
-## Error Handling Patterns
+Keep hooks lean; push heavy work into per-route loads so every request doesn't pay for it.
 
-### Centralized Error Handler
-
-```typescript
-class ApiError extends Error {
-	constructor(
-		public statusCode: number,
-		public message: string,
-		public isOperational = true
-	) {
-		super(message);
-		Object.setPrototypeOf(this, ApiError.prototype);
-	}
-}
-
-export function errorHandler(error: unknown, req: Request): Response {
-	if (error instanceof ApiError) {
-		return NextResponse.json(
-			{
-				success: false,
-				error: error.message
-			},
-			{ status: error.statusCode }
-		);
-	}
-
-	if (error instanceof z.ZodError) {
-		return NextResponse.json(
-			{
-				success: false,
-				error: 'Validation failed',
-				details: error.errors
-			},
-			{ status: 400 }
-		);
-	}
-
-	// Log unexpected errors
-	console.error('Unexpected error:', error);
-
-	return NextResponse.json(
-		{
-			success: false,
-			error: 'Internal server error'
-		},
-		{ status: 500 }
-	);
-}
-
-// Usage
-export async function GET(request: Request) {
-	try {
-		const data = await fetchData();
-		return NextResponse.json({ success: true, data });
-	} catch (error) {
-		return errorHandler(error, request);
-	}
-}
-```
-
-### Retry with Exponential Backoff
+## API Design (Standalone Endpoints)
 
 ```typescript
-async function fetchWithRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
-	let lastError: Error;
+// src/routes/api/entries/[id]/+server.ts
+import { json, error } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
-	for (let i = 0; i < maxRetries; i++) {
-		try {
-			return await fn();
-		} catch (error) {
-			lastError = error as Error;
-
-			if (i < maxRetries - 1) {
-				// Exponential backoff: 1s, 2s, 4s
-				const delay = Math.pow(2, i) * 1000;
-				await new Promise((resolve) => setTimeout(resolve, delay));
-			}
-		}
-	}
-
-	throw lastError!;
-}
-
-// Usage
-const data = await fetchWithRetry(() => fetchFromAPI());
-```
-
-## Authentication & Authorization
-
-### JWT Token Validation
-
-```typescript
-import jwt from 'jsonwebtoken';
-
-interface JWTPayload {
-	userId: string;
-	email: string;
-	role: 'admin' | 'user';
-}
-
-export function verifyToken(token: string): JWTPayload {
-	try {
-		const payload = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
-		return payload;
-	} catch (error) {
-		throw new ApiError(401, 'Invalid token');
-	}
-}
-
-export async function requireAuth(request: Request) {
-	const token = request.headers.get('authorization')?.replace('Bearer ', '');
-
-	if (!token) {
-		throw new ApiError(401, 'Missing authorization token');
-	}
-
-	return verifyToken(token);
-}
-
-// Usage in API route
-export async function GET(request: Request) {
-	const user = await requireAuth(request);
-
-	const data = await getDataForUser(user.userId);
-
-	return NextResponse.json({ success: true, data });
-}
-```
-
-### Role-Based Access Control
-
-```typescript
-type Permission = 'read' | 'write' | 'delete' | 'admin';
-
-interface User {
-	id: string;
-	role: 'admin' | 'moderator' | 'user';
-}
-
-const rolePermissions: Record<User['role'], Permission[]> = {
-	admin: ['read', 'write', 'delete', 'admin'],
-	moderator: ['read', 'write', 'delete'],
-	user: ['read', 'write']
+export const GET: RequestHandler = async ({ params, locals }) => {
+	const entry = await locals.entries.get(params.id);
+	if (!entry) error(404, 'Entry not found');
+	return json(entry);
 };
 
-export function hasPermission(user: User, permission: Permission): boolean {
-	return rolePermissions[user.role].includes(permission);
-}
-
-export function requirePermission(permission: Permission) {
-	return (handler: (request: Request, user: User) => Promise<Response>) => {
-		return async (request: Request) => {
-			const user = await requireAuth(request);
-
-			if (!hasPermission(user, permission)) {
-				throw new ApiError(403, 'Insufficient permissions');
-			}
-
-			return handler(request, user);
-		};
-	};
-}
-
-// Usage - HOF wraps the handler
-export const DELETE = requirePermission('delete')(async (request: Request, user: User) => {
-	// Handler receives authenticated user with verified permission
-	return new Response('Deleted', { status: 200 });
-});
+export const DELETE: RequestHandler = async ({ params, locals }) => {
+	await locals.entries.remove(params.id);
+	return new Response(null, { status: 204 });
+};
 ```
 
-## Rate Limiting
+Conventions:
 
-Rate limiting must use a shared store such as Redis, a gateway, or the
-platform's native limiter. Do not use per-process in-memory counters for
-production APIs: they reset on deploy, split across replicas, and fail open in
-serverless or multi-instance environments.
+- REST resource naming: plural nouns, ids in paths (`/api/entries/:id`).
+- Status codes: 200 read, 201 created, 204 no content, 400 validation, 401 authn, 403 authz, 404 missing, 409 conflict.
+- Paginate lists: `?page=2&limit=50` with total in a header or envelope.
+- Version breaking changes under `/api/v2/` rather than mutating v1.
 
-Keep the backend layer responsible for choosing the integration point and error
-shape; use `api-design` for the HTTP contract and `security-review` for abuse
-case review.
-
-## Background Jobs & Queues
-
-### Simple Queue Pattern
+## Error Handling
 
 ```typescript
-class JobQueue<T> {
-	private queue: T[] = [];
-	private processing = false;
+// PASS: GOOD: expected errors via error(), unexpected via handleServerError
+import { error } from '@sveltejs/kit';
 
-	async add(job: T): Promise<void> {
-		this.queue.push(job);
-
-		if (!this.processing) {
-			this.process();
-		}
-	}
-
-	private async process(): Promise<void> {
-		this.processing = true;
-
-		while (this.queue.length > 0) {
-			const job = this.queue.shift()!;
-
-			try {
-				await this.execute(job);
-			} catch (error) {
-				console.error('Job failed:', error);
-			}
-		}
-
-		this.processing = false;
-	}
-
-	private async execute(job: T): Promise<void> {
-		// Job execution logic
-	}
-}
-
-// Usage for indexing markets
-interface IndexJob {
-	marketId: string;
-}
-
-const indexQueue = new JobQueue<IndexJob>();
-
-export async function POST(request: Request) {
-	const { marketId } = await request.json();
-
-	// Add to queue instead of blocking
-	await indexQueue.add({ marketId });
-
-	return NextResponse.json({ success: true, message: 'Job queued' });
-}
+export const handleError: HandleServerError = async ({ error: err, event }) => {
+	const id = crypto.randomUUID();
+	console.error(id, err); // report to your logging sink
+	return { message: 'Internal error', id }; // never leak stack traces
+};
 ```
 
-## Logging & Monitoring
+- 4xx: user-fixable, message safe to display.
+- 5xx: log with correlation id; return a generic message.
+- Never throw raw `Error` with sensitive detail across the wire.
 
-### Structured Logging
+## Database Access Patterns
 
-```typescript
-interface LogContext {
-	userId?: string;
-	requestId?: string;
-	method?: string;
-	path?: string;
-	[key: string]: unknown;
-}
+- One service module per aggregate (`lib/server/entries.ts`) exposing typed methods.
+- Parameterized queries only — no string interpolation.
+- Index columns used in `WHERE`/`ORDER BY`; run `EXPLAIN` on anything touching large tables.
+- Batch reads (`IN (...)`) instead of N+1 loops inside `load`.
+- Transactions for multi-step writes.
+- Connection pooling sized for serverless/server reality; close cleanly in dev shutdown hooks.
 
-class Logger {
-	log(level: 'info' | 'warn' | 'error', message: string, context?: LogContext) {
-		const entry = {
-			timestamp: new Date().toISOString(),
-			level,
-			message,
-			...context
-		};
+## Security Checklist
 
-		console.log(JSON.stringify(entry));
-	}
+1. Secrets only in env vars, read inside `src/lib/server/` — never in `$lib` shared modules.
+2. CSRF: SvelteKit form actions are protected by default; custom POST endpoints must check `Origin`.
+3. Validate and type-coerce every input (form data, params, headers, JSON bodies).
+4. Serialize only what the page needs — audit `load` return values for accidental leaks.
+5. Set `Content-Security-Policy` in `hooks.server.ts`; keep it strict, allowlist-based.
+6. Rate-limit auth endpoints; hash passwords with argon2/bcrypt.
+7. Sanitize anything round-tripped through `{@html}`.
 
-	info(message: string, context?: LogContext) {
-		this.log('info', message, context);
-	}
+## Performance Checklist
 
-	warn(message: string, context?: LogContext) {
-		this.log('warn', message, context);
-	}
-
-	error(message: string, error: Error, context?: LogContext) {
-		this.log('error', message, {
-			...context,
-			error: error.message,
-			stack: error.stack
-		});
-	}
-}
-
-const logger = new Logger();
-
-// Usage
-export async function GET(request: Request) {
-	const requestId = crypto.randomUUID();
-
-	logger.info('Fetching markets', {
-		requestId,
-		method: 'GET',
-		path: '/api/markets'
-	});
-
-	try {
-		const markets = await fetchMarkets();
-		return NextResponse.json({ success: true, data: markets });
-	} catch (error) {
-		logger.error('Failed to fetch markets', error as Error, { requestId });
-		return NextResponse.json({ error: 'Internal error' }, { status: 500 });
-	}
-}
-```
-
-**Remember**: Backend patterns enable scalable, maintainable server-side applications. Choose patterns that fit your complexity level.
+| Lever | Action |
+|---|---|
+| Payload | Return page-shaped data, not full rows |
+| Caching | `Cache-Control` for GET endpoints; `depends()` + `invalidate()` for targeted refetch |
+| Prerender | Static marketing/help pages with `prerender = true` |
+| Queries | Batch, index, paginate; avoid per-row awaits |
+| Streaming | Return promises for slow aggregates |

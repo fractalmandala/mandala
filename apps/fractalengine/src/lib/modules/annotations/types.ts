@@ -1,4 +1,4 @@
-import type { AgentationAnnotationSnapshot } from 'sv-agentation';
+import type { AgentationAnnotationSnapshot } from 'fractal-agentation';
 
 export interface SharedAnnotation {
 	id: string;

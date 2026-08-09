@@ -31,21 +31,34 @@ let datesPromise: Promise<Record<string, string>> | undefined;
 async function resolveContentDates(): Promise<Record<string, string>> {
 	const dates: Record<string, string> = {};
 	try {
-		// content/ is walked relative to the repo root (not cwd) so this still
-		// works if Vite is ever invoked from a subdirectory.
+		// content/ (legacy site docs) and packages/fractal-agentic (the docs + armory
+		// source of truth) are walked relative to the repo root (not cwd) so this
+		// still works if Vite is ever invoked from a subdirectory.
 		const { stdout: root } = await execFileAsync('git', ['rev-parse', '--show-toplevel'], {
 			encoding: 'utf8'
 		});
 		const { stdout: log } = await execFileAsync(
 			'git',
-			['log', '--format=%x00%cI', '--name-only', '--relative', '--', 'content'],
+			[
+				'log',
+				'--format=%x00%cI',
+				'--name-only',
+				'--relative',
+				'--',
+				'content',
+				'packages/fractal-agentic'
+			],
 			{ cwd: root.trim(), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }
 		);
 		let commitDate = '';
 		for (const line of log.split('\n')) {
 			if (line.startsWith('\0')) {
 				commitDate = line.slice(1, 11); // YYYY-MM-DD
-			} else if (line.startsWith('content/') && commitDate && !(line in dates)) {
+			} else if (
+				(line.startsWith('content/') || line.startsWith('packages/fractal-agentic/')) &&
+				commitDate &&
+				!(line in dates)
+			) {
 				// log is newest-first, so the first sighting wins
 				dates[line] = commitDate;
 			}
@@ -143,6 +156,36 @@ export default defineConfig({
 			// Use the SPA fallback so direct refreshes do not briefly render the
 			// generated error page before client hydration.
 			adapter: adapter({ fallback: '200.html' }),
+			// Some package docs link targets that don't exist on the site yet
+			// (docs/progression.md is referenced but unpublished, and skill
+			// references/*.md are offline-only plugin internals). Warn instead
+			// of failing the whole build so those stay fixable without blocking
+			// deploys.
+			prerender: {
+				// A handful of package-doc link targets aren't published routes:
+				// docs/progression.md is referenced but not in the package yet,
+				// skill references/*.md are offline-only plugin internals, and
+				// plugin manifests/scripts are never routes. Warn for exactly
+				// those known gaps so genuine link breakage still fails the
+				// build instead of silently passing.
+				handleHttpError: ({ status, path }) => {
+					if (status !== 404) return 'fail';
+					const knownGap =
+						path === '/docs/progression' ||
+						path === '/package.json' ||
+						path === '/plugin.json' ||
+						path === '/LAYOUT.md' ||
+						path.startsWith('/.claude-plugin/') ||
+						path.startsWith('/.agents/') ||
+						path.startsWith('/.codex-plugin/') ||
+						path.startsWith('/references/') ||
+						path.startsWith('/templates/') ||
+						path.startsWith('/models/') ||
+						path.startsWith('/docs/skills/references/') ||
+						(path.startsWith('/skills/') && path.includes('/references/'));
+					return knownGap ? 'warn' : 'fail';
+				}
+			},
 			// Set BASE_PATH when deploying under a sub-path, e.g. GitHub Pages
 			// project sites: BASE_PATH=/my-repo
 			paths: {

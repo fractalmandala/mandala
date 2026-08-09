@@ -1,0 +1,55 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Agentation React Original - Feature Architecture Tour",
+  "description": "Step-by-step tour tracing every core feature of the original React agentation package.",
+  "ref": "main",
+  "steps": [
+    {
+      "directory": "vendors/agentation-main/package/src/components",
+      "title": "1. Component Suite Overview",
+      "description": "Situation: All React components for annotation capture, floating toolbar, wireframe design mode, and settings popups reside in this folder."
+    },
+    {
+      "file": "vendors/agentation-main/package/src/components/page-toolbar-css/index.tsx",
+      "line": 325,
+      "title": "2. PageFeedbackToolbarCSS Main Entry",
+      "description": "Situation: Root component managing state hooks for active inspection, marker visibility, and modal dialogs.\nMechanism: React useState handles isActive, hoverInfo, pendingAnnotation, and showSettings."
+    },
+    {
+      "file": "vendors/agentation-main/package/src/components/page-toolbar-css/index.tsx",
+      "line": 97,
+      "title": "3. Element Identification & React Detection Boundary",
+      "description": "Situation: Hover & click inspector.\nMechanism: identifyElementWithReact pierces shadow DOM and inspects Fiber nodes to extract component names, CSS classes, computed styles, and accessibility attributes."
+    },
+    {
+      "file": "vendors/agentation-main/package/src/components/annotation-popup-css/index.tsx",
+      "line": 1,
+      "title": "4. Annotation Popup CSS Modal",
+      "description": "Situation: Comment editor popup modal.\nMechanism: Renders a floating textarea next to clicked target coordinates for agent feedback entry."
+    },
+    {
+      "file": "vendors/agentation-main/package/src/components/page-toolbar-css/annotation-marker/index.tsx",
+      "line": 1,
+      "title": "5. Numbered Annotation Pin Markers",
+      "description": "Situation: Pin badge markers.\nMechanism: Places numbered badge markers anchored to target coordinates with hover tooltips and right-click deletion."
+    },
+    {
+      "file": "vendors/agentation-main/package/src/components/design-mode/index.tsx",
+      "line": 1,
+      "title": "6. Design Mode Wireframe System",
+      "description": "Situation: Layout wireframe mode.\nMechanism: Section detection parses DOM elements to draw draggable, resizable section wireframes and alignment guides."
+    },
+    {
+      "file": "vendors/agentation-main/package/src/components/design-mode/palette.tsx",
+      "line": 1,
+      "title": "7. Design Mode Element Palette",
+      "description": "Situation: Element insertion sidebar.\nMechanism: Displays a palette grid for selecting pre-built wireframe components (Hero, Cards, Navigation, Forms)."
+    },
+    {
+      "file": "vendors/agentation-main/package/src/components/page-toolbar-css/settings-panel/index.tsx",
+      "line": 1,
+      "title": "8. Settings & Webhook Panel",
+      "description": "Situation: Settings modal.\nMechanism: Configures output detail levels, marker colors, dark/light themes, and real-time webhook endpoints."
+    }
+  ]
+}

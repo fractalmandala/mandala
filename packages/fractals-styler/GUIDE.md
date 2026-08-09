@@ -240,3 +240,28 @@ Breakpoint suffixes only resolve against classes the package itself defines (the
 
 **Sass build errors after `init`**
 Confirm `sass` is installed (`pnpm add -D sass`) and that your `@import`/`@use` path in the layout points at wherever you ran `init` (default `$lib/styles/index.sass`).
+
+---
+
+## App-shell docs layout (Composition layer)
+
+`init` also scaffolds `_compositions.sass` — the CUBE **Composition** layer: a canonical docs shell (`.appshell / .appheader / .appbody / .sidebarleft / .bodymain / .sidebarright / .appfooter`), layout primitives (`.stack`, `.cluster`, `.with-sidebar`, `.reel`), and a theme-aware `.ambient` background.
+
+For turnkey use, import the component instead of hand-writing the skeleton:
+
+```svelte
+<script>
+	import { AppShell, toc } from 'fractals-styler/lib';
+	let mobileOpen = $state(false);
+</script>
+
+<AppShell bind:mobileOpen>
+	{#snippet header(nav)}…{/snippet}
+	{#snippet sidebarleft()}…{/snippet}
+	{#snippet sidebarright()}…{/snippet}
+	{#snippet footer()}…{/snippet}
+	<!-- page content -->
+</AppShell>
+```
+
+Pages register their headings with the shared `toc` store; the layout renders `toc.items` in the right rail. See the **CUBE CSS mapping**, **App-shell layout**, **`<AppShell>` component**, and **Shared TOC store** sections of [README.md](./README.md) for the full API and layout tokens.

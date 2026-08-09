@@ -11,8 +11,8 @@
 <Shell>
 	{#snippet children()}
 		<div class="box rgap8">
-			<h1 class="text-3xl w600">History Graph</h1>
-			<p class="text-bs col2">An interactive view of the History knowledge graph.</p>
+			<h1 class="text-3xl fw600 lh11">History Graph</h1>
+			<p class="text-bs sec">An interactive view of the History knowledge graph.</p>
 		</div>
 		<GraphViewer src="/graphs/history/graph.json" />
 	{/snippet}

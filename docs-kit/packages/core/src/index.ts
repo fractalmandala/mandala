@@ -133,7 +133,8 @@ export {
 	type DocsRoutingConfig,
 	type DocsSiteConfig,
 	type DocsSourceConfig,
-	type DocsSourcesConfig
+	type DocsSourcesConfig,
+	type DocsOpenApiConfig
 } from '@docs-kit/core/config';
 export {
 	assertSafeRelativePath,

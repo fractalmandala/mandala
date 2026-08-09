@@ -1,299 +1,178 @@
 ---
 name: motion-foundations
-description: Motion tokens, spring presets, performance rules, device adaptation, accessibility enforcement, and SSR safety for React / Next.js using motion/react. Foundation layer — all other motion skills depend on this.
-version: 1.0
-tags: [motion, animation, performance, accessibility]
+description: Motion foundations for Svelte 5 using @humanspeak/svelte-motion — core API, MotionValues, spring presets, transition options, tree-shaking, SSR safety, and reduced-motion enforcement. Foundation layer — all other motion skills depend on this.
+version: 2.0
+tags: [motion, animation, performance, accessibility, svelte-motion]
 category: frontend
 author: jeff
 ---
 
-# Motion Foundations
+# Motion Foundations (svelte-motion)
 
-The base layer of the motion system. Defines every value, constraint, and
-rule that downstream skills (`motion-patterns`, `motion-advanced`) inherit.
-Load this skill before any animation work begins.
+Foundation layer for animation in this monorepo, built on **`@humanspeak/svelte-motion`** (Svelte 5 port of Motion). Everything imports from the single package root. Reference corpus: `sites/fractaldesign/src/routes/sveltekit/svelte-motion/` (docs/ for API, examples/ for recipes).
 
 ## When to Activate
 
-- Starting any animated component from scratch
-- Setting up tokens, spring presets, or easing values
-- Implementing `prefers-reduced-motion` support
-- Debugging hydration mismatches from animation initial states
-- Evaluating whether an animation should exist at all
+- Starting any animation work in a Svelte/SvelteKit product
+- Choosing between declarative props, MotionValues, or imperative APIs
+- Setting up spring/tween transitions, or tuning existing ones
+- Configuring reduced-motion policy or SSR-safe entry animations
 
-## Outputs
+## Core API
 
-This skill produces:
+```svelte
+<script>
+	import { motion, AnimatePresence } from '@humanspeak/svelte-motion'
 
-- A shared `motionTokens` object (duration, easing, distance, scale)
-- A shared `springs` preset map (5 named configs)
-- A `shouldAnimate()` gate used by all components
-- Accessibility-compliant animation defaults via `useReducedMotion`
-- SSR-safe initial states with zero hydration warnings
+	let isVisible = $state(true)
+</script>
 
-## Principles
-
-Motion must do at least one of the following or it must be removed:
-
-- Guide attention
-- Communicate state
-- Preserve spatial continuity
-
-Responsiveness always outranks smoothness. A 60 fps animation that causes
-input delay is worse than no animation.
-
-## Rules
-
-These are non-negotiable. They apply to every component in the system.
-
-1. **Use `motion/react` only.** Never import from `framer-motion`. Never mix the two in the same tree.
-2. **`initial` must match server output.** If the server renders `opacity: 1`, the `initial` prop must also be `opacity: 1`. No exceptions.
-3. **Reduced motion overrides everything.** When `useReducedMotion()` returns `true` or `prefersReduced` is `true`, all transforms are disabled. Opacity-only fades at ≤ 0.2s are the only permitted fallback.
-4. **Never animate layout properties.** `width`, `height`, `top`, `left`, `margin`, `padding` are banned from `animate`. Use `transform` and `opacity` only.
-5. **All token values come from `motionTokens`.** Hardcoded durations and easings in component files are forbidden.
-6. **All spring configs come from the `springs` map.** Inline `stiffness`/`damping` values are forbidden.
-7. **`"use client"` is required** on every file that imports from `motion/react`.
-8. **Never read `window` or `navigator` at module level.** Always guard with `typeof window !== "undefined"`.
-
-## Decision Guidance
-
-### Choosing a duration
-
-| Token     | Use when                                    |
-| --------- | ------------------------------------------- |
-| `instant` | Tooltip show/hide, focus ring, badge update |
-| `fast`    | Button feedback, icon swap, chip toggle     |
-| `normal`  | Modal open, card expand, page element enter |
-| `slow`    | Hero entrance, full-page transition         |
-| `crawl`   | Deliberate storytelling; use sparingly      |
-
-### Choosing a spring
-
-| Preset    | Use when                                   |
-| --------- | ------------------------------------------ |
-| `snappy`  | Default UI — buttons, chips, nav items     |
-| `gentle`  | Cards, modals, panels landing softly       |
-| `bouncy`  | Playful moments — empty states, onboarding |
-| `instant` | Tooltips, popovers, dropdowns              |
-| `release` | Drag release — natural physics feel        |
-
-### When to disable animation entirely
-
-Disable (make `shouldAnimate()` return `false`) when:
-
-- `prefersReduced` is `true`
-- `isLowEnd` is `true` and the animation is non-essential
-- The element is off-screen and will never enter the viewport
-- The animation is purely decorative with no UX purpose
-
-## Core Concepts
-
-### Token system
-
-```ts
-// lib/motion-tokens.ts
-export const motionTokens = {
-	duration: {
-		instant: 0.08,
-		fast: 0.18,
-		normal: 0.35,
-		slow: 0.6,
-		crawl: 1.0
-	},
-	easing: {
-		smooth: [0.22, 1, 0.36, 1],
-		sharp: [0.4, 0, 0.2, 1],
-		bounce: [0.34, 1.56, 0.64, 1],
-		linear: [0, 0, 1, 1]
-	},
-	distance: {
-		xs: 4,
-		sm: 8,
-		md: 16,
-		lg: 24,
-		xl: 48
-	},
-	scale: {
-		subtle: 0.98,
-		press: 0.95,
-		pop: 1.04
-	}
-};
-
-export const springs = {
-	snappy: { type: 'spring', stiffness: 300, damping: 30 },
-	gentle: { type: 'spring', stiffness: 120, damping: 14 },
-	bouncy: { type: 'spring', stiffness: 400, damping: 10 },
-	instant: { type: 'spring', stiffness: 600, damping: 35 },
-	release: { type: 'spring', stiffness: 200, damping: 20, restDelta: 0.001 }
-};
+<AnimatePresence>
+	{#if isVisible}
+		<motion.div
+			key="box"
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
+		/>
+	{/if}
+</AnimatePresence>
 ```
 
-### Runtime flags
+- `motion.*` namespace (`motion.div`, `motion.button`, …) or tree-shakeable named components (`MotionDiv`, `MotionButton`, …).
+- Core props: `initial`, `animate`, `exit`, `transition`, `variants`, `custom`, `key` (required inside `AnimatePresence`).
+- Gesture props: `whileHover`, `whileTap`, `whileFocus`, `whileInView` (+ `viewport`), `whileDrag`, `whilePan`.
+- Layout props: `layout`, `layoutId`, `layoutScroll`.
+- State pairs with runes: `animate={status}` where `status` is `$state<'idle' | 'loading' | 'success'>('idle')`.
+- Replay a one-shot by bumping a `{#key}` block; keyed `{#each}` by stable id so FLIP sees moves, not remounts.
+- Element bindings go in as **getters** (`useInView(() => el)`, `useScroll({ container: () => el })`) — bindings are undefined at script-run time.
 
-```ts
-// lib/motion-config.ts
-export const motionConfig = {
-	isLowEnd() {
-		return typeof navigator !== 'undefined' && navigator.hardwareConcurrency <= 4;
-	},
+## MotionValues
 
-	prefersReduced() {
-		return (
-			typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-		);
-	},
+Reactive primitives outside Svelte's render cycle. Every hook returns an augmented value with a `$state`-backed `.current` getter (preferred read path), `.get()`/`.set()`, `.jump()`, `.on('change', cb)`, and a `subscribe` shim for legacy store syntax.
 
-	shouldAnimate({ essential = false } = {}) {
-		if (this.prefersReduced()) return false;
-		if (!essential && this.isLowEnd()) return false;
-		return true;
-	},
+```svelte
+<script>
+	import { useSpring, useTransform, useVelocity, useMotionTemplate } from '@humanspeak/svelte-motion'
 
-	duration() {
-		return this.isLowEnd() || this.prefersReduced()
-			? motionTokens.duration.instant
-			: motionTokens.duration.normal;
-	}
-};
+	const x = useSpring(0)
+	const velocity = useVelocity(x)
+	const skew = useTransform(velocity, [-1000, 0, 1000], [-20, 0, 20])
+	const filter = useMotionTemplate`drop-shadow(0 0 ${skew}px rgba(0, 0, 0, 0.4))`
+</script>
 ```
 
-### Accessibility
+Hook inventory (all from `@humanspeak/svelte-motion`): `useMotionValue`, `useSpring`, `useFollowValue`, `useTransform`, `useMotionValueEvent`, `useInView`, `useScroll`, `useVelocity`, `useTime`, `useAnimationFrame`, `useCycle`, `useReducedMotion`, `useReducedMotionConfig`, `usePresence`, `useIsPresent`, `usePresenceData`, `useAnimate`, `useAnimationControls`, `useMotionTemplate`. Re-exported from `motion`: `animate`, `delay`, `hover`, `inView`, `press`, `scroll`, `stagger`, `transform`, easing functions, and math helpers (`clamp`, `interpolate`, `mix`, `pipe`, `wrap`).
 
-**Priority order (highest to lowest):**
+Style binding with MotionValues:
 
-1. `prefers-reduced-motion: reduce` — disables all transforms, limits opacity transitions to ≤ 0.2s
-2. Low-end device detection — reduces duration, removes non-essential animations
-3. Design preference — everything else
-
-Motion must degrade gracefully. It must never disappear abruptly in a way
-that causes layout shift or confuses orientation.
-
-```tsx
-// hooks/use-reduced-motion.tsx
-'use client';
-import { useReducedMotion } from 'motion/react';
-
-export function useSafeMotion(fullY: number = 16) {
-	const reduce = useReducedMotion();
-	return {
-		initial: { opacity: 0, y: reduce ? 0 : fullY },
-		animate: { opacity: 1, y: 0 },
-		exit: { opacity: 0, y: reduce ? 0 : -fullY }
-	};
-}
+```svelte
+<motion.div style={{ x, opacity, width: 160, '--glow-x': glowX }} />
 ```
 
-```css
-/* globals.css */
-@media (prefers-reduced-motion: reduce) {
-	.motion-safe-transition {
-		transition: opacity 0.15s;
-	}
-	.motion-reduce-transform {
-		transform: none !important;
-	}
-}
+Transform shortcuts (`x`, `y`, `scale`, `rotate`) compose into one `transform` string; CSS variables use `setProperty`. Plain (non-motion) elements can use `styleString()`:
+
+```svelte
+<script>
+	import { styleString } from '@humanspeak/svelte-motion'
+	const style = styleString(() => ({ rotate: autoRotate.current, width: sliderWidth }))
+</script>
+
+<div style:={style}>…</div>
 ```
 
-```html
-<!-- Tailwind -->
-<div class="motion-safe:animate-fade motion-reduce:opacity-100"></div>
-```
+### Deliberate Svelte 5 divergences (do not "fix")
 
-### SSR / hydration safety
+- `useCycle` returns `{ current, cycle }` (not a tuple) — destructuring `$state`-backed values snapshots and loses reactivity.
+- `useInView` / `useReducedMotion` / `useReducedMotionConfig` return `{ current }` objects, not booleans.
+- `useAnimate` returns `[scope, animate]`; scope is a Svelte 5 attachment applied with `{@attach scope}` (replacing element refs).
+- `usePresence` keeps React's tuple `[isPresent, safeToRemove]`, but is only live inside a `<PresenceChild>` (outside it returns `[true, null]`); corpus wraps it: `const presence = $derived(usePresence())`.
+- Live text goes through the `children` prop: `<motion.span children={percentValue} />` (slots compile to snippets).
 
-**Rule: `initial` must always match what the server renders.**
+## Transition Options
 
-```tsx
-// WRONG — server renders opacity:1 but initial says 0 → hydration mismatch
-<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+- `type`: `'spring' | 'tween' | 'inertia' | 'keyframes'`.
+- Spring: `stiffness`, `damping`, `mass`, `velocity`, `restDelta`, `restSpeed`, `duration` (default 800ms), `visualDuration`, `bounce` (0–1, default 0.3). Setting stiffness/damping/mass overrides duration/bounce.
+- Tween: `duration` (seconds, e.g. `0.3`), `ease` (named string, `(t) => number`, or cubic-bezier array `[0.16, 1, 0.3, 1]`), `delay`.
+- Per-property overrides: `transition={{ opacity: { duration: 0.2 }, x: { type: 'spring', stiffness: 200 }, default: { duration: 0.4 } }}`.
+- Corpus convention: `transition` is a **sibling** of `initial`/`animate`/`exit` targets (symmetric in/out). Nesting a transition inside a gesture target (`whileInView`) overrides the component default and binds timing to that gesture.
 
-// CORRECT — use AnimatePresence or defer to client mount
-"use client"
-const [mounted, setMounted] = useState(false)
-useEffect(() => setMounted(true), [])
+### Canonical spring presets (from the corpus)
 
+| Use | Preset |
+|---|---|
+| Presence enter/exit symmetry | `{ type: 'spring', stiffness: 300, damping: 25 }` |
+| Buttons (tap/hover) | spring `400 / 25` |
+| Tab indicators (layoutId) | `{ type: 'spring', stiffness: 500, damping: 30 }` |
+| Pill/badge width + stacked layout | spring `600 / 30` |
+| Snap (toggle ON) | spring `700 / 30` |
+| Crisp follower | spring `600 / 30` |
+| Bouncy follower | spring `220 / 14` |
+| Floaty follower | spring `stiffness: 70, damping: 12, mass: 4` |
+| Content cross-fade | `{ duration: 0.3, ease: 'easeOut' }` |
+
+Directional transitions are idiomatic: high-stiffness spring one way, custom `(t) => number` easing the other — the `toggle-switch` demo runs spring `700 / 30` turning on and a `1.2s` easeOutBounce tween turning off.
+
+## Variants Basics
+
+```svelte
 <motion.div
-  initial={{ opacity: mounted ? 0 : 1 }}
-  animate={{ opacity: 1 }}
+	variants={{ open: { opacity: 1, scale: 1 }, closed: { opacity: 0, scale: 0.9 } }}
+	animate={isOpen ? 'open' : 'closed'}
 />
 ```
 
-## Code Examples
+- Parent `animate="visible"` cascades to any descendant that defines `variants` — children need no `animate` prop.
+- Function-form variants `(custom) => keyframes` with `custom={i}` for per-instance values.
+- Stagger: per-child `transition={{ delay: i * 0.1 }}` inside `{#each}` (corpus uses `i * 0.1` and `i * 0.04`), or `stagger(0.08)` with imperative `animate()`/`useAnimate`. `staggerChildren`/`delayChildren` keys are **not** part of this API.
 
-### End-to-end: tokens + springs + accessibility + SSR guard
+## Performance Rules
 
-```tsx
-// components/fade-in-card.tsx
-'use client';
+1. Prefer `transform`/`opacity` (compositor-friendly); avoid animating layout properties.
+2. Tree-shake with named imports (`MotionDiv`) or the Vite plugin:
+   ```ts
+   import { svelteMotionOptimize } from '@humanspeak/svelte-motion/vite'
+   // place BEFORE sveltekit() in vite.config.ts
+   ```
+3. Code-split feature bundles with `LazyMotion` + `m.*`: `domMin` (mount/update), `domAnimation` (+ gestures/in-view), `domMax` (+ drag/layout). `features` can be `async () => domAnimation` — subtree renders `domMin`, upgrades on resolve.
+4. Imperative `animate()` returns controls — always `stop()`/`cancel()` them in unmount cleanup; the closure keeps writing after the component is gone otherwise.
+5. `useAnimationFrame` must be wrapped in `$effect` returning its cleanup.
+6. Springs auto-settle via `restDelta`/`restSpeed` and carry velocity on retarget — prefer them over long tweens for interactive state.
 
-import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { motionTokens, springs } from '@/lib/motion-tokens';
-import { useSafeMotion } from '@/hooks/use-reduced-motion';
-import { motionConfig } from '@/lib/motion-config';
+## SSR Safety
 
-interface FadeInCardProps {
-	children: React.ReactNode;
-	delay?: number;
-}
+- Server-render safe: initial state comes from `initial` (or first keyframe of `animate`); gesture props are inert on the server; motion-value hooks return static values.
+- `initial={false}` skips the mount animation entirely — use it where SSR→client flicker matters.
+- **Optimized appear**: when `initial` and `animate` resolve to non-empty WAAPI-friendly keyframes (opacity/transform), SSR elements get an appear id and an inline bootstrap starts the animation **before hydration**; runtime hands off at hydrate. This is automatic — don't disable it unless debugging.
 
-export function FadeInCard({ children, delay = 0 }: FadeInCardProps) {
-	// SSR guard — initial must match server output (opacity: 1)
-	const [mounted, setMounted] = useState(false);
-	useEffect(() => setMounted(true), []);
+## Accessibility Enforcement
 
-	// Accessibility — disables transform when reduced motion is preferred
-	const safeMotion = useSafeMotion(motionTokens.distance.md);
-
-	// Device gate — skip animation on low-end hardware
-	if (!motionConfig.shouldAnimate() || !mounted) {
-		return <div>{children}</div>;
-	}
-
-	return (
-		<motion.div
-			initial={safeMotion.initial}
-			animate={safeMotion.animate}
-			exit={safeMotion.exit}
-			transition={{
-				...springs.gentle,
-				delay
-			}}
-			whileHover={{ scale: motionTokens.scale.pop }}
-			whileTap={{ scale: motionTokens.scale.press }}
-		>
-			{children}
-		</motion.div>
-	);
-}
+```svelte
+<MotionConfig reducedMotion="user">
+	<!-- app subtree -->
+</MotionConfig>
 ```
 
-## Constraints / Non-Goals
+- Set `reducedMotion="user"` in products: respects OS `prefers-reduced-motion` (library default is `'never'`). `'always'` for previews.
+- `'always'`/`'user'` strip transform keys (`x`, `y`, `scale`, `rotate`, `skew`) while opacity/color still animate.
+- `useReducedMotion()` — live OS preference; `useReducedMotionConfig()` — policy resolved against the nearest `MotionConfig`.
+- Manual gating idiom: `transition={reduced.current ? { duration: 0 } : { type: 'spring', stiffness: 200 }}`.
+- Never disable an animation the user explicitly enabled (corpus rule of thumb). `whileTap` fires on Enter/Space; `whileFocus` pairs with `:focus-visible`. Reference: WCAG 2.3.3.
+- Test: DevTools Rendering emulation, Playwright `reducedMotion: 'reduce'`.
 
-This skill does **not** cover:
+## Decision Tree (foundation level)
 
-- UI component patterns (button, modal, stagger) → see `motion-patterns`
-- Drag, gestures, SVG, text animations, custom hooks → see `motion-advanced`
-- CSS-only animations or Tailwind `animate-*` classes without `motion/react`
-- Third-party animation libraries (GSAP, anime.js, etc.)
-- Motion design decisions (when to animate, what to emphasize) — that is a design concern, not a code constraint
+| Need | Use |
+|---|---|
+| Simple state A → B | `animate={{ … }}` + `transition` |
+| Reusable named states | `variants` + `animate={label}` |
+| Temporary gesture overlay | `whileHover` / `whileTap` / `whileFocus` props |
+| Continuous driver (clock, pointer) | MotionValue + `useTransform` |
+| Element leaves the DOM | `AnimatePresence` + `exit` (see motion-patterns) |
+| Position/size reflow | `layout` / `layoutId` (see motion-patterns) |
+| Imperative, multi-step, selectors | `useAnimate` / `animate()` (see motion-advanced) |
 
-## Anti-Patterns
+## Related
 
-| Anti-pattern                                    | Rule violated | Fix                                        |
-| ----------------------------------------------- | ------------- | ------------------------------------------ |
-| `import { motion } from "framer-motion"`        | Rule 1        | Use `motion/react`                         |
-| `initial={{ opacity: 0 }}` on SSR component     | Rule 2        | Add mount guard                            |
-| Skipping `useReducedMotion` check               | Rule 3        | Use `useSafeMotion` hook                   |
-| `animate={{ width: "100%" }}`                   | Rule 4        | Use `scaleX` transform instead             |
-| `transition={{ duration: 0.4 }}` inline         | Rule 5        | Use `motionTokens.duration.normal`         |
-| `{ stiffness: 300, damping: 30 }` inline        | Rule 6        | Use `springs.snappy`                       |
-| Missing `"use client"` directive                | Rule 7        | Add to top of file                         |
-| `navigator.hardwareConcurrency` at module level | Rule 8        | Wrap in `typeof navigator !== "undefined"` |
-
-## Related Skills
-
-- **`motion-patterns`** — consumes tokens and springs defined here to build button, modal, stagger, page transition, and scroll patterns. Does not redefine any values.
-- **`motion-advanced`** — consumes tokens and springs defined here for drag, SVG, text, and gesture patterns. Adds `useAnimate` sequences and custom hooks on top of this foundation.
+- Skills: `motion-patterns` (recipes), `motion-advanced` (gestures/SVG/imperative), `motion-ui` (system layer)
+- Corpus: `sites/fractaldesign/src/routes/sveltekit/svelte-motion/docs/` and `examples/`

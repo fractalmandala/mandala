@@ -76,8 +76,8 @@
 	}
 
 	const flatDocs = $derived(flattenDocs(data.pageMap));
-	// /docs renders the introduction document, so page through as that entry
-	const pagerPath = $derived(currentPath === '/docs' ? '/docs/introduction' : currentPath);
+	// /docs renders the guide document, so page through as that entry
+	const pagerPath = $derived(currentPath === '/docs' ? '/docs/guide' : currentPath);
 	const pagerIndex = $derived(flatDocs.findIndex((node) => node.path === pagerPath));
 	const prevDoc = $derived(pagerIndex > 0 ? flatDocs[pagerIndex - 1] : null);
 	const nextDoc = $derived(
@@ -387,151 +387,10 @@
 		text-decoration-color: currentColor;
 	}
 
-	/* code-frame markup comes from the build-time highlighter, code-copy
-	   from enhanceCodeBlocks() — not this component, hence :global. */
-	.prose :global(.code-frame) {
-		margin: 1rem 0;
-		border: 1px solid var(--line);
-		border-radius: 0.65rem;
-		overflow: hidden;
-		background: var(--bg-soft);
-	}
-
-	.prose :global(.code-frame-header) {
-		padding: 0.5rem 0.9rem;
-		font-family: 'Google A', monospace;
-		font-size: 0.78rem;
-		color: var(--text-dim);
-		border-bottom: 1px solid var(--line);
-		background: 'Google Sans Code', monospace;
-	}
-
-	.prose :global(.code-frame-body) {
-		position: relative;
-	}
-
-	.prose :global(.code-frame-body pre) {
-		margin: 0;
-		border: none;
-		border-radius: 0;
-		background: transparent;
-		padding: 0.9rem 1rem;
-		padding-right: 3rem;
-		overflow: auto;
-		color: var(--text-soft);
-	}
-
-	/* Prism token colors — mdsvex tokenizes fences at build time but ships no
-	   theme, so without these rules code renders monochrome. Palette lives in
-	   the --code-* vars beside the rest of the theme (src/routes/+layout.svelte). */
-	.prose :global(.token.comment),
-	.prose :global(.token.prolog),
-	.prose :global(.token.doctype),
-	.prose :global(.token.cdata) {
-		color: var(--code-comment);
-		font-style: italic;
-	}
-
-	.prose :global(.token.punctuation) {
-		color: var(--code-punctuation);
-	}
-
-	.prose :global(.token.keyword),
-	.prose :global(.token.tag),
-	.prose :global(.token.selector),
-	.prose :global(.token.important),
-	.prose :global(.token.atrule) {
-		color: var(--code-keyword);
-	}
-
-	.prose :global(.token.string),
-	.prose :global(.token.char),
-	.prose :global(.token.attr-value),
-	.prose :global(.token.regex),
-	.prose :global(.token.inserted) {
-		color: var(--code-string);
-	}
-
-	.prose :global(.token.function),
-	.prose :global(.token.class-name) {
-		color: var(--code-function);
-	}
-
-	.prose :global(.token.number),
-	.prose :global(.token.boolean),
-	.prose :global(.token.constant),
-	.prose :global(.token.symbol),
-	.prose :global(.token.deleted) {
-		color: var(--code-number);
-	}
-
-	.prose :global(.token.property),
-	.prose :global(.token.attr-name),
-	.prose :global(.token.builtin),
-	.prose :global(.token.variable),
-	.prose :global(.token.entity) {
-		color: var(--code-property);
-	}
-
-	.prose :global(.token.operator),
-	.prose :global(.token.url) {
-		color: var(--code-operator);
-	}
-
-	.prose :global(.token.bold) {
-		font-weight: 600;
-	}
-
-	.prose :global(.token.italic) {
-		font-style: italic;
-	}
-
-	.prose :global(.code-copy) {
-		position: absolute;
-		top: 0.5rem;
-		right: 0.5rem;
-		display: grid;
-		place-items: center;
-		width: 1.9rem;
-		height: 1.9rem;
-		padding: 0;
-		border: 1px solid var(--line);
-		border-radius: 0.4rem;
-		background: color-mix(in srgb, var(--bg-elev) 85%, transparent);
-		color: var(--text-dim);
-		cursor: pointer;
-		opacity: 0;
-		transition:
-			opacity 120ms ease,
-			color 120ms ease;
-	}
-
-	.prose :global(.code-copy svg) {
-		width: 0.9rem;
-		height: 0.9rem;
-	}
-
-	.prose :global(.code-copy.copied) {
-		color: var(--accent-strong);
-		border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
-	}
-
-	.prose :global(.code-frame-body:hover .code-copy),
-	.prose :global(.code-copy:focus-visible) {
-		opacity: 1;
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.prose :global(.code-copy:hover) {
-			color: var(--accent-soft);
-		}
-	}
-
-	@media (hover: none) {
-		.prose :global(.code-copy) {
-			opacity: 1;
-		}
-	}
+	/* Code-frame, token palette, and copy-button styles are shared globally
+	   in src/lib/styles/_reference.sass (the marked pipeline emits the same
+	   markup on docs and armory pages). Only docs-specific prose overrides
+	   live here. */
 
 	.prose :global(img) {
 		max-width: 100%;

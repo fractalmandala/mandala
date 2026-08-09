@@ -2,12 +2,14 @@ deposits
 sites/fractaldharma/
 apps/fractalknow
 apps/fractalengine/src-tauri/bin
-apps/fracta
 .empryo
 .freebuff
 .superdesign
 .qoder
 basedocs
+admin
+admin/
+vendors
 
 # Dependencies
 node_modules/
@@ -38,3 +40,9 @@ repowiki/meta/
 
 # fractal-agentic per-project generated hook install (regenerate via install-hooks.sh)
 .fractal-agentic/
+
+# Hookify local rules (editor-specific, not shared)
+.claude/hookify.*.local.md
+
+# ShipStudio metadata
+.shipstudio/

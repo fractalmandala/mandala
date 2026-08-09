@@ -1,6 +1,9 @@
 import { addCommand } from './commands/add.js';
+import { cleanCommand } from './commands/clean.js';
 import { createCommand } from './commands/create.js';
 import { doctorCommand } from './commands/doctor.js';
+import { generateCommand } from './commands/generate.js';
+import { initCommand } from './commands/init.js';
 import { devCommand } from './commands/dev.js';
 import { migrateCommand } from './commands/migrate.js';
 import { syncCommand } from './commands/sync.js';
@@ -18,7 +21,24 @@ export {
 	type DocsCliContext
 } from './runtime.js';
 export { addCommand, docsFrameworkVersion } from './commands/add.js';
+export { cleanCommand, collectDocsCleanTargets, type DocsCleanTarget } from './commands/clean.js';
 export { createCommand } from './commands/create.js';
+export {
+	generateCommand,
+	generateDocsArtifacts,
+	type GenerateArtifactsOptions,
+	type GenerateArtifactsResult
+} from './commands/generate.js';
+export {
+	createDocsInitPlan,
+	detectPackageManager,
+	initCommand,
+	installCommand,
+	type DocsInitFile,
+	type DocsInitPatch,
+	type DocsInitPlanOptions,
+	type PackageManager
+} from './commands/init.js';
 export {
 	doctorCommand,
 	requiredVersions,
@@ -33,13 +53,16 @@ export { resolveContentRoots, validateCommand } from './commands/validate.js';
 
 /** Every command the CLI can dispatch. */
 export const docsCliCommands: DocsCliCommand[] = [
+	initCommand,
+	generateCommand,
 	syncCommand,
 	validateCommand,
 	doctorCommand,
 	migrateCommand,
 	addCommand,
 	createCommand,
-	devCommand
+	devCommand,
+	cleanCommand
 ];
 
 function usage(commands: readonly DocsCliCommand[]): string[] {

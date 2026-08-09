@@ -6,13 +6,16 @@
 	import '@mistweaverco/mdsvex-shiki/styles.css';
 	import { browser } from '$app/environment';
 	import { theme, toggleTheme, isDrawerOpen, toggleDrawer } from '$lib/utils/globalstores'
+	import { Agentation, type AnnotationProps } from 'fractal-agentation';
 	import { native } from '$lib/states/nativestate.svelte'
- 	import Drawer from '$lib/components/drawer.svelte'
+	import Drawer from '$lib/components/drawer.svelte'
 	import { Github, Twitter } from 'svelte-animated-icon/remix'
 	import { copyAction } from '@mistweaverco/mdsvex-shiki/copyAction';
 
 	let { children } = $props();
 	let current = $derived(page.url.pathname)
+	// Docs sections bring their own <AppShell> chrome — suppress the site chrome there.
+	let isDocs = $derived(current.startsWith('/sveltekit') || current.startsWith('/posts'))
 
 	$effect(() => {
 		if (browser) {
@@ -20,13 +23,31 @@
 			document.documentElement.classList.toggle('dark', $theme === 'dark');
 		}
 	});
+
+  let playgroundAnnotationProps: AnnotationProps = {
+    toolbarPosition: 'top-left',
+    outputMode: 'compact',
+    pauseAnimations: true,
+    clearOnCopy: true,
+    includeComponentContext: false,
+    includeComputedStyles: false
+  };
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
+{#if browser}
+	<Agentation {...playgroundAnnotationProps} />
+{/if}
+
 <div class="{$theme}" data-theme={$theme} inert={$isDrawerOpen ? true : undefined}>
+{#if isDocs}
+	<main use:copyAction>
+		{@render children()}
+	</main>
+{:else}
 	<header class="row ycenter site-padding xbetween">
 		<a class="row ycenter blank gap4" href="/">
 			<img class="site-logo logomotif" src="/images/logomotif.png" alt="logo motif"/>
@@ -69,6 +90,7 @@
 			</a>
 		</div>
 	</footer>
+{/if}
 </div>
 <Drawer>
 	<a href="/" onclick={toggleDrawer}>Home</a>

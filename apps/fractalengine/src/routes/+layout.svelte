@@ -20,7 +20,7 @@
 	import { onAppCloseRequested, onMenuEvent } from '../lib/ipc';
 	import { dictation } from '$lib/state/dictation.svelte';
 	import { Tooltip } from "bits-ui";
-	import { Agentation } from 'sv-agentation';
+	import { Agentation } from 'fractal-agentation';
 	import { annotations } from '$lib/modules/annotations/state/annotations.svelte';
 	import SharedAnnotationOverlay from '$lib/modules/annotations/components/SharedAnnotationOverlay.svelte';
 	import { browser, dev } from '$app/environment';

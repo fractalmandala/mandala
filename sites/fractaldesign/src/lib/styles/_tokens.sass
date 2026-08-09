@@ -4,6 +4,25 @@
 	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace
 	--text-scale: 1.0
 
+	// Layout tokens (drive the .appshell Composition layer)
+	--header-height: 80px
+	--footer-height: 56px
+	--shell-pad: 20px
+	--layout-max: 1440px
+	--sidebar-min: 200px
+	--sidebar-max: 320px
+	--body-min: 600px
+	--body-max: 720px
+
+	// Ambient background — magenta wash matching the brand (light theme default)
+	--ambient-blur: 60px
+	--ambient-1-bg: linear-gradient(135deg, #fbcfe8, #fce7f3, #f5d0fe)
+	--ambient-1-op: 0.22
+	--ambient-2-bg: linear-gradient(45deg, #f9a8d4, #f0abfc, #fbcfe8)
+	--ambient-2-op: 0.34
+	--ambient-3-bg: linear-gradient(180deg, #f472b6, #f9a8d4, #fce7f3)
+	--ambient-3-op: 0.42
+
 	// Neutral Slate Scale
 	--slate-50: #f8fafc
 	--slate-100: #f1f5f9
@@ -61,6 +80,11 @@
 		--brand-active: #c8045c
 		--ring: rgba(251, 0, 111, 0.35)
 
+		--ambient-1-op: 0
+		--ambient-2-op: 0
+		--ambient-3-bg: linear-gradient(180deg, #be185d, #db2777, #9333ea)
+		--ambient-3-op: 0.24
+
 [data-theme="dark"], .dark, .theme-dark
 	--bg-app: var(--slate-950)
 	--bg-surface: var(--slate-900)
@@ -81,6 +105,11 @@
 	--brand-hover: #ff338a
 	--brand-active: #c8045c
 	--ring: rgba(251, 0, 111, 0.35)
+
+	--ambient-1-op: 0
+	--ambient-2-op: 0
+	--ambient-3-bg: linear-gradient(180deg, #be185d, #db2777, #9333ea)
+	--ambient-3-op: 0.24
 
 [data-theme="light"], .light, .theme-light
 	--bg-app: #ffffff

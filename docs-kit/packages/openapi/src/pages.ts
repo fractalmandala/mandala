@@ -17,6 +17,13 @@ export interface DocsApiPage {
 export interface GenerateApiPagesOptions {
 	/** Directory the generated pages live under, relative to the content root. */
 	directory?: string;
+	/**
+	 * Route the content root is mounted at, for example `/docs`.
+	 *
+	 * Generated pages link to each other, so they need to know where they will be served
+	 * from; without it the links would point at the site root.
+	 */
+	basePath?: string;
 	/** Emit a page per schema. Defaults to true. */
 	schemas?: boolean;
 	/** Emit a page per tag listing its operations. Defaults to true. */
@@ -155,17 +162,23 @@ function operationPage(
 	};
 }
 
+/** Builds a link to a generated page from the mount point down. */
+function apiLink(basePath: string, ...segments: string[]): string {
+	return `/${[...basePath.split('/'), ...segments].filter(Boolean).join('/')}`;
+}
+
 function tagPage(
 	tag: DocsApiTag,
 	operations: readonly DocsApiOperation[],
-	directory: string
+	directory: string,
+	basePath: string
 ): DocsApiPage {
 	const rows = tag.operations
 		.map((id) => operations.find((operation) => operation.id === id))
 		.filter((operation): operation is DocsApiOperation => operation !== undefined)
 		.map(
 			(operation) =>
-				`| \`${operation.method.toUpperCase()}\` | [${cell(summarize(operation))}](/${directory}/operations/${operation.slug}) | \`${operation.path}\` |`
+				`| \`${operation.method.toUpperCase()}\` | [${cell(summarize(operation))}](${apiLink(basePath, directory, 'operations', operation.slug)}) | \`${operation.path}\` |`
 		);
 
 	return {
@@ -229,6 +242,7 @@ function authenticationPage(document: DocsApiDocument, directory: string): DocsA
 function overviewPage(
 	document: DocsApiDocument,
 	directory: string,
+	basePath: string,
 	options: GenerateApiPagesOptions
 ): DocsApiPage {
 	const lines = [
@@ -257,7 +271,7 @@ function overviewPage(
 			'',
 			...document.tags.map(
 				(tag) =>
-					`- [${tag.name}](/${directory}/${tag.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}) — ${tag.operations.length} operation${tag.operations.length === 1 ? '' : 's'}`
+					`- [${tag.name}](${apiLink(basePath, directory, tag.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'))}) — ${tag.operations.length} operation${tag.operations.length === 1 ? '' : 's'}`
 			),
 			''
 		);
@@ -287,11 +301,12 @@ export function generateApiPages(
 	options: GenerateApiPagesOptions = {}
 ): DocsApiPage[] {
 	const directory = (options.directory ?? 'api').replace(/^\/+|\/+$/g, '');
-	const pages: DocsApiPage[] = [overviewPage(document, directory, options)];
+	const basePath = (options.basePath ?? '').replace(/^\/+|\/+$/g, '');
+	const pages: DocsApiPage[] = [overviewPage(document, directory, basePath, options)];
 
 	if (options.tags !== false) {
 		for (const tag of document.tags) {
-			pages.push(tagPage(tag, document.operations, directory));
+			pages.push(tagPage(tag, document.operations, directory, basePath));
 		}
 	}
 
