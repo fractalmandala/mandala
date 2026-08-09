@@ -37,7 +37,7 @@ Every SvelteKit workspace also has `pnpm dev`; Tauri desktop apps additionally h
 | `apps/styler-builder` | Playground/builder for the `fractals-styler` Vite plugin. | `pnpm check` (svelte-check) |
 | `sites/fractalagentic` | Fractal Agentic armory explorer site (pagefind search index on build). | `pnpm check` · `pnpm lint` |
 | `sites/fractaldesign` | Design-system documentation + component showcase site. Has its own [AGENTS.md](sites/fractaldesign/AGENTS.md). | `pnpm check` · `pnpm lint` |
-| `sites/fractaldharma` | Dharma texts query site with generated data artifacts. Has its own [AGENTS.md](sites/fractaldharma/AGENTS.md). | `pnpm check` · `pnpm test:data` |
+| `sites/fractaldharma` | Dharma texts query site with generated data artifacts (local-only, not tracked in git). | `pnpm check` · `pnpm test:data` |
 | `sites/fractalmandala` | Fractal Mandala knowledge site. Has its own [AGENTS.md](sites/fractalmandala/AGENTS.md). | `pnpm check` · `pnpm lint` |
 | `sites/testsite` | Scratch / test site. | `pnpm check` |
 | `packages/fractal-agentation` | Agent annotation Svelte package (`fractal-agentation`). | `pnpm check` · `pnpm test` |
@@ -71,6 +71,10 @@ is the stable baseline; all work happens on short-lived scoped branches.
   first; do not start a second task in the same tree.
 
 ## Fractal Agentic plugin mandate (required session bootstrap)
+
+Progressive-discovery entrypoints: plugin router
+[packages/fractal-agentic/AGENTS.md](./packages/fractal-agentic/AGENTS.md) and boss hub
+[packages/fractal-agentic/docs/bosses/INDEX.md](packages/fractal-agentic/docs/bosses/INDEX.md).
 
 **Before any other project work** on a non-trivial task (implementation, review, refactor,
 scaffold, debug beyond a one-line answer, port, docs batch, or multi-step plan), you MUST
@@ -109,6 +113,9 @@ plugin path. Do not block trivial Q&A on missing plugin.
    overrides them (this monorepo: Svelte 5 + SvelteKit + indented SASS; Tauri when desktop).
 5. Workspace-local rules in the per-workspace `AGENTS.md` win on conflicts for that
    workspace's conventions; the plugin supplies process, armory, and delivery gates.
+6. **Close every non-trivial task with a handoff note** in `handoffs/` (repo root) so
+   any other agent — any host — can pick the task up. Spec:
+   [packages/fractal-agentic/docs/handoffs.md](packages/fractal-agentic/docs/handoffs.md).
 
 ### When found — capability pins (if host supports them)
 

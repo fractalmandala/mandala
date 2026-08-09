@@ -64,6 +64,7 @@ inventory wins; the owning nested boss playbook resolves domain mapping.
 | Find a skill, agent, or command | [Armory](./armory/INDEX.md) or the [live explorer](https://fractal-agentic.vercel.app/) |
 | Add durable project knowledge | [Wiki setup](./wiki/setup.md) |
 | Understand graceful failure | [Non-blocking policy](./progression.md) |
+| Hand a task to another agent | [Handoffs](./handoffs.md) |
 
 ## Source of truth
 

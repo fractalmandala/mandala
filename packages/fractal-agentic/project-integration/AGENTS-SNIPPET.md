@@ -110,6 +110,19 @@ prior decisions and domain knowledge. After `/orchestrate` completes, soft-captu
 episode under `raw/fractal/` (required frontmatter includes **description**). Setup:
 `/wiki-init`. Missing wiki must never block product work.
 
+### Closing handoff (required for non-trivial work)
+
+Before ending a non-trivial task — finished, interrupted, or handed off — write or
+update the repo handoff note so any other agent (any host) can pick up cold:
+
+- Repo note (canonical): `handoffs/<YYYY-MM-DD>-<slug>.md` at repo root, frontmatter
+  `task / status / host / branch / updated`, sections **Where we are / Decisions /
+  Remaining / Gotchas / Key files**.
+- Optional same-host pack: `/handoff` (resume with `/continue`).
+
+Format and lifecycle: `<root>/docs/handoffs.md`. Update the existing note for a task
+instead of creating a second one; set `status: done` when the work merges.
+
 ### Trivial exemption
 
 Single-sentence answers, pure explanation with no repo change, or “what is X?” questions
