@@ -332,6 +332,168 @@ function doInstall(rootDir, pluginSrc, rawArgs) {
 	console.log('\nInstallation finished. Restart your AI coding assistant session.');
 }
 
+// ── Health & sync ───────────────────────────────────────────────────
+
+const HOST_COPIES = [
+	{ host: 'antigravity', label: 'Antigravity', dir: path.join(HOME, '.gemini', 'config', 'plugins', 'fractal-agentic') },
+	{ host: 'claude', label: 'Claude Code', dir: path.join(HOME, '.claude', 'plugins', 'cache', 'fractal-agentic'), nested: 'fractal-agentic' },
+	{ host: 'codex', label: 'Codex', dir: path.join(HOME, '.codex', 'plugins', 'cache', 'fractal-agentic') },
+	{ host: 'agents', label: 'Agents', dir: path.join(HOME, '.agents', 'plugins', 'fractal-agentic') }
+];
+
+function readPluginMeta(dir) {
+	try {
+		return JSON.parse(fs.readFileSync(path.join(dir, 'plugin.json'), 'utf8'));
+	} catch (_) {
+		return null;
+	}
+}
+
+function compareSemver(a, b) {
+	const pa = String(a || '0').split('.').map(n => parseInt(n, 10) || 0);
+	const pb = String(b || '0').split('.').map(n => parseInt(n, 10) || 0);
+	for (let i = 0; i < 3; i++) {
+		if ((pa[i] || 0) !== (pb[i] || 0)) return (pa[i] || 0) - (pb[i] || 0);
+	}
+	return 0;
+}
+
+function detectHostCopies() {
+	return HOST_COPIES.map(entry => {
+		const result = {
+			host: entry.host, label: entry.label, dir: entry.dir, nested: entry.nested || null,
+			status: 'missing', pluginDir: null, version: null, symlink: false
+		};
+		if (!fs.existsSync(entry.dir)) return result;
+		try {
+			result.symlink = fs.lstatSync(entry.dir).isSymbolicLink();
+		} catch (_) { /* keep false */ }
+		const flat = readPluginMeta(entry.dir);
+		if (flat && flat.name === 'fractal-agentic') {
+			result.pluginDir = entry.dir;
+			result.version = flat.version || null;
+			result.status = 'ok';
+			return result;
+		}
+		// Marketplace-nested layout: <dir>/<plugin-name>/<semver>/plugin.json
+		const nestedBase = entry.nested ? path.join(entry.dir, entry.nested) : entry.dir;
+		if (fs.existsSync(nestedBase) && fs.statSync(nestedBase).isDirectory()) {
+			let newest = null;
+			for (const name of fs.readdirSync(nestedBase)) {
+				const meta = readPluginMeta(path.join(nestedBase, name));
+				if (meta && (!newest || compareSemver(meta.version, newest.version) > 0)) {
+					newest = { dir: path.join(nestedBase, name), version: meta.version || null };
+				}
+			}
+			if (newest) {
+				result.pluginDir = newest.dir;
+				result.version = newest.version;
+				result.status = 'ok';
+			}
+		}
+		return result;
+	});
+}
+
+function rootVersion(rootDir) {
+	const meta = readPluginMeta(rootDir);
+	return meta ? meta.version : null;
+}
+
+function doctorHostStatus(rootVer, copy) {
+	if (!copy.pluginDir) return 'missing';
+	if (copy.symlink) return 'symlink';
+	if (!copy.version || !rootVer) return 'fail';
+	return compareSemver(copy.version, rootVer) < 0 ? 'drift' : 'ok';
+}
+
+function doDoctor(rootDir, flags) {
+	const jsonOut = !!flags.json;
+	const rootVer = rootVersion(rootDir);
+	const armory = runCaptured('check-armory.sh', rootDir);
+	const marker = path.join(process.cwd(), '.fractal-agentic', 'project.json');
+	const markerOk = fs.existsSync(marker);
+	const hosts = detectHostCopies().map(c => ({
+		host: c.host, label: c.label, dir: c.dir, pluginDir: c.pluginDir,
+		version: c.version, symlink: c.symlink, status: doctorHostStatus(rootVer, c)
+	}));
+	const healthy = armory.ok && hosts.every(h => ['ok', 'symlink', 'missing'].includes(h.status));
+
+	if (jsonOut) {
+		console.log(JSON.stringify({
+			root: rootDir,
+			version: rootVer,
+			armory: { ok: armory.ok, error: armory.error || null },
+			project_marker: { path: marker, present: markerOk },
+			hosts,
+			healthy
+		}, null, 2));
+	} else {
+		console.log('Fractal Agentic — Doctor\n');
+		console.log(`Root:    ${rootDir} (v${rootVer || 'unknown'})`);
+		console.log(`Armory:  ${armory.ok ? 'PASS' : 'FAIL'}${armory.ok ? '' : ` — ${armory.error}`}`);
+		console.log(`Marker:  ${markerOk ? marker : 'not found (run "fractal-agentic init" in your project)'}`);
+		console.log('\nHost copies:');
+		for (const h of hosts) {
+			const detail = h.version ? `v${h.version}` : (h.status === 'missing' ? 'not installed' : 'no version');
+			console.log(`  ${h.status.padEnd(8)} ${h.label.padEnd(12)} ${detail.padEnd(14)} ${h.dir}`);
+		}
+		console.log(`\n${healthy ? 'Doctor: healthy' : 'Doctor: issues found — run "fractal-agentic update" to sync host copies.'}`);
+	}
+	if (!healthy) process.exit(1);
+}
+
+function doUpdate(rootDir, flags) {
+	const target = typeof flags.target === 'string' ? flags.target : 'all';
+	const dryRun = !!flags['dry-run'];
+	const force = !!flags.force;
+	const rootVer = rootVersion(rootDir);
+	const wanted = detectHostCopies().filter(c => target === 'all' || c.host === target);
+	if (target !== 'all' && wanted.length === 0) {
+		console.error(`Unknown target: ${target} (expected all|antigravity|claude|codex|agents)`);
+		process.exit(1);
+	}
+
+	console.log('Fractal Agentic — Update\n');
+	console.log(`Source: ${rootDir} (v${rootVer || 'unknown'})\n`);
+
+	let changed = 0;
+	for (const copy of wanted) {
+		const status = doctorHostStatus(rootVer, copy);
+		if (status === 'symlink') {
+			console.log(`skip: ${copy.label} — symlink (managed externally)`);
+			continue;
+		}
+		if (status === 'ok' && !force) {
+			console.log(`skip: ${copy.label} — up to date (v${copy.version})`);
+			continue;
+		}
+		let dest;
+		if (copy.nested && rootVer) {
+			// Marketplace layout: write a fresh <semver> dir, never overwrite old versions.
+			dest = path.join(copy.dir, copy.nested, rootVer);
+		} else if (status === 'drift' && copy.pluginDir) {
+			dest = copy.pluginDir;
+		} else {
+			dest = copy.dir;
+		}
+		const from = copy.version ? `v${copy.version}` : 'not installed';
+		console.log(`${dryRun ? 'would update' : 'update'}: ${copy.label} ${from} -> v${rootVer || '?'} at ${dest}`);
+		if (dryRun) { changed++; continue; }
+		try {
+			fs.rmSync(dest, { recursive: true, force: true });
+			fs.mkdirSync(path.dirname(dest), { recursive: true });
+			fs.cpSync(rootDir, dest, { recursive: true, filter: pluginCopyFilter });
+			console.log(`  done: ${dest}`);
+			changed++;
+		} catch (err) {
+			console.error(`  failed: ${err.message}`);
+			process.exit(1);
+		}
+	}
+	if (!changed) console.log('Nothing to update.');
+}
+
 // ── Init ────────────────────────────────────────────────────────────
 
 function doInit(rootDir, cwd) {
@@ -386,6 +548,10 @@ Check (read-only):
   fa-check improve [--json]      Check self-improvement config + data dirs
   fa-check policy [--json]       Verify non-blocking policy compliance
   fa-check all [--json]          Run all checks
+
+Health & sync:
+  doctor [--json]                Root + armory health, host copy drift report
+  update [--target=<host>] [--dry-run] [--force]   Sync host copies to this root
 
 Info:
   fa-info root [--json]                  Print resolved plugin root path
@@ -661,6 +827,19 @@ function main() {
 				if (!id) { console.error('Usage: fractal-agentic fa-skill show <id> [--frontmatter]'); process.exit(1); }
 				showItem(rootDir, 'skill', id, flags);
 			}
+			break;
+		}
+
+		// ── Health & sync ──
+		case 'doctor':
+		case 'fa-doctor': {
+			doDoctor(rootDir, flags);
+			break;
+		}
+
+		case 'update':
+		case 'fa-update': {
+			doUpdate(rootDir, flags);
 			break;
 		}
 
