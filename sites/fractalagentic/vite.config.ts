@@ -6,7 +6,7 @@ import remarkMath from 'remark-math';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { defineConfig, type Plugin } from 'vite';
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-vercel';
 import { sveltekit } from '@sveltejs/kit/vite';
 import fractalsStyler from 'fractals-styler';
 import { highlightWithFilename } from './src/lib/build/code-highlighter'
@@ -153,9 +153,8 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			// Use the SPA fallback so direct refreshes do not briefly render the
-			// generated error page before client hydration.
-			adapter: adapter({ fallback: '200.html' }),
+			// Vercel adapter: pre-rendered pages served from Vercel's edge.
+			adapter: adapter(),
 			// Some package docs link targets that don't exist on the site yet
 			// (docs/progression.md is referenced but unpublished, and skill
 			// references/*.md are offline-only plugin internals). Warn instead
