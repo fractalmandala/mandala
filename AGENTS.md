@@ -50,6 +50,26 @@ Every SvelteKit workspace also has `pnpm dev`; Tauri desktop apps additionally h
 | `packages/svelte-icons` | Published `@fractaldesign/svelte-icons` icon library. | `pnpm check` · `pnpm lint` |
 | `docs-kit` | Standalone docs toolkit workspace (Turbo pipeline; not part of the root pnpm workspace). | `pnpm check` · `pnpm test` · `pnpm build` (turbo) |
 
+## Git workflow (worktrees & branches)
+
+Policy lives in [admin/repo-management.md](admin/repo-management.md). Trunk-based: `main`
+is the stable baseline; all work happens on short-lived scoped branches.
+
+- **Agents work in throwaway worktrees**, one per task — never stack unrelated changes
+  in the persistent main worktree at `/Users/amrit/mandala`. Task worktrees live under
+  `~/src/mandala/<type>/<name>`:
+  ```bash
+  scripts/wt.sh add feat/<scope>-<thing>   # branch + worktree off main
+  scripts/wt.sh rm feat/<scope>-<thing>    # remove worktree + branch + prune when done
+  ```
+- Branch names follow `<type>/<scope>-<thing>` (`feat fix refactor experiment chore docs test perf ci`);
+  commits follow Conventional Commits. `.githooks/commit-msg` warns (advisory) on both;
+  direct pushes to `main` are forbidden.
+- Merge back with `git merge --no-ff <branch>` from the main worktree (squash for
+  one-liner fixes), then prune the worktree and branch immediately.
+- If a session already holds uncommitted work in the main worktree, finish and land that
+  first; do not start a second task in the same tree.
+
 ## Fractal Agentic plugin mandate (required session bootstrap)
 
 **Before any other project work** on a non-trivial task (implementation, review, refactor,
