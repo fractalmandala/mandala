@@ -34,6 +34,7 @@ export const load: PageLoad = async ({ params, url }) => {
 		posts,
 		title: bank.title,
 		description: bank.description,
+		slug: bank.slug,
 		topicMap,
 		crossBanks,
 		allTags

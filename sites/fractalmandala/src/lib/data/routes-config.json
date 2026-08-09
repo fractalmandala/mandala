@@ -35,13 +35,6 @@
 		]
 	},
 	{
-		"bank name": "Archaeology",
-		"route": "archaeology",
-		"content links": [
-			"/wiki/07-archaeology"
-		]
-	},
-	{
 		"bank name": "Writings",
 		"route": "writings",
 		"content links": [

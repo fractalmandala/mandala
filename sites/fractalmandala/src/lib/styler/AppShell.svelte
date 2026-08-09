@@ -7,12 +7,12 @@
 	 *   main.appbody > aside.sidebarleft + article.bodymain + aside.sidebarright
 	 *
 	 * All visual arrangement lives in _compositions.sass; this component only
-	 * wires the snippets, the ambient background, and the <1025 mobile drawer.
+	 * wires the snippets and the ambient background. Sidebar visibility is
+	 * handled by CSS media queries (both hidden <1025 px, left-only at
+	 * 1025–1200 px, both visible at 1201 px+).
 	 *
-	 *   <AppShell bind:mobileOpen>
-	 *     {#snippet header(nav)}
-	 *       <button onclick={nav.toggle}>menu</button> …
-	 *     {/snippet}
+	 *   <AppShell>
+	 *     {#snippet header()} … {/snippet}
 	 *     {#snippet sidebarleft()} … {/snippet}
 	 *     {#snippet sidebarright()} … {/snippet}
 	 *     {#snippet footer()} … {/snippet}
@@ -20,12 +20,6 @@
 	 *   </AppShell>
 	 */
 	import type { Snippet } from 'svelte';
-
-	interface NavControls {
-		open: boolean;
-		toggle: () => void;
-		close: () => void;
-	}
 
 	let {
 		header,
@@ -35,10 +29,9 @@
 		children,
 		ambient = true,
 		showLeft = sidebarleft != null,
-		showRight = sidebarright != null,
-		mobileOpen = $bindable(false)
+		showRight = sidebarright != null
 	}: {
-		header?: Snippet<[NavControls]>;
+		header?: Snippet;
 		sidebarleft?: Snippet;
 		sidebarright?: Snippet;
 		footer?: Snippet;
@@ -46,26 +39,7 @@
 		ambient?: boolean;
 		showLeft?: boolean;
 		showRight?: boolean;
-		mobileOpen?: boolean;
 	} = $props();
-
-	const nav: NavControls = {
-		get open() {
-			return mobileOpen;
-		},
-		toggle: () => (mobileOpen = !mobileOpen),
-		close: () => (mobileOpen = false)
-	};
-
-	const bodyClass = $derived(
-		!showLeft && !showRight
-			? 'appbody no-both'
-			: !showLeft
-				? 'appbody no-left'
-				: !showRight
-					? 'appbody no-right'
-					: 'appbody'
-	);
 </script>
 
 <section class="appshell">
@@ -78,10 +52,10 @@
 	{/if}
 
 	<header class="appheader">
-		{@render header?.(nav)}
+		{@render header?.()}
 	</header>
 
-	<main class={bodyClass} data-mobile-open={mobileOpen ? 'true' : undefined}>
+	<main class="appbody">
 		{#if showLeft}
 			<aside class="sidebarleft">
 				{@render sidebarleft?.()}
@@ -96,15 +70,6 @@
 			<aside class="sidebarright">
 				{@render sidebarright?.()}
 			</aside>
-		{/if}
-
-		{#if showLeft && mobileOpen}
-			<button
-				type="button"
-				class="appbody-backdrop"
-				aria-label="Close menu"
-				onclick={nav.close}
-			></button>
 		{/if}
 	</main>
 

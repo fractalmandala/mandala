@@ -1,5 +1,6 @@
 deposits
 sites/fractaldharma/
+sites/fractaldharma
 apps/fractalengine/src-tauri/bin
 .empryo
 .freebuff
@@ -22,6 +23,7 @@ node_modules/
 dist/
 .svelte-kit/
 build/
+.vercel/
 !**/src/**/build/
 .electron-runtime/
 target/

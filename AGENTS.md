@@ -8,11 +8,6 @@ Common stack: SvelteKit / Svelte 5 (runes) / TypeScript, Tauri for desktop apps,
 single-tab indented SASS styling everywhere (not SCSS — pure old SASS, no braces, no
 semicolons).
 
-> **History note:** this file previously contained guidance for `apps/fracta`, a Tauri
-> knowledge-base app that was removed from the repo in August 2026 (commit `f4c534d96`).
-> The current knowledge workspace is `apps/fractalknow`. No fracta-specific paths below
-> are valid; do not resurrect them.
-
 ## Setup (root)
 
 There is **no root `package.json`** — the root is not a runnable workspace and has no
