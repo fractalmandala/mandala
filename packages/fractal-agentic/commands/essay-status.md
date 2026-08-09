@@ -1,3 +1,7 @@
+---
+description: Inspect scheduled essay cadence, output, next due time, and last error without starting an agent.
+---
+
 # /essay-status
 
 Inspect the scheduled essay pipeline without starting an agent.
