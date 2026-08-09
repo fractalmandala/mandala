@@ -339,3 +339,130 @@ export function getSearchIndex(): SearchResult[] {
 		a.title.localeCompare(b.title, undefined, { sensitivity: 'base' })
 	);
 }
+
+/** Playbook workflows shipped with the plugin (`workflows/*.workflow.md`). */
+const workflowFiles = import.meta.glob(
+	'../../../../../packages/fractal-agentic/workflows/*.workflow.md',
+	{ query: '?raw', import: 'default', eager: true }
+) as Record<string, string>;
+
+const hooksProfilesFile = import.meta.glob(
+	'../../../../../packages/fractal-agentic/hooks/profiles.json',
+	{ query: '?raw', import: 'default', eager: true }
+) as Record<string, string>;
+
+const hooksReadmeFile = import.meta.glob(
+	'../../../../../packages/fractal-agentic/hooks/README.md',
+	{ query: '?raw', import: 'default', eager: true }
+) as Record<string, string>;
+
+const cliReadmeFile = import.meta.glob('../../../../../packages/fractal-agentic/bin/README.md', {
+	query: '?raw',
+	import: 'default',
+	eager: true
+}) as Record<string, string>;
+
+const pluginJsonFile = import.meta.glob('../../../../../packages/fractal-agentic/plugin.json', {
+	query: '?raw',
+	import: 'default',
+	eager: true
+}) as Record<string, string>;
+
+/** Non-eager: skill folder file trees for detail pages without bundling contents. */
+const skillTreeKeys = Object.keys(
+	import.meta.glob('../../../../../packages/fractal-agentic/skills/**')
+);
+
+export interface WorkflowEntry {
+	slug: string;
+	title: string;
+	description: string;
+	href: string;
+	/** Markdown body without frontmatter */
+	body: string;
+}
+
+export interface HooksProfiles {
+	default: string;
+	profiles: Record<string, string[]>;
+}
+
+export interface CliSection {
+	heading: string;
+	body: string;
+}
+
+let _workflows: WorkflowEntry[] | null = null;
+
+export function listWorkflows(): WorkflowEntry[] {
+	if (_workflows) return _workflows;
+	const entries: WorkflowEntry[] = [];
+	for (const [path, raw] of Object.entries(workflowFiles)) {
+		const slug = path.match(/\/workflows\/([^/]+)\.workflow\.md$/)?.[1];
+		if (!slug) continue;
+		const { data, content } = parseFrontmatter(raw);
+		entries.push({
+			slug,
+			title: data.title?.trim() || titleFromMarkdown(content, humanizeSlug(slug)),
+			description: data.description?.trim() || excerptFromMarkdown(content) || `Workflow: ${slug}`,
+			href: `/workflows/${slug}`,
+			body: content
+		});
+	}
+	return (_workflows = entries.sort((a, b) => a.slug.localeCompare(b.slug)));
+}
+
+export function getWorkflow(slug: string): WorkflowEntry | undefined {
+	return listWorkflows().find((w) => w.slug === slug);
+}
+
+/** Guard-hook profiles from hooks/profiles.json (minimal / standard / strict). */
+export function getHooksProfiles(): HooksProfiles | null {
+	const raw = Object.values(hooksProfilesFile)[0];
+	if (!raw) return null;
+	try {
+		return JSON.parse(raw) as HooksProfiles;
+	} catch {
+		return null;
+	}
+}
+
+/** bin/README.md split on `## ` headings so the CLI page renders verb groups. */
+export function getCliSections(): CliSection[] {
+	const raw = Object.values(cliReadmeFile)[0] ?? '';
+	return raw
+		.split(/^## /m)
+		.slice(1)
+		.map((chunk) => {
+			const newline = chunk.indexOf('\n');
+			const heading = (newline === -1 ? chunk : chunk.slice(0, newline)).trim();
+			const body = newline === -1 ? '' : chunk.slice(newline + 1).trim();
+			return { heading, body };
+		});
+}
+
+/** Plugin version from plugin.json — shown in hero stats instead of stale copy. */
+export function getPackageVersion(): string {
+	const raw = Object.values(pluginJsonFile)[0];
+	if (!raw) return '';
+	try {
+		return (JSON.parse(raw) as { version?: string }).version ?? '';
+	} catch {
+		return '';
+	}
+}
+
+/** Files shipped under a skill folder (SKILL.md excluded — it renders as the body). */
+export function getSkillFiles(slug: string): string[] {
+	const marker = `/skills/${slug}/`;
+	return skillTreeKeys
+		.filter((path) => path.includes(marker))
+		.map((path) => path.slice(path.indexOf(marker) + marker.length))
+		.filter((rel) => rel && rel !== 'SKILL.md')
+		.sort((a, b) => a.localeCompare(b));
+}
+
+/** hooks/README.md raw body — rendered on the /hooks page. */
+export function getHooksReadme(): string {
+	return Object.values(hooksReadmeFile)[0] ?? '';
+}

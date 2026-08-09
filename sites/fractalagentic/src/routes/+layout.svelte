@@ -1,14 +1,14 @@
 <script lang="ts">
 	import 'virtual:fractals-styler.css';
-	import '$lib/styles/index.sass'
+	import '$lib/styles/index.sass';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import type { Snippet } from 'svelte';
 	import SearchBox from '$lib/content/themes/docs/SearchBox.svelte';
 	import SearchDialog from '$lib/content/themes/docs/search/SearchDialog.svelte';
 	import ThemeToggle from '$lib/content/themes/docs/ThemeToggle.svelte';
-	import { REPO_URL, SITE_NAME, SITE_URL } from '$lib/site';
-	import Npm from '$lib/icons/npm.svelte'
+	import { SITE_NAME, SITE_URL } from '$lib/site';
+	import Npm from '$lib/icons/npm.svelte';
 	import Github2 from '$lib/icons/github2.svelte';
 
 	let { children }: { children: Snippet } = $props();
@@ -21,6 +21,17 @@
 	// until after the build.
 	const currentPath = $derived(page.url.pathname.replace(/\/$/, '') || '/');
 	const ogImage = $derived(`${SITE_URL}/og${currentPath === '/' ? '/index' : currentPath}.png`);
+
+	const navLinks = [
+		{ href: '/docs', label: 'Docs' },
+		{ href: '/bosses', label: 'Bosses' },
+		{ href: '/skills', label: 'Skills' },
+		{ href: '/commands', label: 'Commands' },
+		{ href: '/agents', label: 'Agents' },
+		{ href: '/workflows', label: 'Workflows' },
+		{ href: '/hooks', label: 'Hooks' },
+		{ href: '/cli', label: 'CLI' }
+	];
 
 	let searchDialog: ReturnType<typeof SearchDialog> | undefined = $state();
 
@@ -52,17 +63,23 @@
 		<div class="topbar">
 			<a class="brand" href={resolve('/')}>
 				<img src="/images/fractalagentic.png" class="logomotif" alt="logo" />
-				<img
-					src="/images/logotype-white.png"
-					class="logotype logotype-dark"
-					alt="fractalagentic"
-				/>
+				<img src="/images/logotype-white.png" class="logotype logotype-dark" alt="fractalagentic" />
 				<img
 					src="/images/logotype-black.png"
 					class="logotype logotype-light"
 					alt="fractalagentic"
 				/>
 			</a>
+			<nav class="site-nav" aria-label="Primary">
+				{#each navLinks as link (link.href)}
+					<a
+						href={link.href}
+						class:active={currentPath === link.href || currentPath.startsWith(link.href + '/')}
+					>
+						{link.label}
+					</a>
+				{/each}
+			</nav>
 			<div class="actions">
 				<div class="search-wrap">
 					<SearchBox onOpen={() => searchDialog?.open()} />
@@ -80,10 +97,22 @@
 
 	<footer class="app-footer">
 		<div class="footer-wrap">
-			<span>by <a href="https://www.fractalmandala.in" target="_blank" rel="noreferrer">fractalmandala</a> | <a href="https://www.fractaldesign.in" target="_blank" rel="noreferrer">fractaldesign</a> | <a href="https://www.fractalsvelte.in" target="_blank" rel="noreferrer">fractalsvelte</a></span>
+			<span
+				>by <a href="https://www.fractalmandala.in" target="_blank" rel="noreferrer"
+					>fractalmandala</a
+				>
+				| <a href="https://www.fractaldesign.in" target="_blank" rel="noreferrer">fractaldesign</a>
+				|
+				<a href="https://www.fractalsvelte.in" target="_blank" rel="noreferrer">fractalsvelte</a
+				></span
+			>
 			<div class="row ycenter gap16">
-				<a href="https://github.com/fractalmandala/mandala" target="_blank" rel="noreferrer"><Github2/></a>
-				<a href="https://www.npmjs.com/package/fractal-agentic" target="_blank" rel="noreferrer"><Npm/></a>
+				<a href="https://github.com/fractalmandala/mandala" target="_blank" rel="noreferrer"
+					><Github2 /></a
+				>
+				<a href="https://www.npmjs.com/package/fractal-agentic" target="_blank" rel="noreferrer"
+					><Npm /></a
+				>
 			</div>
 		</div>
 	</footer>
@@ -98,7 +127,13 @@
 			height="130%"
 			color-interpolation-filters="sRGB"
 		>
-			<feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="4" seed="7" result="noise" />
+			<feTurbulence
+				type="fractalNoise"
+				baseFrequency="0.012"
+				numOctaves="4"
+				seed="7"
+				result="noise"
+			/>
 			<feDisplacementMap
 				in="SourceGraphic"
 				in2="noise"
@@ -117,7 +152,13 @@
 			/>
 			<feComponentTransfer in="alpha-noise" result="threshold">
 				<feFuncA type="linear" slope="16" intercept="1">
-					<animate attributeName="intercept" values="1;-16" dur="0.9s" begin="indefinite" fill="freeze" />
+					<animate
+						attributeName="intercept"
+						values="1;-16"
+						dur="0.9s"
+						begin="indefinite"
+						fill="freeze"
+					/>
 				</feFuncA>
 			</feComponentTransfer>
 			<feComposite in="displaced" in2="threshold" operator="in" />

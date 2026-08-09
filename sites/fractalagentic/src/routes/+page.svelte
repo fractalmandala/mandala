@@ -1,144 +1,145 @@
 <script lang="ts">
-	import { resolve } from '$app/paths';
-	import { SITE_NAME, SITE_DESCRIPTION } from '$lib/site';
-	import RightArrow from '$lib/icons/right-arrow.svelte';
-	import Design from '$lib/icons/design.svelte';
-	import Code from '$lib/icons/code.svelte';
-	import Creator from '$lib/icons/create.svelte';
-	import Svelter from '$lib/icons/svelte.svelte';
-	import Agent from '$lib/icons/agent.svelte';
-	import Workflow from '$lib/icons/workflow.svelte';
-	import Meta from '$lib/icons/meta.svelte';
-	import { ToolboxIcon, CommandIcon, RobotIcon, CrownIcon, FilePlusIcon, StarFourIcon } from "phosphor-svelte"
+	import type { PageData } from './$types';
+	import { SITE_NAME } from '$lib/site';
+	import SectionPanel from '$lib/components/SectionPanel.svelte';
+	import AssetCard from '$lib/components/AssetCard.svelte';
+	import StatsStrip from '$lib/components/StatsStrip.svelte';
+	import TerminalBlock from '$lib/components/TerminalBlock.svelte';
+	import CtaSlab from '$lib/components/CtaSlab.svelte';
 
-	let { data } = $props();
-	const workflow = [
+	let { data }: { data: PageData } = $props();
+
+	const stats = $derived([
+		{ value: String(data.counts.skills), label: 'skills' },
+		{ value: String(data.counts.commands), label: 'commands' },
+		{ value: String(data.counts.agents), label: 'agents' },
+		{ value: String(data.bosses.length), label: 'bosses' },
+		{ value: String(data.counts.workflows), label: 'workflows' },
+		{ value: data.version, label: 'plugin version' }
+	]);
+
+	const continuity = [
 		{
-			number: '01',
-			label: 'Project Mandate',
-			title: 'Set the context',
-			body: 'Load the project rules, stack, and definition of done once.'
+			href: '/hooks',
+			title: 'Hooks',
+			description: 'Lifecycle guardrails in minimal, standard, and strict profiles.'
 		},
 		{
-			number: '02',
-			label: 'Domain Boss',
-			title: 'Route the work',
-			body: 'The startup router selects one boss; the agent reads only that nested playbook.'
+			href: '/docs/wiki',
+			title: 'Wiki',
+			description: 'Continuous project memory carried forward between sessions.'
 		},
 		{
-			number: '03',
-			label: 'Vendored Armory',
-			title: 'Equip the session',
-			body: 'Skills, agents, and commands arrive with the workflow instead of a blank context.'
-		},
-		{
-			number: '04',
-			label: 'Review and Ship',
-			title: 'Close the loop',
-			body: 'Fresh review and quality gates turn an agent session into a deliverable.'
+			href: '/docs/handoffs',
+			title: 'Handoffs',
+			description: 'Any agent closes work with a note the next agent picks up.'
 		}
 	];
 </script>
 
 <svelte:head>
-	<title>{SITE_NAME}</title>
-	<meta name="description" content={SITE_DESCRIPTION} />
+	<title>{SITE_NAME} — coding-agent delivery infrastructure</title>
+	<meta
+		name="description"
+		content="Route work to one domain boss, equip the session with a vendored armory, and ship with review gates."
+	/>
 </svelte:head>
 
-<div class="narrow-width box padtop32">
-	<div class="page-section gap32 box padtop64 padbot64">
-		<h1 class="page-header page-subsection box gap0">
-			<p class="page-subtitle">fractal<span class="accented">agentic</span></p>
-			<p class="page-title">orchestration</p>
-		</h1>
-		<p class="page-subsection text-xl lh15">
-			Yoke agents into a self-improving system. Route work to the right domain. Equip the session
-			with a vendored armory - all in one repeatable, orchestrated loop.
-		</p>
-		<div class="page-subsection row ycenter gap32">
-			<a class="badge box xcenter ycenter" href="/skills">
-				<span class="accented-x"><ToolboxIcon size={28}/></span>
-				<span class="text-md fw600 accented">Skills</span>
-			</a>
-			<a class="badge box xcenter ycenter" href="/commands">
-				<span class="accented-x"><CommandIcon size={28}/></span>
-				<span class="text-md fw600 accented">commands</span>
-			</a>
-			<a class="badge box xcenter ycenter" href="/agents">
-				<span class="accented-x"><RobotIcon size={28}/></span>
-				<span class="text-md fw600 accented">agents</span>
-			</a>
-			<a class="badge box xcenter ycenter" href="/bosses">
-				<span class="accented-x"><CrownIcon size={28}/></span>
-				<span class="text-md fw600 accented">bosses</span>
-			</a>
-			<a class="badge box xcenter ycenter" href="/docs">
-				<span class="accented-x"><FilePlusIcon size={28}/></span>
-				<span class="text-md fw600 accented">orchestrators</span>
-			</a>
-			<a class="badge box xcenter ycenter" href="/docs/guide">
-				<span class="accented-x"><StarFourIcon size={28}/></span>
-				<span class="text-md fw600 accented">Start</span>
-			</a>
-		</div>
+<header class="site-container box gap32 padtop64 padbot48">
+	<p class="eyebrow">Coding-agent delivery infrastructure</p>
+	<h1 class="display">
+		Yoke agents into a<br />self-improving <span class="accent-word">delivery system</span>
+	</h1>
+	<p class="lede">
+		Fractal Agentic routes every task to one domain boss, equips the session with a vendored armory
+		of skills, commands, and agents, and closes the loop with fresh review — one repeatable
+		orchestration runtime for any coding-agent host.
+	</p>
+	<div class="hero-terminal">
+		<TerminalBlock code="npx fractal-agentic init" />
 	</div>
-	<div class="page-section gap48 box padbot64 padtop64 bordtop">
-			<h2 class="section-header box gap8 page-subsection">
-				<span class="text-xs muted tt-u w500">02 / One-boss discovery</span>
-				<div class="page-header">1 Runtime <span class="accented">7 Domain Bosses</span></div>
-			</h2>
-			<p class="text-xl lh15 page-subsection primary">
-				Fractalagentic detects what you're up to, and immediately calls in the level-one
-				orchestrator. Or, you can always invoke any of them directly.
-			</p>
-		<div class="home-boss-grid gap32 page-subsection">
-			{#each data.bosses as boss, index (boss.id)}
-				<a class="home-boss pad8" href={boss.href}>
-					<span class="text-lg fw600">{boss.name}</span>
-					<span class="text-md muted">{boss.mission}</span>
-			<div class="accented">
-			<RightArrow/>
-		</div>
-				</a>
-			{/each}
-		</div>
-	</div>
+	<StatsStrip {stats} />
+</header>
 
-	<div class="page-section gap48 box padbot64 padtop64 bordtop">
-			<h2 class="section-header box gap8 page-subsection">
-				<span class="text-xs muted tt-u w500">03 / The continuity layer</span>
-				<div class="page-header">
-The Orchestrator<br><span class="accented">Remembers</span>,
-				<span class="accented">Performs</span>
-				and <span class="accented">Grows.</span>
-				</div>
-			</h2>
-			<p class="text-xl lh15 page-subsection">
-				Optional systems extend delivery beyond a single session: hooks keep the environment safe,
-				the wiki carries project memory forward, and Improve turns experience into better defaults.
-			</p>
-		<div class="grid grid-cols-3 border-grid page-subsection">
-			<a class="home-boss box border-grid-child" href="/docs/hooks">
-				<span class="text-2xl fw500">Hooks</span>
-				<span class="muted">lifecycle safety and automation</span>
-				<div class="accented">
-					<RightArrow />
-				</div>
-			</a>
-			<a class="home-boss box border-grid-child" href="/docs/wiki">
-				<span class="text-2xl fw500">Wiki</span>
-				<span class="muted">continuous project memory</span>
-				<div class="accented">
-					<RightArrow />
-				</div>
-			</a>
-			<a class="home-boss box border-grid-child" href="/docs/self-improvement">
-				<span class="text-2xl fw500">Improve</span>
-				<span class="muted">observe, evaluate, and promote</span>
-				<div class="accented">
-					<RightArrow />
-				</div>
-			</a>
-		</div>
+<SectionPanel
+	index="01"
+	label="One-boss discovery"
+	title="One runtime,"
+	accent="seven domain bosses"
+	lede="The startup router detects the work in front of the agent and selects exactly one boss playbook — or invoke any boss directly."
+>
+	<div class="index-grid">
+		{#each data.bosses as boss, i (boss.id)}
+			<AssetCard
+				href={boss.href}
+				title={boss.name}
+				description={boss.mission}
+				num={String(i + 1).padStart(2, '0')}
+			/>
+		{/each}
 	</div>
-</div>
+</SectionPanel>
+
+<SectionPanel
+	index="02"
+	label="The armory"
+	title="Everything the session"
+	accent="ships with"
+	lede="Skills, commands, agents, and workflows vendored inside the plugin — browsable here, live in the harness at install time."
+>
+	<div class="index-grid">
+		<AssetCard
+			href="/skills"
+			title="Skills"
+			description="Reusable capabilities, from brand discovery to release gates."
+			badge={String(data.counts.skills)}
+		/>
+		<AssetCard
+			href="/commands"
+			title="Commands"
+			description="Operational verbs for orchestration, verification, and shipping."
+			badge={String(data.counts.commands)}
+		/>
+		<AssetCard
+			href="/agents"
+			title="Agents"
+			description="Capability lanes pinned for the delivery runtime."
+			badge={String(data.counts.agents)}
+		/>
+		<AssetCard
+			href="/workflows"
+			title="Workflows"
+			description="Multi-step playbooks, from review fan-out to monorepo release."
+			badge={String(data.counts.workflows)}
+		/>
+	</div>
+</SectionPanel>
+
+<SectionPanel
+	index="03"
+	label="The continuity layer"
+	title="The orchestrator remembers,"
+	accent="performs and grows"
+	lede="Optional systems extend delivery beyond a single session: hooks keep the environment safe, the wiki carries project memory, and handoffs pass live context between agents."
+>
+	<div class="index-grid">
+		{#each continuity as item (item.href)}
+			<AssetCard href={item.href} title={item.title} description={item.description} />
+		{/each}
+	</div>
+</SectionPanel>
+
+<CtaSlab
+	index="04"
+	label="First delivery"
+	title="Run your first orchestrated task"
+	body="Install the plugin, point it at a project, and let the startup router do the rest. The armory, bosses, and guard hooks come with it."
+	primaryHref="/docs/02-install"
+	primaryLabel="Install guide"
+	links={[
+		{ href: '/docs/guide', label: 'Read the guide' },
+		{ href: '/docs/orchestration', label: 'Orchestration runtime' },
+		{ href: '/cli', label: 'CLI reference' },
+		{ href: 'https://github.com/fractalmandala/mandala', label: 'GitHub' }
+	]}
+/>
