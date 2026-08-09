@@ -1,15 +1,5 @@
-import type { CatalogEntry, CatalogKind, CatalogSummary } from './types';
-import {
-	getAgent,
-	getCommand,
-	getDoc,
-	getSkill,
-	listAgents,
-	listCommands,
-	listDocs,
-	listSkills,
-	toSummaries
-} from './catalog';
+import type { CatalogEntry, CatalogSummary } from './types';
+import { listDocs } from './catalog';
 
 /** Reading order for humans on the site (content sourced from packages/fractal-agentic). */
 export const DOCS_SEQUENCE: string[] = [
@@ -22,6 +12,7 @@ export const DOCS_SEQUENCE: string[] = [
 	'orchestration/runtime',
 	'orchestration/capability-lanes',
 	'progression',
+	'handoffs',
 	'bosses',
 	'bosses/design',
 	'bosses/code',
@@ -42,7 +33,6 @@ export const DOCS_SEQUENCE: string[] = [
 	'self-improvement',
 	'scheduled-essays',
 	'troubleshooting',
-	'degradation',
 	'glossary',
 	'scripts',
 	'doc-ownership',
@@ -73,14 +63,6 @@ export interface PrevNext {
 	total: number;
 }
 
-
-function shortDocLabel(d: CatalogEntry, fallback: string): string {
-	// Prefer short titles without " — " suffix for sidebar density
-	const t = d.title.split('—')[0]?.trim() || d.title;
-	if (t.length > 36) return fallback;
-	// Drop leading numeric prefixes for cleaner nav
-	return t.replace(/^\d+[.\s-]+/, '') || fallback;
-}
 
 export function listDocsInSequence(): CatalogEntry[] {
 	const all = listDocs();
