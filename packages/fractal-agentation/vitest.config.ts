@@ -9,6 +9,7 @@ export default mergeConfig(
 			conditions: ['browser']
 		},
 		test: {
+			passWithNoTests: true,
 			environment: 'jsdom',
 			globals: true,
 			include: ['tests/**/*.test.ts']
