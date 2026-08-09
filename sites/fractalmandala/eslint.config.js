@@ -36,6 +36,7 @@ export default defineConfig(
 	{
 		// Override or add rule settings here, such as:
 		// 'svelte/button-has-type': 'error'
-		rules: {}
+		// off: added to recommended in eslint-plugin-svelte 3.11; monorepo deploys without paths.base
+		rules: { 'svelte/no-navigation-without-resolve': 'off' }
 	}
 );
