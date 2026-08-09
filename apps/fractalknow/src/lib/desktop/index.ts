@@ -1,0 +1,30 @@
+export { createDesktopBridge } from './bridge';
+export { desktopBridge } from './store';
+export { desktopBridgeNormalizers } from './bridge';
+export type {
+	AppInfo,
+	MenuEnablementMap,
+	OkBugReportCapture,
+	OkConsentRequiredEvent,
+	OkCrashInviteEvent,
+	OkDeepLinkEvent,
+	OkDesktopBridge,
+	OkDesktopConfig,
+	OkDesktopMode,
+	OkFeedbackHandoff,
+	OkMenuAction,
+	OkRecentProject,
+	OkServerStatusEvent,
+	OkTerminalDataEvent,
+	OkTerminalExitEvent,
+	OkThemeSource,
+	OkUnsubscribe,
+	OkUpdateStatusEvent,
+	ProjectCreateOptions,
+	ProtocolDetection,
+	ServerConfigInput,
+	TerminalStartOptions,
+	TerminalStopOptions,
+	TerminalWriteOptions,
+	UnsupportedDesktopFeature,
+} from './types';

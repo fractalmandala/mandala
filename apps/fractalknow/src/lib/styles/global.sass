@@ -1,0 +1,180 @@
+@use 'tokens' as t
+@use 'mixins' as m
+
+:root
+	// Publish tokens as CSS custom properties for runtime theme flips.
+	--fk-ink: #{t.$light-ink}
+	--fk-ink-inverse: #{t.$light-ink-inverse}
+	--fk-muted: #{t.$light-muted}
+	--fk-muted-inverse: #{t.$light-muted-inverse}
+	--fk-surface: #{t.$light-surface}
+	--fk-panel: #{t.$light-panel}
+	--fk-line: #{t.$light-line}
+	--fk-accent: #{t.$light-accent}
+	--fk-success: #{t.$light-success}
+	--fk-danger: #{t.$light-danger}
+	--fk-warn: #{t.$light-warn}
+	--fk-overlay-scrim: #{t.$light-overlay-scrim}
+	--fk-duration-fast: #{t.$duration-fast}
+	--fk-duration-base: #{t.$duration-base}
+	--fk-duration-slow: #{t.$duration-slow}
+	--fk-ease-out: #{t.$ease-out}
+	--fk-ease-in: #{t.$ease-in}
+	--fk-ease-in-out: #{t.$ease-in-out}
+
+	// Aliases matching OpenKnowledge-style --ok-* custom properties used by chrome surfaces.
+	--ok-ink: var(--fk-ink)
+	--ok-ink-inverse: var(--fk-ink-inverse)
+	--ok-muted: var(--fk-muted)
+	--ok-muted-inverse: var(--fk-muted-inverse)
+	--ok-surface: var(--fk-surface)
+	--ok-panel: var(--fk-panel)
+	--ok-line: var(--fk-line)
+	--ok-accent: var(--fk-accent)
+	--ok-success: var(--fk-success)
+	--ok-danger: var(--fk-danger)
+	--ok-warn: var(--fk-warn)
+	--ok-overlay-scrim: var(--fk-overlay-scrim)
+
+	// Translucent fills, focus ring, shadows — all per-theme so components
+	// never need compile-time palette constants.
+	--ok-panel-2: #{t.$light-panel-2}
+	--ok-highlight: #{t.$light-highlight}
+	--ok-selection: #{t.$light-selection}
+	--ok-selection-inverse: #{t.$light-selection-inverse}
+	--ok-focus-ring: #{t.$light-focus-ring}
+	--ok-diff-added: #{t.$light-diff-added}
+	--ok-diff-removed: #{t.$light-diff-removed}
+	--ok-diff-modified: #{t.$light-diff-modified}
+	--ok-diff-context: #{t.$light-diff-context}
+	--ok-diff-added-strong: #{t.$light-diff-added-strong}
+	--ok-diff-removed-strong: #{t.$light-diff-removed-strong}
+	--ok-diff-modified-strong: #{t.$light-diff-modified-strong}
+	--ok-overlay-shadow: #{t.$light-overlay-shadow}
+	--ok-overlay-shadow-strong: #{t.$light-overlay-shadow-strong}
+	--ok-shadow-sm: 0 1px 2px var(--ok-overlay-shadow)
+	--ok-shadow-md: 0 4px 8px var(--ok-overlay-shadow)
+	--ok-shadow-lg: 0 12px 28px var(--ok-overlay-shadow-strong)
+	--ok-shadow-xl: 0 24px 48px var(--ok-overlay-shadow-strong)
+
+	// macOS title-bar reserve (matches source's traffic-light spacing)
+	// Non-macOS keeps a 1rem left reserve (mirrors the source app); the macOS
+	// override lives in the :root.platform-macos block below.
+	--ok-titlebar-reserve-left: 1rem
+	--ok-titlebar-reserve-top: #{t.$ok-titlebar-reserve-top}
+
+:root.platform-macos
+	// macOS Sonoma+ traffic-light cluster needs ≈86px of clearance.
+	--ok-titlebar-reserve-left: #{t.$ok-titlebar-reserve-left}
+	font-family: t.$font-family-sans
+	color: var(--fk-ink)
+	background: var(--fk-surface)
+	font-synthesis: none
+	text-rendering: optimizeLegibility
+	-webkit-font-smoothing: antialiased
+	-moz-osx-font-smoothing: grayscale
+
+:root[data-theme='dark']
+	--fk-ink: #{t.$dark-ink}
+	--fk-ink-inverse: #{t.$dark-ink-inverse}
+	--fk-muted: #{t.$dark-muted}
+	--fk-muted-inverse: #{t.$dark-muted-inverse}
+	--fk-surface: #{t.$dark-surface}
+	--fk-panel: #{t.$dark-panel}
+	--fk-line: #{t.$dark-line}
+	--fk-accent: #{t.$dark-accent}
+	--fk-success: #{t.$dark-success}
+	--fk-danger: #{t.$dark-danger}
+	--fk-warn: #{t.$dark-warn}
+	--fk-overlay-scrim: #{t.$dark-overlay-scrim}
+	--ok-panel-2: #{t.$dark-panel-2}
+	--ok-highlight: #{t.$dark-highlight}
+	--ok-selection: #{t.$dark-selection}
+	--ok-selection-inverse: #{t.$dark-selection-inverse}
+	--ok-focus-ring: #{t.$dark-focus-ring}
+	--ok-diff-added: #{t.$dark-diff-added}
+	--ok-diff-removed: #{t.$dark-diff-removed}
+	--ok-diff-modified: #{t.$dark-diff-modified}
+	--ok-diff-context: #{t.$dark-diff-context}
+	--ok-diff-added-strong: #{t.$dark-diff-added-strong}
+	--ok-diff-removed-strong: #{t.$dark-diff-removed-strong}
+	--ok-diff-modified-strong: #{t.$dark-diff-modified-strong}
+	--ok-overlay-shadow: #{t.$dark-overlay-shadow}
+	--ok-overlay-shadow-strong: #{t.$dark-overlay-shadow-strong}
+
+:root[data-theme='hc']
+	--fk-ink: #{t.$hc-ink}
+	--fk-ink-inverse: #{t.$hc-ink-inverse}
+	--fk-muted: #{t.$hc-muted}
+	--fk-muted-inverse: #{t.$hc-muted-inverse}
+	--fk-surface: #{t.$hc-surface}
+	--fk-panel: #{t.$hc-panel}
+	--fk-line: #{t.$hc-line}
+	--fk-accent: #{t.$hc-accent}
+	--fk-success: #{t.$hc-success}
+	--fk-danger: #{t.$hc-danger}
+	--fk-warn: #{t.$hc-warn}
+	--fk-overlay-scrim: #{t.$hc-overlay-scrim}
+	--ok-panel-2: #{t.$hc-panel-2}
+	--ok-highlight: #{t.$hc-highlight}
+	--ok-selection: #{t.$hc-selection}
+	--ok-selection-inverse: #{t.$hc-selection-inverse}
+	--ok-focus-ring: #{t.$hc-focus-ring}
+	--ok-diff-added: #{t.$hc-diff-added}
+	--ok-diff-removed: #{t.$hc-diff-removed}
+	--ok-diff-modified: #{t.$hc-diff-modified}
+	--ok-diff-context: #{t.$hc-diff-context}
+	--ok-diff-added-strong: #{t.$hc-diff-added-strong}
+	--ok-diff-removed-strong: #{t.$hc-diff-removed-strong}
+	--ok-diff-modified-strong: #{t.$hc-diff-modified-strong}
+	--ok-overlay-shadow: #{t.$hc-overlay-shadow}
+	--ok-overlay-shadow-strong: #{t.$hc-overlay-shadow-strong}
+
+*
+	box-sizing: border-box
+
+body
+	margin: 0
+	min-width: 320px
+	min-height: 100vh
+	color: var(--fk-ink)
+	background: var(--fk-surface)
+
+button,
+input,
+textarea,
+select
+	font: inherit
+
+button:focus-visible,
+a:focus-visible,
+[role='button']:focus-visible,
+[role='treeitem']:focus-visible,
+[role='option']:focus-visible,
+[role='menuitem']:focus-visible
+	@include m.focus-ring(2px, 2px)
+
+.skip-link
+	position: absolute
+	left: -9999px
+	top: 0
+	z-index: t.$z-tooltip
+	padding: 8px 12px
+	background: var(--fk-accent)
+	color: var(--fk-ink-inverse)
+	border-radius: 0 0 t.$radius-md t.$radius-md
+	font-weight: 700
+
+	&:focus
+		left: 12px
+		top: 8px
+		@include m.focus-ring(2px, 2px)
+
+@media (prefers-reduced-motion: reduce)
+	*,
+	*::before,
+	*::after
+		animation-duration: 0.01ms !important
+		animation-iteration-count: 1 !important
+		transition-duration: 0.01ms !important
+		scroll-behavior: auto !important
