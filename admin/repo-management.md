@@ -9,6 +9,7 @@ Guidelines for managing branches and worktrees in the **mandala** monorepo.
 - **Trunk-Based Development**: `main` is always the stable, releasable baseline. All work happens on short-lived scoped branches merged back into `main`.
 - **Branch by Work Scope, Not Folder**: Name branches after the task (`feat/fracta-export`, `fix/shared-anim`), never after project folders (`apps/fracta`).
 - **Throwaway Worktrees**: Use Git worktrees for task isolation. Keep one persistent `main` worktree and spawn temporary worktrees for side tasks/experiments.
+- **Humans may skip worktrees**: mandatory only for agents and parallel tasks; humans may use a short-lived branch in the main worktree instead.
 - **Folder Promotions are Commits**: Moving `experiments/x` to `apps/x` is a `git mv` commit on `main`, not a branch migration.
 
 ---
@@ -109,3 +110,4 @@ messages pass through the gate unflagged.
 2. **Prune immediately**: Delete worktree and branch as soon as merged or abandoned.
 3. **Trunk protection**: No direct pushes or long-lived side branches; merge via short-lived feature branches (`--no-ff` for feature units, squash for 1-liner fixes).
 4. **Agent workflow**: Agents must operate in isolated task worktrees, write conventional commits, and clean up worktrees upon task completion.
+5. **Human path (optional)**: branch, commit, merge, delete via GitHub Desktop in the main worktree; never branch from a dirty tree.
