@@ -32,7 +32,7 @@ Diagnose context failures against these four modes, because each requires a diff
 
 1. **Missing context** -- needed information is absent from the total available context. Fix by persisting tool outputs and intermediate results to files so nothing is lost.
 2. **Under-retrieved context** -- retrieved content fails to encapsulate what the agent needs. Fix by structuring files for targeted retrieval (grep-friendly formats, clear section headers).
-3. **Over-retrieved context** -- retrieved content far exceeds what is needed, wasting tokens and degrading attention. Fix by offloading bulk content to files and returning compact references.
+3. **Over-retrieved context** -- retrieved content far exceeds what is needed, wasting tokens and worsening attention. Fix by offloading bulk content to files and returning compact references.
 4. **Buried context** -- niche information is hidden across many files. Fix by combining glob and grep for structural search alongside semantic search for conceptual queries.
 
 Use the filesystem as the persistent layer that addresses all four: write once, store durably, retrieve selectively.
@@ -92,7 +92,7 @@ Re-read the plan at the start of each turn or after any context refresh to re-or
 
 ### Pattern 3: Sub-Agent Communication via Filesystem
 
-Route sub-agent findings through the filesystem instead of message passing, because multi-hop message chains degrade information through summarization at each hop ("game of telephone").
+Route sub-agent findings through the filesystem instead of message passing, because multi-hop message chains fall back information through summarization at each hop ("game of telephone").
 
 Have each sub-agent write directly to its own workspace directory. The coordinator reads these files directly, preserving full fidelity:
 ```

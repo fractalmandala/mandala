@@ -579,7 +579,7 @@ class IntegratedMemorySystem:
         """Consolidate memories and remove outdated information.
 
         Use when: memory count exceeds a threshold, retrieval quality
-        degrades, or on a scheduled interval. In production, implement:
+        falls back, or on a scheduled interval. In production, implement:
         - Merge related facts into summaries
         - Update validity periods on stale entries
         - Archive obsolete facts (invalidate, do not discard)

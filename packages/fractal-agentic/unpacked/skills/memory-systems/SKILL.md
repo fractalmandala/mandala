@@ -31,7 +31,7 @@ Do not activate this skill for adjacent work owned by other skills:
 
 ## Core Concepts
 
-Think of memory as a spectrum from volatile context window to persistent storage. Default to the simplest layer that meets retrieval needs, because benchmark evidence suggests tool complexity matters less than reliable retrieval for some memory workloads (claim-memory-locomo-filesystem-baseline). Add structure (graphs, temporal validity) only when retrieval quality degrades or the agent needs multi-hop reasoning, relationship traversal, or time-travel queries.
+Think of memory as a spectrum from volatile context window to persistent storage. Default to the simplest layer that meets retrieval needs, because benchmark evidence suggests tool complexity matters less than reliable retrieval for some memory workloads (claim-memory-locomo-filesystem-baseline). Add structure (graphs, temporal validity) only when retrieval quality falls back or the agent needs multi-hop reasoning, relationship traversal, or time-travel queries.
 
 ## Detailed Topics
 
@@ -80,11 +80,11 @@ Pick the shallowest memory layer that satisfies the persistence requirement. Eac
 
 ### Retrieval Strategies
 
-Match the retrieval strategy to the query shape. Semantic search handles direct factual lookups well but degrades on multi-hop reasoning; entity-based traversal handles "everything about X" queries but requires graph structure; temporal filtering handles changing facts but requires validity metadata. When accuracy is paramount and infrastructure budget allows, combine strategies into hybrid retrieval.
+Match the retrieval strategy to the query shape. Semantic search handles direct factual lookups well but falls back on multi-hop reasoning; entity-based traversal handles "everything about X" queries but requires graph structure; temporal filtering handles changing facts but requires validity metadata. When accuracy is paramount and infrastructure budget allows, combine strategies into hybrid retrieval.
 
 | Strategy | Use When | Limitation |
 |----------|----------|------------|
-| **Semantic** (embedding similarity) | Direct factual queries | Degrades on multi-hop reasoning |
+| **Semantic** (embedding similarity) | Direct factual queries | Falls back on multi-hop reasoning |
 | **Entity-based** (graph traversal) | "Tell me everything about X" | Requires graph structure |
 | **Temporal** (validity filter) | Facts change over time | Requires validity metadata |
 | **Hybrid** (semantic + keyword + graph) | Best overall accuracy | Most infrastructure |
@@ -93,13 +93,13 @@ Hybrid approaches reduce active context by retrieving only relevant subgraphs or
 
 ### Memory Consolidation
 
-Run consolidation periodically to prevent unbounded growth, because unchecked memory accumulation degrades retrieval quality over time. **Invalidate but do not discard** — preserving history matters for temporal queries that need to reconstruct past states. Trigger consolidation on memory count thresholds, degraded retrieval quality, or scheduled intervals. See [Implementation Reference](./references/implementation.md) for working consolidation code.
+Run consolidation periodically to prevent unbounded growth, because unchecked memory accumulation falls back retrieval quality over time. **Invalidate but do not discard** — preserving history matters for temporal queries that need to reconstruct past states. Trigger consolidation on memory count thresholds, fallback retrieval quality, or scheduled intervals. See [Implementation Reference](./references/implementation.md) for working consolidation code.
 
 ## Practical Guidance
 
 ### Choosing a Memory Architecture
 
-**Start with the simplest viable layer and add complexity only when retrieval quality degrades.** Most agents do not need a temporal knowledge graph on day one. Follow this escalation path:
+**Start with the simplest viable layer and add complexity only when retrieval quality falls back.** Most agents do not need a temporal knowledge graph on day one. Follow this escalation path:
 
 1. **Prototype**: Use file-system memory. Store facts as structured JSON with timestamps. This validates agent behavior before committing to infrastructure.
 2. **Scale**: Move to Mem0 or a vector store with metadata when the agent needs semantic search and multi-tenant isolation, because file-based lookup cannot handle similarity queries.
@@ -108,7 +108,7 @@ Run consolidation periodically to prevent unbounded growth, because unchecked me
 
 ### Integration with Context
 
-Load memories just-in-time rather than preloading everything, because large context payloads are expensive and degrade attention quality. Place retrieved memories in attention-favored positions (beginning or end of context) to maximize their influence on generation.
+Load memories just-in-time rather than preloading everything, because large context payloads are expensive and fall back attention quality. Place retrieved memories in attention-favored positions (beginning or end of context) to maximize their influence on generation.
 
 ### Error Recovery
 
@@ -184,10 +184,10 @@ results = await cognee.search(
 
 ## Gotchas
 
-1. **Stuffing everything into context**: Loading all available memories into the prompt is expensive and degrades attention quality. Use just-in-time retrieval with relevance filtering instead.
+1. **Stuffing everything into context**: Loading all available memories into the prompt is expensive and falls back attention quality. Use just-in-time retrieval with relevance filtering instead.
 2. **Ignoring temporal validity**: Facts go stale. Without validity tracking, outdated information poisons the context and the agent acts on wrong assumptions.
 3. **Over-engineering early**: Simple filesystem-backed memory can outperform more specialized tooling on some benchmarks (claim-memory-locomo-filesystem-baseline). Add sophistication only when simple approaches demonstrably fail.
-4. **No consolidation strategy**: Unbounded memory growth degrades retrieval quality over time. Set memory count thresholds or scheduled intervals to trigger consolidation.
+4. **No consolidation strategy**: Unbounded memory growth falls back retrieval quality over time. Set memory count thresholds or scheduled intervals to trigger consolidation.
 5. **Embedding model mismatch**: Writing memories with one embedding model and reading with another produces poor retrieval because vector spaces are not interchangeable. Pin a single embedding model for each memory store and re-embed all entries if the model changes.
 6. **Graph schema rigidity**: Over-structured graph schemas (rigid node types, fixed relationship labels) break when the domain evolves. Prefer generic relation types and flexible property bags so new entity kinds do not require schema migrations.
 7. **Stale memory poisoning**: Old memories that contradict the current state corrupt agent behavior silently. Implement expiry policies or confidence decay so the agent deprioritizes aged facts, and surface contradictions explicitly when detected.
@@ -200,7 +200,7 @@ This skill owns persistent semantic memory. Adjacent skills own scratch storage,
 - `filesystem-context`: file-backed scratchpads, logs, and simple run state before semantic retrieval is needed.
 - `context-compression`: summaries and handoffs that preserve session state in prose.
 - `context-optimization`: just-in-time memory loading and retrieval scoping inside active context budgets.
-- `context-degradation`: stale or conflicting memories as context poisoning or clash.
+- `context-fallback`: stale or conflicting memories as context poisoning or clash.
 - `bdi-mental-states`: formal mental-state modeling when beliefs, desires, intentions, and provenance chains matter.
 - `multi-agent-patterns`: shared memory across agents.
 - `evaluation`: memory quality, retrieval correctness, and benchmark selection.

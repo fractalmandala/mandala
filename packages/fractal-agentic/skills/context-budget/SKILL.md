@@ -11,7 +11,7 @@ Analyze token overhead across every loaded component in a agent session and surf
 
 ## When to Use
 
-- Session performance feels sluggish or output quality is degrading
+- Session performance feels sluggish or output quality is worsening
 - You've recently added many skills, agents, or MCP servers
 - You want to know how much context headroom you actually have
 - Planning to add more components and need to know if there's room

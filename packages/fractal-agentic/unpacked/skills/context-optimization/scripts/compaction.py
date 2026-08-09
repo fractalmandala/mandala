@@ -417,12 +417,12 @@ class ContextBudget:
         if utilization > 0.8:
             reasons.append(("high_utilization", utilization))
 
-        # Check degradation metrics if provided
+        # Check fallback metrics if provided
         if metrics:
-            if metrics.get("attention_degradation", 0) > 0.3:
-                reasons.append(("attention_degradation", True))
+            if metrics.get("attention_fallback", 0) > 0.3:
+                reasons.append(("attention_fallback", True))
             if metrics.get("quality_score", 1.0) < 0.8:
-                reasons.append(("quality_degradation", True))
+                reasons.append(("quality_fallback", True))
 
         return len(reasons) > 0, reasons
 

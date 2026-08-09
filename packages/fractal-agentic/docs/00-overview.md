@@ -60,7 +60,7 @@ The repository root may also contain the website and marketplace catalogs. Those
 
 1. **Detect the plugin and read the project rules.** The project’s `AGENTS.md` remains authoritative for local conventions.
 2. **Read the startup router and select one boss.** Use the [decision hub](./bosses/INDEX.md), then read only that nested playbook.
-3. **Set capability mode.** Use available pins when the host exposes them; otherwise continue in a documented degraded mode.
+3. **Set capability mode.** Use available pins when the host exposes them; otherwise continue in a documented fallback mode.
 4. **Implement and verify.** The primary session owns the real diff and command results, even when another agent helps implement.
 5. **Review the result.** The review outcome is `ship`, `fix-first`, or `rethink`.
 6. **Capture knowledge when useful.** A configured wiki may receive an episode after delivery.

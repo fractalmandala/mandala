@@ -47,7 +47,7 @@ Then measure each segment separately.
 5. Split hot and cold paths.
 6. Apply backpressure before queues grow unbounded.
 7. Use streaming only when it improves freshness or user experience.
-8. Add canaries for stale data, degraded providers, and bad cache state.
+8. Add canaries for stale data, fallback providers, and bad cache state.
 
 ## Verification
 
@@ -58,7 +58,7 @@ Use live readbacks when a deployed surface exists:
 - queue or job state;
 - edge/cache state;
 - browser verification for actual UI freshness;
-- logs around retries and degraded mode.
+- logs around retries and fallback mode.
 
 For market-data or execution-adjacent paths, also verify orderbook age, VWAP
 assumptions, provider status, and kill-switch behavior before calling the path

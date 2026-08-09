@@ -31,7 +31,7 @@ Canonical policy: [docs/progression.md](../../../docs/progression.md).
    if plugin_missing → done
    if |exposed| == 3 → capability_mode = pinned
    if |exposed| in 1..2 → capability_mode = pinned_partial
-   else → capability_mode = degraded
+   else → capability_mode = fallback
 
 5. State once if mode != pinned:
    "Fractal Agentic capability_mode=<mode>; pins unverified or partial — continuing work."
@@ -39,15 +39,15 @@ Canonical policy: [docs/progression.md](../../../docs/progression.md).
 
 ## Role selection by mode
 
-| Need | `pinned` / `pinned_partial` | `degraded` | `plugin_missing` |
+| Need | `pinned` / `pinned_partial` | `fallback` | `plugin_missing` |
 |---|---|---|---|
-| Routine implement | pin if exposed else degrade for that role | primary / general | project default |
-| Complex implement | pin if exposed else degrade | primary / strongest available | project default |
+| Routine implement | pin if exposed else fall back for that role | primary / general | project default |
+| Complex implement | pin if exposed else fall back | primary / strongest available | project default |
 | Final review | pin if exposed else domain / general / self-review | domain → general → self-review packet | project review norms |
 | Commit consult | same as review | same | optional |
 
 **Partial pins:** use each exposed type for its role only. Missing roles use the
-degraded column. Never require all three.
+fallback column. Never require all three.
 
 ## Reporting
 
@@ -61,7 +61,7 @@ layers: content=ok|miss install=ok|miss|skip session=ok|partial|miss|skip
 
 - `pins: verified` — full `pinned` mode and review used a pin or equivalent stated path  
 - `pins: partial` — `pinned_partial`  
-- `pins: unverified` — `degraded` (or pins not used)  
+- `pins: unverified` — `fallback` (or pins not used)  
 - `pins: n/a` — `plugin_missing`
 
 ## Forbidden

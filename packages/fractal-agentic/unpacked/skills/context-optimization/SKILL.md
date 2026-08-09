@@ -19,7 +19,7 @@ Activate this skill when:
 
 Do not activate this skill for adjacent work owned by other skills:
 - Explaining why attention or context windows behave this way: `context-fundamentals`.
-- Diagnosing active lost-in-middle, poisoning, distraction, confusion, or clash: `context-degradation`.
+- Diagnosing active lost-in-middle, poisoning, distraction, confusion, or clash: `context-fallback`.
 - Designing a structured handoff summary for a long conversation: `context-compression`.
 - Storing large outputs, plans, or logs as files: `filesystem-context`.
 
@@ -41,7 +41,7 @@ The governing principle: context quality matters more than quantity. Every optim
 
 ### Compaction Strategies
 
-Trigger compaction when context utilization exceeds 70%: summarize the current context, then reinitialize with the summary. This distills the window's contents in a high-fidelity manner, enabling continuation with minimal performance degradation. Prioritize compressing tool outputs first (they consume 80%+ of tokens), then old conversation turns, then retrieved documents. Never compress the system prompt — it anchors model behavior and its removal causes unpredictable degradation.
+Trigger compaction when context utilization exceeds 70%: summarize the current context, then reinitialize with the summary. This distills the window's contents in a high-fidelity manner, enabling continuation with minimal performance fallback. Prioritize compressing tool outputs first (they consume 80%+ of tokens), then old conversation turns, then retrieved documents. Never compress the system prompt — it anchors model behavior and its removal causes unpredictable fallback.
 
 Preserve different elements by message type:
 
@@ -49,7 +49,7 @@ Preserve different elements by message type:
 - **Conversational turns**: Retain decisions, commitments, user preferences, and context shifts. Remove filler, pleasantries, and exploratory back-and-forth that led to a conclusion already captured.
 - **Retrieved documents**: Keep claims, facts, and data points relevant to the active task. Remove supporting evidence and elaboration that served a one-time reasoning purpose.
 
-Target 50-70% token reduction with less than 5% quality degradation. If compaction exceeds 70% reduction, audit the summary for critical information loss — over-aggressive compaction is the most common failure mode.
+Target 50-70% token reduction with less than 5% quality fallback. If compaction exceeds 70% reduction, audit the summary for critical information loss — over-aggressive compaction is the most common failure mode.
 
 ### Observation Masking
 
@@ -90,7 +90,7 @@ Allocate explicit token budgets across context categories before the session beg
 
 Use trigger-based optimization rather than periodic optimization. Monitor these signals:
 - Token utilization above 80% — trigger compaction
-- Attention degradation indicators (repetition, missed instructions) — trigger masking + compaction
+- Attention fallback indicators (repetition, missed instructions) — trigger masking + compaction
 - Quality score drops below baseline — audit context composition before optimizing
 
 ## Practical Guidance
@@ -111,7 +111,7 @@ Select the optimization technique based on what dominates the context:
 
 Track these metrics to validate optimization effectiveness:
 
-- **Compaction**: 50-70% token reduction, <5% quality degradation, <10% latency overhead from the compaction step itself
+- **Compaction**: 50-70% token reduction, <5% quality fallback, <10% latency overhead from the compaction step itself
 - **Masking**: 60-80% reduction in masked observations, <2% quality impact, near-zero latency overhead
 - **Cache optimization**: 70%+ hit rate for stable workloads, 50%+ cost reduction, 40%+ latency reduction
 - **Partitioning**: Net token savings after accounting for coordinator overhead; break-even typically requires 3+ subtasks
@@ -163,7 +163,7 @@ triggers:
 5. Monitor optimization effectiveness over time
 6. Balance token savings against quality preservation
 7. Test optimization at production scale
-8. Implement graceful degradation for edge cases
+8. Implement graceful fallback for edge cases
 
 ## Gotchas
 
@@ -171,7 +171,7 @@ triggers:
 
 2. **Timestamps in system prompts destroy cache hit rates**: Including `Current date: {today}` or similar dynamic content in the system prompt forces a full cache miss on every new day (or every request, if using time-of-day). Move dynamic metadata into a user message or a separate tool result appended after the stable prefix.
 
-3. **Compaction under pressure loses critical state**: When the model performing compaction is itself under context pressure (>85% utilization), its summarization quality degrades — it omits task goals, drops user constraints, and flattens nuanced state. Trigger compaction at 70-80%, not 90%+. If compaction must happen late, use a separate model call with a clean context containing only the material to summarize.
+3. **Compaction under pressure loses critical state**: When the model performing compaction is itself under context pressure (>85% utilization), its summarization quality falls back — it omits task goals, drops user constraints, and flattens nuanced state. Trigger compaction at 70-80%, not 90%+. If compaction must happen late, use a separate model call with a clean context containing only the material to summarize.
 
 4. **Masking error outputs breaks debugging loops**: Over-aggressive masking hides error messages, stack traces, and failure details that the agent needs in subsequent turns to diagnose and fix issues. During active debugging (error in the last 3 turns), suspend masking for all error-related observations until the issue is resolved.
 
@@ -186,7 +186,7 @@ triggers:
 This skill owns token-efficiency tactics and budget policy. Adjacent skills own diagnosis, storage, and architecture:
 
 - `context-fundamentals`: mental models for why context quality and attention placement matter.
-- `context-degradation`: diagnosis when output quality has already dropped.
+- `context-fallback`: diagnosis when output quality has already dropped.
 - `context-compression`: lossy summarization and handoff strategy.
 - `filesystem-context`: file-backed offloading for full outputs and logs.
 - `multi-agent-patterns`: partitioning work across isolated agent contexts.
@@ -201,7 +201,7 @@ Internal reference:
 
 Related skills in this collection:
 - context-fundamentals - Read when: unfamiliar with context window mechanics, token counting, or attention distribution basics
-- context-degradation - Read when: diagnosing why agent performance has dropped and needing to identify which degradation pattern is occurring before selecting an optimization
+- context-fallback - Read when: diagnosing why agent performance has dropped and needing to identify which fallback pattern is occurring before selecting an optimization
 - evaluation - Read when: setting up metrics and benchmarks to measure whether an optimization technique actually improved outcomes
 
 External resources:

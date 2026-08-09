@@ -1,6 +1,6 @@
-# Context Degradation Patterns: Technical Reference
+# Context Fallback Patterns: Technical Reference
 
-This document provides technical details on diagnosing and measuring context degradation.
+This document provides technical details on diagnosing and measuring context fallback.
 
 ## Attention Distribution Analysis
 
@@ -33,14 +33,14 @@ def measure_attention_distribution(model, context_tokens, query):
         if item["is_beginning"] or item["is_end"]:
             item["region"] = "attention_favored"
         else:
-            item["region"] = "attention_degraded"
+            item["region"] = "attention_fallback"
     
     return attention_by_position
 ```
 
 ### Lost-in-Middle Detection
 
-Detect when critical information falls in degraded attention regions:
+Detect when critical information falls in fallback attention regions:
 
 ```python
 def detect_lost_in_middle(critical_positions, attention_distribution):
@@ -62,7 +62,7 @@ def detect_lost_in_middle(critical_positions, attention_distribution):
     
     for pos in critical_positions:
         region = attention_distribution[pos]["region"]
-        if region == "attention_degraded":
+        if region == "attention_fallback":
             results["at_risk"].append(pos)
         else:
             results["safe"].append(pos)
@@ -191,7 +191,7 @@ def score_context_relevance(context_elements, task_description):
     }
 ```
 
-## Degradation Monitoring System
+## Fallback Monitoring System
 
 ### Context Health Dashboard
 
@@ -249,7 +249,7 @@ class ContextHealthMonitor:
         elif score > 0.6:
             return "warning"
         elif score > 0.4:
-            return "degraded"
+            return "fallback"
         else:
             return "critical"
 ```
@@ -262,7 +262,7 @@ Configure appropriate alert thresholds:
 CONTEXT_ALERTS = {
     "utilization_warning": 0.7,      # 70% of context limit
     "utilization_critical": 0.9,     # 90% of context limit
-    "attention_degraded_ratio": 0.3, # 30% in middle region
+    "attention_fallback_ratio": 0.3, # 30% in middle region
     "relevance_threshold": 0.3,      # Below 30% relevance
     "consecutive_warnings": 3        # Three warnings triggers alert
 }
@@ -272,7 +272,7 @@ CONTEXT_ALERTS = {
 
 ### Context Truncation Strategy
 
-When context degrades beyond recovery, truncate strategically:
+When context falls back beyond recovery, truncate strategically:
 
 ```python
 def truncate_context_for_recovery(context, preserved_elements, target_size):

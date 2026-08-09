@@ -34,7 +34,7 @@ no lane choice, no orchestration ceremony.
    - **workflow/automation** → Workflow boss
    - **plugin/meta** → Meta boss
 
-2. Auto-select capability mode from session (pins or degraded)
+2. Auto-select capability mode from session (pins or fallback)
 
 3. Delegate to /orchestrate with the selected boss + orch skill
 

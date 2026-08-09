@@ -18,7 +18,7 @@ Use the [Getting started](./01-getting-started.md) page for the short path. This
 | **Google Antigravity** | `npx fractal-agentic --target=antigravity` or copy `plugin/` to `~/.gemini/config/plugins/fractal-agentic` |
 | **Manual Git Clone** | `git clone https://github.com/fractalmandala/fractal-agentic.git` |
 
-Everything optional (capability pins, safety hooks, LLM wiki, self-improvement plane) degrades cleanly — see [progression.md](./progression.md).
+Everything optional (capability pins, safety hooks, LLM wiki, self-improvement plane) falls back cleanly — see [progression.md](./progression.md).
 
 ## Choose an install path
 

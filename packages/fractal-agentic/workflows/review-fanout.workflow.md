@@ -107,4 +107,4 @@ Map host output into Fractal completion language: **ship | fix-first | rethink**
 
 ## Non-blocking
 
-If the host cannot run workflows: skip this file; use degraded review path. Never refuse product work.
+If the host cannot run workflows: skip this file; use fallback review path. Never refuse product work.

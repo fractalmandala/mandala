@@ -21,7 +21,7 @@ Activate this skill when:
 Do not activate this skill for adjacent work owned by other skills:
 - Designing the LLM judge itself, pairwise comparison, judge calibration, or bias mitigation: `advanced-evaluation`.
 - Designing autonomous control surfaces, novelty gates, rollback, or PR approval boundaries: `harness-engineering`.
-- Debugging a specific context failure mode before measuring it: `context-degradation`.
+- Debugging a specific context failure mode before measuring it: `context-fallback`.
 
 ## Core Concepts
 
@@ -58,7 +58,7 @@ Design evaluations that tolerate path variation because agents may take complete
 
 **Test Context-Dependent Failures**
 
-Evaluate across a range of complexity levels and interaction lengths because agent failures often depend on context in subtle ways. An agent might succeed on simple queries but fail on complex ones, work well with one tool set but fail with another, or degrade after extended interaction as context accumulates. Include simple, medium, complex, and very complex test cases to surface these patterns.
+Evaluate across a range of complexity levels and interaction lengths because agent failures often depend on context in subtle ways. An agent might succeed on simple queries but fail on complex ones, work well with one tool set but fail with another, or fall back after extended interaction as context accumulates. Include simple, medium, complex, and very complex test cases to surface these patterns.
 
 **Score Composite Quality Dimensions Separately**
 
@@ -116,9 +116,9 @@ Report scores per stratum alongside overall scores to reveal where the agent act
 
 Run agents with different context strategies on the same test set and compare quality scores, token usage, and efficiency metrics. This isolates the effect of context engineering from other variables and prevents anecdote-driven decisions.
 
-**Run Degradation Tests**
+**Run Fallback Tests**
 
-Test how context degradation affects performance by running agents at different context sizes. Identify performance cliffs where context becomes problematic and establish safe operating limits. Feed these limits back into context management strategies.
+Test how context fallback affects performance by running agents at different context sizes. Identify performance cliffs where context becomes problematic and establish safe operating limits. Feed these limits back into context management strategies.
 
 ### Continuous Evaluation
 
@@ -128,7 +128,7 @@ Integrate evaluation into the development workflow so evaluations run automatica
 
 **Monitor Production Quality**
 
-Sample production interactions and evaluate them continuously. Set alerts for quality drops below warning (0.85 pass rate) and critical (0.70 pass rate) thresholds. Maintain dashboards showing trend analysis over time windows to detect gradual degradation.
+Sample production interactions and evaluate them continuously. Set alerts for quality drops below warning (0.85 pass rate) and critical (0.70 pass rate) thresholds. Maintain dashboards showing trend analysis over time windows to detect gradual fallback.
 
 ## Practical Guidance
 
@@ -142,7 +142,7 @@ Follow this sequence to build an evaluation framework, because skipping early st
 4. Implement automated evaluation pipelines that run on every significant change.
 5. Establish baseline metrics before making changes so improvements can be measured against a known reference.
 6. Run evaluations on all significant changes and compare against the baseline.
-7. Track metrics over time for trend analysis because gradual degradation is harder to notice than sudden drops.
+7. Track metrics over time for trend analysis because gradual fallback is harder to notice than sudden drops.
 8. Supplement automated evaluation with human review on a regular cadence.
 9. Separate deterministic validation failures from quality judgments so invalid artifacts cannot be laundered by a favorable LLM score.
 
@@ -255,7 +255,7 @@ This skill owns outcome measurement and quality gates. Adjacent skills own speci
 
 - `advanced-evaluation`: LLM-as-judge prompt design, pairwise comparison, calibration, and bias mitigation.
 - `harness-engineering`: locked evaluators, editable surfaces, rollback, and human approval boundaries.
-- `context-degradation`: detecting and measuring degradation patterns.
+- `context-fallback`: detecting and measuring fallback patterns.
 - `context-optimization`: measuring token, cost, latency, and quality effects of optimizations.
 - `multi-agent-patterns`: evaluating coordination quality and parallelization trade-offs.
 - `tool-design`: evaluating tool selection and recovery effectiveness.

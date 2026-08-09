@@ -1358,7 +1358,7 @@ def _safe_int(val: Any, default: int) -> int:
     """Coerce a settings value to int, falling back to ``default`` on a
     null, boolean, or non-numeric value. The per-tenant byte caps are
     operator-editable JSON, so a misconfiguration (``null``, ``"auto"``,
-    ``true``/``false``) must degrade to the documented default — not
+    ``true``/``false``) must fall back to the documented default — not
     crash (or silently mis-cap) the skills write path.
 
     ``bool`` is checked first because it is a subclass of ``int`` in

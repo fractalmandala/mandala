@@ -77,7 +77,7 @@ type: episode
 boss: svelte
 status: ship | fix-first | rethink | in-progress | cancelled
 project: fractalsvelte
-capability_mode: degraded | pinned | pinned_partial | plugin_missing
+capability_mode: fallback | pinned | pinned_partial | plugin_missing
 paths: []
 created: YYYY-MM-DD
 updated: YYYY-MM-DD

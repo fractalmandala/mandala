@@ -30,7 +30,7 @@ Trigger compaction at appropriate thresholds to maintain performance:
 - Compaction trigger at 80% of effective context limit
 - Aggressive compaction at 90% of effective context limit
 
-The exact thresholds depend on model behavior and task characteristics. Some models show graceful degradation while others exhibit sharp performance cliffs.
+The exact thresholds depend on model behavior and task characteristics. Some models show graceful fallback while others exhibit sharp performance cliffs.
 
 ## Observation Masking Patterns
 
@@ -137,7 +137,7 @@ def plan_partitioning(task: Dict, context_limit: int) -> Dict:
 
 ### When to Optimize
 
-Consider context optimization when context utilization exceeds 70%, when response quality degrades as conversations extend, when costs increase due to long contexts, or when latency increases with conversation length.
+Consider context optimization when context utilization exceeds 70%, when response quality falls back as conversations extend, when costs increase due to long contexts, or when latency increases with conversation length.
 
 ### What Optimization to Apply
 
@@ -150,7 +150,7 @@ If tool outputs dominate context, apply observation masking. If retrieved docume
 After applying optimization, evaluate effectiveness:
 
 - Measure token reduction achieved
-- Measure quality preservation (output quality should not degrade)
+- Measure quality preservation (output quality should not fall back)
 - Measure latency improvement
 - Measure cost reduction
 
@@ -251,7 +251,7 @@ class MemoryAwareOptimizer:
 Compaction should reduce token count while preserving quality. Target:
 
 - 50-70% token reduction for aggressive compaction
-- Less than 5% quality degradation from compaction
+- Less than 5% quality fallback from compaction
 - Less than 10% latency increase from compaction overhead
 
 ### Masking Performance

@@ -71,7 +71,7 @@ Use a small but real change in a project with the mandate installed:
 4. inspect the diff and verification output; and
 5. close with `ship`, `fix-first`, or `rethink`.
 
-The primary session owns verification. If a capability pin is unavailable, the work continues with a documented degraded mode; do not wait for an optional install to begin.
+The primary session owns verification. If a capability pin is unavailable, the work continues with a documented fallback mode; do not wait for an optional install to begin.
 
 ## Optional additions
 

@@ -122,7 +122,7 @@ Adopt these practices because they keep agent output focused and high-quality:
 - Provide clear, specific requirements upfront to reduce revision cycles
 - Break large projects into discrete components so each can be validated independently
 - Test each component before moving to the next to catch failures early
-- Keep the agent focused on one task at a time to prevent context degradation
+- Keep the agent focused on one task at a time to prevent context fallback
 
 ### Cost and Scale Estimation
 
@@ -146,7 +146,7 @@ Default to single-agent pipelines for batch processing with independent items, b
 - The task exceeds single context window capacity
 - Specialized sub-agents demonstrably improve quality on benchmarks
 
-Choose multi-agent for context isolation, not role anthropomorphization. Sub-agents get fresh context windows for focused subtasks, which prevents context degradation on long-running tasks.
+Choose multi-agent for context isolation, not role anthropomorphization. Sub-agents get fresh context windows for focused subtasks, which prevents context fallback on long-running tasks.
 
 See `multi-agent-patterns` skill for detailed architecture guidance.
 

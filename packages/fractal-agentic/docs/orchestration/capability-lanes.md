@@ -25,7 +25,7 @@ Install: `sh scripts/install-agents.sh` → host agents dir (e.g. `$CODEX_HOME/a
 |---|---|---|
 | **A Content** | Can we read the plugin? | Project AGENTS only |
 | **B Install** | TOML files on disk? | Warn; keep coding |
-| **C Session** | Does *this* task list those `agent_type`s? | Degrade; `pins: unverified` |
+| **C Session** | Does *this* task list those `agent_type`s? | Fall back; `pins: unverified` |
 
 **B ≠ C.** Install success does not mean types are exposed mid-session.
 
@@ -36,14 +36,14 @@ Set once per non-trivial task:
 | Mode | Meaning |
 |---|---|
 | `plugin_missing` | Plugin not found |
-| `degraded` | Plugin OK; no pin types in session |
+| `fallback` | Plugin OK; no pin types in session |
 | `pinned_partial` | Some pin types exposed — use those |
 | `pinned` | All three exposed |
 
 Algorithm: [capability-mode.md](../../skills/boss-orchestration/references/capability-mode.md)  
 Policy: [progression.md](../progression.md)
 
-## Degrade path (first-class)
+## Fall back path (first-class)
 
 1. Implement in primary / general / domain agents  
 2. Keep five-part contract for non-trivial work  

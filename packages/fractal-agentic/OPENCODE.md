@@ -16,7 +16,7 @@ Point the host at **this plugin directory** as the skill and instruction root.
 Treat non-trivial repo changes as an orchestrate loop:
 
 1. Read `AGENTS.md`, select one domain boss, then read only its nested playbook
-2. Set capability mode (pinned / partial / degraded) without blocking  
+2. Set capability mode (pinned / partial / fallback) without blocking  
 3. Implement (lanes if exposed, else primary)  
 4. Primary verifies real diff + commands  
 5. Review → **ship | fix-first | rethink**  

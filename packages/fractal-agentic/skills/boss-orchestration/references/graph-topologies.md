@@ -7,7 +7,7 @@ This guide defines the core graph topologies for multi-agent workflows in Fracta
 Linear agent pipelines (Step 1 → Step 2 → Step 3) suffer from three primary failure modes as context grows:
 1. **Agentic Laziness**: Stopping after partial progress on broad tasks.
 2. **Self-Preferential Bias**: Favoring previously produced outputs when self-evaluating.
-3. **Goal Drift**: Degraded fidelity to initial constraints over long turns.
+3. **Goal Drift**: Fallback fidelity to initial constraints over long turns.
 
 Structuring workflows as **Graphs (DAGs)** isolates execution context, tiers model costs, and guarantees adversarial verification before results are accepted.
 

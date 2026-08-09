@@ -1,4 +1,4 @@
 interface:
   display_name: 'Fractal Agentic Orchestration'
   short_description: 'One-boss progressive discovery + capability_mode + non-blocking review'
-  default_prompt: 'Use $boss-orchestration with docs/progression.md: set capability_mode once from the session spawn catalog (never from disk alone); prefer fractal_agentic_* pins when listed; otherwise degrade with pins:unverified and implement; verify in primary; complete with ship|fix-first|rethink via pin, domain agent, or self-review. Never block product work for missing install or a fresh task.'
+  default_prompt: 'Use $boss-orchestration with docs/progression.md: set capability_mode once from the session spawn catalog (never from disk alone); prefer fractal_agentic_* pins when listed; otherwise fall back with pins:unverified and implement; verify in primary; complete with ship|fix-first|rethink via pin, domain agent, or self-review. Never block product work for missing install or a fresh task.'
