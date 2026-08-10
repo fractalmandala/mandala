@@ -2,6 +2,15 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../dharmalib"
+		},
+		{
+			"path": "../acrolls"
+		},
+		{
+			"path": "../backup-fractalsvelte/open-design-main"
 		}
 	],
 	"settings": {

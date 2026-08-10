@@ -17,10 +17,14 @@ below must be present.
   "regions": [],
   "states": [],
   "cssSubset": "",
+  "visualHtml": "",
   "orphans": [],
   "unresolved": []
 }
 ```
+
+**Required for a workable preview:** non-empty `visualHtml` and non-empty `cssSubset`.
+`regions` alone is not enough — the stage renders `visualHtml`, not the region list.
 
 ### `version`
 
@@ -101,12 +105,26 @@ Toggleable variants for the preview toolbar.
 
 ### `cssSubset`
 
-Single string of CSS. Prefer:
+Single string of CSS. **Required** (non-empty for workable previews). Prefer:
 
-1. `:root { … used tokens … }`
-2. Rules for each resolved class (best-effort conversion from indented SASS)
+1. Theme / token block on the mock root (e.g. `.app-shell.dark { --token: … }`)
+2. Rules for each resolved class used by `visualHtml` (best-effort conversion from indented SASS)
 3. Optional preview-only helpers under `.ssc-stage …` only if needed for layout
    approximation (mark in report if pure invent)
+
+### `visualHtml`
+
+**Required** string: markup-faithful HTML for the stage. The preview template injects this
+into `#ssc-stage` when non-empty.
+
+| Rule | Detail |
+| --- | --- |
+| Structure | Mirror the Svelte template (and layout chrome if in chain); flatten components to static HTML |
+| Inspect ids | Every major node has `data-ssc-id` matching a `regions[].id` |
+| Theme root | Optional `data-ssc-root` on the outermost mock element for light/dark class toggles |
+| Classes | Use the **same class names** as source so `cssSubset` applies |
+| Content | Prefer real strings from source over “Lorem” |
+| Empty | **Invalid deliverable** — template falls back to a labeled region tree (degraded) |
 
 ### `orphans[]`
 
@@ -186,6 +204,7 @@ Free-form issues: missing tokens, mixin-only rules, unexpanded children, etc.
     }
   ],
   "cssSubset": ":root{--bg:#111}.sidebar{display:flex;background:var(--bg)}.sidebar.collapsed{width:48px}",
+  "visualHtml": "<aside class=\"sidebar\" data-ssc-id=\"r0\" data-ssc-root><div class=\"item\">Nav</div></aside>",
   "orphans": [],
   "unresolved": []
 }
