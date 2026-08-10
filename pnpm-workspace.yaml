@@ -1,6 +1,5 @@
 packages:
   - apps/*
-  - '!apps/fractalai'
   - sites/*
   - packages/*
 
@@ -8,15 +7,20 @@ allowBuilds:
   '@parcel/watcher': true
   '@prisma/engines': true
   '@swc/core': true
-  '@tailwindcss/oxide': true
   esbuild: true
   prisma: true
-  protobufjs: set this to true or false
   sharp: false
+  '@tailwindcss/oxide': true
 
+# Keep untrusted dependency scripts blocked, including Sharp. A blocked script
+# is an intentional policy decision, not an installation failure; CI will still
+# fail for package, type-check, lint, and build errors.
+strictDepBuilds: false
+
+# GHSA-g7r4-m6w7-qqqr: esbuild's dev server allowed arbitrary file read via CORS
+# misconfiguration on Windows. Fixed in 0.28.1; esbuild is a deep transitive dep of
+# vite in every app here, so this is pinned at the workspace root.
 overrides:
   dompurify: '>=3.4.11'
   esbuild: '>=0.28.1'
   js-yaml@<3.15.0: 3.15.0
-
-strictDepBuilds: false

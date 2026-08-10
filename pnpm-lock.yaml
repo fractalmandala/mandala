@@ -976,7 +976,7 @@ importers:
         version: 3.0.0
       fractals-styler:
         specifier: ^2.0.0
-        version: 2.2.0(vite@8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11))
+        version: 2.1.0(vite@8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11))
       paneforge:
         specifier: ^1.0.2
         version: 1.0.2(svelte@5.56.8(@typescript-eslint/types@8.66.0))
@@ -1114,30 +1114,6 @@ importers:
       vite:
         specifier: ^8.2.1
         version: 8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)
-
-  sites/test-eslint:
-    devDependencies:
-      '@sveltejs/adapter-auto':
-        specifier: ^7.0.1
-        version: 7.0.1(@sveltejs/kit@2.70.2(@sveltejs/vite-plugin-svelte@7.3.0(svelte@5.56.8(@typescript-eslint/types@8.66.0))(vite@8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)))(svelte@5.56.8(@typescript-eslint/types@8.66.0))(typescript@6.0.3)(vite@8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)))
-      '@sveltejs/kit':
-        specifier: ^2.63.0
-        version: 2.70.2(@sveltejs/vite-plugin-svelte@7.3.0(svelte@5.56.8(@typescript-eslint/types@8.66.0))(vite@8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)))(svelte@5.56.8(@typescript-eslint/types@8.66.0))(typescript@6.0.3)(vite@8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11))
-      '@sveltejs/vite-plugin-svelte':
-        specifier: ^7.1.2
-        version: 7.3.0(svelte@5.56.8(@typescript-eslint/types@8.66.0))(vite@8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11))
-      svelte:
-        specifier: ^5.56.1
-        version: 5.56.8(@typescript-eslint/types@8.66.0)
-      svelte-check:
-        specifier: ^4.6.0
-        version: 4.7.5(picomatch@4.0.5)(svelte@5.56.8(@typescript-eslint/types@8.66.0))(typescript@6.0.3)
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
-      vite:
-        specifier: ^8.0.16
-        version: 8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)
 
 packages:
 
@@ -3602,6 +3578,10 @@ packages:
     resolution: {integrity: sha512-Z/ZeOgVl7bcSYZ/u/rh0fOpvEpq//LZmdbkXyc7syVzjPAhfOa9ebsdTSjEBDU4vs5nC98Kfduj1uFo0qyET3g==}
     engines: {node: '>= 0.4'}
 
+  aria-query@5.3.2:
+    resolution: {integrity: sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw==}
+    engines: {node: '>= 0.4'}
+
   arkregex@0.0.8:
     resolution: {integrity: sha512-PJcx6G1kQTgLKPUbeYlYecDRaKq15AMSGVajlKFYWlPeJRQL+j3dKE6tyMs40HZ99djS1l9Vhl3ezAHy9JBIqQ==}
 
@@ -4352,6 +4332,12 @@ packages:
 
   fractals-styler@1.0.2:
     resolution: {integrity: sha512-3u5yhAGfWg78ZXYxwLdpaXnPFIJFIz17W4/t7mc+ICwLQUL16t0BE6cW+YsvrQcopzkW9gQDM8+C3le++fREhw==}
+    hasBin: true
+    peerDependencies:
+      vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+
+  fractals-styler@2.1.0:
+    resolution: {integrity: sha512-Tndsb7OR1xzVKXfvl+S4EYPRimleq10Rc2rjCdw/dCF7xZtx32iDqeFOOqiRT551kscSxdYceCLHGLxWDnqchg==}
     hasBin: true
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -8381,7 +8367,7 @@ snapshots:
   '@testing-library/jest-dom@6.9.1':
     dependencies:
       '@adobe/css-tools': 4.5.0
-      aria-query: 5.3.1
+      aria-query: 5.3.2
       css.escape: 1.5.1
       dom-accessibility-api: 0.6.3
       picocolors: 1.1.1
@@ -8754,7 +8740,7 @@ snapshots:
 
   '@types/marked@6.0.0':
     dependencies:
-      marked: 16.4.2
+      marked: 18.0.9
 
   '@types/mdast@4.0.4':
     dependencies:
@@ -9215,6 +9201,8 @@ snapshots:
       dequal: 2.0.3
 
   aria-query@5.3.1: {}
+
+  aria-query@5.3.2: {}
 
   arkregex@0.0.8:
     dependencies:
@@ -10100,15 +10088,15 @@ snapshots:
       fast-glob: 3.3.3
       vite: 8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)
 
+  fractals-styler@2.1.0(vite@8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)):
+    dependencies:
+      fast-glob: 3.3.3
+      vite: 8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)
+
   fractals-styler@2.2.0(vite@8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)):
     dependencies:
       fast-glob: 3.3.3
       vite: 8.2.1(@types/node@24.13.3)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)
-
-  fractals-styler@2.2.0(vite@8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)):
-    dependencies:
-      fast-glob: 3.3.3
-      vite: 8.2.1(@types/node@25.9.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.102.0)(tsx@4.23.11)
 
   fractalsvelte@0.4.2(7951b2415a3edb461247518c7f332dbd):
     dependencies:
