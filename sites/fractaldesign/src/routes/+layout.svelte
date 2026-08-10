@@ -15,7 +15,9 @@
 	let { children } = $props();
 	let current = $derived(page.url.pathname)
 	// Docs sections bring their own <AppShell> chrome — suppress the site chrome there.
-	let isDocs = $derived(current.startsWith('/sveltekit') || current.startsWith('/posts'))
+	let isDocs = $derived(
+		current.startsWith('/sveltekit') || current.startsWith('/posts') || current.startsWith('/components')
+	)
 
 	const nav = [
 		{ href: '/components', label: 'Components' },

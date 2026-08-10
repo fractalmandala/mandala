@@ -1,37 +1,15 @@
-// Components registry — the /components browser chrome.
-// App-style split: quiet sidebar rail + editorial main column.
-@use 'mixins' as *
+// Components registry — lives inside the shared docs shell (same chrome as
+// /posts). Only the registry-specific bits live here: sidebar search box,
+// preview stage, and the source head row. The code blocks themselves are
+// plain prism output styled by prism.css, exactly like /posts.
 
-.registry
-	display: grid
-	grid-template-columns: minmax(0, 1fr)
-	min-height: calc(100dvh - var(--header-height) - var(--footer-height))
-	+bp-md
-		grid-template-columns: 280px minmax(0, 1fr)
-
-// Sidebar rail ----------------------------------------------------------
-.registry-side
-	padding: 16px
-	+bp-md
-		position: sticky
-		top: var(--header-height)
-		align-self: start
-		max-height: calc(100dvh - var(--header-height))
-		overflow-y: auto
-		border-right: 1px solid var(--border)
-
-.registry-side-head
-	display: flex
-	align-items: center
-	justify-content: space-between
-	padding: 4px 8px 12px
-
-.registry-search
+// Search box pinned above the docs nav tree
+.docs-search
 	display: flex
 	align-items: center
 	gap: 8px
-	margin-bottom: 12px
-	padding: 8px 12px
+	margin: 4px 6px 12px
+	padding: 6px 10px
 	border: 1px solid var(--border)
 	border-radius: var(--radius-pill)
 	background: var(--bg-raised)
@@ -53,60 +31,12 @@
 		&::placeholder
 			color: var(--text-tertiary)
 
-.registry-nav
-	display: flex
-	flex-direction: column
-	gap: 2px
-
-.registry-nav-item
-	display: block
-	width: 100%
-	padding: 6px 12px
-	border: none
-	border-radius: var(--radius-m)
-	background: transparent
-	color: var(--text-secondary)
-	font-family: var(--font-sans)
-	font-size: 13px
-	text-align: left
-	cursor: pointer
-	transition: color 120ms ease, background-color 120ms ease
-	&:hover
-		color: var(--text-primary)
-		background: var(--bg-subtle)
-	&.active
-		color: var(--text-primary)
-		background: var(--bg-subtle)
-		font-weight: 600
-
-.registry-empty
-	padding: 16px 12px
-	color: var(--text-tertiary)
-	font-size: 13px
-
-// Main column -------------------------------------------------------------
-.registry-main
-	min-width: 0
-	padding: clamp(20px, 3.4vw, 40px)
-
-.registry-head
-	display: flex
-	flex-direction: column
-	gap: 6px
-	margin-bottom: 24px
-
-.registry-title
-	font-size: clamp(28px, 4vw, 40px)
-	line-height: 1.08
-	letter-spacing: -0.02em
-	margin: 0
-
 .registry-file
 	font-family: var(--font-mono)
 	font-size: 12px
 	color: var(--text-tertiary)
 
-// Preview stage ------------------------------------------------------------
+// Preview stage ---------------------------------------------------------
 .registry-preview
 	margin-bottom: 28px
 	border: 1px solid var(--border)
@@ -131,39 +61,15 @@
 	min-height: 180px
 	padding: 32px
 
-// Source panel ---------------------------------------------------------------
-.registry-source
-	border: 1px solid var(--border)
-	border-radius: var(--radius-l)
-	background: var(--bg-raised)
-	box-shadow: var(--shadow-card)
-	overflow: hidden
-
+// Source head row — the prism <pre> below brings its own dark chrome
 .registry-source-head
 	display: flex
 	align-items: center
 	justify-content: space-between
 	gap: 12px
 	flex-wrap: wrap
-	padding: 10px 16px
-	border-bottom: 1px solid var(--border)
-
-.registry-source-body
-	max-height: 520px
-	overflow: auto
-	pre
-		margin: 0
-		padding: 16px 20px
-		border: none
-		border-radius: 0
-		background: transparent !important
-		font-family: var(--font-mono)
-		font-size: 12.5px
-		line-height: 1.65
-		code
-			background: none
-			padding: 0
-			font-family: inherit
+	margin-top: 28px
+	margin-bottom: 8px
 
 .registry-empty-state
 	display: flex
@@ -171,10 +77,3 @@
 	justify-content: center
 	min-height: 40vh
 	color: var(--text-tertiary)
-
-// Shiki dual-theme switching — light tokens are inline; dark tokens ride
-// on --shiki-dark custom properties and take over under the dark theme.
-[data-theme="dark"] .registry-source-body .shiki,
-[data-theme="dark"] .registry-source-body .shiki span
-	color: var(--shiki-dark) !important
-	background-color: transparent !important

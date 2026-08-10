@@ -16,8 +16,16 @@
 		nav = [],
 		title = 'Docs',
 		home = '/',
+		sidebarTop,
 		children
-	}: { nav?: DocNavItem[]; title?: string; home?: string; children: Snippet } = $props();
+	}: {
+		nav?: DocNavItem[];
+		title?: string;
+		home?: string;
+		/** Optional content rendered above the nav tree (e.g. a search box). */
+		sidebarTop?: Snippet;
+		children: Snippet;
+	} = $props();
 
 	let mobileOpen = $state(false);
 	let article = $state<HTMLElement | null>(null);
@@ -25,9 +33,13 @@
 	let cleanup: (() => void) | undefined;
 
 	const current = $derived(page.url.pathname);
+	const currentFull = $derived(page.url.pathname + page.url.search);
 
 	function isActive(href?: string): boolean {
-		return !!href && (current === href || current === href + '/');
+		if (!href) return false;
+		// Query-based hrefs (e.g. /components?c=Alert) match the full URL exactly.
+		if (href.includes('?')) return currentFull === href;
+		return current === href || current === href + '/';
 	}
 	function branchActive(item: DocNavItem): boolean {
 		return isActive(item.href) || item.items.some(branchActive);
@@ -122,6 +134,7 @@
 	{/snippet}
 
 	{#snippet sidebarleft()}
+		{@render sidebarTop?.()}
 		<nav class="docs-nav" aria-label="Documentation">
 			{@render tree(nav, 'root', 0)}
 		</nav>
