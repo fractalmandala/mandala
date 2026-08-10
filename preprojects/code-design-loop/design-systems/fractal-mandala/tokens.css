@@ -1,0 +1,198 @@
+/* fractal-mandala shared base — generated; do not hand-edit for product truth */
+/* Source of truth remains monorepo SASS per app. */
+
+/* —— fractaldharma (sites/fractaldharma/src/lib/styles/_tokens.sass) —— */
+[data-design-base="fractal-mandala"][data-app="fractaldharma"],
+.design-base-fractal-mandala.app-fractaldharma {
+  --background-primary: #FFFFFF;
+  --background-quart: #d9d9d3;
+  --background-secondary: #F9F8F6;
+  --background-tertiary: #e1e1e0;
+  --border-dark: #d1d1d1;
+  --border-default: #efefef;
+  --border-light: #f1f1f1;
+  --breadcrumb-height: var(--size32);
+  --content-narrow: 720px;
+  --content-reading: 900px;
+  --content-wide: 1120px;
+  --control-height: var(--size32);
+  --duration-fast: 120ms;
+  --duration-normal: 180ms;
+  --duration-panel: 220ms;
+  --ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --font-sans: 'Google Sans', sans-serif;
+  --footer-height: 32px;
+  --header-height: var(--size64);
+  --headerfooter: calc(var(--header-height) + var(--footer-height));
+  --pane-handle: var(--size4);
+  --pane-max: 360px;
+  --pane-min: 240px;
+  --site-padding: 8px;
+  --size12: 12px;
+  --size128: 128px;
+  --size16: 16px;
+  --size2: 2px;
+  --size24: 24px;
+  --size32: 32px;
+  --size4: 4px;
+  --size48: 48px;
+  --size64: 64px;
+  --size8: 8px;
+  --size80: 80px;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.5rem;
+  --text-5xl: 3.25rem;
+  --text-accent: #533883;
+  --text-accent2: #7A3F98;
+  --text-accent3: #D7693B;
+  --text-base: 1rem;
+  --text-bs: 1rem;
+  --text-lg: 1.125rem;
+  --text-md: 0.9375rem;
+  --text-primary: #121212;
+  --text-secondary: #666666;
+  --text-sm: 0.875rem;
+  --text-tertiary: #a7a7a7;
+  --text-xl: 1.25rem;
+  --text-xs: 0.75rem;
+  --theme-color: #D7693B;
+  --touch-target: var(--size48);
+  --z-dialog: 1000;
+  --z-panel: 10;
+  --z-popover: 100;
+  --z-toast: 2000;
+}
+
+/* fractaldharma dark default convenience */
+.app-shell.dark, [data-ssc-root].dark {
+  --background-primary: #FFFFFF;
+  --background-secondary: #F9F8F6;
+  --text-primary: #121212;
+  --text-secondary: #666666;
+  --theme-color: #D7693B;
+  --border-default: #efefef;
+  --font-sans: 'Google Sans', sans-serif;
+  --text-bs: 1rem;
+  --text-xl: 1.25rem;
+}
+
+/* —— fractalengine (apps/fractalengine/src/lib/styles/_tokens.sass) —— */
+[data-design-base="fractal-mandala"][data-app="fractalengine"],
+.design-base-fractal-mandala.app-fractalengine {
+  --accent-ring: rgba(40, 173, 51, 0.35);
+  --accent-surface-faint: color-mix(in srgb, var(--theme-color) 6%, transparent);
+  --accent-surface-medium: color-mix(in srgb, var(--theme-color) 12%, transparent);
+  --accent-surface-subtle: color-mix(in srgb, var(--theme-color) 8%, transparent);
+  --background10: #FFFFFF;
+  --background20: #FBFAF9;
+  --background30: #F7F6F3;
+  --background40: #E1E1E1;
+  --background50: #Efefef;
+  --background60: #898787;
+  --background70: #4d4c4c;
+  --background80: #2f2f2f;
+  --background90: #323232;
+  --border-primary: #e7e7e7;
+  --border-secondary: #d7d7d7;
+  --border-subtle: var(--border-tertiary);
+  --border-tertiary: #f1f1f1;
+  --canvas-sheet-bg: var(--white-text);
+  --color20: #10b981;
+  --color30: #f59e0b;
+  --control-radius-pill: 9999px;
+  --control-radius-round: 50%;
+  --control-target-min: 24px;
+  --dialog-shadow: 0 12px 40px rgba(255, 255, 255, 0.5);
+  --elevation-2: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --feedback-error: #ef4444;
+  --feedback-error-bg: color-mix(in srgb, var(--feedback-error) 12%, var(--background20));
+  --feedback-error-border: #b91c1c;
+  --focus-ring: 0 0 0 2px var(--background10), 0 0 0 4px var(--theme-color);
+  --font-monospace: 'JetBrains Mono', monospace;
+  --font-sans: 'Google Sans Flex', sans-serif;
+  --font-size-relative-sm: 0.9em;
+  --icon-size-xs: 12px;
+  --module-code: var(--theme-color);
+  --module-db: var(--color20);
+  --module-design: var(--theme-color-alt);
+  --module-mail: #45a01e;
+  --module-system: var(--text-tertiary);
+  --module-wiki: var(--color30);
+  --motion-ease-standard: ease;
+  --motion-spin-slow: 2s;
+  --motion-standard: 150ms;
+  --overlay-bg: rgba(255, 255, 255, 0.6);
+  --overlay-bg-dark: rgba(255, 255, 255, 0.05);
+  --resize-hit-target: 24px;
+  --shadow-canvas-float: 0 4px 20px color-mix(in srgb, var(--text-inverse) 12%, transparent);
+  --shadow-focus-accent: 0 0 0 3px color-mix(in srgb, var(--theme-color) 14%, transparent);
+  --shadow-panel: 0 8px 24px rgba(255, 255, 255, 0.5);
+  --shadow-popover: 0 20px 50px rgba(255, 255, 255, 0.6);
+  --shell-divider: var(--border-primary);
+  --shell-divider-active: var(--theme-color);
+  --shell-focus: var(--theme-color);
+  --shell-handle: var(--text-tertiary);
+  --shell-motion-content-delay: 40ms;
+  --shell-motion-duration: 180ms;
+  --shell-motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --shell-surface-inspector: var(--background20);
+  --shell-surface-navigation: var(--background30);
+  --shell-surface-secondary: var(--background20);
+  --shell-surface-workspace: var(--background10);
+  --state-hover: var(--background40);
+  --success-border: color-mix(in srgb, var(--color20) 30%, transparent);
+  --surface-glass-strong: color-mix(in srgb, var(--white-text) 82%, transparent);
+  --surface-neutral-faint: color-mix(in srgb, var(--text-inverse) 6%, transparent);
+  --sz-1: 1px;
+  --sz-108: 108px;
+  --sz-12: 12px;
+  --sz-16: 16px;
+  --sz-2: 2px;
+  --sz-24: 24px;
+  --sz-32: 32px;
+  --sz-36: 36px;
+  --sz-4: 4px;
+  --sz-48: 48px;
+  --sz-6: 6px;
+  --sz-64: 64px;
+  --sz-8: 8px;
+  --sz-80: 80px;
+  --sz-96: 96px;
+  --text-2xl: calc(var(--text-xl) * 1.2);
+  --text-3xl: calc(var(--text-2xl) * 1.2);
+  --text-bs: 1rem;
+  --text-inverse: #FFFFFF;
+  --text-lg: calc(var(--text-bs) * 1.2);
+  --text-md: 14px;
+  --text-primary: #181818;
+  --text-secondary: #5d5d5d;
+  --text-sm: 12px;
+  --text-tertiary: #a1a1a1;
+  --text-xl: calc(var(--text-lg) * 1.2);
+  --text-xs: 10px;
+  --theme-color: #28ad33;
+  --theme-color-alt: #10b981;
+  --tile-border-active: var(--theme-color);
+  --transition-button: height 50ms ease-out;
+  --transition-control: all 150ms ease;
+  --transition-hover-1: all 110ms ease;
+  --transition-long: all 500ms cubic-bezier(0.645, 0.045, 0.355, 1.000);
+  --transition-quick: all 84ms cubic-bezier(0.755, 0.050, 0.855, 0.060);
+  --white-text: #ffffff;
+  --z-overlay: 1000;
+  --z-panel: 10;
+}
+
+/* fractalengine dark theme convenience */
+.theme-amrit-dark {
+  --background10: #FFFFFF;
+  --background20: #FBFAF9;
+  --text-primary: #181818;
+  --text-secondary: #5d5d5d;
+  --theme-color: #28ad33;
+  --border-primary: #e7e7e7;
+  --font-sans: 'Google Sans Flex', sans-serif;
+}
+

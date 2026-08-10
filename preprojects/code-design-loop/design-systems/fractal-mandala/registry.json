@@ -1,0 +1,18 @@
+{
+  "id": "fractal-mandala",
+  "version": "0.1.0",
+  "generatedAt": "2026-08-10T13:28:02.493Z",
+  "apps": [
+    {
+      "id": "fractaldharma",
+      "path": "sites/fractaldharma/src/lib/styles/_tokens.sass",
+      "tokenCount": 59
+    },
+    {
+      "id": "fractalengine",
+      "path": "apps/fractalengine/src/lib/styles/_tokens.sass",
+      "tokenCount": 102
+    }
+  ],
+  "tokenNameCount": 147
+}

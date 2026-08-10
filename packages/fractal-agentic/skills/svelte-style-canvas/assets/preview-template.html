@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Svelte Style Canvas</title>
   <style>
-    /* Shell chrome — not part of the target component */
+    /* —— Preview chrome (not the target UI) —— */
     :root {
-      --ssc-chrome-bg: #0f1115;
-      --ssc-chrome-panel: #171a21;
-      --ssc-chrome-border: #2a3140;
+      --ssc-chrome-bg: #0c0d10;
+      --ssc-chrome-panel: #14161c;
+      --ssc-chrome-border: #2a2f3a;
       --ssc-chrome-text: #e8ecf4;
       --ssc-chrome-muted: #8b95a8;
       --ssc-chrome-accent: #7c9cff;
@@ -18,226 +18,115 @@
       --ssc-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       --ssc-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     }
-
     * { box-sizing: border-box; }
     html, body {
-      margin: 0;
-      height: 100%;
+      margin: 0; height: 100%;
       background: var(--ssc-chrome-bg);
       color: var(--ssc-chrome-text);
       font-family: var(--ssc-font);
       font-size: 13px;
     }
-
     .ssc-app {
       display: grid;
       grid-template-rows: auto auto 1fr;
-      height: 100%;
-      min-height: 100vh;
+      height: 100%; min-height: 100vh;
     }
-
     .ssc-header {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; flex-wrap: wrap; gap: 12px;
+      align-items: center; justify-content: space-between;
       padding: 10px 14px;
       border-bottom: 1px solid var(--ssc-chrome-border);
       background: var(--ssc-chrome-panel);
     }
-
-    .ssc-header h1 {
-      margin: 0;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
-
-    .ssc-meta {
-      color: var(--ssc-chrome-muted);
-      font-size: 12px;
-    }
-
+    .ssc-header h1 { margin: 0; font-size: 14px; font-weight: 600; }
+    .ssc-meta { color: var(--ssc-chrome-muted); font-size: 12px; }
     .ssc-badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
+      display: inline-block; padding: 2px 8px; border-radius: 999px;
       border: 1px solid var(--ssc-chrome-border);
-      color: var(--ssc-chrome-muted);
-      font-size: 11px;
-      font-family: var(--ssc-mono);
+      color: var(--ssc-chrome-muted); font-size: 11px; font-family: var(--ssc-mono);
     }
-
     .ssc-toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
       padding: 8px 14px;
       border-bottom: 1px solid var(--ssc-chrome-border);
-      background: #12151c;
+      background: #10131a;
     }
-
     .ssc-toolbar label {
-      color: var(--ssc-chrome-muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-right: 4px;
+      color: var(--ssc-chrome-muted); font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.06em;
     }
-
-    .ssc-states {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      flex: 1;
-    }
-
+    .ssc-states { display: flex; flex-wrap: wrap; gap: 6px; flex: 1; }
     .ssc-btn {
       appearance: none;
       border: 1px solid var(--ssc-chrome-border);
       background: var(--ssc-chrome-panel);
       color: var(--ssc-chrome-text);
-      border-radius: 6px;
-      padding: 5px 10px;
-      font: inherit;
-      cursor: pointer;
+      border-radius: 6px; padding: 5px 10px;
+      font: inherit; cursor: pointer;
     }
-
     .ssc-btn:hover { border-color: var(--ssc-chrome-accent); }
-    .ssc-btn:focus-visible {
-      outline: 2px solid var(--ssc-chrome-accent);
-      outline-offset: 2px;
-    }
+    .ssc-btn:focus-visible { outline: 2px solid var(--ssc-chrome-accent); outline-offset: 2px; }
     .ssc-btn[aria-pressed="true"] {
       background: color-mix(in srgb, var(--ssc-chrome-accent) 22%, var(--ssc-chrome-panel));
       border-color: var(--ssc-chrome-accent);
     }
-
     .ssc-main {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
       min-height: 0;
     }
-
-    @media (max-width: 860px) {
+    @media (max-width: 900px) {
       .ssc-main { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
     }
-
     .ssc-stage-wrap {
-      position: relative;
-      overflow: auto;
-      min-height: 0;
-      background:
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 24px 24px,
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 24px 24px,
-        #0b0d12;
+      position: relative; overflow: auto; min-height: 0;
+      background: #090a0d;
     }
-
+    /* Stage hosts the REAL visual mock — no region-tree chrome inside by default */
     .ssc-stage {
-      min-width: 100%;
-      min-height: 100%;
-      padding: 28px;
-      transform-origin: 0 0;
+      min-width: 100%; min-height: 100%;
+      padding: 0;
     }
-
-    /* Fallback region chrome when target CSS is thin */
-    .ssc-region {
-      position: relative;
-      min-height: 28px;
-      min-width: 40px;
-      outline: 1px dashed transparent;
-      transition: outline-color 120ms ease;
-    }
-
-    .ssc-region.ssc-selected {
-      outline: 2px solid var(--ssc-chrome-accent);
+    .ssc-stage.ssc-padded { padding: 20px; }
+    /* Selection outline on inspectable nodes */
+    .ssc-stage [data-ssc-id] { cursor: pointer; }
+    .ssc-stage [data-ssc-id].ssc-selected {
+      outline: 2px solid var(--ssc-chrome-accent) !important;
       outline-offset: 2px;
+      position: relative;
       z-index: 2;
     }
-
-    .ssc-region-label {
-      position: absolute;
-      top: 2px;
-      left: 4px;
-      z-index: 3;
-      font-size: 10px;
-      font-family: var(--ssc-mono);
-      color: var(--ssc-chrome-muted);
-      background: rgba(15, 17, 21, 0.72);
-      padding: 1px 5px;
-      border-radius: 3px;
-      pointer-events: none;
-      opacity: 0.85;
-    }
-
-    .ssc-region-body {
-      padding: 18px 10px 10px;
-    }
-
     .ssc-inspector {
       border-left: 1px solid var(--ssc-chrome-border);
       background: var(--ssc-chrome-panel);
-      overflow: auto;
-      padding: 12px 14px 24px;
-      min-height: 180px;
+      overflow: auto; padding: 12px 14px 24px; min-height: 180px;
     }
-
     .ssc-inspector h2 {
-      margin: 0 0 8px;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--ssc-chrome-muted);
-      font-weight: 600;
+      margin: 0 0 8px; font-size: 12px; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--ssc-chrome-muted); font-weight: 600;
     }
-
     .ssc-inspector dl {
-      margin: 0 0 14px;
-      display: grid;
-      grid-template-columns: 88px 1fr;
-      gap: 6px 8px;
+      margin: 0 0 14px; display: grid;
+      grid-template-columns: 88px 1fr; gap: 6px 8px;
     }
-
-    .ssc-inspector dt {
-      color: var(--ssc-chrome-muted);
-    }
-
-    .ssc-inspector dd {
-      margin: 0;
-      word-break: break-word;
-      font-family: var(--ssc-mono);
-      font-size: 12px;
-    }
-
-    .ssc-list {
-      margin: 0;
-      padding-left: 16px;
-    }
-
+    .ssc-inspector dt { color: var(--ssc-chrome-muted); }
+    .ssc-inspector dd { margin: 0; word-break: break-word; font-family: var(--ssc-mono); font-size: 12px; }
+    .ssc-list { margin: 0; padding-left: 16px; }
     .ssc-list li { margin: 4px 0; }
-
-    .ssc-empty {
-      color: var(--ssc-chrome-muted);
-      font-style: italic;
-    }
-
+    .ssc-empty { color: var(--ssc-chrome-muted); font-style: italic; }
     .ssc-warn { color: var(--ssc-chrome-danger); }
     .ssc-ok { color: var(--ssc-chrome-ok); }
-
     .ssc-error {
-      margin: 16px;
-      padding: 12px 14px;
-      border: 1px solid var(--ssc-chrome-danger);
-      border-radius: 8px;
+      margin: 16px; padding: 12px 14px;
+      border: 1px solid var(--ssc-chrome-danger); border-radius: 8px;
       background: rgba(240, 113, 120, 0.08);
-      color: var(--ssc-chrome-text);
-      font-family: var(--ssc-mono);
-      white-space: pre-wrap;
+      font-family: var(--ssc-mono); white-space: pre-wrap;
+    }
+    .ssc-mode-hint {
+      font-size: 11px; color: var(--ssc-chrome-muted); margin-left: 8px;
     }
 
-    /* Injected component CSS lands here */
+    /* Injected target CSS */
     /*__SSC_INJECTED_CSS__*/
   </style>
 </head>
@@ -250,6 +139,7 @@
       </div>
       <div>
         <span class="ssc-badge" id="ssc-fidelity">fidelity</span>
+        <span class="ssc-badge" id="ssc-mode">mode</span>
       </div>
     </header>
 
@@ -257,7 +147,7 @@
       <label id="ssc-states-label">States</label>
       <div class="ssc-states" id="ssc-states" aria-labelledby="ssc-states-label"></div>
       <button type="button" class="ssc-btn" id="ssc-reset">Reset</button>
-      <button type="button" class="ssc-btn" id="ssc-labels" aria-pressed="true">Labels</button>
+      <span class="ssc-mode-hint" id="ssc-hint">Click UI regions to inspect</span>
     </div>
 
     <div class="ssc-main">
@@ -271,7 +161,13 @@
     </div>
   </div>
 
-  <!-- Agent replaces the entire JSON object below -->
+  <!--
+    style-pack fields:
+      visualHtml  — REQUIRED for workable previews: markup-faithful HTML (with data-ssc-id)
+      cssSubset   — CSS for that markup
+      regions     — evidence for inspector (id matches data-ssc-id)
+      states      — toggles that add/remove className on appliesTo ids
+  -->
   <script type="application/json" id="ssc-style-pack">
 {
   "version": 1,
@@ -281,28 +177,14 @@
     "targetSlug": "template",
     "generatedAt": "1970-01-01T00:00:00Z",
     "fidelity": "L1",
-    "notes": "Replace this pack when generating a real preview."
+    "notes": "Replace pack + visualHtml when generating."
   },
   "tokens": [],
   "classes": [],
-  "regions": [
-    {
-      "id": "r0",
-      "label": "Root",
-      "kind": "shell",
-      "tag": "div",
-      "parentId": null,
-      "classes": [],
-      "states": [],
-      "file": "(unset)",
-      "lineStart": null,
-      "lineEnd": null,
-      "textHint": "Replace style pack",
-      "confidence": "unresolved"
-    }
-  ],
+  "regions": [],
   "states": [],
   "cssSubset": "",
+  "visualHtml": "",
   "orphans": [],
   "unresolved": []
 }
@@ -316,118 +198,131 @@
         pack = JSON.parse(packEl.textContent);
       } catch (err) {
         document.getElementById("ssc-app").innerHTML =
-          '<div class="ssc-error">Failed to parse #ssc-style-pack JSON:\n' +
-          String(err) +
-          "</div>";
+          '<div class="ssc-error">Failed to parse #ssc-style-pack JSON:\n' + String(err) + "</div>";
         return;
       }
 
       const byId = new Map((pack.regions || []).map((r) => [r.id, r]));
-      const childrenOf = new Map();
-      for (const r of pack.regions || []) {
-        const key = r.parentId == null ? "__root__" : r.parentId;
-        if (!childrenOf.has(key)) childrenOf.set(key, []);
-        childrenOf.get(key).push(r);
-      }
-
       const classIndex = new Map(
         (pack.classes || []).map((c) => [String(c.name).replace(/^\./, ""), c])
       );
-
       const activeStates = new Set(
         (pack.states || []).filter((s) => s.defaultOn).map((s) => s.id)
       );
       let selectedId = null;
-      let showLabels = true;
 
-      const titleEl = document.getElementById("ssc-title");
-      const subEl = document.getElementById("ssc-subtitle");
-      const fidEl = document.getElementById("ssc-fidelity");
       const stage = document.getElementById("ssc-stage");
       const statesEl = document.getElementById("ssc-states");
       const inspector = document.getElementById("ssc-inspector");
-
       const meta = pack.meta || {};
-      titleEl.textContent = meta.title || "Svelte Style Canvas";
-      document.title = titleEl.textContent + " — Style Canvas";
-      subEl.textContent = [meta.targetPath, meta.notes].filter(Boolean).join(" · ");
-      fidEl.textContent = "fidelity: " + (meta.fidelity || "L1");
+      document.getElementById("ssc-title").textContent = meta.title || "Svelte Style Canvas";
+      document.title = (meta.title || "Style Canvas") + " — Style Canvas";
+      document.getElementById("ssc-subtitle").textContent =
+        [meta.targetPath, meta.notes].filter(Boolean).join(" · ");
+      document.getElementById("ssc-fidelity").textContent = "fidelity: " + (meta.fidelity || "L1");
 
-      function regionStateClasses(region) {
-        const extra = [];
-        for (const s of pack.states || []) {
-          if (!activeStates.has(s.id)) continue;
-          if ((s.appliesTo || []).includes(region.id) && s.className) {
-            extra.push(s.className);
-          }
-        }
-        return extra;
+      const hasVisual = !!(pack.visualHtml && String(pack.visualHtml).trim());
+      document.getElementById("ssc-mode").textContent = hasVisual ? "mode: visual" : "mode: tree-fallback";
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
       }
 
-      function buildRegion(region) {
-        const el = document.createElement("div");
-        el.className = ["ssc-region"]
-          .concat(region.classes || [])
-          .concat(regionStateClasses(region))
-          .join(" ");
-        el.dataset.regionId = region.id;
-        el.setAttribute("role", "button");
-        el.tabIndex = 0;
-        el.setAttribute(
-          "aria-label",
-          (region.label || region.id) + " region"
-        );
-
-        const label = document.createElement("span");
-        label.className = "ssc-region-label";
-        label.hidden = !showLabels;
-        label.textContent = region.label || region.id;
-        el.appendChild(label);
-
-        const body = document.createElement("div");
-        body.className = "ssc-region-body";
-
-        const kids = childrenOf.get(region.id) || [];
-        if (kids.length === 0) {
-          const hint = document.createElement("div");
-          hint.className = "ssc-empty";
-          hint.textContent = region.textHint || region.label || region.tag || "";
-          body.appendChild(hint);
-        } else {
-          for (const child of kids) body.appendChild(buildRegion(child));
+      function applyStateClasses() {
+        // Clear previous state classes from data-ssc-id nodes
+        for (const s of pack.states || []) {
+          if (!s.className) continue;
+          for (const id of s.appliesTo || []) {
+            const el = stage.querySelector('[data-ssc-id="' + CSS.escape(id) + '"]');
+            if (el) el.classList.remove(s.className);
+          }
         }
-        el.appendChild(body);
+        for (const s of pack.states || []) {
+          if (!s.className || !activeStates.has(s.id)) continue;
+          for (const id of s.appliesTo || []) {
+            const el = stage.querySelector('[data-ssc-id="' + CSS.escape(id) + '"]');
+            if (el) el.classList.add(s.className);
+          }
+        }
+        // Theme root: if a state className is light/dark, also toggle on [data-ssc-root]
+        const root = stage.querySelector("[data-ssc-root]") || stage.firstElementChild;
+        if (root) {
+          for (const s of pack.states || []) {
+            if (s.className === "light" || s.className === "dark") {
+              root.classList.toggle(s.className, activeStates.has(s.id));
+              if (s.className === "light" && activeStates.has(s.id)) root.classList.remove("dark");
+              if (s.className === "dark" && activeStates.has(s.id)) root.classList.remove("light");
+            }
+          }
+        }
+      }
 
-        el.addEventListener("click", (e) => {
-          e.stopPropagation();
-          selectRegion(region.id);
-        });
-        el.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
+      function wireStageClicks() {
+        stage.querySelectorAll("[data-ssc-id]").forEach((el) => {
+          el.addEventListener("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
-            selectRegion(region.id);
-          }
+            selectRegion(el.getAttribute("data-ssc-id"));
+          });
         });
+      }
 
-        return el;
+      function renderVisual() {
+        stage.classList.remove("ssc-padded");
+        stage.innerHTML = pack.visualHtml;
+        applyStateClasses();
+        wireStageClicks();
+      }
+
+      /* Fallback tree only if no visualHtml — clearly labeled as degraded */
+      function renderTreeFallback() {
+        stage.classList.add("ssc-padded");
+        const childrenOf = new Map();
+        for (const r of pack.regions || []) {
+          const key = r.parentId == null ? "__root__" : r.parentId;
+          if (!childrenOf.has(key)) childrenOf.set(key, []);
+          childrenOf.get(key).push(r);
+        }
+        function build(region) {
+          const el = document.createElement("div");
+          el.dataset.sscId = region.id;
+          el.className = (region.classes || []).join(" ");
+          el.style.cssText =
+            "border:1px dashed #555;margin:4px;padding:8px;min-height:24px;background:rgba(255,255,255,0.03)";
+          const lab = document.createElement("div");
+          lab.style.cssText = "font:11px monospace;color:#8b95a8;margin-bottom:4px";
+          lab.textContent = (region.label || region.id) + " — tree fallback (no visualHtml)";
+          el.appendChild(lab);
+          const kids = childrenOf.get(region.id) || [];
+          if (!kids.length && region.textHint) {
+            const t = document.createElement("div");
+            t.textContent = region.textHint;
+            el.appendChild(t);
+          }
+          kids.forEach((k) => el.appendChild(build(k)));
+          return el;
+        }
+        stage.innerHTML = "";
+        const warn = document.createElement("div");
+        warn.className = "ssc-error";
+        warn.style.margin = "0 0 12px";
+        warn.textContent =
+          "No visualHtml in style pack — showing degraded region tree. Re-run svelte-style-canvas with markup-faithful visualHtml.";
+        stage.appendChild(warn);
+        (childrenOf.get("__root__") || []).forEach((r) => stage.appendChild(build(r)));
+        applyStateClasses();
+        wireStageClicks();
       }
 
       function renderStage() {
-        stage.innerHTML = "";
-        const roots = childrenOf.get("__root__") || [];
-        if (roots.length === 0) {
-          const p = document.createElement("p");
-          p.className = "ssc-empty";
-          p.textContent = "No regions in style pack.";
-          stage.appendChild(p);
-          return;
-        }
-        for (const r of roots) stage.appendChild(buildRegion(r));
+        if (hasVisual) renderVisual();
+        else renderTreeFallback();
         if (selectedId) {
-          const node = stage.querySelector(
-            '[data-region-id="' + CSS.escape(selectedId) + '"]'
-          );
+          const node = stage.querySelector('[data-ssc-id="' + CSS.escape(selectedId) + '"]');
           if (node) node.classList.add("ssc-selected");
         }
       }
@@ -435,10 +330,10 @@
       function renderStates() {
         statesEl.innerHTML = "";
         const states = pack.states || [];
-        if (states.length === 0) {
+        if (!states.length) {
           const span = document.createElement("span");
           span.className = "ssc-empty";
-          span.textContent = "No state variants discovered";
+          span.textContent = "No state variants";
           statesEl.appendChild(span);
           return;
         }
@@ -449,10 +344,16 @@
           btn.textContent = s.label || s.id;
           btn.setAttribute("aria-pressed", activeStates.has(s.id) ? "true" : "false");
           btn.addEventListener("click", () => {
+            // exclusive theme toggles
+            if (s.className === "light" || s.className === "dark") {
+              for (const o of pack.states || []) {
+                if (o.className === "light" || o.className === "dark") activeStates.delete(o.id);
+              }
+            }
             if (activeStates.has(s.id)) activeStates.delete(s.id);
             else activeStates.add(s.id);
             renderStates();
-            renderStage();
+            applyStateClasses();
             if (selectedId) selectRegion(selectedId);
           });
           statesEl.appendChild(btn);
@@ -461,18 +362,16 @@
 
       function selectRegion(id) {
         selectedId = id;
-        stage.querySelectorAll(".ssc-region.ssc-selected").forEach((n) => {
-          n.classList.remove("ssc-selected");
-        });
-        const node = stage.querySelector(
-          '[data-region-id="' + CSS.escape(id) + '"]'
-        );
+        stage.querySelectorAll(".ssc-selected").forEach((n) => n.classList.remove("ssc-selected"));
+        const node = stage.querySelector('[data-ssc-id="' + CSS.escape(id) + '"]');
         if (node) node.classList.add("ssc-selected");
 
         const region = byId.get(id);
         if (!region) {
           inspector.innerHTML =
-            "<h2>Inspector</h2><p class='ssc-empty'>Unknown region.</p>";
+            "<h2>Inspector</h2><p class='ssc-empty'>No region evidence for id <code>" +
+            escapeHtml(id) +
+            "</code> (visual node only).</p>";
           return;
         }
 
@@ -480,20 +379,14 @@
           const bare = String(name).replace(/^\./, "");
           const hit = classIndex.get(bare);
           if (!hit) {
-            return (
-              "<li class='ssc-warn'><code>." +
-              bare +
-              "</code> — orphan / unresolved</li>"
-            );
+            return "<li class='ssc-warn'><code>." + escapeHtml(bare) + "</code> — orphan / unresolved</li>";
           }
           return (
             "<li class='ssc-ok'><code>." +
-            bare +
+            escapeHtml(bare) +
             "</code> — " +
-            (hit.source || "?") +
+            escapeHtml(hit.source || "?") +
             (hit.line != null ? " L" + hit.line : "") +
-            " · " +
-            (hit.confidence || "") +
             "</li>"
           );
         });
@@ -501,20 +394,17 @@
         const tokens = new Set();
         for (const name of region.classes || []) {
           const hit = classIndex.get(String(name).replace(/^\./, ""));
-          if (hit && hit.tokenRefs) {
-            for (const t of hit.tokenRefs) tokens.add(t);
-          }
+          if (hit && hit.tokenRefs) hit.tokenRefs.forEach((t) => tokens.add(t));
         }
-
         const tokenLines = [...tokens]
           .map((t) => {
             const def = (pack.tokens || []).find((x) => x.name === t);
-            if (!def) return "<li><code>" + t + "</code></li>";
+            if (!def) return "<li><code>" + escapeHtml(t) + "</code></li>";
             return (
               "<li><code>" +
-              t +
+              escapeHtml(t) +
               "</code> = <code>" +
-              (def.value || "") +
+              escapeHtml(def.value || "") +
               "</code></li>"
             );
           })
@@ -522,124 +412,41 @@
 
         const lineRange =
           region.lineStart != null
-            ? "L" +
-              region.lineStart +
-              (region.lineEnd != null ? "–" + region.lineEnd : "")
+            ? "L" + region.lineStart + (region.lineEnd != null ? "–" + region.lineEnd : "")
             : "—";
 
         inspector.innerHTML =
           "<h2>Inspector</h2>" +
           "<dl>" +
-          "<dt>Label</dt><dd>" +
-          escapeHtml(region.label || region.id) +
-          "</dd>" +
-          "<dt>Kind</dt><dd>" +
-          escapeHtml(region.kind || "") +
-          "</dd>" +
-          "<dt>Tag</dt><dd>" +
-          escapeHtml(region.tag || "") +
-          "</dd>" +
-          "<dt>File</dt><dd>" +
-          escapeHtml(region.file || "") +
-          "</dd>" +
-          "<dt>Lines</dt><dd>" +
-          escapeHtml(lineRange) +
-          "</dd>" +
-          "<dt>Confidence</dt><dd>" +
-          escapeHtml(region.confidence || "") +
-          "</dd>" +
+          "<dt>Label</dt><dd>" + escapeHtml(region.label || region.id) + "</dd>" +
+          "<dt>Kind</dt><dd>" + escapeHtml(region.kind || "") + "</dd>" +
+          "<dt>Tag</dt><dd>" + escapeHtml(region.tag || "") + "</dd>" +
+          "<dt>File</dt><dd>" + escapeHtml(region.file || "") + "</dd>" +
+          "<dt>Lines</dt><dd>" + escapeHtml(lineRange) + "</dd>" +
+          "<dt>Confidence</dt><dd>" + escapeHtml(region.confidence || "") + "</dd>" +
           "</dl>" +
           "<h2>Classes</h2>" +
           (classDetails.length
             ? "<ul class='ssc-list'>" + classDetails.join("") + "</ul>"
-            : "<p class='ssc-empty'>No classes on this region.</p>") +
+            : "<p class='ssc-empty'>No classes.</p>") +
           "<h2>Tokens</h2>" +
           (tokenLines
             ? "<ul class='ssc-list'>" + tokenLines + "</ul>"
-            : "<p class='ssc-empty'>No token refs resolved for these classes.</p>") +
-          orphanSummary() +
-          unresolvedSummary();
-      }
-
-      function orphanSummary() {
-        const orphans = pack.orphans || [];
-        if (!orphans.length) return "";
-        return (
-          "<h2>Orphans (pack)</h2><ul class='ssc-list'>" +
-          orphans
-            .map(
-              (o) =>
-                "<li class='ssc-warn'><code>." +
-                escapeHtml(o.name || "") +
-                "</code> " +
-                escapeHtml(o.note || "") +
-                "</li>"
-            )
-            .join("") +
-          "</ul>"
-        );
-      }
-
-      function unresolvedSummary() {
-        const items = pack.unresolved || [];
-        if (!items.length) return "";
-        return (
-          "<h2>Unresolved</h2><ul class='ssc-list'>" +
-          items
-            .map(
-              (u) =>
-                "<li class='ssc-warn'>" +
-                escapeHtml(u.code || "issue") +
-                ": " +
-                escapeHtml(u.message || "") +
-                "</li>"
-            )
-            .join("") +
-          "</ul>"
-        );
-      }
-
-      function escapeHtml(s) {
-        return String(s)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
+            : "<p class='ssc-empty'>No token refs.</p>");
       }
 
       document.getElementById("ssc-reset").addEventListener("click", () => {
         activeStates.clear();
-        for (const s of pack.states || []) {
-          if (s.defaultOn) activeStates.add(s.id);
-        }
+        for (const s of pack.states || []) if (s.defaultOn) activeStates.add(s.id);
         selectedId = null;
-        showLabels = true;
-        document.getElementById("ssc-labels").setAttribute("aria-pressed", "true");
         renderStates();
         renderStage();
         inspector.innerHTML =
-          "<h2>Inspector</h2><p class='ssc-empty'>Select a region on the stage.</p>" +
-          orphanSummary() +
-          unresolvedSummary();
-      });
-
-      document.getElementById("ssc-labels").addEventListener("click", (e) => {
-        showLabels = !showLabels;
-        e.currentTarget.setAttribute(
-          "aria-pressed",
-          showLabels ? "true" : "false"
-        );
-        stage.querySelectorAll(".ssc-region-label").forEach((n) => {
-          n.hidden = !showLabels;
-        });
+          "<h2>Inspector</h2><p class='ssc-empty'>Select a region on the stage.</p>";
       });
 
       renderStates();
       renderStage();
-      inspector.innerHTML =
-        "<h2>Inspector</h2><p class='ssc-empty'>Select a region on the stage.</p>" +
-        orphanSummary() +
-        unresolvedSummary();
     })();
   </script>
 </body>

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fractalmandala.local/schemas/design-contract/v2",
+  "title": "Code-Design-Loop Contract v2",
+  "type": "object",
+  "required": [
+    "version",
+    "meta",
+    "tokens",
+    "classes",
+    "regions",
+    "states",
+    "sourceMap",
+    "orphans",
+    "unresolved",
+    "loss"
+  ],
+  "properties": {
+    "version": { "const": 2 },
+    "meta": {
+      "type": "object",
+      "required": [
+        "surfaceId",
+        "targetPath",
+        "fidelity",
+        "generatedAt",
+        "previewEntry"
+      ],
+      "properties": {
+        "surfaceId": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "targetPath": { "type": "string" },
+        "layoutChain": { "type": "array", "items": { "type": "string" } },
+        "fidelity": { "enum": ["L1", "L2", "L3", "L4"] },
+        "generatedAt": { "type": "string" },
+        "gitSha": { "type": ["string", "null"] },
+        "previewEntry": { "type": "string" },
+        "baseRef": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "tokens": { "type": "array" },
+    "classes": { "type": "array" },
+    "regions": { "type": "array" },
+    "states": { "type": "array" },
+    "sourceMap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "file"],
+        "properties": {
+          "id": { "type": "string" },
+          "file": { "type": "string" },
+          "lineStart": { "type": ["number", "null"] },
+          "lineEnd": { "type": ["number", "null"] },
+          "selector": { "type": "string" }
+        }
+      }
+    },
+    "orphans": { "type": "array" },
+    "unresolved": { "type": "array" },
+    "loss": { "type": "array" },
+    "cssSubset": { "type": "string" },
+    "visualHtml": { "type": "string" }
+  }
+}
