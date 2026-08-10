@@ -1,0 +1,3 @@
+[submodule "apps/shradhapp/openreel"]
+	path = apps/shradhapp/openreel
+	url = https://github.com/Augani/openreel-video.git

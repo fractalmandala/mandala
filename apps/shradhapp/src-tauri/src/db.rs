@@ -75,6 +75,17 @@ impl Db {
                key TEXT PRIMARY KEY,
                value TEXT NOT NULL,
                updated_at INTEGER NOT NULL
+             );
+             CREATE TABLE IF NOT EXISTS or_cache (
+               key TEXT PRIMARY KEY,
+               data BLOB NOT NULL,
+               timestamp INTEGER NOT NULL,
+               size INTEGER NOT NULL
+             );
+             CREATE TABLE IF NOT EXISTS or_waveforms (
+               media_id TEXT PRIMARY KEY,
+               data TEXT NOT NULL,
+               sample_rate INTEGER NOT NULL
              );",
         )
         .map_err(|e| format!("Cannot initialise database: {e}"))?;
@@ -300,6 +311,91 @@ impl Db {
             value: value.to_string(),
             updated_at: now,
         })
+    }
+
+    // ------------- OpenReel cache -------------
+
+    pub fn cache_upsert(&self, key: &str, data: &[u8], timestamp: i64, size: i64) -> Result<(), String> {
+        self.conn
+            .execute(
+                "INSERT INTO or_cache (key, data, timestamp, size) VALUES (?1,?2,?3,?4)
+                 ON CONFLICT(key) DO UPDATE SET data=?2, timestamp=?3, size=?4",
+                params![key, data, timestamp, size],
+            )
+            .map_err(|e| format!("Cache upsert failed: {e}"))?;
+        Ok(())
+    }
+
+    pub fn cache_get(&self, key: &str) -> Result<Option<(Vec<u8>, i64, i64)>, String> {
+        let row = self
+            .conn
+            .query_row(
+                "SELECT data, timestamp, size FROM or_cache WHERE key = ?1",
+                params![key],
+                |r| Ok((r.get::<_, Vec<u8>>(0)?, r.get::<_, i64>(1)?, r.get::<_, i64>(2)?)),
+            )
+            .ok();
+        Ok(row)
+    }
+
+    pub fn cache_delete(&self, key: &str) -> Result<(), String> {
+        self.conn
+            .execute("DELETE FROM or_cache WHERE key = ?1", params![key])
+            .map_err(|e| format!("Cache delete failed: {e}"))?;
+        Ok(())
+    }
+
+    pub fn cache_clear(&self) -> Result<(), String> {
+        self.conn
+            .execute("DELETE FROM or_cache", [])
+            .map_err(|e| format!("Cache clear failed: {e}"))?;
+        Ok(())
+    }
+
+    // ------------- OpenReel waveforms -------------
+
+    pub fn waveform_save(&self, media_id: &str, data_json: &str, sample_rate: i64) -> Result<(), String> {
+        self.conn
+            .execute(
+                "INSERT INTO or_waveforms (media_id, data, sample_rate) VALUES (?1,?2,?3)
+                 ON CONFLICT(media_id) DO UPDATE SET data=?2, sample_rate=?3",
+                params![media_id, data_json, sample_rate],
+            )
+            .map_err(|e| format!("Waveform save failed: {e}"))?;
+        Ok(())
+    }
+
+    pub fn waveform_get(&self, media_id: &str) -> Result<Option<(String, i64)>, String> {
+        let row = self
+            .conn
+            .query_row(
+                "SELECT data, sample_rate FROM or_waveforms WHERE media_id = ?1",
+                params![media_id],
+                |r| Ok((r.get::<_, String>(0)?, r.get::<_, i64>(1)?)),
+            )
+            .ok();
+        Ok(row)
+    }
+
+    pub fn waveform_delete(&self, media_id: &str) -> Result<(), String> {
+        self.conn
+            .execute("DELETE FROM or_waveforms WHERE media_id = ?1", params![media_id])
+            .map_err(|e| format!("Waveform delete failed: {e}"))?;
+        Ok(())
+    }
+
+    // ------------- counts for storage usage -------------
+
+    pub fn count_projects(&self) -> Result<i64, String> {
+        self.conn
+            .query_row("SELECT COUNT(*) FROM projects", [], |r| r.get(0))
+            .map_err(|e| format!("Count projects failed: {e}"))
+    }
+
+    pub fn count_media(&self) -> Result<i64, String> {
+        self.conn
+            .query_row("SELECT COUNT(*) FROM media", [], |r| r.get(0))
+            .map_err(|e| format!("Count media failed: {e}"))
     }
 
 }
