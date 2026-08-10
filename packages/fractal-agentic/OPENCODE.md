@@ -24,7 +24,7 @@ Treat non-trivial repo changes as an orchestrate loop:
 ## Env
 
 ```sh
-export FRACTAL_AGENTIC_ROOT=/absolute/path/to/plugin
+export FRACTAL_AGENTIC_ROOT=/absolute/path/to/mandala/packages/fractal-agentic
 sh "$FRACTAL_AGENTIC_ROOT/scripts/resolve-plugin-root.sh"
 ```
 

@@ -13,7 +13,7 @@ Operator runbook for Fractal Agentic. Root pointer: [`../TROUBLESHOOTING.md`](..
 ## Quick health
 
 ```sh
-export FRACTAL_AGENTIC_ROOT=/absolute/path/to/plugin
+export FRACTAL_AGENTIC_ROOT=/absolute/path/to/mandala/packages/fractal-agentic
 sh "$FRACTAL_AGENTIC_ROOT/scripts/resolve-plugin-root.sh"
 sh "$FRACTAL_AGENTIC_ROOT/scripts/check-armory.sh"
 sh "$FRACTAL_AGENTIC_ROOT/scripts/check-nonblocking-policy.sh"
@@ -26,7 +26,7 @@ sh "$FRACTAL_AGENTIC_ROOT/scripts/check-nonblocking-policy.sh"
 | Symptom | Fix |
 |---|---|
 | “Fractal Agentic not found” | Set `FRACTAL_AGENTIC_ROOT` to the plugin directory containing `plugin.json`, the `AGENTS.md` router, `docs/bosses/`, and `skills/boss-orchestration` |
-| Env points at monorepo root | Use `…/plugin` (or let resolve fall through to `…/plugin`) |
+| Env points at monorepo root | Use `…/packages/fractal-agentic` (or let the resolver find that package) |
 | Missing boss playbook | Refresh the plugin install; the resolver now rejects incomplete progressive-discovery trees |
 | Wrong files / old armory | Confirm resolve prints the install you expect (cache vs git checkout) |
 
@@ -40,9 +40,9 @@ sh "$FRACTAL_AGENTIC_ROOT/scripts/resolve-plugin-root.sh"
 
 | Symptom | Fix |
 |---|---|
-| Marketplace manifest missing (Codex) | Include `.agents/plugins` in sparse checkout — not `plugin` alone |
+| Marketplace manifest missing (Codex) | Include the root `.agents/plugins` directory in the sparse checkout |
 | Plugin missing after upgrade | Host upgrade/refresh + **new session/task** if plugins are cached |
-| Claude-compatible host sees no commands | Load **plugin** directory (`.claude-plugin/plugin.json` lives here) |
+| Claude-compatible host sees no commands | Load the **package** directory (`.claude-plugin/plugin.json` lives here) |
 | Cursor ignores process | Paste project [AGENTS snippet](../project-integration/AGENTS-SNIPPET.md); set `FRACTAL_AGENTIC_ROOT` |
 | Gemini/Kimi no skills | Point skill path at `plugin/skills` or open plugin root as project |
 | Hooks do nothing | Host must register hooks; set `FRACTAL_AGENTIC_ROOT`; see [hooks/README.md](../hooks/README.md) |
@@ -53,8 +53,8 @@ Catalog vs package layout: [02-install.md](./02-install.md).
 
 | Symptom | Fix |
 |---|---|
-| `marketplace root does not contain a supported manifest` | `--sparse .agents/plugins` **and** `--sparse plugin` |
-| Commands missing after push | `codex plugin marketplace upgrade fractal-agentic` + new task |
+| `marketplace root does not contain a supported manifest` | Use `fractalmandala/mandala --sparse .agents/plugins`; the root catalog loads the package through `git-subdir` |
+| Commands missing after push | `codex plugin marketplace upgrade mandala` + new task |
 | `find … wiki-init.md` empty | Search with `-path '*fractal-agentic*'` (trailing `*`). Cache often under `~/.codex/plugins/cache/…` |
 
 ---

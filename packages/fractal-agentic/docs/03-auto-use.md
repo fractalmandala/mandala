@@ -29,7 +29,7 @@ If detection fails, the agent should say once that Fractal Agentic was not found
 ## Environment variables
 
 ```sh
-export FRACTAL_AGENTIC_ROOT=/absolute/path/to/fractal-agentic/plugin
+export FRACTAL_AGENTIC_ROOT=/absolute/path/to/mandala/packages/fractal-agentic
 export FRACTAL_WIKI_ROOT=/absolute/path/to/wiki-vault  # optional
 ```
 

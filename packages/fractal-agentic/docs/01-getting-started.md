@@ -29,13 +29,13 @@ For a host-specific install, pass a target such as `antigravity`, `claude`, or `
 npx fractal-agentic install --target=antigravity
 ```
 
-If you are working from a checkout, the plugin root is the `plugin/` directory:
+If you are working from the Mandala checkout, the plugin root is the package directory:
 
 ```sh
-git clone --filter=blob:none --sparse https://github.com/fractalmandala/fractal-agentic.git
-cd fractal-agentic
-git sparse-checkout set plugin .agents .claude-plugin
-export FRACTAL_AGENTIC_ROOT="$PWD/plugin"
+git clone --filter=blob:none --sparse https://github.com/fractalmandala/mandala.git
+cd mandala
+git sparse-checkout set .agents/plugins packages/fractal-agentic
+export FRACTAL_AGENTIC_ROOT="$PWD/packages/fractal-agentic"
 sh "$FRACTAL_AGENTIC_ROOT/scripts/resolve-plugin-root.sh"
 ```
 
@@ -54,7 +54,7 @@ capabilities are unavailable. See [Auto-use mandate](./03-auto-use.md) for the f
 If the host does not manage the root for you, set it in the shell or host environment and run the probe:
 
 ```sh
-export FRACTAL_AGENTIC_ROOT=/absolute/path/to/fractal-agentic/plugin
+export FRACTAL_AGENTIC_ROOT=/absolute/path/to/mandala/packages/fractal-agentic
 sh "$FRACTAL_AGENTIC_ROOT/scripts/resolve-plugin-root.sh"
 ```
 

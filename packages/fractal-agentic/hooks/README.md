@@ -60,7 +60,7 @@ Users set this up **on their machine** after plugin install. Maintainers do not 
 ### Shell
 
 ```sh
-export FRACTAL_AGENTIC_ROOT=/absolute/path/to/plugin
+export FRACTAL_AGENTIC_ROOT=/absolute/path/to/mandala/packages/fractal-agentic
 
 # Preferences only
 sh "$FRACTAL_AGENTIC_ROOT/scripts/install-hooks.sh" --target config --profile minimal

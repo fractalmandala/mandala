@@ -1,0 +1,22 @@
+{
+  "name": "mandala",
+  "interface": {
+    "displayName": "Mandala Plugins"
+  },
+  "plugins": [
+    {
+      "name": "fractal-agentic",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/fractalmandala/mandala.git",
+        "path": "./packages/fractal-agentic",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

@@ -12,11 +12,12 @@ Fractal Agentic uses one package for agent-required content and a separate site 
 
 | Layer | Role | Audience |
 | --- | --- | --- |
-| `plugin/` | Installable product: identity, startup router, nested boss playbooks, armory, commands, scripts, and shipped support docs | Agents and users |
-| `site/` | Website chrome, layout, search, catalogs, and presentation of plugin content | Humans in a browser |
+| `packages/fractal-agentic/` | Installable product: identity, startup router, nested boss playbooks, armory, commands, scripts, and shipped support docs | Agents and users |
+| `sites/fractalagentic/` | Website chrome, layout, search, catalogs, and presentation of plugin content | Humans in a browser |
 | Repository root | Checkout shell, credits, layout notes, and marketplace catalogs | Contributors and distributors |
 
-If an agent needs the content during an offline install, it belongs under `plugin/`.
+If an agent needs the content during an offline install, it belongs under
+`packages/fractal-agentic/`.
 
 ## The package sources of truth
 
@@ -41,7 +42,9 @@ The site publishes two kinds of documentation surface:
 
 ### Narrative section hubs
 
-`plugin/docs/INDEX.md` and the nested `docs/**/INDEX.md` files are human-facing landing pages. They explain the sequence and boundaries of a section, so they appear in the `/docs` reading path:
+`packages/fractal-agentic/docs/INDEX.md` and the nested `docs/**/INDEX.md` files are
+human-facing landing pages. They explain the sequence and boundaries of a section, so
+they appear in the `/docs` reading path:
 
 - `docs/INDEX.md` → `/docs/guide`
 - `docs/bosses/INDEX.md` → `/docs/bosses`
@@ -79,7 +82,7 @@ boss `INDEX.md` wins for its domain; live asset `INDEX.md` files win for availab
 | Install or packaging behavior | `docs/02-install.md` and the package README when the front door changes |
 | Non-blocking or pin policy | `docs/progression.md` and the orchestration runtime if the procedure changes |
 | Wiki, hooks, or self-improvement setup | The matching guide under `docs/` and its command/skill source |
-| Website navigation or styling | `site/` only; keep product facts in `plugin/` |
+| Website navigation or styling | `sites/fractalagentic/` only; keep product facts in `packages/fractal-agentic/` |
 | Skill, agent, or command added or removed | The asset, its live `INDEX.md`, and the owning nested boss playbook |
 
 After a structural docs change, check relative links, frontmatter, the live inventory, and the site route that renders the page.

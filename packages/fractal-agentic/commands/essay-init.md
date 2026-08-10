@@ -15,7 +15,7 @@ Use this command when you want the 48-hour capture, wiki-ingest, and article loo
 The command should ask for the wiki vault and any explicit memory or transcript paths, then run:
 
 ~~~sh
-sh /Users/amrit/fractal-agentic/plugin/scripts/install-periodic-essay.sh \
+sh "$FRACTAL_AGENTIC_ROOT/scripts/install-periodic-essay.sh" \
   --output-dir /Users/amrit/fractals/sites/fractaldesign/src/routes/posts \
   --wiki-root /absolute/path/to/wiki \
   --memory-path /absolute/path/to/memory

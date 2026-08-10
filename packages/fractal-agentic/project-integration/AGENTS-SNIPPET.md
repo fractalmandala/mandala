@@ -1,11 +1,11 @@
 <!--
   Fractal Agentic project mandate — paste into any project's AGENTS.md (near the top).
 
-  Canonical source: fractal-agentic/plugin/project-integration/AGENTS-SNIPPET.md
+  Canonical source: packages/fractal-agentic/project-integration/AGENTS-SNIPPET.md
   Keep this block in sync when the plugin path or entrypoints change.
 
   Optional: set absolute root once per machine (must point at the *plugin* directory):
-    export FRACTAL_AGENTIC_ROOT=/path/to/fractal-agentic/plugin
+    export FRACTAL_AGENTIC_ROOT=/path/to/mandala/packages/fractal-agentic
 -->
 
 ## Fractal Agentic plugin mandate (session bootstrap)
@@ -23,8 +23,8 @@ Policy: `<root>/docs/progression.md` when the plugin is present.
 ### Detection (run first, soft)
 
 1. If env `FRACTAL_AGENTIC_ROOT` is set and `$FRACTAL_AGENTIC_ROOT/plugin.json` exists, use that root.
-   (If the env points at the monorepo checkout and `$FRACTAL_AGENTIC_ROOT/plugin/plugin.json`
-   exists, use `$FRACTAL_AGENTIC_ROOT/plugin` instead.)
+   (If the env points at the monorepo checkout, also check
+   `$FRACTAL_AGENTIC_ROOT/packages/fractal-agentic/plugin.json`.)
 2. Otherwise search upward from the project / workspace root for the first directory that
    contains **all** of:
    - `plugin.json` with `"name": "fractal-agentic"` (or equivalent name field)
@@ -33,10 +33,10 @@ Policy: `<root>/docs/progression.md` when the plugin is present.
    - `skills/boss-orchestration/SKILL.md`
    - `commands/orchestrate.md`
 3. Prefer monorepo-relative candidates (stop at the first hit):
-   - `<workspace>/fractal-agentic/plugin`
-   - `<workspace>/agentic/fractal-agentic/plugin`
-   - `<workspace>/../fractal-agentic/plugin`
-   - `<repo-root>/fractal-agentic/plugin` (walk up from cwd until `.git` or filesystem root)
+   - `<workspace>/packages/fractal-agentic`
+   - `<workspace>/../packages/fractal-agentic`
+   - `<workspace>/fractal-agentic`
+   - `<repo-root>/packages/fractal-agentic` (walk up from cwd until `.git` or filesystem root)
    - marketplace / clone installs where the checkout root **is** the plugin (has `plugin.json` at root)
 4. Optional shell probe (if the script is reachable):
    ```sh

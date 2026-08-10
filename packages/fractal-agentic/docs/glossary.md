@@ -25,9 +25,9 @@ type: guide
 | **SOUL.md** | Portable identity/principles; `AGENTS.md` is the startup router |
 | **Startup router** | `AGENTS.md`: precedence, trivial exemption, one-boss selection, stop-reading, and handoffs |
 | **Hook profile** | `minimal` \| `standard` \| `strict` for optional `hooks/` package (`FRACTAL_HOOK_PROFILE`) |
-| **plugin/** | Installable product folder agents load (`FRACTAL_AGENTIC_ROOT`) |
-| **site/** | Human website; displays plugin content; not required for agents |
-| **root** | Git checkout shell (README, credits, marketplace catalog) |
+| **packages/fractal-agentic/** | Installable product folder agents load (`FRACTAL_AGENTIC_ROOT`) |
+| **sites/fractalagentic/** | Human website; displays plugin content; not required for agents |
+| **root** | Mandala Git checkout shell containing the marketplace catalog |
 | **Plugin root** | Directory with `plugin.json`, `AGENTS.md`, `skills/`, `commands/` |
 | **Port lane** | shadcn → fractalsvelte conversion under Svelte Boss |
 | **raw/** | Immutable sources + fractal episodes in the wiki vault |

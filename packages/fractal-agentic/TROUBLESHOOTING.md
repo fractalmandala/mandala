@@ -17,7 +17,7 @@ Operator runbook for Fractal Agentic. Full detail lives in:
 ## 30-second health
 
 ```sh
-export FRACTAL_AGENTIC_ROOT=/absolute/path/to/plugin   # this directory
+export FRACTAL_AGENTIC_ROOT=/absolute/path/to/mandala/packages/fractal-agentic   # this directory
 sh "$FRACTAL_AGENTIC_ROOT/scripts/resolve-plugin-root.sh"
 sh "$FRACTAL_AGENTIC_ROOT/scripts/check-armory.sh"
 sh "$FRACTAL_AGENTIC_ROOT/scripts/check-nonblocking-policy.sh"

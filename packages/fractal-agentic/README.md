@@ -48,8 +48,8 @@ An orchestrator prime - charioteer: domain bosses, a single orchestrator, and a 
 | Agent identity and startup | `SOUL.md`, `AGENTS.md`, selected boss playbook, host shims | **Agents must load** |
 | Armory | `skills/`, `agents/`, `commands/` | Agents + users |
 | Shipped support docs | `docs/` | **Dual** — offline humans and agents (`docs/INDEX.md` labels each page) |
-| Website | sibling `../site/` | Humans only; **renders** this package, does not replace it |
-| Repo shell | parent root | Clone, credits, marketplace catalog — see [`../LAYOUT.md`](../LAYOUT.md) |
+| Website | `../../sites/fractalagentic/` | Humans only; **renders** this package, does not replace it |
+| Repo shell | monorepo root | Clone, credits, and marketplace catalog |
 | Doc SSOT rules | [`docs/doc-ownership.md`](./docs/doc-ownership.md) | Router vs nested boss playbooks; agent vs dual vs site |
 
 **Full documentation:** [`docs/INDEX.md`](./docs/INDEX.md).  
@@ -74,52 +74,46 @@ npx fractal-agentic install
 npx fractal-agentic install --target=antigravity
 ```
 
-### Claude Code (Marketplace / Git)
+### Claude Code (local package checkout)
 
 ```sh
-# Add the repository as a plugin marketplace
-claude plugin marketplace add fractalmandala/fractal-agentic
+# From a Mandala checkout, add the package directory as a local marketplace
+cd /path/to/mandala/packages/fractal-agentic
+claude plugin marketplace add .
 
 # Install the plugin
 claude plugin install fractal-agentic@fractal-agentic
+export FRACTAL_AGENTIC_ROOT="$PWD"
 ```
 
-Or from local checkout:
-```sh
-cd /path/to/fractal-agentic
-claude plugin marketplace add .
-claude plugin install fractal-agentic@fractal-agentic
-export FRACTAL_AGENTIC_ROOT="$PWD/plugin"
-```
-
-One session only: `claude --plugin-dir /path/to/fractal-agentic/plugin`
+One session only: `claude --plugin-dir /path/to/mandala/packages/fractal-agentic`
 
 Then: **new Claude session**. Confirm with `claude plugin list` (`fractal-agentic@fractal-agentic` enabled).
 
 ### Codex
 
 ```sh
-codex plugin marketplace add fractalmandala/fractal-agentic \
-  --sparse .agents/plugins \
-  --sparse plugin
+codex plugin marketplace add fractalmandala/mandala \
+  --sparse .agents/plugins
 ```
 
 Enable **fractal-agentic** in the Codex plugin UI · **new task**.  
-Catalog file: repo `.agents/plugins/marketplace.json` (not the Claude marketplace file).
+The catalog is the monorepo root’s `.agents/plugins/marketplace.json`, and its entry
+loads `packages/fractal-agentic` through a Git subdirectory source.
 
 ### Google Antigravity
 
 ```sh
 npx fractal-agentic install --target=antigravity
 ```
-Or copy/symlink `./plugin` to `~/.gemini/config/plugins/fractal-agentic`.
+Or copy/symlink this package directory to `~/.gemini/config/plugins/fractal-agentic`.
 
 ### Git / any host
 
 ```sh
-git clone --filter=blob:none --sparse https://github.com/fractalmandala/fractal-agentic.git
-cd fractal-agentic && git sparse-checkout set plugin .agents .claude-plugin
-export FRACTAL_AGENTIC_ROOT="$PWD/plugin"
+git clone --filter=blob:none --sparse https://github.com/fractalmandala/mandala.git
+cd mandala && git sparse-checkout set .agents/plugins packages/fractal-agentic
+export FRACTAL_AGENTIC_ROOT="$PWD/packages/fractal-agentic"
 sh "$FRACTAL_AGENTIC_ROOT/scripts/resolve-plugin-root.sh"
 ```
 
@@ -174,7 +168,7 @@ So models **do not need** `@fractal-agentic`, paste the mandate into each projec
 1. Paste `project-integration/AGENTS-SNIPPET.md` near the **top** of the project’s `AGENTS.md`.
 2. Set env to **this** plugin root:
    ```sh
-   export FRACTAL_AGENTIC_ROOT=/Users/you/fractal-agentic/plugin
+   export FRACTAL_AGENTIC_ROOT=/Users/you/mandala/packages/fractal-agentic
    ```
 3. Confirm:
    ```sh
@@ -195,7 +189,7 @@ So models **do not need** `@fractal-agentic`, paste the mandate into each projec
 Plugin install does **not** auto-register custom-agent TOML files. On hosts that use them:
 
 ```sh
-# from this plugin root (…/fractal-agentic/plugin)
+# from this plugin root (…/mandala/packages/fractal-agentic)
 sh scripts/install-agents.sh
 # or explicit target (example)
 sh scripts/install-agents.sh --target-dir "$HOME/.codex/agents"
@@ -367,7 +361,7 @@ Installer behavior matches Sol Advisor: never overwrites a differing destination
 This directory **is** the plugin (marketplace install unit / `FRACTAL_AGENTIC_ROOT`).
 
 ```
-plugin/                     ← INSTALL / FRACTAL_AGENTIC_ROOT (agents load this tree)
+packages/fractal-agentic/   ← INSTALL / FRACTAL_AGENTIC_ROOT (agents load this tree)
   SOUL.md · AGENTS.md       # identity + startup router (required)
   CLAUDE.md · GEMINI.md …   # host shims
   README.md · TROUBLESHOOTING.md
@@ -378,7 +372,8 @@ plugin/                     ← INSTALL / FRACTAL_AGENTIC_ROOT (agents load this
   docs/                     # dual support docs (ship with package; site also renders them)
 ```
 
-Repo siblings: `../site/` (website), `../LAYOUT.md` (root + plugin + site rules).
+Repo sibling: `../../sites/fractalagentic/` (website). Package layout rules live in
+[`./LAYOUT.md`](./LAYOUT.md).
 
 ---
 

@@ -54,4 +54,5 @@ Use [`CUSTOMIZE.md`](../../CUSTOMIZE.md) for package extension rules. A complete
 - the relevant nested boss playbook under [`docs/bosses/`](../bosses/INDEX.md); and
 - any tests or checks needed by the skill.
 
-Run `scripts/check-armory.sh` after changing a critical skill. Keep the source local to `plugin/` so an offline install can use it.
+Run `scripts/check-armory.sh` after changing a critical skill. Keep the source local to
+`packages/fractal-agentic/` so an offline install can use it.

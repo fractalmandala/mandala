@@ -1,10 +1,10 @@
 # Editing and Customizing this Plugin
 
-> **Repo layout:** three folders — **root** (clone shell), **`plugin/`** (this package —
-> agents load only this), **`site/`** (website that *renders* plugin content). See
-> [`../LAYOUT.md`](../LAYOUT.md) and [**docs/doc-ownership.md**](./docs/doc-ownership.md)
-> (SSOT: startup router vs nested boss playbooks, what ships where). Set `FRACTAL_AGENTIC_ROOT` to this
-> `plugin/` path. Nothing agents need may live only under `site/` or only at root.
+> **Repo layout:** the Mandala monorepo contains **`packages/fractal-agentic/`** (the
+> installable plugin) and **`sites/fractalagentic/`** (the website that renders plugin
+> content). See [`./LAYOUT.md`](./LAYOUT.md) and
+> [**docs/doc-ownership.md**](./docs/doc-ownership.md). Set `FRACTAL_AGENTIC_ROOT` to
+> this package path. Nothing agents need may live only under the website.
 >
 > **Non-blocking policy:** [docs/progression.md](./docs/progression.md) — pins are optional
 > quality. Never reintroduce hard-stop preflight in orchestration docs. Guard:

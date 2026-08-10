@@ -27,7 +27,7 @@ Run from plugin root (`$FRACTAL_AGENTIC_ROOT`) unless noted.
 ## Examples
 
 ```sh
-export FRACTAL_AGENTIC_ROOT=/path/to/plugin
+export FRACTAL_AGENTIC_ROOT=/path/to/mandala/packages/fractal-agentic
 
 sh "$FRACTAL_AGENTIC_ROOT/scripts/resolve-plugin-root.sh"
 sh "$FRACTAL_AGENTIC_ROOT/scripts/install-agents.sh"

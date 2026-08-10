@@ -49,10 +49,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fractalmandala/fractal-agentic.git"
+    "url": "git+https://github.com/fractalmandala/mandala.git"
   },
   "bugs": {
-    "url": "https://github.com/fractalmandala/fractal-agentic/issues"
+    "url": "https://github.com/fractalmandala/mandala/issues"
   },
-  "homepage": "https://github.com/fractalmandala/fractal-agentic#readme"
+  "homepage": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic#readme"
 }

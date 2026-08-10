@@ -9,7 +9,7 @@
       "name": "fractal-agentic",
       "source": "./",
       "description": "Compact startup router, nested boss playbooks, and boss-orchestration: capability lanes, verify, ship|fix-first|rethink review.",
-      "version": "2.4.0",
+      "version": "2.6.6",
       "author": {
         "name": "Amrit"
       }

@@ -2,9 +2,9 @@
 # Resolve Fractal Agentic *plugin* root from env, cwd, or walk-up. Non-mutating.
 # Exit 0 and print absolute path when accessible; exit 1 otherwise.
 #
-# The installable unit is the `plugin/` directory (contains plugin.json, the
+# The installable unit is the `packages/fractal-agentic/` directory (contains plugin.json, the
 # AGENTS.md startup router, docs/bosses/<boss>/INDEX.md playbooks, skills/,
-# commands/, agents/, and scripts/). The monorepo may also contain `site/`.
+# commands/, agents/, and scripts/). The monorepo may also contain the explorer site.
 #
 # Usage:
 #   resolve-plugin-root.sh              # env → walk-up → (then) script install location
@@ -55,7 +55,7 @@ PY
   return 0
 }
 
-# If dir is the monorepo root (or any parent), prefer its plugin/ child.
+# If dir is the monorepo root (or any parent), prefer its package child.
 resolve_from_dir() {
   dir=$1
   if is_fractal_agentic_root "$dir"; then
@@ -63,6 +63,9 @@ resolve_from_dir() {
   fi
   if [ -d "$dir/plugin" ] && is_fractal_agentic_root "$dir/plugin"; then
     emit "$dir/plugin"
+  fi
+  if [ -d "$dir/packages/fractal-agentic" ] && is_fractal_agentic_root "$dir/packages/fractal-agentic"; then
+    emit "$dir/packages/fractal-agentic"
   fi
 }
 
@@ -73,14 +76,17 @@ emit() {
   exit 0
 }
 
-# 1. Explicit env — must point at the *plugin* root (…/plugin), not the monorepo root
+# 1. Explicit env — must point at the plugin root, not the monorepo root
 if [ -n "${FRACTAL_AGENTIC_ROOT-}" ]; then
   if is_fractal_agentic_root "$FRACTAL_AGENTIC_ROOT"; then
     emit "$FRACTAL_AGENTIC_ROOT"
   fi
-  # Convenience: allow monorepo root if …/plugin is valid
+  # Convenience: allow monorepo root if its package is valid
   if [ -d "$FRACTAL_AGENTIC_ROOT/plugin" ] && is_fractal_agentic_root "$FRACTAL_AGENTIC_ROOT/plugin"; then
     emit "$FRACTAL_AGENTIC_ROOT/plugin"
+  fi
+  if [ -d "$FRACTAL_AGENTIC_ROOT/packages/fractal-agentic" ] && is_fractal_agentic_root "$FRACTAL_AGENTIC_ROOT/packages/fractal-agentic"; then
+    emit "$FRACTAL_AGENTIC_ROOT/packages/fractal-agentic"
   fi
   fail "FRACTAL_AGENTIC_ROOT is set but is not a valid Fractal Agentic plugin root: $FRACTAL_AGENTIC_ROOT"
 fi
@@ -90,6 +96,7 @@ cwd=$(pwd -P)
 # 2. Common monorepo / clone relatives from cwd
 for cand in \
   "$cwd/plugin" \
+  "$cwd/packages/fractal-agentic" \
   "$cwd/fractal-agentic/plugin" \
   "$cwd/agentic/fractal-agentic/plugin" \
   "$cwd/../plugin" \
@@ -119,6 +126,9 @@ while [ "$dir" != "/" ]; do
   fi
   if [ -d "$dir/fractal-agentic/plugin" ] && is_fractal_agentic_root "$dir/fractal-agentic/plugin"; then
     emit "$dir/fractal-agentic/plugin"
+  fi
+  if [ -d "$dir/packages/fractal-agentic" ] && is_fractal_agentic_root "$dir/packages/fractal-agentic"; then
+    emit "$dir/packages/fractal-agentic"
   fi
   parent=$(CDPATH= cd "$dir/.." && pwd -P) || break
   [ "$parent" = "$dir" ] && break

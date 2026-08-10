@@ -1,22 +1,7 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../dharmalib"
-		},
-		{
-			"path": "../acrolls"
-		},
-		{
-			"path": "../100cabinet"
-		},
-		{
-			"path": "../backup-fractalsvelte/open-design-main"
-		}
-	],
-	"settings": {
-		"git.ignoreLimitWarning": true
-	}
+    "folders": [
+        {
+            "path": "."
+        }
+    ]
 }

@@ -32,7 +32,7 @@ Answer: profile (`minimal` default), target (`all` / `claude` / `cursor` / `proj
 ### Shell
 
 ```sh
-export FRACTAL_AGENTIC_ROOT=/path/to/plugin
+export FRACTAL_AGENTIC_ROOT=/path/to/mandala/packages/fractal-agentic
 
 # Preferences + env snippet (~/.config/fractal-agentic/)
 sh "$FRACTAL_AGENTIC_ROOT/scripts/install-hooks.sh" --target config --profile minimal

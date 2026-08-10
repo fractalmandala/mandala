@@ -52,15 +52,15 @@
       },
       "fractal-agentic-complex-implementer": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "fractal-agentic-fresh-reviewer": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "fractal-agentic-routine-implementer": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "gan-evaluator": {
         "name": "ECC",
@@ -266,7 +266,7 @@
       },
       "boss-orchestration": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "brainstorming": {
         "name": "Superpowers",
@@ -506,7 +506,7 @@
       },
 	"layout-capture": {
 		"name": "Custom",
-		"source": "https://github.com/fractalmandala/fractal-agentic"
+		"source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
 	},
       "liquid-glass-design": {
         "name": "ECC",
@@ -514,7 +514,7 @@
       },
       "llm-wiki": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "make-interfaces-feel-better": {
         "name": "ECC",
@@ -582,7 +582,7 @@
       },
       "performance-investigator": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "plan-orchestrate": {
         "name": "ECC",
@@ -594,7 +594,7 @@
       },
       "port-component": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "postgres-patterns": {
         "name": "ECC",
@@ -670,7 +670,7 @@
       },
       "shadcn-porting": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "shadcn-to-svelte": {
         "name": "Shadcn Svelte",
@@ -698,7 +698,7 @@
       },
       "styling-docs-builder": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "subagent-driven-development": {
         "name": "Superpowers",
@@ -710,31 +710,31 @@
       },
       "svelte-components": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "svelte-components-patterns": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "svelte-deployment": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "svelte-runes": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "svelte-styling": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "svelte-styling-patterns": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "svelte-template-directives": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic/tree/main"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "sveltekit-architecture": {
         "name": "ECC",
@@ -742,15 +742,15 @@
       },
       "sveltekit-data-flow": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "sveltekit-remote-functions": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "sveltekit-structure": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "taste": {
         "name": "ECC",
@@ -812,31 +812,31 @@
     "command": {
       "activate-boss-agent": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "activate-boss-code": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "activate-boss-creator": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "activate-boss-design": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "activate-boss-meta": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "activate-boss-svelte": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "activate-boss-workflow": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "auto-update": {
         "name": "ECC",
@@ -872,19 +872,19 @@
       },
       "hooks-init": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "hooks-status": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "improve-init": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "improve-status": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "instinct-export": {
         "name": "ECC",
@@ -920,7 +920,7 @@
       },
       "orchestrate": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "plan-canvas": {
         "name": "ECC",
@@ -960,7 +960,7 @@
       },
       "review-fanout": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "rust-build": {
         "name": "ECC",
@@ -992,15 +992,15 @@
       },
       "svelte-build": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "svelte-review": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "svelte-test": {
         "name": "Custom",
-        "source": "https://github.com/fractalmandala/fractal-agentic"
+        "source": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic"
       },
       "test-coverage": {
         "name": "ECC",

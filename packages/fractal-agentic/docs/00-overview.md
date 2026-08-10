@@ -45,16 +45,20 @@ The boss supplies the constraints and points to the relevant armory. `/orchestra
 
 ## The plugin root
 
-The installable unit is the `plugin/` directory, whether it comes from a marketplace install, a local checkout, or a copied plugin directory. It contains the manifest, identity files, armory, commands, scripts, and shipped support docs.
+The installable unit is the `packages/fractal-agentic/` directory in the Mandala
+monorepo, or the root directory of a standalone/plugin checkout. It contains the
+manifest, identity files, armory, commands, scripts, and shipped support docs.
 
 Set the root explicitly when a host or shell needs a path:
 
 ```sh
-export FRACTAL_AGENTIC_ROOT=/absolute/path/to/fractal-agentic/plugin
+export FRACTAL_AGENTIC_ROOT=/absolute/path/to/mandala/packages/fractal-agentic
 sh "$FRACTAL_AGENTIC_ROOT/scripts/resolve-plugin-root.sh"
 ```
 
-The repository root may also contain the website and marketplace catalogs. Those are useful for humans and distribution, but agents should resolve the installable `plugin/` directory.
+The repository root may also contain the website and marketplace catalogs. Those are
+useful for humans and distribution, but agents should resolve the installable package
+directory.
 
 ## How a task moves through the system
 

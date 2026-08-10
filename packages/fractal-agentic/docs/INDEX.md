@@ -75,12 +75,12 @@ The package has a deliberate split:
 | [`SOUL.md`](../SOUL.md) | Portable identity and principles |
 | [`AGENTS.md`](../AGENTS.md) | Startup router: precedence, one-boss selection, stop-reading, and handoffs |
 | `docs/bosses/<boss>/INDEX.md` | Authoritative mission, armory mapping, phases, verification, and handoffs for that boss |
-| `plugin/docs/` | Dual guides and policy that ship with the plugin |
+| `docs/` | Dual guides and policy that ship with the plugin |
 | `skills/`, `agents/`, `commands/` | Runtime assets and their live inventories |
 | [`README.md`](../README.md) | Package-level front door and install summary |
 
 The [documentation ownership guide](./doc-ownership.md) explains which file to edit when
-the package changes. Put agent-required facts in `plugin/`, keep the router concise,
+the package changes. Put agent-required facts in this package, keep the router concise,
 keep each boss playbook self-contained, and let the site render the package rather
 than becoming a second source of truth.
 

@@ -13,7 +13,7 @@ Check for monorepo signals at project root:
 - AGENTS.md containing "Mandala monorepo"
 - apps/, sites/, packages/ sibling dirs
 - pnpm-workspace.yaml or pnpm-lock.yaml
-- packages/fractal-agentic/plugin/ exists
+- packages/fractal-agentic/plugin.json exists
 
 ## Monorepo-specific behavior
 
@@ -22,7 +22,7 @@ If no AGENTS.md exists, create from monorepo template with Stack, Commands,
 Fractal Agentic sections. If exists, merge sections under existing content.
 
 ### 2. Plugin link
-Set FRACTAL_AGENTIC_ROOT to packages/fractal-agentic/plugin in .envrc.
+Set FRACTAL_AGENTIC_ROOT to packages/fractal-agentic in .envrc.
 
 ### 3. Project-scoped instincts
 Run instinct-cli.py projects to register. Auto-detected via git remote.

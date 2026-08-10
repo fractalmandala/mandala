@@ -33,7 +33,7 @@ The default destination for this setup is:
 Run the installer with the destination and your wiki vault:
 
 ~~~sh
-sh /Users/amrit/fractal-agentic/plugin/scripts/install-periodic-essay.sh \
+sh "$FRACTAL_AGENTIC_ROOT/scripts/install-periodic-essay.sh" \
   --output-dir /Users/amrit/fractals/sites/fractaldesign/src/routes/posts \
   --wiki-root /absolute/path/to/your/wiki \
   --memory-path /absolute/path/to/memory
@@ -44,7 +44,7 @@ The installer writes a user-level configuration at `~/.config/fractal-agentic/pe
 To install the macOS launchd scheduler as well:
 
 ~~~sh
-sh /Users/amrit/fractal-agentic/plugin/scripts/install-periodic-essay.sh \
+sh "$FRACTAL_AGENTIC_ROOT/scripts/install-periodic-essay.sh" \
   --output-dir /Users/amrit/fractals/sites/fractaldesign/src/routes/posts \
   --wiki-root /absolute/path/to/your/wiki \
   --memory-path /absolute/path/to/memory \
@@ -112,15 +112,15 @@ Use these commands to configure, inspect, or manually trigger the pipeline:
 The equivalent shell commands are:
 
 ~~~sh
-node /Users/amrit/fractal-agentic/plugin/scripts/periodic-essay-runner.js status
-node /Users/amrit/fractal-agentic/plugin/scripts/periodic-essay-runner.js run --if-due
-node /Users/amrit/fractal-agentic/plugin/scripts/periodic-essay-runner.js run --force
+node "$FRACTAL_AGENTIC_ROOT/scripts/periodic-essay-runner.js" status
+node "$FRACTAL_AGENTIC_ROOT/scripts/periodic-essay-runner.js" run --if-due
+node "$FRACTAL_AGENTIC_ROOT/scripts/periodic-essay-runner.js" run --force
 ~~~
 
 To remove the macOS scheduler while retaining configuration:
 
 ~~~sh
-sh /Users/amrit/fractal-agentic/plugin/scripts/install-periodic-essay.sh --remove-scheduler
+sh "$FRACTAL_AGENTIC_ROOT/scripts/install-periodic-essay.sh" --remove-scheduler
 ~~~
 
 ## Next steps

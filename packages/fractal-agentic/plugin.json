@@ -5,8 +5,8 @@
   "author": {
     "name": "Amrit"
   },
-  "homepage": "https://github.com/fractalmandala/fractal-agentic",
-  "repository": "https://github.com/fractalmandala/fractal-agentic",
+  "homepage": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic",
+  "repository": "https://github.com/fractalmandala/mandala",
   "license": "MIT",
   "interface": {
     "displayName": "Fractal Agentic",

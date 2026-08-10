@@ -1,12 +1,12 @@
 {
   "name": "fractal-agentic",
-  "version": "2.5.0",
+  "version": "2.6.6",
   "description": "Progressive one-boss discovery, /orchestrate delivery runtime, and vendored skills for coding agents. Capability lanes, verify, ship|fix-first|rethink review.",
   "author": {
     "name": "Amrit"
   },
-  "homepage": "https://github.com/fractalmandala/fractal-agentic",
-  "repository": "https://github.com/fractalmandala/fractal-agentic",
+  "homepage": "https://github.com/fractalmandala/mandala/tree/main/packages/fractal-agentic",
+  "repository": "https://github.com/fractalmandala/mandala",
   "license": "MIT",
   "keywords": [
     "orchestration",
