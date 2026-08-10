@@ -222,29 +222,27 @@
   <title>{selected} — Components</title>
 </svelte:head>
 
-<div class="row h100 min-h-0 surface text-sm">
+<div class="registry">
   <!-- Sidebar -->
-  <aside class="box width260 minw260 bdr-right surface">
-    <div class="row ycenter xbetween pad12 bdr-bottom">
-      <h2 class="eyebrow">Components</h2>
+  <aside class="registry-side">
+    <div class="registry-side-head">
+      <span class="eyebrow">Components</span>
       <span class="chip">{data.components.length}</span>
     </div>
-    <div class="box pad8">
-      <div class="row ycenter gap8 pad8 radius6 bdr surface">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 text-muted"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <input
-          type="text"
-          placeholder="Search components…"
-          bind:value={search}
-          aria-label="Search components"
-          class="w100 blank text-xs"
-        />
-      </div>
-    </div>
-    <nav class="box grow pad8 gap2">
-      {#each filtered as comp}
+    <label class="registry-search">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input
+        type="text"
+        placeholder="Search components…"
+        bind:value={search}
+        aria-label="Search components"
+      />
+    </label>
+    <nav class="registry-nav">
+      {#each filtered as comp (comp.name)}
         <button
-          class="row ycenter xleft pad8 radius6 text-xs trans-std {comp.name === selected ? 'panel bold coltheme' : 'button-quiet text-secondary'}"
+          class="registry-nav-item"
+          class:active={comp.name === selected}
           onclick={() => selectComponent(comp.name)}
           type="button"
         >
@@ -252,23 +250,26 @@
         </button>
       {/each}
       {#if filtered.length === 0}
-        <p class="pad16 ta-c text-xs text-muted">No components match "{search}"</p>
+        <p class="registry-empty">No components match “{search}”</p>
       {/if}
     </nav>
   </aside>
 
   <!-- Main Content -->
-  <main class="box grow pad32">
+  <main class="registry-main">
     {#if selected}
-      <header class="row ycenter gap12 marginbot24">
-        <h1 class="display text-2xl bold text-primary">{selected}</h1>
-        <span class="text-xs font-mono text-muted">{data.sourceFile}</span>
+      <header class="registry-head">
+        <span class="eyebrow">Components // registry</span>
+        <h1 class="display registry-title">{selected}</h1>
+        <span class="registry-file">{data.sourceFile}</span>
       </header>
 
       <!-- Demo Area -->
-      <section class="box marginbot32">
-        <h3 class="eyebrow marginbot12">Preview</h3>
-        <div class="row ycenter xcenter wrap gap12 pad32 radius12 panel surface minh128">
+      <section class="registry-preview">
+        <div class="registry-preview-head">
+          <span class="eyebrow">Preview</span>
+        </div>
+        <div class="registry-stage dotgrid">
           {#key selected}
             {#if Comp}
               {#if hasChildren(selected)}
@@ -328,7 +329,7 @@
               {:else if selected === 'AspectRatio'}
                 <div style="width:300px">
                   <Comp ratio="16/9">
-                    <div class="w100 h100 row ycenter xcenter surface text-muted text-sm">16:9</div>
+                    <div class="w100 h100 row ycenter xcenter text-muted text-sm">16:9</div>
                   </Comp>
                 </div>
               {:else if selected === 'ButtonGroup'}
@@ -341,37 +342,37 @@
                 <Comp />
               {/if}
             {:else}
-              <div class="row ycenter xcenter">
-                <span class="text-sm text-muted">Loading...</span>
-              </div>
+              <span class="text-sm text-muted">Loading…</span>
             {/if}
           {/key}
         </div>
       </section>
 
       <!-- Source Code -->
-      <section class="box radius12 panel surface">
-        <div class="row ycenter xbetween pad12 bdr-bottom surface">
-          <h3 class="eyebrow">Source</h3>
+      <section class="registry-source">
+        <div class="registry-source-head">
+          <span class="eyebrow">Source</span>
           <div class="row ycenter gap12">
-            <span class="text-xs font-mono text-muted">{data.sourceFile}</span>
-            <button class="button-quiet text-xs row ycenter gap4" onclick={copySource} aria-label={copied ? 'Copied' : 'Copy source'}>
+            <span class="registry-file">{data.sourceFile}</span>
+            <button class="button-quiet" onclick={copySource} aria-label={copied ? 'Copied' : 'Copy source'}>
               {#if copied}
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                 Copied
               {:else}
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
                 Copy
               {/if}
             </button>
           </div>
         </div>
-        <div class="box maxh448 pad16">
-          <pre class="font-mono text-xs text-primary"><code>{data.source}</code></pre>
+        <div class="registry-source-body">
+          {#key selected}
+            {@html data.sourceHtml}
+          {/key}
         </div>
       </section>
     {:else}
-      <div class="row ycenter xcenter grow text-muted text-sm">
+      <div class="registry-empty-state">
         <p>Select a component from the sidebar.</p>
       </div>
     {/if}
