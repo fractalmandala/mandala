@@ -1,0 +1,15 @@
+{
+  "surfaceId": "fractaldharma-home",
+  "description": "Pilot allowlist — fractaldharma site only",
+  "paths": [
+    "sites/fractaldharma/src/lib/styles/",
+    "sites/fractaldharma/src/routes/+page.svelte",
+    "sites/fractaldharma/src/routes/+layout.svelte"
+  ],
+  "refusedPatterns": [
+    "packages/",
+    "apps/",
+    "sites/fractaldharma/src/lib/data/",
+    "vendors/"
+  ]
+}

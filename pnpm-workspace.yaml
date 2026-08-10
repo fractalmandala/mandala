@@ -29,3 +29,5 @@ overrides:
 minimumReleaseAgeExclude:
   - fractal-agentation@0.0.1
   - fractals-styler@2.2.0
+onlyBuiltDependencies:
+  - esbuild

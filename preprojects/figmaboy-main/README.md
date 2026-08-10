@@ -4,6 +4,18 @@
 
 Design interfaces by hand with a familiar canvas, layers, frames, and inspector—or open the embedded terminal and ask Codex to inspect and edit the live document for you. Codex's changes appear immediately as native, editable layers with undo/redo and local autosave.
 
+```
+cd preprojects/figmaboy-main
+bun install
+bun run dev
+```
+
+```
+cd preprojects/figmaboy-main
+bun install
+bun run tauri dev
+```
+
 ![Figmaboy editing a mobile interface with Codex CLI embedded below the canvas](docs/assets/figmaboy-codex-workflow.png)
 
 [Website](https://0xmiki.github.io/figmaboy/) · [Documentation](https://0xmiki.github.io/figmaboy/docs/) · [Download Figmaboy](https://0xmiki.github.io/figmaboy/download/)

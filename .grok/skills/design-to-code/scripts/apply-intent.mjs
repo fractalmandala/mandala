@@ -131,10 +131,7 @@ async function main() {
     process.exit(1);
   }
 
-  // Prefer explicit path (Studio mandala-loop sets MANDALA_ALLOWLIST), then skill allowlists.
-  const allowlistPath =
-    (process.env.MANDALA_ALLOWLIST && process.env.MANDALA_ALLOWLIST.trim()) ||
-    join(skillRoot, "references/allowlists", `${surfaceId}.json`);
+  const allowlistPath = join(skillRoot, "references/allowlists", `${surfaceId}.json`);
   let allowlist;
   try {
     allowlist = JSON.parse(await readFile(allowlistPath, "utf8"));

@@ -1,5 +1,0 @@
-<label class="md:flex lg:w-64 items-center px-3 py-1.5 rounded-lg bg-white dark:bg-neutral-900 text-sm text-neutral-400 w-52 hidden gap-2 border border-neutral-200 dark:border-neutral-700 cursor-text hover:border-green-400 dark:hover:border-green-700 transition-colors duration-150 group">
-  <svg class="w-4 h-4 shrink-0 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-150" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="Windframe_SvKwJv0MK"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"></path></svg>
-  <span>Search docs...</span>
-  <div class="ml-auto text-xs bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 text-neutral-400 rounded border border-neutral-200 dark:border-neutral-700">⌘K</div>
-</label>
