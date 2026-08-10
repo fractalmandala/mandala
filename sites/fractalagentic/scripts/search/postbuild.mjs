@@ -4,6 +4,10 @@ import { cpSync, existsSync } from 'node:fs';
 
 const provider = process.env.PUBLIC_SVOCS_SEARCH_PROVIDER || 'flexsearch';
 
+// adapter-static outputs to build/, adapter-vercel to .vercel/output/static.
+// Pick whichever the build produced so this works with either adapter.
+const SITE_DIR = existsSync('.vercel/output/static') ? '.vercel/output/static' : 'build';
+
 // shell:true resolves Windows .cmd shims; args are hardcoded literals, so
 // pre-joining the command string is safe and avoids Node's escaping warning.
 function run(command, args) {
@@ -20,17 +24,17 @@ function mirrorIntoPreviewOutput() {
 	if (!existsSync(previewClientDir)) {
 		return;
 	}
-	cpSync('build/pagefind', `${previewClientDir}/pagefind`, { recursive: true });
+	cpSync(`${SITE_DIR}/pagefind`, `${previewClientDir}/pagefind`, { recursive: true });
 }
 
 switch (provider) {
 	case 'pagefind':
-		run('pagefind', ['--site', 'build']);
+		run('pagefind', ['--site', SITE_DIR]);
 		mirrorIntoPreviewOutput();
 		break;
 	case 'orama':
 	case 'flexsearch':
-		console.log(`${provider}: index already built into build/ during vite build.`);
+		console.log(`${provider}: index already built into ${SITE_DIR}/ during vite build.`);
 		break;
 	case 'typesense':
 		run('bun', ['run', 'scripts/search/sync-typesense.ts']);

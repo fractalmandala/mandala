@@ -57,7 +57,7 @@ function checkIcon(): SVGSVGElement {
 
 /**
  * Appends a copy button into the .code-frame-body wrapper emitted at build
- * time by src/lib/build/code-highlighter.ts.
+ * time by src/lib/build/code-highlighter.js.
  *
  * Never move or replace existing nodes here: they belong to the
  * mdsvex-compiled Svelte fragment, and re-parenting one corrupts teardown on

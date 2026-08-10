@@ -1,14 +1,8 @@
-import { mdsvex } from 'mdsvex';
-import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypeKatex from 'rehype-katex-svelte';
-import remarkMath from 'remark-math';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { defineConfig, type Plugin } from 'vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import fractalsStyler from 'fractals-styler';
-import { highlightWithFilename } from './src/lib/build/code-highlighter';
 
 const execFileAsync = promisify(execFile);
 
@@ -110,32 +104,10 @@ process.env.PUBLIC_SVOCS_SEARCH_PROVIDER ??= 'flexsearch';
 export default defineConfig({
 	plugins: [
 		contentDatesPlugin(),
-		sveltekit({
-			compilerOptions: {
-				// Force runes mode for the project, except for libraries. Can be removed in svelte 6.
-				runes: ({ filename }) =>
-					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
-			},
-			preprocess: [
-				mdsvex({
-					extensions: ['.svx', '.md'],
-					remarkPlugins: [remarkMath],
-					rehypePlugins: [
-						rehypeSlug,
-						[rehypeAutolinkHeadings, {
-							behavior: 'append',
-							properties: {
-								className: ['heading-anchor'],
-								'aria-label': 'Section link'
-							}
-						}],
-						rehypeKatex
-					],
-					highlight: { highlighter: highlightWithFilename, optimise: true }
-				})
-			],
-			extensions: ['.svelte', '.svx', '.md']
-		}),
+		// Bare sveltekit(): every SvelteKit option (adapter, preprocess,
+		// prerender, extensions, compilerOptions) lives in svelte.config.js.
+		// Passing options here makes SvelteKit ignore that file entirely.
+		sveltekit(),
 		fractalsStyler()
 	]
 });
