@@ -21,6 +21,12 @@
 	 */
 	import type { Snippet } from 'svelte';
 
+	/** Controls for the mobile nav drawer, surfaced to the header snippet. */
+	interface NavCtl {
+		open: boolean;
+		toggle: () => void;
+	}
+
 	let {
 		header,
 		sidebarleft,
@@ -29,9 +35,10 @@
 		children,
 		ambient = true,
 		showLeft = sidebarleft != null,
-		showRight = sidebarright != null
+		showRight = sidebarright != null,
+		mobileOpen = $bindable(false)
 	}: {
-		header?: Snippet;
+		header?: Snippet<[NavCtl]>;
 		sidebarleft?: Snippet;
 		sidebarright?: Snippet;
 		footer?: Snippet;
@@ -39,7 +46,17 @@
 		ambient?: boolean;
 		showLeft?: boolean;
 		showRight?: boolean;
+		mobileOpen?: boolean;
 	} = $props();
+
+	const navctl: NavCtl = {
+		get open() {
+			return mobileOpen;
+		},
+		toggle() {
+			mobileOpen = !mobileOpen;
+		}
+	};
 </script>
 
 <section class="appshell">
@@ -52,10 +69,10 @@
 	{/if}
 
 	<header class="appheader">
-		{@render header?.()}
+		{@render header?.(navctl)}
 	</header>
 
-	<main class="appbody">
+	<main class="appbody" data-mobile-open={mobileOpen} class:no-left={!showLeft} class:no-right={!showRight} class:no-both={!showLeft && !showRight}>
 		{#if showLeft}
 			<aside class="sidebarleft">
 				{@render sidebarleft?.()}
@@ -70,6 +87,15 @@
 			<aside class="sidebarright">
 				{@render sidebarright?.()}
 			</aside>
+		{/if}
+
+		{#if mobileOpen}
+			<button
+				type="button"
+				class="appbody-backdrop"
+				aria-label="Close navigation"
+				onclick={() => (mobileOpen = false)}
+			></button>
 		{/if}
 	</main>
 

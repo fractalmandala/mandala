@@ -1,0 +1,305 @@
+// FractalDesign shell — "faceted editorial" chrome
+// Header / nav / footer / hero / sections / cards / chips / buttons.
+@use 'mixins' as *
+
+// Type helpers -----------------------------------------------------------
+.display
+	font-family: var(--font-display)
+	letter-spacing: -0.01em
+
+.eyebrow
+	font-family: var(--font-mono)
+	font-size: 11px
+	letter-spacing: 0.16em
+	text-transform: uppercase
+	color: var(--text-tertiary)
+
+// Texture — faint dot grid, node-canvas feel
+.dotgrid
+	background-image: radial-gradient(var(--dot) 1px, transparent 1px)
+	background-size: var(--dot-size) var(--dot-size)
+
+// Content measure
+.fd-wrap
+	width: 100%
+	max-width: var(--layout-max)
+	margin-inline: auto
+	padding-inline: clamp(16px, 4vw, 40px)
+
+// Header -------------------------------------------------------------------
+.fd-header
+	position: sticky
+	top: 0
+	z-index: 50
+	display: flex
+	align-items: center
+	justify-content: space-between
+	gap: 16px
+	height: var(--header-height)
+	padding-inline: clamp(16px, 4vw, 40px)
+	border-bottom: 1px solid var(--border)
+	background: color-mix(in srgb, var(--bg-app) 82%, transparent)
+	backdrop-filter: blur(12px)
+	-webkit-backdrop-filter: blur(12px)
+
+.fd-brand
+	display: flex
+	align-items: center
+	gap: 10px
+	text-decoration: none
+	color: inherit
+	img
+		height: 22px
+		width: auto
+		object-fit: contain
+	.fd-logo-white
+		display: none
+
+[data-theme="dark"] .fd-brand
+	.fd-logo-black
+		display: none
+	.fd-logo-white
+		display: block
+
+.fd-nav
+	display: none
+	gap: 2px
+	+bp-md
+		display: flex
+	a
+		text-decoration: none
+		color: var(--text-secondary)
+		font-size: 14px
+		font-weight: 500
+		padding: 6px 12px
+		border-radius: var(--radius-pill)
+		transition: color 150ms ease, background-color 150ms ease
+		&:hover
+			color: var(--text-primary)
+			background: var(--bg-subtle)
+		&[aria-current="page"]
+			color: var(--text-primary)
+			background: var(--bg-subtle)
+
+.fd-actions
+	display: flex
+	align-items: center
+	gap: 8px
+
+.fd-menu
+	+bp-md
+		display: none
+
+// Icon button — theme toggle, socials, menu
+.icon-btn
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	width: 34px
+	height: 34px
+	border-radius: var(--radius-pill)
+	border: 1px solid var(--border)
+	background: transparent
+	color: var(--text-secondary)
+	cursor: pointer
+	transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease
+	&:hover
+		color: var(--text-primary)
+		border-color: var(--border-secondary)
+		background: var(--bg-subtle)
+	svg
+		width: 16px
+		height: 16px
+
+// Buttons --------------------------------------------------------------------
+.btn-pill
+	display: inline-flex
+	align-items: center
+	gap: 8px
+	padding: 10px 20px
+	border-radius: var(--radius-pill)
+	border: 1px solid transparent
+	background: var(--text-primary)
+	color: var(--bg-app)
+	font-size: 14px
+	font-weight: 600
+	text-decoration: none
+	cursor: pointer
+	transition: transform 150ms ease, box-shadow 150ms ease, background-color 150ms ease
+	&:hover
+		transform: translateY(-1px)
+		box-shadow: var(--shadow-card)
+
+.btn-pill--brand
+	background: var(--brand)
+	color: #ffffff
+	&:hover
+		background: var(--brand-hover)
+
+.btn-quiet, .button-quiet
+	display: inline-flex
+	align-items: center
+	gap: 8px
+	padding: 8px 16px
+	border-radius: var(--radius-pill)
+	border: 1px solid var(--border)
+	background: transparent
+	color: var(--text-primary)
+	font-size: 13px
+	font-weight: 500
+	text-decoration: none
+	cursor: pointer
+	transition: border-color 150ms ease, background-color 150ms ease
+	&:hover
+		border-color: var(--border-secondary)
+		background: var(--bg-subtle)
+
+// Hero ------------------------------------------------------------------------
+.fd-hero
+	position: relative
+	overflow: hidden
+	padding-block: clamp(72px, 13vh, 140px) clamp(56px, 9vh, 104px)
+	&::before
+		content: ''
+		position: absolute
+		top: -160px
+		right: -120px
+		width: 640px
+		height: 480px
+		background: radial-gradient(closest-side, var(--glow), transparent 72%)
+		pointer-events: none
+
+.fd-hero-title
+	font-size: clamp(42px, 7vw, 78px)
+	line-height: 1.04
+	letter-spacing: -0.02em
+	em
+		color: var(--brand)
+
+.fd-hero-sub
+	max-width: 560px
+	color: var(--text-secondary)
+	font-size: clamp(15px, 1.4vw, 17px)
+	line-height: 1.6
+
+// Compact hero variant for inner pages (playground)
+.fd-play-hero
+	padding-block: clamp(48px, 8vh, 84px) clamp(28px, 4vh, 48px)
+	.fd-hero-title
+		font-size: clamp(34px, 5.4vw, 60px)
+
+// Sections ---------------------------------------------------------------------
+.fd-section
+	padding-block: clamp(40px, 7vh, 72px)
+
+.fd-section-head
+	display: flex
+	align-items: flex-end
+	justify-content: space-between
+	gap: 16px
+	margin-bottom: 28px
+	.display
+		font-size: clamp(26px, 3.4vw, 36px)
+		line-height: 1.1
+
+// Responsive card grid
+.fd-grid
+	display: grid
+	grid-template-columns: 1fr
+	gap: 14px
+	+bp-sm
+		grid-template-columns: repeat(2, minmax(0, 1fr))
+	+bp-lg
+		grid-template-columns: repeat(3, minmax(0, 1fr))
+
+// Cards ---------------------------------------------------------------------
+.fd-card
+	display: flex
+	flex-direction: column
+	gap: 10px
+	padding: 20px
+	border-radius: var(--radius-l)
+	border: 1px solid var(--border)
+	background: var(--bg-raised)
+	text-decoration: none
+	color: inherit
+	box-shadow: var(--shadow-card)
+	transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease
+	&:hover
+		transform: translateY(-3px)
+		border-color: var(--border-secondary)
+		box-shadow: var(--shadow-lift)
+
+.fd-card-title
+	font-weight: 600
+	font-size: 16px
+	letter-spacing: -0.01em
+
+.fd-card-desc
+	color: var(--text-secondary)
+	font-size: 14px
+	line-height: 1.55
+
+.fd-card-glyph
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	width: 36px
+	height: 36px
+	border-radius: 12px
+	font-size: 14px
+	margin-bottom: 4px
+
+// Chips -----------------------------------------------------------------------
+.chip
+	display: inline-flex
+	align-items: center
+	padding: 4px 10px
+	border-radius: var(--radius-pill)
+	font-size: 12px
+	font-weight: 500
+	background: var(--bg-subtle)
+	color: var(--text-secondary)
+
+.chip--lav
+	background: var(--chip-lav-bg)
+	color: var(--chip-lav-tx)
+.chip--mint
+	background: var(--chip-mint-bg)
+	color: var(--chip-mint-tx)
+.chip--sky
+	background: var(--chip-sky-bg)
+	color: var(--chip-sky-tx)
+.chip--amber
+	background: var(--chip-amber-bg)
+	color: var(--chip-amber-tx)
+.chip--rose
+	background: var(--chip-rose-bg)
+	color: var(--chip-rose-tx)
+
+// Inline text link
+.link
+	color: var(--brand)
+	text-decoration: underline
+	text-decoration-color: color-mix(in srgb, var(--brand) 40%, transparent)
+	text-underline-offset: 3px
+	transition: text-decoration-color 150ms ease
+	&:hover
+		text-decoration-color: var(--brand)
+
+// Footer -----------------------------------------------------------------------
+.fd-footer
+	border-top: 1px solid var(--border)
+	padding-block: 28px
+	color: var(--text-tertiary)
+	.fd-wrap
+		display: flex
+		align-items: center
+		justify-content: space-between
+		gap: 16px
+		flex-wrap: wrap
+	a
+		color: var(--text-secondary)
+		text-decoration: none
+		&:hover
+			color: var(--text-primary)

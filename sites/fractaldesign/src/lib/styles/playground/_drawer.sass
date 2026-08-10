@@ -2,7 +2,7 @@
 	position: fixed
 	inset: 0
 	z-index: 999
-	background: rgba(18, 22, 31, 0.42)
+	background: var(--bg-overlay)
 	backdrop-filter: blur(2px)
 	-webkit-backdrop-filter: blur(2px)
 
@@ -11,14 +11,14 @@
 	bottom: 0
 	left: 0
 	width: 100%
-	background: var(--background10, #ffffff)
+	background: var(--bg-raised)
 	z-index: 1000
 	display: flex
 	flex-direction: column
 	overflow: hidden
-	border-top-left-radius: var(--radius-lg, 12px)
-	border-top-right-radius: var(--radius-lg, 12px)
-	box-shadow: 0 -8px 30px rgba(18, 22, 31, 0.16)
+	border-top-left-radius: var(--radius-l, 20px)
+	border-top-right-radius: var(--radius-l, 20px)
+	box-shadow: var(--shadow-lift)
 	// No height/all transition here — height is driven live by the resize drag;
 	// the open/close slide is handled by Svelte's fly transition.
 	&.resizing
@@ -39,10 +39,10 @@
 		width: 36px
 		height: 4px
 		border-radius: 999px
-		background: var(--border-tertiary, #999)
+		background: var(--border-secondary)
 		transition: background 0.15s ease, width 0.15s ease
 	&:hover::before
-		background: var(--text-secondary, #707070)
+		background: var(--text-secondary)
 		width: 48px
 
 .drawer-header
@@ -50,7 +50,7 @@
 	justify-content: space-between
 	align-items: center
 	padding: 0.5rem 1rem 1rem
-	border-bottom: 1px solid var(--border-primary, #eee)
+	border-bottom: 1px solid var(--border)
 
 .drawer-close
 	display: flex
@@ -60,14 +60,14 @@
 	height: 28px
 	border: none
 	background: transparent
-	border-radius: var(--radius-sm, 6px)
-	color: var(--text-secondary, #707070)
+	border-radius: var(--radius-s, 8px)
+	color: var(--text-secondary)
 	cursor: pointer
 	font-size: 14px
 	transition: background 0.15s ease, color 0.15s ease
 	&:hover
-		background: var(--state-hover, rgba(0, 0, 0, 0.05))
-		color: var(--text-primary, #212121)
+		background: var(--bg-subtle)
+		color: var(--text-primary)
 
 .drawer-content
 	flex: 1

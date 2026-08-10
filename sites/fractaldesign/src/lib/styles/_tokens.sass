@@ -1,133 +1,89 @@
-// System Color Tokens & Theme Architecture for FractalDesign
+// FractalDesign tokens — "faceted editorial" system
+// Light = warm paper; dark = plum-black. Brand = crystal magenta.
+// Type: serif display (system stack) + Instrument Sans body + Google Sans Code mono.
+@use 'mixins' as *
+
 :root
-	--font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
-	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace
+	// Type
+	--font-display: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, 'Times New Roman', serif
+	--font-sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif
+	--font-mono: 'Google Sans Code', ui-monospace, SFMono-Regular, Menlo, monospace
 	--text-scale: 1.0
 
-	// Layout tokens (drive the .appshell Composition layer)
-	--header-height: 80px
-	--footer-height: 56px
-	--shell-pad: 20px
-	--layout-max: 1440px
+	// Layout
+	--header-height: 64px
+	--footer-height: 72px
+	--shell-pad: 24px
+	--layout-max: 1200px
 	--sidebar-min: 200px
 	--sidebar-max: 320px
 	--body-min: 600px
 	--body-max: 720px
 
-	// Ambient background — magenta wash matching the brand (light theme default)
-	--ambient-blur: 60px
-	--ambient-1-bg: linear-gradient(135deg, #fbcfe8, #fce7f3, #f5d0fe)
-	--ambient-1-op: 0.22
-	--ambient-2-bg: linear-gradient(45deg, #f9a8d4, #f0abfc, #fbcfe8)
-	--ambient-2-op: 0.34
-	--ambient-3-bg: linear-gradient(180deg, #f472b6, #f9a8d4, #fce7f3)
-	--ambient-3-op: 0.42
+	// Shape & depth
+	--radius-s: 8px
+	--radius-m: 14px
+	--radius-l: 20px
+	--radius-pill: 999px
+	--shadow-card: 0 1px 2px rgba(24, 16, 22, 0.05), 0 16px 40px -24px rgba(24, 16, 22, 0.22)
+	--shadow-lift: 0 2px 6px rgba(24, 16, 22, 0.06), 0 24px 56px -24px rgba(24, 16, 22, 0.30)
 
-	// Neutral Slate Scale
-	--slate-50: #f8fafc
-	--slate-100: #f1f5f9
-	--slate-200: #e2e8f0
-	--slate-300: #cbd5e1
-	--slate-400: #94a3b8
-	--slate-500: #64748b
-	--slate-600: #475569
-	--slate-700: #334155
-	--slate-800: #1e293b
-	--slate-900: #0f172a
-	--slate-950: #0b0f17
+	// Texture — faint dot grid (node-canvas feel)
+	--dot: rgba(32, 26, 31, 0.08)
+	--dot-size: 22px
 
-	// Semantic Context Tokens — Light Theme
-	--bg-app: #ffffff
-	--bg-surface: var(--slate-50)
+	// Ambient wash behind hero / shell
+	--ambient-blur: 70px
+	--ambient-1-bg: linear-gradient(135deg, #e9e2f7, #f6e9ef, #fde2ec)
+	--ambient-1-op: 0.55
+	--ambient-2-bg: linear-gradient(45deg, #fde2ec, #f6e9ef, #e9e2f7)
+	--ambient-2-op: 0.45
+	--ambient-3-bg: linear-gradient(180deg, #c8045c, #f9a8d4)
+	--ambient-3-op: 0.10
+
+	// Light theme (default) — warm paper
+	--bg-app: #f5f2ef
+	--bg-surface: #faf8f6
 	--bg-raised: #ffffff
-	--bg-overlay: rgba(15, 23, 42, 0.5)
-	--bg-subtle: var(--slate-100)
+	--bg-subtle: #eee9e4
+	--bg-overlay: rgba(30, 20, 28, 0.45)
 
-	--text-primary: var(--slate-900)
-	--text-secondary: var(--slate-600)
-	--text-muted: var(--slate-400)
-	--text-inverse: #ffffff
+	--text-primary: #201a1f
+	--text-secondary: #645b63
+	--text-tertiary: #8f8791
+	--text-muted: var(--text-tertiary)
+	--text-inverse: #f7f4f2
 
-	--border: var(--slate-200)
-	--border-secondary: var(--slate-300)
+	--border: #e5ded8
+	--border-secondary: #d3cac4
 	--border-focus: var(--brand)
 
-	// Brand Accent Slot — FractalDesign Accent
+	// Brand — the crystal magenta
 	--brand: #c8045c
 	--brand-hover: #a0034a
 	--brand-active: #780237
-	--ring: rgba(200, 4, 92, 0.35)
+	--color10: var(--brand)
+	--ring: rgba(200, 4, 92, 0.30)
+	--glow: rgba(200, 4, 92, 0.14)
+
+	// Pastel chip vocabulary (light)
+	--chip-lav-bg: #ece6fb
+	--chip-lav-tx: #5b3fa8
+	--chip-mint-bg: #ddf2e3
+	--chip-mint-tx: #1d6b45
+	--chip-sky-bg: #e1ecfb
+	--chip-sky-tx: #2b5ca8
+	--chip-amber-bg: #faeed2
+	--chip-amber-tx: #8a5a12
+	--chip-rose-bg: #fde2ec
+	--chip-rose-tx: #a3124f
 
 @media (prefers-color-scheme: dark)
 	:root:not([data-theme="light"])
-		--bg-app: var(--slate-950)
-		--bg-surface: var(--slate-900)
-		--bg-raised: var(--slate-800)
-		--bg-overlay: rgba(0, 0, 0, 0.75)
-		--bg-subtle: var(--slate-800)
-
-		--text-primary: #f9fafb
-		--text-secondary: var(--slate-300)
-		--text-muted: var(--slate-500)
-		--text-inverse: var(--slate-900)
-
-		--border: var(--slate-800)
-		--border-secondary: var(--slate-700)
-		--border-focus: var(--brand)
-
-		--brand: #fb006f
-		--brand-hover: #ff338a
-		--brand-active: #c8045c
-		--ring: rgba(251, 0, 111, 0.35)
-
-		--ambient-1-op: 0
-		--ambient-2-op: 0
-		--ambient-3-bg: linear-gradient(180deg, #be185d, #db2777, #9333ea)
-		--ambient-3-op: 0.24
+		@include dark-tokens
 
 [data-theme="dark"], .dark, .theme-dark
-	--bg-app: var(--slate-950)
-	--bg-surface: var(--slate-900)
-	--bg-raised: var(--slate-800)
-	--bg-overlay: rgba(0, 0, 0, 0.75)
-	--bg-subtle: var(--slate-800)
-
-	--text-primary: #f9fafb
-	--text-secondary: var(--slate-300)
-	--text-muted: var(--slate-500)
-	--text-inverse: var(--slate-900)
-
-	--border: var(--slate-800)
-	--border-secondary: var(--slate-700)
-	--border-focus: var(--brand)
-
-	--brand: #fb006f
-	--brand-hover: #ff338a
-	--brand-active: #c8045c
-	--ring: rgba(251, 0, 111, 0.35)
-
-	--ambient-1-op: 0
-	--ambient-2-op: 0
-	--ambient-3-bg: linear-gradient(180deg, #be185d, #db2777, #9333ea)
-	--ambient-3-op: 0.24
+	@include dark-tokens
 
 [data-theme="light"], .light, .theme-light
-	--bg-app: #ffffff
-	--bg-surface: var(--slate-50)
-	--bg-raised: #ffffff
-	--bg-overlay: rgba(15, 23, 42, 0.5)
-	--bg-subtle: var(--slate-100)
-
-	--text-primary: var(--slate-900)
-	--text-secondary: var(--slate-600)
-	--text-muted: var(--slate-400)
-	--text-inverse: #ffffff
-
-	--border: var(--slate-200)
-	--border-secondary: var(--slate-300)
-	--border-focus: var(--brand)
-
-	--brand: #c8045c
-	--brand-hover: #a0034a
-	--brand-active: #780237
-	--ring: rgba(200, 4, 92, 0.35)
+	@include light-tokens

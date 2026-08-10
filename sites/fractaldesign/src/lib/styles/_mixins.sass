@@ -14,3 +14,104 @@
 =bp-xl
 	@media (min-width: 1280px)
 		@content
+
+// Theme token scopes — light = warm paper, dark = plum-black.
+=light-tokens
+	--bg-app: #f5f2ef
+	--bg-surface: #faf8f6
+	--bg-raised: #ffffff
+	--bg-subtle: #eee9e4
+	--bg-overlay: rgba(30, 20, 28, 0.45)
+
+	--text-primary: #201a1f
+	--text-secondary: #645b63
+	--text-tertiary: #8f8791
+	--text-muted: var(--text-tertiary)
+	--text-inverse: #f7f4f2
+
+	--border: #e5ded8
+	--border-secondary: #d3cac4
+	--border-focus: var(--brand)
+
+	--brand: #c8045c
+	--brand-hover: #a0034a
+	--brand-active: #780237
+	--color10: var(--brand)
+	--ring: rgba(200, 4, 92, 0.30)
+	--glow: rgba(200, 4, 92, 0.14)
+
+	--dot: rgba(32, 26, 31, 0.08)
+	--shadow-card: 0 1px 2px rgba(24, 16, 22, 0.05), 0 16px 40px -24px rgba(24, 16, 22, 0.22)
+	--shadow-lift: 0 2px 6px rgba(24, 16, 22, 0.06), 0 24px 56px -24px rgba(24, 16, 22, 0.30)
+
+	--ambient-1-op: 0.55
+	--ambient-2-op: 0.45
+	--ambient-3-op: 0.10
+
+	--chip-lav-bg: #ece6fb
+	--chip-lav-tx: #5b3fa8
+	--chip-mint-bg: #ddf2e3
+	--chip-mint-tx: #1d6b45
+	--chip-sky-bg: #e1ecfb
+	--chip-sky-tx: #2b5ca8
+	--chip-amber-bg: #faeed2
+	--chip-amber-tx: #8a5a12
+	--chip-rose-bg: #fde2ec
+	--chip-rose-tx: #a3124f
+
+	// Legacy aliases (playground pages, md snippets)
+	--background10: var(--bg-raised)
+	--background20: var(--bg-surface)
+	--border-primary: var(--border)
+	--border-tertiary: var(--border-secondary)
+	--state-hover: var(--bg-subtle)
+
+=dark-tokens
+	--bg-app: #141114
+	--bg-surface: #1a161a
+	--bg-raised: #211c21
+	--bg-subtle: #262026
+	--bg-overlay: rgba(10, 8, 10, 0.6)
+
+	--text-primary: #f4f0f3
+	--text-secondary: #b3aab1
+	--text-tertiary: #7d747c
+	--text-muted: var(--text-tertiary)
+	--text-inverse: #201a1f
+
+	--border: #2c262c
+	--border-secondary: #3a333a
+	--border-focus: var(--brand)
+
+	--brand: #ff2e86
+	--brand-hover: #ff5c9d
+	--brand-active: #c8045c
+	--color10: var(--brand)
+	--ring: rgba(255, 46, 134, 0.35)
+	--glow: rgba(255, 46, 134, 0.12)
+
+	--dot: rgba(244, 240, 243, 0.05)
+	--shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 16px 40px -24px rgba(0, 0, 0, 0.55)
+	--shadow-lift: 0 2px 6px rgba(0, 0, 0, 0.45), 0 24px 56px -24px rgba(0, 0, 0, 0.65)
+
+	--ambient-1-op: 0.10
+	--ambient-2-op: 0.08
+	--ambient-3-op: 0.16
+
+	--chip-lav-bg: rgba(167, 139, 250, 0.16)
+	--chip-lav-tx: #c4b0ff
+	--chip-mint-bg: rgba(52, 199, 123, 0.14)
+	--chip-mint-tx: #7ee0a3
+	--chip-sky-bg: rgba(96, 165, 250, 0.15)
+	--chip-sky-tx: #8ec0ff
+	--chip-amber-bg: rgba(245, 177, 66, 0.15)
+	--chip-amber-tx: #ffc466
+	--chip-rose-bg: rgba(255, 46, 134, 0.14)
+	--chip-rose-tx: #ff8fb3
+
+	// Legacy aliases (playground pages, md snippets)
+	--background10: var(--bg-raised)
+	--background20: var(--bg-surface)
+	--border-primary: var(--border)
+	--border-tertiary: var(--border-secondary)
+	--state-hover: var(--bg-subtle)
