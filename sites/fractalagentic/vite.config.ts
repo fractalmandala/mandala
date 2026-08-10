@@ -1,15 +1,8 @@
-import { mdsvex } from 'mdsvex';
-import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypeKatex from 'rehype-katex-svelte';
-import remarkMath from 'remark-math';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { defineConfig, type Plugin } from 'vite';
-import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import fractalsStyler from 'fractals-styler';
-import { highlightWithFilename } from './src/lib/build/code-highlighter'
 
 const execFileAsync = promisify(execFile);
 
@@ -108,42 +101,6 @@ function contentDatesPlugin(): Plugin {
 // backend, see https://svocs.dev/docs/search
 process.env.PUBLIC_SVOCS_SEARCH_PROVIDER ??= 'flexsearch';
 
-type MdsvexOptions = NonNullable<Parameters<typeof mdsvex>[0]>;
-type MdsvexRehypePlugin = NonNullable<MdsvexOptions['rehypePlugins']>[number];
-type MdsvexRemarkPlugin = NonNullable<MdsvexOptions['remarkPlugins']>[number];
-
-// remark-math must stay on 3.x: newer versions register a micromark
-// extension mdsvex's parser doesn't pick up, so $math$ passes through as
-// literal text. rehype-katex-svelte (not plain rehype-katex) because KaTeX
-// output contains bare `{}` that mdsvex would compile as Svelte expressions.
-// Mermaid fences are rendered client-side (src/lib/themes/docs/mermaid.ts);
-// build-time rendering would require shipping a headless browser.
-const remarkPlugins: NonNullable<MdsvexOptions['remarkPlugins']> = [
-	remarkMath as unknown as MdsvexRemarkPlugin
-];
-
-const rehypePlugins: NonNullable<MdsvexOptions['rehypePlugins']> = [
-	rehypeSlug as unknown as MdsvexRehypePlugin,
-	[
-		rehypeAutolinkHeadings,
-		{
-			behavior: 'append',
-			properties: {
-				className: ['heading-anchor'],
-				'aria-label': 'Section link'
-			}
-		}
-	] as unknown as MdsvexRehypePlugin,
-	rehypeKatex as unknown as MdsvexRehypePlugin
-];
-
-const mdsvexOptions = {
-	extensions: ['.svx', '.md'],
-	remarkPlugins,
-	rehypePlugins,
-	highlight: { highlighter: highlightWithFilename, optimise: true }
-} satisfies MdsvexOptions;
-
 export default defineConfig({
 	plugins: [
 		contentDatesPlugin(),
@@ -152,47 +109,7 @@ export default defineConfig({
 				// Force runes mode for the project, except for libraries. Can be removed in svelte 6.
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
-			},
-			// Use the SPA fallback so direct refreshes do not briefly render the
-			// generated error page before client hydration.
-			adapter: adapter({ fallback: '200.html' }),
-			// Some package docs link targets that don't exist on the site yet
-			// (docs/progression.md is referenced but unpublished, and skill
-			// references/*.md are offline-only plugin internals). Warn instead
-			// of failing the whole build so those stay fixable without blocking
-			// deploys.
-			prerender: {
-				// A handful of package-doc link targets aren't published routes:
-				// docs/progression.md is referenced but not in the package yet,
-				// skill references/*.md are offline-only plugin internals, and
-				// plugin manifests/scripts are never routes. Warn for exactly
-				// those known gaps so genuine link breakage still fails the
-				// build instead of silently passing.
-				handleHttpError: ({ status, path }) => {
-					if (status !== 404) return 'fail';
-					const knownGap =
-						path === '/docs/progression' ||
-						path === '/package.json' ||
-						path === '/plugin.json' ||
-						path === '/LAYOUT.md' ||
-						path.startsWith('/.claude-plugin/') ||
-						path.startsWith('/.agents/') ||
-						path.startsWith('/.codex-plugin/') ||
-						path.startsWith('/references/') ||
-						path.startsWith('/templates/') ||
-						path.startsWith('/models/') ||
-						path.startsWith('/docs/skills/references/') ||
-						(path.startsWith('/skills/') && path.includes('/references/'));
-					return knownGap ? 'warn' : 'fail';
-				}
-			},
-			// Set BASE_PATH when deploying under a sub-path, e.g. GitHub Pages
-			// project sites: BASE_PATH=/my-repo
-			paths: {
-				base: process.env.BASE_PATH?.startsWith('/') ? (process.env.BASE_PATH as `/${string}`) : ''
-			},
-			preprocess: [mdsvex(mdsvexOptions)],
-			extensions: ['.svelte', '.svx', '.md']
+			}
 		}),
 		fractalsStyler()
 	]
