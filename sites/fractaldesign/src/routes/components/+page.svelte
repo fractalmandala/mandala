@@ -226,8 +226,8 @@
   <!-- Sidebar -->
   <aside class="box width260 minw260 bdr-right surface">
     <div class="row ycenter xbetween pad12 bdr-bottom">
-      <h2 class="bold text-sm">Components</h2>
-      <span class="padtop2 padbot2 padleft8 padright8 radiusfull text-xs bdr surface text-muted">{data.components.length}</span>
+      <h2 class="eyebrow">Components</h2>
+      <span class="chip">{data.components.length}</span>
     </div>
     <div class="box pad8">
       <div class="row ycenter gap8 pad8 radius6 bdr surface">
@@ -261,13 +261,13 @@
   <main class="box grow pad32">
     {#if selected}
       <header class="row ycenter gap12 marginbot24">
-        <h1 class="text-2xl bold text-primary">{selected}</h1>
+        <h1 class="display text-2xl bold text-primary">{selected}</h1>
         <span class="text-xs font-mono text-muted">{data.sourceFile}</span>
       </header>
 
       <!-- Demo Area -->
       <section class="box marginbot32">
-        <h3 class="text-xs bold tt-u text-muted marginbot12">Preview</h3>
+        <h3 class="eyebrow marginbot12">Preview</h3>
         <div class="row ycenter xcenter wrap gap12 pad32 radius12 panel surface minh128">
           {#key selected}
             {#if Comp}
@@ -352,7 +352,7 @@
       <!-- Source Code -->
       <section class="box radius12 panel surface">
         <div class="row ycenter xbetween pad12 bdr-bottom surface">
-          <h3 class="text-xs bold tt-u text-muted">Source</h3>
+          <h3 class="eyebrow">Source</h3>
           <div class="row ycenter gap12">
             <span class="text-xs font-mono text-muted">{data.sourceFile}</span>
             <button class="button-quiet text-xs row ycenter gap4" onclick={copySource} aria-label={copied ? 'Copied' : 'Copy source'}>

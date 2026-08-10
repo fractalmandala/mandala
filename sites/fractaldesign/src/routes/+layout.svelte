@@ -17,6 +17,14 @@
 	// Docs sections bring their own <AppShell> chrome — suppress the site chrome there.
 	let isDocs = $derived(current.startsWith('/sveltekit') || current.startsWith('/posts'))
 
+	const nav = [
+		{ href: '/components', label: 'Components' },
+		{ href: '/play', label: 'Play' },
+		{ href: '/about', label: 'About' }
+	];
+	const isCurrent = (href: string) =>
+		href === '/' ? current === '/' : current.startsWith(href);
+
 	$effect(() => {
 		if (browser) {
 			document.documentElement.setAttribute('data-theme', $theme);
@@ -48,52 +56,63 @@
 		{@render children()}
 	</main>
 {:else}
-	<header class="row ycenter site-padding xbetween">
-		<a class="row ycenter blank gap4" href="/">
-			<img class="site-logo logomotif" src="/images/logomotif.png" alt="logo motif"/>
-			<img class="site-logo logotype" src="/images/logotype-black.png" alt="logo type"/>
+	<header class="fd-header">
+		<a class="fd-brand" href="/" aria-label="Fractal Design home">
+			<img src="/images/logomotif.png" alt="" />
+			<img class="fd-logo-black" src="/images/logotype-black.png" alt="Fractal Design" />
+			<img class="fd-logo-white" src="/images/logotype-white.png" alt="Fractal Design" />
 		</a>
-		<div class="row ycenter gap8">
-		{#if current === '/play/canvas'}
-			<button class="button-quiet" onclick={() => native.toggleSidebar()}>
-				Sidebar {native.sidebarCollapsed}
-			</button>
-			<button class="button-quiet rightbar" onclick={() => native.toggleRightbar()}>
-				<span>rightbar {native.rightbarCollapsed}r</span>
-			</button>
-		{/if}
-		<button class="icon-button" onclick={toggleTheme} aria-label="Toggle theme">
-			{#if $theme === 'dark'}
-				☀️
-			{:else}
-				🌙
+		<nav class="fd-nav" aria-label="Primary">
+			{#each nav as item}
+				<a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+			{/each}
+		</nav>
+		<div class="fd-actions">
+			{#if current === '/play/canvas'}
+				<button class="button-quiet" onclick={() => native.toggleSidebar()}>
+					Sidebar {native.sidebarCollapsed}
+				</button>
+				<button class="button-quiet" onclick={() => native.toggleRightbar()}>
+					<span>rightbar {native.rightbarCollapsed}r</span>
+				</button>
 			{/if}
-		</button>
-		<button class="button-quiet" onclick={toggleDrawer}>
-			<span>drawer</span>
-		</button>
+			<button class="icon-btn" onclick={toggleTheme} aria-label="Toggle theme">
+				{#if $theme === 'dark'}
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+				{:else}
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" /></svg>
+				{/if}
+			</button>
+			<button class="icon-btn fd-menu" onclick={toggleDrawer} aria-label="Open menu">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+			</button>
 		</div>
 	</header>
-	<main class="box" use:copyAction>
+	<main use:copyAction>
 		{@render children()}
 	</main>
-	<footer class="row ycenter site-padding xbetween">
-		<div class="row ycenter gap8">
-			<span class="text-sm col3">2026 | Fractals Creation Engine</span>
-		</div>
-		<div class="row ycenter gap8">
-			<a style="color: var(--text-secondary)" class="blank" href="https://github.com/fractalmandala/fractals" target="_blank" rel="noreferrer">
-				<Github template="iris" variant="fill" speed={0.75} easing="cubic-bezier(0.25, 0.1, 0.25, 1)" size={20} />
-			</a>
-			<a style="color: var(--text-secondary)" class="blank" href="https://x.com/saamaanyafreaky" target="_blank" rel="noreferrer">
-				<Twitter template="iris" variant="fill" speed={0.75} easing="cubic-bezier(0.25, 0.1, 0.25, 1)" size={20} />
-			</a>
+	<footer class="fd-footer">
+		<div class="fd-wrap">
+			<span class="eyebrow">© 2026 Fractal Design — curation + playground</span>
+			<div class="row ycenter gap8">
+				<a href="https://www.fractalmandala.in" target="_blank" rel="noreferrer">fractalmaṇḍala</a>
+				<a href="https://www.bodharesearch.in" target="_blank" rel="noreferrer">Bodha</a>
+				<a class="blank" href="https://github.com/fractalmandala/fractals" target="_blank" rel="noreferrer" aria-label="GitHub">
+					<Github template="iris" variant="fill" speed={0.75} easing="cubic-bezier(0.25, 0.1, 0.25, 1)" size={18} />
+				</a>
+				<a class="blank" href="https://x.com/saamaanyafreaky" target="_blank" rel="noreferrer" aria-label="X / Twitter">
+					<Twitter template="iris" variant="fill" speed={0.75} easing="cubic-bezier(0.25, 0.1, 0.25, 1)" size={18} />
+				</a>
+			</div>
 		</div>
 	</footer>
 {/if}
 </div>
 <Drawer>
 	<a href="/" onclick={toggleDrawer}>Home</a>
+	<a href="/components" onclick={toggleDrawer}>Components</a>
+	<a href="/play" onclick={toggleDrawer}>Play</a>
+	<a href="/posts" onclick={toggleDrawer}>Posts</a>
 	<a href="/about" onclick={toggleDrawer}>About</a>
 	<a href="/contact" onclick={toggleDrawer}>Contact</a>
 </Drawer>
