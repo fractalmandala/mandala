@@ -1,0 +1,14 @@
+{
+  "surfaceId": "fractalengine-appdock",
+  "description": "P4 second surface — FractalEngine AppDock only",
+  "paths": [
+    "apps/fractalengine/src/lib/styles/",
+    "apps/fractalengine/src/lib/components/AppDock.svelte"
+  ],
+  "refusedPatterns": [
+    "packages/",
+    "sites/",
+    "apps/shradhapp/",
+    "vendors/"
+  ]
+}

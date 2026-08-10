@@ -1,0 +1,12 @@
+{
+  "name": "fractal-mandala",
+  "version": "0.1.0",
+  "description": "Mandala monorepo shared design base for Open Design",
+  "files": [
+    "DESIGN.md",
+    "tokens.css",
+    "manifest.json",
+    "registry.json"
+  ],
+  "generatedAt": "2026-08-10T13:28:02.493Z"
+}

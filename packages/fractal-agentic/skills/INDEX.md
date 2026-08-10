@@ -2,7 +2,7 @@
 
 Live inventory of `skills/`. All skills are **vendored** (local copies) inside this plugin.
 
-**Current entries:** 167
+**Current entries:** 171
 
 | Skill ID                                                            | Description                                                                                                                                  | Source |
 | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -48,6 +48,7 @@ Live inventory of `skills/`. All skills are **vendored** (local copies) inside t
 | [`bun-runtime`](./bun-runtime/)                                     | Bun as runtime, package manager, bundler, and test runner. When to choose Bun vs Node, migration notes, and Vercel support.                  | local  |
 | [`canary-watch`](./canary-watch/)                                   | Use this skill to monitor and verify a deployed URL after releases — checks HTTP endpoints, SSE streams, static assets, console errors, and  | local  |
 | [`canvas-design`](./canvas-design/)                                 | Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a pos | local  |
+| [`code-to-design`](./code-to-design/)                               | Extract a Svelte surface into an Open Design–compatible design package (shared base + per-surface overlay, gitignored vendors/design-packages). Code→design half of the bidirectional loop. | local  |
 | [`code-tour`](./code-tour/)                                         | Create CodeTour `.tour` files — persona-targeted, step-by-step walkthroughs with real file and line anchors. Use for onboarding tours, archi | local  |
 | [`codebase-onboarding`](./codebase-onboarding/)                     | Analyze an unfamiliar codebase and generate a structured onboarding guide with architecture map, key entry points, conventions, and a starte | local  |
 | [`coding-standards`](./coding-standards/)                           | Baseline cross-project coding conventions for naming, readability, immutability, and code-quality review. Use detailed frontend or backend s | local  |
@@ -65,6 +66,8 @@ Live inventory of `skills/`. All skills are **vendored** (local copies) inside t
 | [`council`](./council/)                                             | Convene a four-voice council for ambiguous decisions, tradeoffs, and go/no-go calls. Use when multiple valid paths exist and you need struct | local  |
 | [`database-migrations`](./database-migrations/)                     | Database migration best practices for schema changes, data migrations, rollbacks, and zero-downtime deployments across PostgreSQL, MySQL, an | local  |
 | [`deep-research`](./deep-research/)                                 | Multi-source deep research using firecrawl and exa MCPs. Searches the web, synthesizes findings, and delivers cited reports with source attr | local  |
+| [`design-to-code`](./design-to-code/)                               | Apply an approved design package into monorepo Svelte + indented SASS with path allowlists and apply-report (design→code half of code-design-loop). | local  |
+| [`design-loop-delta`](./design-loop-delta/)                         | Re-extract after apply and report token/unresolved deltas vs baseline contract (closes code↔design loop; P3). | local  |
 | [`deployment-patterns`](./deployment-patterns/)                     | Deployment workflows, CI/CD pipeline patterns, Docker containerization, health checks, rollback strategies, and production readiness checkli | local  |
 | [`design-system`](./design-system/)                                 | Use this skill to generate or audit design systems, check visual consistency, and review PRs that touch styling.                             | local  |
 | [`dispatching-parallel-agents`](./dispatching-parallel-agents/)     | Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies                                   | local  |
@@ -153,6 +156,7 @@ Live inventory of `skills/`. All skills are **vendored** (local copies) inside t
 | [`svelte-components-patterns`](./svelte-components-patterns/)       | Component architecture in Svelte 5 using snippets ({#snippet}, {@render}), event props (onclick), context menus, modal dialogs, dynamic comp | local  |
 | [`svelte-deployment`](./svelte-deployment/)                         | Svelte deployment guidance. Use for adapters, Vite config, pnpm setup, library authoring, PWA, or production builds.                         | local  |
 | [`svelte-runes`](./svelte-runes/)                                   | Svelte runes guidance. Use for reactive state, props, effects, or migration. Covers $state, $derived, $effect, $props, $bindable. Prevents r | local  |
+| [`svelte-style-canvas`](./svelte-style-canvas/)                     | Inspect a Svelte component/page, resolve applied SASS/CSS + tokens, emit interactive HTML style-preview canvas (style-pack + preview + report) | local  |
 | [`svelte-styling`](./svelte-styling/)                               | Svelte CSS styling patterns. Use for scoped styles, CSS custom properties, style: directive, :global, or styling child components.           | local  |
 | [`svelte-styling-patterns`](./svelte-styling-patterns/)             | Styling patterns for Svelte and SvelteKit applications using external indented SASS (.sass), two-layer semantic CSS variables, single-tab in | local  |
 | [`svelte-template-directives`](./svelte-template-directives/)       | Svelte template directives ({@attach}, {@html}, {@render}, {@const}, {@debug}). Use for DOM manipulation, third-party libs, tooltips, canvas | local  |
