@@ -1,6 +1,8 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
+  import DocsShell from '$lib/docs/DocsShell.svelte';
+  import '$lib/styles/prism.css';
   import type { Component } from 'svelte';
+  import type { DocNavItem } from '$lib/docs/nav';
   import type { PageData } from './$types';
 
   let { data }: { data: PageData } = $props();
@@ -20,6 +22,16 @@
     )
   );
 
+  // Sidebar tree for DocsShell — same chrome as /posts.
+  let nav = $derived<DocNavItem[]>(
+    filtered.map((c, i) => ({
+      title: c.name,
+      href: `/components?c=${encodeURIComponent(c.name)}`,
+      order: String(i),
+      items: [],
+    }))
+  );
+
   let selected = $derived(data.selected);
 
   async function loadComponent(name: string) {
@@ -37,10 +49,6 @@
       loadComponent(selected);
     }
   });
-
-  function selectComponent(name: string) {
-    goto(`/components?c=${name}`, { replaceState: true, keepFocus: true, noScroll: true });
-  }
 
   async function copySource() {
     if (!data.source) return;
@@ -222,14 +230,9 @@
   <title>{selected} — Components</title>
 </svelte:head>
 
-<div class="registry">
-  <!-- Sidebar -->
-  <aside class="registry-side">
-    <div class="registry-side-head">
-      <span class="eyebrow">Components</span>
-      <span class="chip">{data.components.length}</span>
-    </div>
-    <label class="registry-search">
+<DocsShell title="Components" home="/" nav={nav}>
+  {#snippet sidebarTop()}
+    <label class="docs-search">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       <input
         type="text"
@@ -238,143 +241,121 @@
         aria-label="Search components"
       />
     </label>
-    <nav class="registry-nav">
-      {#each filtered as comp (comp.name)}
-        <button
-          class="registry-nav-item"
-          class:active={comp.name === selected}
-          onclick={() => selectComponent(comp.name)}
-          type="button"
-        >
-          {comp.name}
-        </button>
-      {/each}
-      {#if filtered.length === 0}
-        <p class="registry-empty">No components match “{search}”</p>
-      {/if}
-    </nav>
-  </aside>
+  {/snippet}
 
-  <!-- Main Content -->
-  <main class="registry-main">
-    {#if selected}
-      <header class="registry-head">
-        <span class="eyebrow">Components // registry</span>
-        <h1 class="display registry-title">{selected}</h1>
-        <span class="registry-file">{data.sourceFile}</span>
-      </header>
+  {#if selected}
+    <header class="docs-pagehead">
+      <span class="eyebrow">Components // registry</span>
+      <h1 class="display docs-page-title">{selected}</h1>
+      <span class="registry-file">{data.sourceFile}</span>
+    </header>
 
-      <!-- Demo Area -->
-      <section class="registry-preview">
-        <div class="registry-preview-head">
-          <span class="eyebrow">Preview</span>
-        </div>
-        <div class="registry-stage dotgrid">
-          {#key selected}
-            {#if Comp}
-              {#if hasChildren(selected)}
-                <Comp>
-                  {demoLabel(selected)}
-                </Comp>
-              {:else if selected === 'Input'}
-                <Comp placeholder="Type something…" />
-              {:else if selected === 'Textarea'}
-                <Comp placeholder="Write something…" />
-              {:else if selected === 'Select'}
-                <Comp>
-                  <option>Option 1</option>
-                  <option>Option 2</option>
-                </Comp>
-              {:else if selected === 'Progress'}
-                <Comp value={60} />
-              {:else if selected === 'Switch'}
-                <Comp checked={true} />
-              {:else if selected === 'Shimmer'}
-                <Comp width="12rem" height="1.5rem" />
-              {:else if selected === 'Skeleton'}
-                <Comp style="width:200px;height:20px" />
-              {:else if selected === 'Separator'}
-                <div class="w100">
-                  <Comp />
-                </div>
-              {:else if selected === 'Loader'}
-                <Comp size={24} />
-              {:else if selected === 'Queue'}
-                <Comp position={2} total={5} />
-              {:else if selected === 'Badge'}
-                <Comp>New</Comp>
-              {:else if selected === 'Button'}
-                <div class="row wrap gap8 ycenter">
-                  <Comp variant="default">Default</Comp>
-                  <Comp variant="outline">Outline</Comp>
-                  <Comp variant="secondary">Secondary</Comp>
-                  <Comp variant="ghost">Ghost</Comp>
-                  <Comp variant="destructive">Destructive</Comp>
-                  <Comp variant="link">Link</Comp>
-                </div>
-              {:else if selected === 'Tooltip'}
-                <Comp content="Tooltip text" side="top">Hover me</Comp>
-              {:else if selected === 'InlineCitation'}
-                <Comp host="example.com" href="#">source</Comp>
-              {:else if selected === 'Checkpoint'}
-                <Comp label="Save" />
-              {:else if selected === 'Image'}
-                <Comp src="https://placehold.co/400x200" alt="Placeholder" style="width:400px;max-width:100%" />
-              {:else if selected === 'CodeCopyButton'}
-                <Comp code="console.log('hi')" />
-              {:else if selected === 'ModelSelectorItem'}
-                <Comp name="GPT-4" selected={true} />
-              {:else if selected === 'OpenInChat'}
-                <Comp href="#" />
-              {:else if selected === 'AspectRatio'}
-                <div style="width:300px">
-                  <Comp ratio="16/9">
-                    <div class="w100 h100 row ycenter xcenter text-muted text-sm">16:9</div>
-                  </Comp>
-                </div>
-              {:else if selected === 'ButtonGroup'}
-                <Comp orientation="horizontal">
-                  <button class="button">Left</button>
-                  <button class="button">Center</button>
-                  <button class="button">Right</button>
-                </Comp>
-              {:else}
-                <Comp />
-              {/if}
-            {:else}
-              <span class="text-sm text-muted">Loading…</span>
-            {/if}
-          {/key}
-        </div>
-      </section>
-
-      <!-- Source Code -->
-      <section class="registry-source">
-        <div class="registry-source-head">
-          <span class="eyebrow">Source</span>
-          <div class="row ycenter gap12">
-            <span class="registry-file">{data.sourceFile}</span>
-            <button class="button-quiet" onclick={copySource} aria-label={copied ? 'Copied' : 'Copy source'}>
-              {#if copied}
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                Copied
-              {:else}
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                Copy
-              {/if}
-            </button>
-          </div>
-        </div>
-        <div class="registry-source-body">
-          {#key selected}
-            {@html data.sourceHtml}
-          {/key}
-        </div>
-      </section>
-    {:else}
-      <div class="registry-empty-state">
-        <p>Select a component from the sidebar.</p>
+    <!-- Demo Area -->
+    <section class="registry-preview">
+      <div class="registry-preview-head">
+        <span class="eyebrow">Preview</span>
       </div>
-    {/if}
-  </main>
-</div>
+      <div class="registry-stage dotgrid">
+        {#key selected}
+          {#if Comp}
+            {#if hasChildren(selected)}
+              <Comp>
+                {demoLabel(selected)}
+              </Comp>
+            {:else if selected === 'Input'}
+              <Comp placeholder="Type something…" />
+            {:else if selected === 'Textarea'}
+              <Comp placeholder="Write something…" />
+            {:else if selected === 'Select'}
+              <Comp>
+                <option>Option 1</option>
+                <option>Option 2</option>
+              </Comp>
+            {:else if selected === 'Progress'}
+              <Comp value={60} />
+            {:else if selected === 'Switch'}
+              <Comp checked={true} />
+            {:else if selected === 'Shimmer'}
+              <Comp width="12rem" height="1.5rem" />
+            {:else if selected === 'Skeleton'}
+              <Comp style="width:200px;height:20px" />
+            {:else if selected === 'Separator'}
+              <div class="w100">
+                <Comp />
+              </div>
+            {:else if selected === 'Loader'}
+              <Comp size={24} />
+            {:else if selected === 'Queue'}
+              <Comp position={2} total={5} />
+            {:else if selected === 'Badge'}
+              <Comp>New</Comp>
+            {:else if selected === 'Button'}
+              <div class="row wrap gap8 ycenter">
+                <Comp variant="default">Default</Comp>
+                <Comp variant="outline">Outline</Comp>
+                <Comp variant="secondary">Secondary</Comp>
+                <Comp variant="ghost">Ghost</Comp>
+                <Comp variant="destructive">Destructive</Comp>
+                <Comp variant="link">Link</Comp>
+              </div>
+            {:else if selected === 'Tooltip'}
+              <Comp content="Tooltip text" side="top">Hover me</Comp>
+            {:else if selected === 'InlineCitation'}
+              <Comp host="example.com" href="#">source</Comp>
+            {:else if selected === 'Checkpoint'}
+              <Comp label="Save" />
+            {:else if selected === 'Image'}
+              <Comp src="https://placehold.co/400x200" alt="Placeholder" style="width:400px;max-width:100%" />
+            {:else if selected === 'CodeCopyButton'}
+              <Comp code="console.log('hi')" />
+            {:else if selected === 'ModelSelectorItem'}
+              <Comp name="GPT-4" selected={true} />
+            {:else if selected === 'OpenInChat'}
+              <Comp href="#" />
+            {:else if selected === 'AspectRatio'}
+              <div style="width:300px">
+                <Comp ratio="16/9">
+                  <div class="w100 h100 row ycenter xcenter text-muted text-sm">16:9</div>
+                </Comp>
+              </div>
+            {:else if selected === 'ButtonGroup'}
+              <Comp orientation="horizontal">
+                <button class="button">Left</button>
+                <button class="button">Center</button>
+                <button class="button">Right</button>
+              </Comp>
+            {:else}
+              <Comp />
+            {/if}
+          {:else}
+            <span class="text-sm text-muted">Loading…</span>
+          {/if}
+        {/key}
+      </div>
+    </section>
+
+    <!-- Source Code — same prism dark blocks as /posts -->
+    <div class="registry-source-head">
+      <span class="eyebrow">Source</span>
+      <div class="row ycenter gap12">
+        <span class="registry-file">{data.sourceFile}</span>
+        <button class="button-quiet" onclick={copySource} aria-label={copied ? 'Copied' : 'Copy source'}>
+          {#if copied}
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Copied
+          {:else}
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            Copy
+          {/if}
+        </button>
+      </div>
+    </div>
+    {#key selected}
+      {@html data.sourceHtml}
+    {/key}
+  {:else}
+    <div class="registry-empty-state">
+      <p>Select a component from the sidebar.</p>
+    </div>
+  {/if}
+</DocsShell>

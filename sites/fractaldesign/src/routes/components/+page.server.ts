@@ -1,6 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { getMdsvexShikiHighlighter, type MdsvexHighlighter } from '@mistweaverco/mdsvex-shiki';
+import { redirect } from '@sveltejs/kit';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-sass';
+import 'prism-svelte';
 import type { PageServerLoad } from './$types';
 
 const EXCLUDED = new Set([
@@ -9,23 +13,13 @@ const EXCLUDED = new Set([
   'CanvasStore.svelte',
 ]);
 
-// Dual-theme shiki: light tokens inline, dark tokens behind --shiki-dark,
-// switched by [data-theme] rules in _registry.sass.
-const highlighter = getMdsvexShikiHighlighter({
-  disableCopyButton: true,
-  displayLanguage: false,
-  displayPath: false,
-  shikiOptions: {
-    themes: { light: 'github-light', dark: 'github-dark' },
-    langs: ['svelte', 'ts', 'typescript', 'sass', 'css'],
-  },
-}).then((h): MdsvexHighlighter => (code, lang, meta, filename) => {
-  const html = h(code, lang, meta, filename);
-  // mdsvex-shiki wraps output in its own chrome (header bar etc.) —
-  // the registry panel brings its own, so keep only the <pre> block.
-  const pre = html.match(/<pre[\s\S]*?<\/pre>/);
-  return pre ? pre[0] : html;
-});
+// Same Prism pipeline mdsvex runs for /posts, so token colors and the dark
+// block chrome match exactly across both docs sections (see prism.css).
+function highlightSource(source: string, lang: string): string {
+  const grammar = Prism.languages[lang] ?? Prism.languages.markup;
+  const html = Prism.highlight(source, grammar, lang);
+  return `<pre class="language-${lang}"><code class="language-${lang}">${html}</code></pre>`;
+}
 
 export const load: PageServerLoad = async ({ url }) => {
   const dir = path.resolve('src/routes/components');
@@ -39,7 +33,12 @@ export const load: PageServerLoad = async ({ url }) => {
     file: f,
   }));
 
-  const selected = url.searchParams.get('c') || components[0]?.name || '';
+  // Keep the URL canonical (?c=…) so the sidebar active state always matches.
+  if (!url.searchParams.get('c') && components.length) {
+    redirect(307, `/components?c=${encodeURIComponent(components[0].name)}`);
+  }
+
+  const selected = url.searchParams.get('c') || '';
   let source = '';
   let sourceFile = '';
   let sourceHtml = '';
@@ -49,8 +48,7 @@ export const load: PageServerLoad = async ({ url }) => {
     if (found) {
       sourceFile = found.file;
       source = fs.readFileSync(path.join(dir, found.file), 'utf-8');
-      const highlight = await highlighter;
-      sourceHtml = highlight(source, found.file.endsWith('.ts') ? 'ts' : 'svelte', null);
+      sourceHtml = highlightSource(source, found.file.endsWith('.ts') ? 'typescript' : 'svelte');
     }
   }
 
