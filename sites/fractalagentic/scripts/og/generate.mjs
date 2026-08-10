@@ -6,7 +6,10 @@ import { Renderer } from '@takumi-rs/core';
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 
-const BUILD_DIR = 'build';
+// adapter-static outputs to build/, adapter-vercel to .vercel/output/static.
+// Pick whichever the build produced so this works with either adapter,
+// locally and on Vercel.
+const BUILD_DIR = existsSync('.vercel/output/static') ? '.vercel/output/static' : 'build';
 const OUT_DIR = join(BUILD_DIR, 'og');
 
 if (process.env.SVOCS_OG === '0') {

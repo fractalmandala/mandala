@@ -2,7 +2,8 @@ import { code_highlighter } from 'mdsvex';
 
 // Curlies must be escaped in both helpers: this output is compiled as Svelte
 // template markup, where a bare `{` opens an expression.
-function escapeAttribute(value: string): string {
+/** @param {string} value @returns {string} */
+function escapeAttribute(value) {
 	return value
 		.replace(/&/g, '&amp;')
 		.replace(/"/g, '&quot;')
@@ -10,7 +11,8 @@ function escapeAttribute(value: string): string {
 		.replace(/\}/g, '&#125;');
 }
 
-function escapeText(value: string): string {
+/** @param {string} value @returns {string} */
+function escapeText(value) {
 	return value
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
@@ -43,14 +45,18 @@ function escapeText(value: string): string {
  * into a detached anchor, i.e. blank pages until a full reload. The
  * client-side enhanceCodeBlocks() (src/lib/themes/docs/code-blocks.ts) only
  * appends a copy button inside .code-frame-body, which is safe.
+ *
+ * Plain JS (not TS) on purpose: svelte.config.js is loaded by Node's native
+ * ESM loader, which cannot resolve a TypeScript module from a .js config.
+ *
+ * @param {string} code
+ * @param {string | null | undefined} lang
+ * @param {string | null | undefined} metastring
+ * @param {string} [filename]
+ * @param {boolean} [optimise]
+ * @returns {Promise<string>}
  */
-export async function highlightWithFilename(
-	code: string,
-	lang: string | null | undefined,
-	metastring: string | null | undefined,
-	filename?: string,
-	optimise?: boolean
-): Promise<string> {
+export async function highlightWithFilename(code, lang, metastring, filename, optimise) {
 	// Mermaid fences skip highlighting and the code-frame entirely: the raw
 	// source ships as a bare <pre class="mermaid"> that the docs layout's
 	// lazy client-side renderer (src/lib/themes/docs/mermaid.ts) turns into a
