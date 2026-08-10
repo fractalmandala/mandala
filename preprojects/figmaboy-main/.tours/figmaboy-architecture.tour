@@ -1,0 +1,101 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Figmaboy Architecture Tour",
+  "description": "Walkthrough of the Tauri + SvelteKit + Svelte 5 Figma clone. Covers the domain model, editor state machine, canvas interaction, persistence, and MCP bridge.",
+  "ref": "HEAD",
+  "steps": [
+    {
+      "directory": "src/lib/editor",
+      "title": "Editor Core",
+      "description": "The editor subsystem — EditorSession (state machine), EditorCanvas (pointer/interaction), editor-rpc (MCP bridge), CanvasNode (SVG renderer), and canvas-selection (hit-testing)."
+    },
+    {
+      "file": "src/lib/domain.ts",
+      "line": 1,
+      "title": "Domain Types",
+      "description": "All TypeScript type definitions live here: 11 DesignNode types (frame, group, rectangle, ellipse, line, arrow, polygon, star, text, image, icon), Paint hierarchy (solid, linear-gradient, radial-gradient), PageDocument schema, Project/DesignFile/PageMeta for the library. Also: uid(), emptyDocument(), defaultNode() factory, cloneDocument() via JSON roundtrip."
+    },
+    {
+      "file": "src/lib/geometry.ts",
+      "line": 1,
+      "title": "Geometry Engine",
+      "description": "Pure 2D matrix math: Matrix (a,b,c,d,e,f affine transform), multiply, invert, nodeMatrix (rotated transform from center), worldMatrix (ancestor chain accumulation), transformPoint, screenToWorld/worldToNodeLocal coordinate bridging, selectionBounds, and polygon point generation for star/shape tools."
+    },
+    {
+      "file": "src/lib/editor/editor.svelte.ts",
+      "line": 78,
+      "title": "EditorSession — State Machine",
+      "description": "The central nervous system. Uses Svelte 5 $state runes for all reactive fields. Key infrastructure: mutate() wraps mutations with before/after snapshots for undo (100-entry stack). beginGesture() / commitGesture() / cancelGesture() for pointer interactions that shouldn't leave an undo trace until complete. changeToken increments on every mutation so RPC callers can detect staleness."
+    },
+    {
+      "file": "src/lib/editor/editor.svelte.ts",
+      "line": 297,
+      "title": "EditorSession — Commands",
+      "description": "All design operations: addNode, deleteNodes, moveNode/reparentNodes, duplicateNodes, group/ungroup, align, resizeNode, rotateNode, updateNode, updateText. Every mutating command goes through mutate() which handles undo/redo automatically."
+    },
+    {
+      "file": "src/lib/editor/EditorCanvas.svelte",
+      "line": 1,
+      "title": "EditorCanvas — Interaction",
+      "description": "The 1144-line canvas handles all pointer interaction. Local $state holds the real-time viewport (pan/zoom preview), pointer mode state machine (idle|pan|draw|text|edit-text|move|marquee|resize|rotate), and gesture snapshots. Viewport changes are local-first — the document is only updated when the gesture settles, preventing N DOM updates per wheel tick. dragThreshold = 4 screen pixels prevents jitter."
+    },
+    {
+      "file": "src/lib/editor/CanvasNode.svelte",
+      "line": 1,
+      "title": "CanvasNode — Recursive Renderer",
+      "description": "Self-recursive Svelte component that takes a node ID and renders the appropriate SVG element. Frames render <g> with clipPath for clipContent. Shapes render <rect>/<ellipse>/<line>/<polygon>. Text renders with <text> or switches to <foreignObject> for text editing. Images use <image href>. Handles rotation, opacity, blend modes, fill/stroke, shadows, corner radii, effects."
+    },
+    {
+      "file": "src/lib/editor/canvas-selection.ts",
+      "line": 35,
+      "title": "Selection Resolution",
+      "description": "Figma-style depth resolution. canvasSelectionTarget() resolves a pointer hit to which node gets selected. Outer frame is the default boundary. Once inside a frame, subsequent clicks select children. Groups are atomic (select as one). Locked/non-visible ancestors block hit-testing. DeepSelect mode selects the deepest child."
+    },
+    {
+      "file": "src/lib/document-validation.ts",
+      "line": 1,
+      "title": "Trust Boundary",
+      "description": "Every document that crosses a trust boundary (persisted JSON, browser localStorage, clipboard, import packages, RPC replacements) passes through sanitizeDocument(). Repairs: removes invalid types, clamps NaN/Infinity, fixes parent cycles, promotes orphaned nodes to root, validates fills/strokes/shadows. RFC-compliant: unknown fields are preserved for forward compatibility."
+    },
+    {
+      "file": "src/lib/editor/editor-rpc.ts",
+      "line": 1,
+      "title": "MCP Bridge — External Operations",
+      "description": "Translates MCP tool payloads into EditorSession commands. Validates every input with typed guards (finite numbers, valid node types, valid paint structures). Operations: node creation/deletion/update/reparent/reorder, centerNodes, setBorderRadius, placeImageNode. Uses changeToken for stale-document rejection. Every operation goes through removeFromParent/insertIntoParent helpers that handle frames, groups, and root-level nodes consistently."
+    },
+    {
+      "file": "src/lib/repository.ts",
+      "line": 1,
+      "title": "Repository — Persistence",
+      "description": "Repository interface defines 23 type-safe methods. Two adapters: BrowserRepository (localStorage with backup/recovery) and TauriRepository (SQLite via invoke()). Auto-detects Tauri via __TAURI_INTERNALS__. The browser adapter validates every read with normalizeBrowserState() which runs sanitizeDocument() on every page and adds recovery pages for orphaned files. Writes with revision guards for conflict detection."
+    },
+    {
+      "file": "src-tauri/src/lib.rs",
+      "line": 1,
+      "title": "Rust Backend",
+      "description": "1596-line Tauri backend. SQLite schema: projects, design_files, pages, assets tables with WAL mode for concurrent read (MCP) + write (editor). 30 Tauri commands covering full CRUD. Package export/import as .figmaboy ZIP files with manifest. Content-addressed image storage (SHA-256). Native Linux touchpad zoom via GTK GestureZoom."
+    },
+    {
+      "file": "src-tauri/src/editor_bridge.rs",
+      "line": 1,
+      "title": "Editor Bridge — MCP Connectivity",
+      "description": "Binds a random loopback TCP port, writes editor-bridge.json (port + auth token + PID, 0600 permissions). Accepts JSON-RPC lines from the companion MCP process, forwards to the Svelte frontend as Tauri events, and returns responses. 10-second timeout per request. Token authentication. This is the live-editing bridge between the stdio MCP server and the GUI."
+    },
+    {
+      "file": "src-tauri/mcp/src/main.rs",
+      "line": 1,
+      "title": "MCP Server",
+      "description": "Companion stdio MCP server compiled as a Tauri sidecar binary. Exposes 17 tools split into offline (designs_list, design_context_get — read SQLite directly) and live (editor_status, document_get, nodes_get, operations_apply, selection_set, viewport_focus, etc. — routed through the editor bridge). Uses rmcp framework for MCP protocol handling."
+    },
+    {
+      "file": "docs/canvas-interaction-audit.md",
+      "line": 1,
+      "title": "Interaction Audit",
+      "description": "Architecture decisions document. Key decisions: 4px screen-space drag threshold, left-to-right marquee = full containment / right-to-left = any intersection, Escape cancels gestures, viewport does not participate in undo stack, tool switching commits text edits first, locked layers skip canvas hit-testing but appear in layer tree. Trust boundary: autosave pauses during pointer gestures."
+    },
+    {
+      "title": "Next Steps",
+      "description": "You can now trace any interaction: home screen → open file → EditorSession loads → EditorCanvas handles pointer → mutate() records history. For MCP: CLI agent → MCP server (stdio) → editor bridge (TCP) → Tauri event → Svelte frontend → editor-rpc translates → EditorSession mutates → autosave → SQLite."
+    }
+  ]
+}

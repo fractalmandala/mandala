@@ -1,0 +1,676 @@
+<script lang="ts">
+  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
+  import { page as route } from "$app/state";
+  import { invoke } from "@tauri-apps/api/core";
+  import { listen } from "@tauri-apps/api/event";
+  import { ChevronDown, ChevronLeft, Copy, Eye, EyeOff, Group, Lock, MoveDown, MoveUp, PanelLeftClose, PanelRightClose, RefreshCw, Save, Trash2, Ungroup, Unlock, X } from "lucide-svelte";
+  import type { DesignNode, PageMeta } from "$lib/domain";
+  import { cloneDocument, defaultNode } from "$lib/domain";
+  import { screenToWorld, selectionBounds, unionRects, worldBounds } from "$lib/geometry";
+  import { repository } from "$lib/repository";
+  import { EditorSession } from "$lib/editor/editor.svelte";
+  import EditorCanvas from "$lib/editor/EditorCanvas.svelte";
+  import Inspector from "$lib/editor/Inspector.svelte";
+  import LeftPanel from "$lib/editor/LeftPanel.svelte";
+  import PrototypePreview from "$lib/editor/PrototypePreview.svelte";
+  import Toolbar from "$lib/editor/Toolbar.svelte";
+  import TerminalPanel from "$lib/editor/TerminalPanel.svelte";
+  import { applyExternalOperations, centerNodes, nodeGeometry, placeImageNode, setBorderRadius } from "$lib/editor/editor-rpc";
+  import { generateCode } from "$lib/export/codegen";
+  import type { ExportOptions } from "$lib/export/types";
+
+  const repo = repository();
+  let session = $state<EditorSession | null>(null);
+  let loading = $state(true);
+  let error = $state("");
+  let notice = $state("");
+  let context = $state<{ x: number; y: number; worldX: number; worldY: number } | null>(null);
+  let pageMenu = $state<{ id: string; x: number; y: number } | null>(null);
+  let preview = $state(false);
+  let panels = $state({ left: true, right: true });
+  let leftPanelWidth = $state(297);
+  let rightPanelWidth = $state(300);
+  let terminalOpen = $state(false);
+  let terminalHeight = $state(280);
+  let saveTimer: ReturnType<typeof setTimeout> | null = null;
+  let noticeTimer: ReturnType<typeof setTimeout> | null = null;
+  let nudgeTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function startLeftPanelResize(event: PointerEvent) {
+    event.preventDefault();
+    const startX = event.clientX;
+    const startWidth = leftPanelWidth;
+    const move = (e: PointerEvent) => {
+      leftPanelWidth = Math.max(200, Math.min(500, startWidth + e.clientX - startX));
+    };
+    const end = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", end);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", end);
+  }
+
+  function startRightPanelResize(event: PointerEvent) {
+    event.preventDefault();
+    const startX = event.clientX;
+    const startWidth = rightPanelWidth;
+    const move = (e: PointerEvent) => {
+      rightPanelWidth = Math.max(200, Math.min(500, startWidth - e.clientX + startX));
+    };
+    const end = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", end);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", end);
+  }
+
+  onMount(async () => {
+    try {
+      const opened = await repo.openFile(route.params.id!);
+      session = new EditorSession(opened);
+      await loadAssets();
+    } catch (cause) { error = cause instanceof Error ? cause.message : "Could not open this design"; }
+    finally { loading = false; }
+  });
+
+  type EditorRpcRequest = { id: string; method: string; params: unknown };
+
+  onMount(() => {
+    if (!("__TAURI_INTERNALS__" in window)) return;
+    let remove: (() => void) | undefined;
+    void listen<EditorRpcRequest>("editor-rpc-request", ({ payload }) => {
+      void handleEditorRpc(payload)
+        .then((result) => invoke("editor_bridge_complete", { id: payload.id, result, error: null }))
+        .catch((cause) => invoke("editor_bridge_complete", { id: payload.id, result: null, error: cause instanceof Error ? cause.message : String(cause) }));
+    }).then((unlisten) => (remove = unlisten));
+    return () => remove?.();
+  });
+
+  onMount(() => {
+    const flush = () => {
+      if (document.visibilityState === "hidden") void saveNow();
+    };
+    document.addEventListener("visibilitychange", flush);
+    window.addEventListener("pagehide", flush);
+    return () => {
+      document.removeEventListener("visibilitychange", flush);
+      window.removeEventListener("pagehide", flush);
+    };
+  });
+
+  $effect(() => {
+    const token = session?.changeToken ?? 0;
+    if (!session || token === 0 || session.saveStatus === "saving" || session.saveStatus === "conflict") return;
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => void saveNow(), 420);
+    return () => { if (saveTimer) clearTimeout(saveTimer); };
+  });
+
+  async function loadAssets() {
+    if (!session) return;
+    const ids = [...new Set(Object.values(session.document.nodes).filter((node) => node.type === "image").map((node) => (node as Extract<DesignNode, { type: "image" }>).assetId))];
+    await Promise.all(ids.map(async (id) => {
+      try { session!.imageSources[id] = await repo.readAsset(id); } catch { /* keep an image placeholder */ }
+    }));
+  }
+
+  function thumbnailSvg(): string | null {
+    if (!session || !session.document.rootIds.length) return null;
+    const bounds = unionRects(session.document.rootIds.map((id) => session!.document.nodes[id]).filter(Boolean).map((node) => worldBounds(session!.document, node)));
+    const world = document.querySelector<SVGGElement>("#design-canvas .world")?.cloneNode(true) as SVGGElement | undefined;
+    if (!bounds || !world) return null;
+    world.querySelectorAll(".selection-ui,.guide").forEach((item) => item.remove());
+    const markup = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${bounds.x} ${bounds.y} ${Math.max(1, bounds.width)} ${Math.max(1, bounds.height)}" width="480" height="300"><rect x="${bounds.x}" y="${bounds.y}" width="${Math.max(1, bounds.width)}" height="${Math.max(1, bounds.height)}" fill="#626262"/>${world.innerHTML}</svg>`;
+    return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(markup)))}`;
+  }
+
+  async function saveNow() {
+    if (!session || session.saveStatus === "saving" || session.saveStatus === "saved") return;
+    if (session.persistencePaused) {
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => void saveNow(), 250);
+      return;
+    }
+    session.saveStatus = "saving";
+    const savingToken = session.changeToken;
+    const pageId = session.page.id;
+    const expectedRevision = session.page.revision;
+    const snapshot = cloneDocument(session.document);
+    const savingThumbnailToken = session.thumbnailChangeToken;
+    const refreshThumbnail = session.thumbnailDirty;
+    try {
+      const revision = await repo.savePage(pageId, expectedRevision, snapshot, refreshThumbnail ? thumbnailSvg() : undefined);
+      if (session.page.id === pageId) session.page.revision = revision;
+      const meta = session.pages.find((page) => page.id === pageId);
+      if (meta) meta.revision = revision;
+      if (refreshThumbnail && session.thumbnailChangeToken === savingThumbnailToken) session.thumbnailDirty = false;
+      session.saveStatus = session.changeToken === savingToken ? "saved" : "dirty";
+      if (session.saveStatus === "dirty") {
+        if (saveTimer) clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => void saveNow(), 120);
+      }
+    } catch (cause) {
+      if (cause instanceof Error && cause.message.includes("REVISION_CONFLICT")) session.saveStatus = "conflict";
+      else { session.saveStatus = "error"; session.errorMessage = cause instanceof Error ? cause.message : "Autosave failed"; }
+    }
+  }
+
+  async function backToFiles() { await saveNow(); await goto("/"); }
+
+  async function openPage(id: string) {
+    if (!session || id === session.page.id) return;
+    await saveNow();
+    try { const loaded = await repo.loadPage(id); session.setPage(loaded.page, loaded.document); await loadAssets(); }
+    catch (cause) { session.errorMessage = cause instanceof Error ? cause.message : "Could not open the page"; }
+  }
+
+  async function createPage() {
+    if (!session) return;
+    await saveNow();
+    try {
+      const created = await repo.createPage(session.file.id, `Page ${session.pages.length + 1}`);
+      session.pages = [...session.pages, created.page];
+      session.setPage(created.page, created.document);
+    } catch (cause) { session.errorMessage = cause instanceof Error ? cause.message : "Could not create a page"; }
+  }
+
+  function showPageMenu(event: MouseEvent, id: string) {
+    event.preventDefault(); event.stopPropagation();
+    pageMenu = { id, x: Math.min(event.clientX, innerWidth - 190), y: Math.min(event.clientY, innerHeight - 190) };
+  }
+
+  async function pageAction(action: "rename" | "duplicate" | "delete") {
+    if (!session || !pageMenu) return;
+    const id = pageMenu.id; pageMenu = null;
+    const meta = session.pages.find((page) => page.id === id);
+    if (!meta) return;
+    try {
+      if (action === "rename") {
+        const name = prompt("Page name", meta.name)?.trim();
+        if (name) { await repo.renamePage(id, name); meta.name = name; session.pages = [...session.pages]; }
+      }
+      if (action === "duplicate") {
+        const created = await repo.duplicatePage(id); session.pages = [...session.pages, created.page]; session.setPage(created.page, created.document);
+      }
+      if (action === "delete") {
+        if (session.pages.length <= 1) throw new Error("A design file needs at least one page");
+        await repo.deletePage(id); session.pages = session.pages.filter((page) => page.id !== id);
+        if (session.page.id === id) await openPage(session.pages[0].id);
+      }
+    } catch (cause) { session.errorMessage = cause instanceof Error ? cause.message : "Page action failed"; }
+  }
+
+  function showContext(event: MouseEvent, world: { x: number; y: number }) {
+    context = { x: Math.min(event.clientX, innerWidth - 230), y: Math.min(event.clientY, innerHeight - 390), worldX: world.x, worldY: world.y };
+  }
+
+  function layerContext(event: MouseEvent, id: string) {
+    if (!session) return;
+    event.preventDefault(); event.stopPropagation();
+    if (!session.selectedIds.includes(id)) session.select(id, false, true);
+    showContext(event, { x: session.document.nodes[id].x, y: session.document.nodes[id].y });
+  }
+
+  async function contextAction(action: string) {
+    if (!session || !context) return;
+    const point = { x: context.worldX, y: context.worldY }; context = null;
+    if (action === "copy") session.copy();
+    if (action === "copy-image") {
+      const frame = session.selectedNodes.length === 1 && session.selectedNodes[0].type === "frame" ? session.selectedNodes[0] : null;
+      if (frame) await copyFrameAsImage(frame.id);
+    }
+    if (action === "cut") session.cut();
+    if (action === "paste") await session.paste(point);
+    if (action === "duplicate") session.duplicate();
+    if (action === "delete") session.deleteSelection();
+    if (action === "front") session.arrange("front");
+    if (action === "back") session.arrange("back");
+    if (action === "group") session.groupSelection();
+    if (action === "frame") session.groupSelection(true);
+    if (action === "ungroup") session.ungroupSelection();
+    if (action === "visible") session.updateSelected({ visible: !session.selectedNodes.every((node) => node.visible) });
+    if (action === "lock") session.updateSelected({ locked: !session.selectedNodes.every((node) => node.locked) });
+    if (action === "move-page") await moveToPage();
+  }
+
+  async function moveToPage() {
+    if (!session || session.pages.length < 2) return;
+    const targetName = prompt(`Move to page:\n${session.pages.filter((page) => page.id !== session!.page.id).map((page) => page.name).join("\n")}`)?.trim();
+    const target = session.pages.find((page) => page.name.toLowerCase() === targetName?.toLowerCase() && page.id !== session!.page.id);
+    if (!target) return;
+    session.copy(); session.deleteSelection(); await saveNow(); await openPage(target.id); await session.paste({ x: 40, y: 40 });
+  }
+
+  async function renameFile() {
+    if (!session) return;
+    const name = prompt("File name", session.file.name)?.trim();
+    if (!name) return;
+    try { await repo.renameFile(session.file.id, name); session.file.name = name; }
+    catch (cause) { session.errorMessage = cause instanceof Error ? cause.message : "Could not rename the file"; }
+  }
+
+  function placeIcon(name: string) {
+    if (!session) return;
+    const center = screenToWorld({ x: (innerWidth - (panels.left ? 297 : 0) - (panels.right ? 241 : 0)) / 2, y: innerHeight / 2 }, session.document.viewport);
+    session.addNode(defaultNode("icon", center.x - 32, center.y - 32, { width: 64, height: 64, iconName: name, name }));
+    session.leftTab = "file";
+  }
+
+  function createPreset(name: string, width: number, height: number) {
+    if (!session) return;
+    const center = screenToWorld({ x: (innerWidth - 538) / 2, y: innerHeight / 2 }, session.document.viewport);
+    session.addNode(defaultNode("frame", center.x - width / 2, center.y - height / 2, { name, width, height }));
+  }
+
+  function fitCanvas(target: "auto" | "all" | "selection" = "auto") {
+    if (!session) return;
+    const useSelection = target === "selection" || (target === "auto" && session.selectedIds.length > 0);
+    const bounds = useSelection
+      ? selectionBounds(session.document, session.selectedIds)
+      : unionRects(session.document.rootIds.map((id) => session!.document.nodes[id]).filter(Boolean).map((node) => worldBounds(session!.document, node)));
+    if (!bounds) return;
+    const canvas = document.querySelector<HTMLElement>("#design-canvas");
+    const width = canvas?.clientWidth ?? innerWidth - (panels.left ? 297 : 0) - (panels.right ? 241 : 0);
+    const height = canvas?.clientHeight ?? innerHeight;
+    const zoom = Math.min(4, Math.max(.05, Math.min((width - 160) / Math.max(1, bounds.width), (height - 160) / Math.max(1, bounds.height))));
+    session.document.viewport.zoom = zoom;
+    session.document.viewport.x = width / 2 - (bounds.x + bounds.width / 2) * zoom;
+    session.document.viewport.y = height / 2 - (bounds.y + bounds.height / 2) * zoom;
+    session.viewportChanged();
+  }
+
+  function zoomCanvas(factor: number) {
+    if (!session) return;
+    const canvas = document.querySelector<HTMLElement>("#design-canvas");
+    const fallbackWidth = innerWidth - (panels.left ? 297 : 0) - (panels.right ? 241 : 0);
+    const fallbackHeight = innerHeight - 42;
+    const point = { x: (canvas?.clientWidth ?? fallbackWidth) / 2, y: (canvas?.clientHeight ?? fallbackHeight) / 2 };
+    const viewport = session.document.viewport;
+    const world = screenToWorld(point, viewport);
+    const next = Math.min(8, Math.max(.05, viewport.zoom * factor));
+    viewport.x = point.x - world.x * next;
+    viewport.y = point.y - world.y * next;
+    viewport.zoom = next;
+    session.viewportChanged();
+  }
+
+  function resetZoom() {
+    if (!session) return;
+    const viewport = session.document.viewport;
+    const canvas = document.querySelector<HTMLElement>("#design-canvas");
+    const fallbackWidth = innerWidth - (panels.left ? 297 : 0) - (panels.right ? 241 : 0);
+    const fallbackHeight = innerHeight - 42;
+    const point = { x: (canvas?.clientWidth ?? fallbackWidth) / 2, y: (canvas?.clientHeight ?? fallbackHeight) / 2 };
+    const world = screenToWorld(point, viewport);
+    viewport.zoom = 1;
+    viewport.x = point.x - world.x;
+    viewport.y = point.y - world.y;
+    session.viewportChanged();
+  }
+
+  async function exportSelection(format: "svg" | "png", scale = 1) {
+    if (!session) return;
+    const ids = session.selectedIds.length ? session.selectedIds : session.document.rootIds;
+    const bounds = unionRects(ids.map((id) => session!.document.nodes[id]).filter(Boolean).map((node) => worldBounds(session!.document, node)));
+    const world = document.querySelector<SVGGElement>("#design-canvas .world")?.cloneNode(true) as SVGGElement | undefined;
+    if (!bounds || !world) { session.errorMessage = "Select a layer or create something before exporting."; return; }
+    world.querySelectorAll(".selection-ui,.guide").forEach((item) => item.remove());
+    if (session.selectedIds.length) world.querySelectorAll("[data-node-id]").forEach((item) => { if (!ids.includes(item.getAttribute("data-node-id") ?? "") && !item.closest(ids.map((id) => `[data-node-id='${id}']`).join(","))) item.remove(); });
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${bounds.width * scale}" height="${bounds.height * scale}" viewBox="${bounds.x} ${bounds.y} ${Math.max(1, bounds.width)} ${Math.max(1, bounds.height)}">${world.innerHTML}</svg>`;
+    const svgUrl = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+    if (format === "svg") await repo.exportRender(session.file.name, "svg", svgUrl);
+    else {
+      const image = new Image();
+      image.onload = async () => {
+        const canvas = document.createElement("canvas"); canvas.width = Math.max(1, Math.ceil(bounds.width * scale)); canvas.height = Math.max(1, Math.ceil(bounds.height * scale));
+        const context2d = canvas.getContext("2d"); context2d?.drawImage(image, 0, 0, canvas.width, canvas.height);
+        await repo.exportRender(session!.file.name, "png", canvas.toDataURL("image/png"));
+      };
+      image.src = svgUrl;
+    }
+  }
+
+  function exportCode(format: "svelte" | "sass" | "html") {
+    if (!session) return;
+    const result = generateCode(session.document, { format });
+    for (const file of result.files) {
+      const blob = new Blob([file.content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = file.name;
+      anchor.click();
+      URL.revokeObjectURL(url);
+    }
+    showNotice(`Exported ${result.files.length} file${result.files.length > 1 ? "s" : ""} as ${format.toUpperCase()}`);
+  }
+
+  function showNotice(message: string) {
+    notice = message;
+    if (noticeTimer) clearTimeout(noticeTimer);
+    noticeTimer = setTimeout(() => (notice = ""), 2600);
+  }
+
+  async function copyDesignId() {
+    if (!session) return;
+    try {
+      if (!navigator.clipboard?.writeText) throw new Error("Clipboard access is unavailable");
+      await navigator.clipboard.writeText(session.file.id);
+      showNotice(`Copied design ID: ${session.file.id}`);
+    } catch (cause) {
+      session.errorMessage = cause instanceof Error ? cause.message : "Could not copy the design ID";
+    }
+  }
+
+  async function rasterizeNodes(ids: string[], requestedScale: number) {
+    if (!session || !ids.length) throw new Error("Nothing to render");
+    const nodes = ids.map((id) => session!.document.nodes[id]).filter(Boolean);
+    const bounds = unionRects(nodes.map((node) => worldBounds(session!.document, node)));
+    const world = document.querySelector<SVGGElement>("#design-canvas .world")?.cloneNode(true) as SVGGElement | undefined;
+    if (!bounds || !world) throw new Error("Could not render the design canvas");
+    world.removeAttribute("transform");
+    world.style.removeProperty("transform");
+    world.style.removeProperty("will-change");
+    world.querySelectorAll(".selection-ui,.guide").forEach((item) => item.remove());
+    const selector = ids.map((candidate) => `[data-node-id='${candidate}']`).join(",");
+    world.querySelectorAll("[data-node-id]").forEach((item) => {
+      const id = item.getAttribute("data-node-id");
+      if (id && !ids.includes(id) && !item.closest(selector)) item.remove();
+    });
+    const desiredScale = Math.max(.25, Math.min(4, Number(requestedScale) || 1));
+    const scale = Math.min(desiredScale, 4096 / Math.max(1, bounds.width), 4096 / Math.max(1, bounds.height));
+    const width = Math.max(1, Math.ceil(bounds.width * scale));
+    const height = Math.max(1, Math.ceil(bounds.height * scale));
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="${bounds.x} ${bounds.y} ${Math.max(1, bounds.width)} ${Math.max(1, bounds.height)}">${world.outerHTML}</svg>`;
+    const image = new Image();
+    const loaded = new Promise<void>((resolve, reject) => { image.onload = () => resolve(); image.onerror = () => reject(new Error("Could not rasterize design")); });
+    image.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+    await loaded;
+    const canvas = document.createElement("canvas"); canvas.width = width; canvas.height = height;
+    const context2d = canvas.getContext("2d");
+    if (!context2d) throw new Error("Could not create the image canvas");
+    context2d.drawImage(image, 0, 0, width, height);
+    return { canvas, width, height, bounds, ids, scale };
+  }
+
+  async function copyFrameAsImage(frameId: string) {
+    if (!session || session.document.nodes[frameId]?.type !== "frame") return;
+    try {
+      const frame = session.document.nodes[frameId];
+      const scale = Math.min(4, Math.max(2, 3840 / Math.max(1, frame.width, frame.height)));
+      const rendered = await rasterizeNodes([frameId], scale);
+      if ("__TAURI_INTERNALS__" in window) {
+        const png = rendered.canvas.toDataURL("image/png");
+        await invoke<string>("copy_image_to_clipboard", {
+          dataBase64: png.slice(png.indexOf(",") + 1), filename: `${frame.name}.png`,
+        });
+      } else {
+        const blob = await new Promise<Blob>((resolve, reject) => rendered.canvas.toBlob((value) => value ? resolve(value) : reject(new Error("Could not encode frame image")), "image/png"));
+        if (!navigator.clipboard?.write || typeof ClipboardItem === "undefined") throw new Error("Image clipboard access is unavailable");
+        await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+      }
+      showNotice(`Copied ${frame.name} as ${rendered.width} × ${rendered.height} image`);
+    } catch (cause) {
+      session.errorMessage = cause instanceof Error ? cause.message : "Could not copy frame as an image";
+    }
+  }
+
+  async function renderForRpc(paramsValue: unknown) {
+    if (!session) throw new Error("NO_ACTIVE_EDITOR");
+    const params = (paramsValue && typeof paramsValue === "object" ? paramsValue : {}) as { scope?: string; ids?: string[]; scale?: number };
+    const ids = params.scope === "selection"
+      ? (params.ids?.length ? params.ids : session.selectedIds)
+      : (params.ids?.length ? params.ids : session.document.rootIds);
+    const rendered = await rasterizeNodes(ids, Number(params.scale) || 1);
+    const dataUrl = rendered.canvas.toDataURL("image/png");
+    return { mimeType: "image/png", imageBase64: dataUrl.slice(dataUrl.indexOf(",") + 1), width: rendered.width, height: rendered.height, bounds: rendered.bounds, ids, scale: rendered.scale };
+  }
+
+  async function handleEditorRpc(request: EditorRpcRequest): Promise<unknown> {
+    if (!session) throw new Error("NO_ACTIVE_EDITOR: open a design file");
+    const params = (request.params && typeof request.params === "object" ? request.params : {}) as Record<string, unknown>;
+    const canvas = document.querySelector<HTMLElement>("#design-canvas");
+    const rect = canvas?.getBoundingClientRect() ?? { x: 0, y: 0, width: 0, height: 0 };
+    if (request.method === "editor_status") return {
+      file: session.file, page: session.page, pages: session.pages, changeToken: session.changeToken,
+      selectedIds: session.selectedIds, activeTool: session.activeTool, saveStatus: session.saveStatus,
+      viewport: session.document.viewport,
+      canvas: { clientRect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height }, screenOrigin: { x: window.screenX + rect.x, y: window.screenY + rect.y }, devicePixelRatio: window.devicePixelRatio },
+    };
+    if (request.method === "document_get") return { changeToken: session.changeToken, document: cloneDocument(session.document) };
+    if (request.method === "nodes_get") {
+      const ids = Array.isArray(params.ids) ? params.ids.filter((id): id is string => typeof id === "string") : Object.keys(session.document.nodes);
+      const type = typeof params.type === "string" ? params.type : null;
+      const name = typeof params.name === "string" ? params.name.toLowerCase() : null;
+      const nodes = ids.map((id) => session!.document.nodes[id]).filter((node) => node && (!type || node.type === type) && (!name || node.name.toLowerCase().includes(name)));
+      return { changeToken: session.changeToken, nodes };
+    }
+    if (request.method === "geometry_get") {
+      const ids = Array.isArray(params.ids) ? params.ids.filter((id): id is string => typeof id === "string") : session.selectedIds;
+      const canvasClientRect = { x: rect.x, y: rect.y, width: rect.width, height: rect.height };
+      return { changeToken: session.changeToken, viewport: session.document.viewport, canvasClientRect, nodes: nodeGeometry(session, ids, canvasClientRect) };
+    }
+    if (request.method === "operations_apply") return applyExternalOperations(session, params);
+    if (request.method === "nodes_center") return centerNodes(session, params);
+    if (request.method === "nodes_set_border_radius") return setBorderRadius(session, params);
+    if (request.method === "image_place") {
+      if (typeof params.expectedChangeToken === "number" && params.expectedChangeToken !== session.changeToken) throw new Error(`STALE_DOCUMENT: expected changeToken ${params.expectedChangeToken}, current value is ${session.changeToken}`);
+      if (typeof params.imageBase64 !== "string" || !params.imageBase64.length) throw new Error("imageBase64 is required");
+      const asset = await repo.importImageData(params.imageBase64);
+      session.imageSources[asset.id] = asset.dataUrl;
+      return placeImageNode(session, asset, params);
+    }
+    if (request.method === "selection_set") {
+      const ids = Array.isArray(params.ids) ? params.ids.filter((id): id is string => typeof id === "string" && Boolean(session!.document.nodes[id])) : [];
+      session.selectedIds = ids; return { selectedIds: ids };
+    }
+    if (request.method === "viewport_focus") {
+      const ids = Array.isArray(params.ids) ? params.ids.filter((id): id is string => typeof id === "string" && Boolean(session!.document.nodes[id])) : [];
+      if (ids.length) session.selectedIds = ids;
+      fitCanvas(ids.length ? "selection" : "all");
+      return { viewport: session.document.viewport, selectedIds: session.selectedIds };
+    }
+    if (request.method === "history_undo") { session.undo(); return { changeToken: session.changeToken }; }
+    if (request.method === "history_redo") { session.redo(); return { changeToken: session.changeToken }; }
+    if (request.method === "document_save") { await saveNow(); return { revision: session.page.revision, saveStatus: session.saveStatus, changeToken: session.changeToken }; }
+    if (request.method === "frame_screenshot") {
+      const frameId = typeof params.frameId === "string" ? params.frameId : "";
+      const frame = session.document.nodes[frameId];
+      if (frame?.type !== "frame") throw new Error(`frameId must identify a frame; received ${frameId || "nothing"}`);
+      return renderForRpc({ scope: "selection", ids: [frameId], scale: params.scale });
+    }
+    if (request.method === "render") return renderForRpc(params);
+    throw new Error(`Unknown editor RPC method: ${request.method}`);
+  }
+
+  function keydown(event: KeyboardEvent) {
+    if (event.defaultPrevented) return;
+    const mod = event.metaKey || event.ctrlKey;
+    const key = event.key.toLowerCase();
+    const target = event.target instanceof Element ? event.target : null;
+    const typing = target?.matches("input, textarea, select, [contenteditable]:not([contenteditable='false']), [role='textbox']") || target?.closest("[contenteditable]:not([contenteditable='false']), [role='textbox']");
+    if (!session || typing) return;
+    if (event.ctrlKey && key === "`") { event.preventDefault(); terminalOpen = !terminalOpen; return; }
+    if (!event.key.startsWith("Arrow")) commitNudge();
+    if (mod && key === "a") { event.preventDefault(); session.selectAll(); return; }
+    if (mod && key === "z") { event.preventDefault(); event.shiftKey ? session.redo() : session.undo(); return; }
+    if (mod && key === "y") { event.preventDefault(); session.redo(); return; }
+    if (mod && key === "c") { event.preventDefault(); session.copy(); return; }
+    if (mod && key === "x") { event.preventDefault(); session.cut(); return; }
+    if (mod && key === "v") { event.preventDefault(); void session.paste(); return; }
+    if (mod && key === "d") { event.preventDefault(); session.duplicate(); return; }
+    if (mod && event.altKey && key === "g") { event.preventDefault(); session.groupSelection(true); return; }
+    if (mod && key === "g") { event.preventDefault(); event.shiftKey ? session.ungroupSelection() : session.groupSelection(); return; }
+    if (mod && event.shiftKey && key === "h") { event.preventDefault(); session.updateSelected({ visible: !session.selectedNodes.every((node) => node.visible) }); return; }
+    if (mod && event.shiftKey && key === "l") { event.preventDefault(); session.updateSelected({ locked: !session.selectedNodes.every((node) => node.locked) }); return; }
+    if ((key === "+" || (mod && key === "="))) { event.preventDefault(); if (session.persistencePaused) session.requestInteractionCancel(); else zoomCanvas(1.25); return; }
+    if (key === "-" && (event.shiftKey || mod)) { event.preventDefault(); if (session.persistencePaused) session.requestInteractionCancel(); else zoomCanvas(.8); return; }
+    if (event.shiftKey && key === "1") { event.preventDefault(); if (session.persistencePaused) session.requestInteractionCancel(); else fitCanvas("all"); return; }
+    if (event.shiftKey && key === "2") { event.preventDefault(); if (session.persistencePaused) session.requestInteractionCancel(); else fitCanvas("selection"); return; }
+    if (event.shiftKey && key === "0") { event.preventDefault(); if (session.persistencePaused) session.requestInteractionCancel(); else resetZoom(); return; }
+    if (key === "]") { event.preventDefault(); session.arrange(mod && !event.altKey && !event.shiftKey ? "forward" : "front"); return; }
+    if (key === "[") { event.preventDefault(); session.arrange(mod && !event.altKey && !event.shiftKey ? "backward" : "back"); return; }
+    if (mod && (key === "\\" || key === ".")) {
+      event.preventDefault();
+      const show = !panels.left || !panels.right;
+      panels = { left: show, right: show };
+      return;
+    }
+    if (event.key === "Delete" || event.key === "Backspace") { event.preventDefault(); session.deleteSelection(); return; }
+    if (event.key.startsWith("Arrow")) {
+      event.preventDefault();
+      const amount = event.shiftKey ? 10 : 1;
+      session.beginGesture();
+      session.nudge(event.key === "ArrowLeft" ? -amount : event.key === "ArrowRight" ? amount : 0, event.key === "ArrowUp" ? -amount : event.key === "ArrowDown" ? amount : 0, false);
+      if (nudgeTimer) clearTimeout(nudgeTimer);
+      nudgeTimer = setTimeout(commitNudge, 300);
+      return;
+    }
+    if (key === "escape") {
+      event.preventDefault();
+      context = null;
+      if (session.persistencePaused || session.hasActiveGesture) {
+        session.requestInteractionCancel();
+        return;
+      }
+      session.setActiveTool("select");
+      session.select(null);
+      return;
+    }
+    if (key === "enter") { event.preventDefault(); event.shiftKey ? session.selectParent() : session.selectFirstChild(); return; }
+    const tools: Record<string, typeof session.activeTool> = { v: "select", h: "hand", f: "frame", a: "frame", r: "rectangle", o: "ellipse", l: event.shiftKey ? "arrow" : "line", t: "text" };
+    if (tools[key] && !mod) { event.preventDefault(); session.setActiveTool(tools[key]); }
+  }
+
+  function commitNudge() {
+    if (!nudgeTimer) return;
+    clearTimeout(nudgeTimer);
+    nudgeTimer = null;
+    session?.commitGesture();
+  }
+
+  function keyup(event: KeyboardEvent) {
+    if (event.key.startsWith("Arrow")) commitNudge();
+  }
+
+  function retrySave() {
+    if (!session) return;
+    session.errorMessage = "";
+    session.saveStatus = "dirty";
+    void saveNow();
+  }
+
+  async function resolveConflict(strategy: "reload" | "keep-local") {
+    if (!session) return;
+    if (strategy === "reload" && !confirm("Discard local changes and reload the version saved elsewhere?")) return;
+    try {
+      const latest = await repo.loadPage(session.page.id);
+      if (strategy === "reload") {
+        session.setPage(latest.page, latest.document);
+        await loadAssets();
+        return;
+      }
+      session.page.revision = latest.page.revision;
+      const meta = session.pages.find((page) => page.id === latest.page.id);
+      if (meta) meta.revision = latest.page.revision;
+      session.saveStatus = "dirty";
+      await saveNow();
+    } catch (cause) {
+      session.saveStatus = "error";
+      session.errorMessage = cause instanceof Error ? cause.message : "Could not resolve the save conflict";
+    }
+  }
+
+  function dismissSaveError() {
+    if (session) session.errorMessage = "";
+  }
+
+  function startTerminalResize(event: PointerEvent) {
+    event.preventDefault();
+    const startY = event.clientY;
+    const startHeight = terminalHeight;
+    const move = (next: PointerEvent) => {
+      terminalHeight = Math.max(150, Math.min(innerHeight - 150, startHeight + startY - next.clientY));
+    };
+    const end = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", end);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", end, { once: true });
+  }
+</script>
+
+<svelte:head><title>{session?.file.name ?? "Editor"} · Figmaboy</title></svelte:head>
+<svelte:window onkeydown={keydown} onkeyup={keyup} onclick={() => { context = null; pageMenu = null; }} />
+
+{#if loading}
+  <div class="loading" role="status" aria-live="polite"><img class="loader-logo" src="/figmaboy.svg" alt="" /><strong>Figmaboy</strong><p>Opening your design…</p></div>
+{:else if error || !session}
+  <div class="error-screen"><img class="screen-brand" src="/figmaboy.svg" alt="" /><div class="error-icon"><X size={24} /></div><h1>Couldn’t open this file</h1><p>{error}</p><button onclick={() => goto("/")}><ChevronLeft size={15} /> Back to projects</button></div>
+{:else}
+  <div class="editor-shell" class:left-hidden={!panels.left} class:right-hidden={!panels.right} style="--left-panel-width: {leftPanelWidth}px; --right-panel-width: {rightPanelWidth}px;">
+    <div class="canvas-region" style:bottom={terminalOpen ? `${terminalHeight}px` : "0"}>
+      <EditorCanvas {session} onContextMenu={showContext} />
+      <div class="editor-top-left">
+        <button class="home-mark" title="Back to projects" aria-label="Back to projects" onclick={backToFiles}><img src="/figmaboy.svg" alt="" /></button>
+        <button class="file-title" onclick={renameFile}>{session.file.name}<ChevronDown size={12} /></button>
+        <button class="copy-file-id" title="Copy design ID" aria-label="Copy design ID" onclick={copyDesignId}><Copy size={12} /></button>
+        <span class:bad={session.saveStatus === "error" || session.saveStatus === "conflict"}>{session.saveStatus === "saving" ? "Saving…" : session.saveStatus === "dirty" ? "Unsaved" : session.saveStatus === "conflict" ? "Save conflict" : session.saveStatus === "error" ? "Save failed" : "Saved locally"}</span>
+      </div>
+      <button class="panel-toggle left" title="Toggle left panel" onclick={() => (panels.left = !panels.left)}><PanelLeftClose size={15} /></button>
+      <button class="panel-toggle right" title="Toggle right panel" onclick={() => (panels.right = !panels.right)}><PanelRightClose size={15} /></button>
+      {#if panels.left}<div class="panel-resize-handle left" onpointerdown={startLeftPanelResize}></div>{/if}
+      {#if panels.right}<div class="panel-resize-handle right" onpointerdown={startRightPanelResize}></div>{/if}
+      <Toolbar {session} onFit={() => fitCanvas("auto")} {terminalOpen} onToggleTerminal={() => (terminalOpen = !terminalOpen)} />
+    </div>
+    {#if terminalOpen}
+      <div class="terminal-dock" style:height={`${terminalHeight}px`}>
+        <button class="terminal-resize" aria-label="Resize terminal" onpointerdown={startTerminalResize}></button>
+        <TerminalPanel onClose={() => (terminalOpen = false)} />
+      </div>
+    {/if}
+    {#if panels.left}<LeftPanel {session} onCreatePage={createPage} onOpenPage={openPage} onPageMenu={showPageMenu} onLayerContext={layerContext} onPlaceIcon={placeIcon} />{/if}
+    {#if panels.right}<Inspector {session} onCreatePreset={createPreset} onPresent={() => (preview = true)} onExport={exportSelection} />{/if}
+
+    {#if session.errorMessage || session.saveStatus === "conflict"}
+      <div class="save-error"><div><strong>{session.saveStatus === "conflict" ? "This page changed elsewhere" : "Could not save"}</strong><span>{session.saveStatus === "conflict" ? "Choose which version should win. Neither action happens automatically." : session.errorMessage}</span></div>{#if session.saveStatus === "conflict"}<button onclick={() => resolveConflict("reload")}><RefreshCw size={14} /> Reload</button><button onclick={() => resolveConflict("keep-local")}><Save size={14} /> Keep local</button>{:else}<button onclick={retrySave}><RefreshCw size={14} /> Retry</button><button class="dismiss" onclick={dismissSaveError}><X size={14} /></button>{/if}</div>
+    {/if}
+    {#if notice}<div class="copy-notice"><Copy size={14} />{notice}</div>{/if}
+  </div>
+
+  {#if context}
+    <div class="editor-context" role="menu" tabindex="-1" style:left={`${context.x}px`} style:top={`${context.y}px`} onclick={(event) => event.stopPropagation()} onkeydown={(event) => event.key === "Escape" && (context = null)}>
+      {#if session.selectedIds.length}
+        <button onclick={() => contextAction("copy")}><Copy size={13} />Copy<kbd>⌘C</kbd></button>{#if session.selectedNodes.length === 1 && session.selectedNodes[0].type === "frame"}<button onclick={() => contextAction("copy-image")}><Copy size={13} />Copy as image</button>{/if}<button onclick={() => contextAction("cut")}>Cut<kbd>⌘X</kbd></button><button onclick={() => contextAction("paste")}>Paste here<kbd>⌘V</kbd></button><button onclick={() => contextAction("duplicate")}>Duplicate<kbd>⌘D</kbd></button><hr />
+        {#if session.pages.length > 1}<button onclick={() => contextAction("move-page")}>Move to page<span>›</span></button>{/if}<button onclick={() => contextAction("front")}><MoveUp size={13} />Bring to front<kbd>]</kbd></button><button onclick={() => contextAction("back")}><MoveDown size={13} />Send to back<kbd>[</kbd></button><hr />
+        {#if session.selectedNodes.some((node) => node.type === "group" || node.type === "frame")}<button onclick={() => contextAction("ungroup")}><Ungroup size={13} />Ungroup<kbd>⇧⌘G</kbd></button>{:else}<button onclick={() => contextAction("group")}><Group size={13} />Group selection<kbd>⌘G</kbd></button><button onclick={() => contextAction("frame")}>Frame selection</button>{/if}<hr />
+        <button onclick={() => contextAction("visible")}>{#if session.selectedNodes.every((node) => node.visible)}<EyeOff size={13} />Hide{:else}<Eye size={13} />Show{/if}</button><button onclick={() => contextAction("lock")}>{#if session.selectedNodes.every((node) => node.locked)}<Unlock size={13} />Unlock{:else}<Lock size={13} />Lock{/if}</button><button class="danger" onclick={() => contextAction("delete")}><Trash2 size={13} />Delete<kbd>⌫</kbd></button>
+      {:else}<button onclick={() => contextAction("paste")}>Paste here<kbd>⌘V</kbd></button>{/if}
+    </div>
+  {/if}
+
+  {#if pageMenu}
+    <div class="editor-context small" role="menu" tabindex="-1" style:left={`${pageMenu.x}px`} style:top={`${pageMenu.y}px`} onclick={(event) => event.stopPropagation()} onkeydown={(event) => event.key === "Escape" && (pageMenu = null)}><button onclick={() => pageAction("rename")}>Rename</button><button onclick={() => pageAction("duplicate")}>Duplicate</button><hr /><button class="danger" onclick={() => pageAction("delete")}>Delete page</button></div>
+  {/if}
+
+  {#if preview}<PrototypePreview {session} onClose={() => (preview = false)} />{/if}
+{/if}
+
+<style>
+  .editor-shell { position: fixed; inset: 0; background: #626262; overflow: hidden; }.canvas-region { position: absolute; inset: 0 var(--right-panel-width, 300px) 0 var(--left-panel-width, 297px); transition: bottom 180ms ease; }.left-hidden .canvas-region,.left-hidden .terminal-dock { left: 0; }.right-hidden .canvas-region,.right-hidden .terminal-dock { right: 0; }
+  .panel-resize-handle { position: absolute; z-index: 36; top: 0; width: 5px; height: 100%; cursor: col-resize; background: transparent; }.panel-resize-handle:hover, .panel-resize-handle.active { background: #0d99ff; opacity: 0.3; }.panel-resize-handle.left { left: calc(var(--left-panel-width, 297px) - 3px); }.panel-resize-handle.right { right: calc(var(--right-panel-width, 300px) - 3px); }
+  .terminal-dock { position: absolute; z-index: 45; left: 297px; right: 241px; bottom: 0; min-height: 150px; }.terminal-resize { position: absolute; z-index: 2; top: -3px; left: 0; width: 100%; height: 7px; border: 0; padding: 0; background: transparent; cursor: ns-resize; }.terminal-resize:hover { background: #0d99ff; }
+  .editor-top-left { position: absolute; z-index: 35; top: 0; left: 0; height: 42px; background: #292929e8; border: 1px solid #444; border-top: 0; border-left: 0; border-radius: 0 0 7px 0; display: flex; align-items: center; padding: 0 7px; gap: 3px; box-shadow: 0 4px 14px #0003; }.editor-top-left button { border: 0; background: transparent; color: #ddd; height: 29px; border-radius: 5px; display: flex; align-items: center; cursor: pointer; }.editor-top-left button:hover { background: #3a3a3a; }.editor-top-left .home-mark { width: 29px; justify-content: center; }.home-mark img { width: 16px; height: 23px; object-fit: contain; filter: drop-shadow(0 2px 4px #0008); }.editor-top-left .file-title { max-width: 180px; gap: 5px; font-size: 10px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }.editor-top-left .copy-file-id { width: 27px; justify-content: center; color: #929299; }.editor-top-left > span { color: #6f6f76; font-size: 8px; margin-left: 4px; }.editor-top-left > span.bad { color: #fca5a5; }
+  .panel-toggle { position: absolute; z-index: 35; top: 8px; width: 29px; height: 28px; border: 1px solid #4a4a4a; background: #292929; color: #aaa; border-radius: 5px; display: grid; place-items: center; cursor: pointer; }.panel-toggle.left { left: 7px; opacity: 0; pointer-events: none; }.left-hidden .panel-toggle.left { opacity: 1; pointer-events: auto; }.panel-toggle.right { right: 7px; opacity: 0; pointer-events: none; }.right-hidden .panel-toggle.right { opacity: 1; pointer-events: auto; }
+  .loading, .error-screen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #1d1d1d; }.loader-logo { width: 92px; height: 129px; object-fit: contain; filter: drop-shadow(0 16px 30px #000a); animation: logo-breathe 1.8s ease-in-out infinite; }.loading strong { margin-top: 20px; font-size: 15px; letter-spacing: -.02em; }.loading p { color: #777; font-size: 10px; margin: 6px 0 0; } @keyframes logo-breathe { 50% { transform: translateY(-3px) scale(.985); opacity: .78; } }
+  .screen-brand { width: 38px; height: 54px; object-fit: contain; margin-bottom: 19px; opacity: .9; filter: drop-shadow(0 7px 14px #0009); }.error-icon { width: 58px; height: 58px; display: grid; place-items: center; border: 1px solid #512727; background: #321d1d; color: #f87171; border-radius: 15px; }.error-screen h1 { font-size: 17px; margin: 17px 0 4px; }.error-screen p { color: #888; font-size: 10px; }.error-screen button { margin-top: 13px; height: 32px; border: 1px solid #414141; border-radius: 6px; background: #2c2c2c; color: white; display: flex; align-items: center; gap: 6px; cursor: pointer; padding: 0 11px; font-size: 10px; }
+  .editor-context { position: fixed; z-index: 100; width: 225px; padding: 6px; border: 1px solid #444; border-radius: 7px; background: #202020; box-shadow: 0 15px 45px #0009; }.editor-context.small { width: 165px; }.editor-context button { width: 100%; min-height: 31px; border: 0; border-radius: 4px; background: transparent; color: #eee; padding: 0 8px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 10px; }.editor-context button:hover { background: #373737; }.editor-context kbd,.editor-context button > span { margin-left: auto; color: #888; font: inherit; }.editor-context hr { height: 1px; border: 0; background: #3d3d3d; margin: 5px -6px; }.editor-context .danger { color: #fca5a5; }
+  .save-error { position: fixed; z-index: 80; left: 50%; top: 13px; transform: translateX(-50%); min-width: 380px; min-height: 48px; background: #3a2020; border: 1px solid #7f3737; border-radius: 8px; box-shadow: 0 8px 30px #0007; display: flex; align-items: center; gap: 10px; padding: 8px 9px 8px 13px; }.save-error > div { flex: 1; display: flex; flex-direction: column; }.save-error strong { font-size: 10px; }.save-error span { color: #d4a1a1; font-size: 8px; margin-top: 3px; }.save-error button { height: 28px; border: 0; border-radius: 5px; background: #693333; color: #fff; display: flex; align-items: center; gap: 5px; padding: 0 9px; cursor: pointer; font-size: 9px; }.save-error .dismiss { width: 28px; padding: 0; justify-content: center; background: transparent; }
+  .copy-notice { position: fixed; z-index: 90; left: 50%; bottom: 24px; transform: translateX(-50%); min-height: 34px; display: flex; align-items: center; gap: 7px; padding: 0 13px; border: 1px solid #4a4a4a; border-radius: 7px; background: #252525; color: #f4f4f5; box-shadow: 0 8px 28px #0008; font-size: 9px; }
+  @media (prefers-reduced-motion: reduce) { .loader-logo { animation: none; } }
+  @media (max-width: 1050px) { .canvas-region,.terminal-dock { left: 56px; }.editor-shell :global(.left-shell) { width: 56px; grid-template-columns: 56px 0; }.editor-shell :global(.left-shell .panel) { display: none; } }
+</style>
