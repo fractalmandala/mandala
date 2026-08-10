@@ -2,7 +2,7 @@
 
 Live inventory of `skills/`. All skills are **vendored** (local copies) inside this plugin.
 
-**Current entries:** 167
+**Current entries:** 168
 
 | Skill ID                                                            | Description                                                                                                                                  | Source |
 | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -153,6 +153,7 @@ Live inventory of `skills/`. All skills are **vendored** (local copies) inside t
 | [`svelte-components-patterns`](./svelte-components-patterns/)       | Component architecture in Svelte 5 using snippets ({#snippet}, {@render}), event props (onclick), context menus, modal dialogs, dynamic comp | local  |
 | [`svelte-deployment`](./svelte-deployment/)                         | Svelte deployment guidance. Use for adapters, Vite config, pnpm setup, library authoring, PWA, or production builds.                         | local  |
 | [`svelte-runes`](./svelte-runes/)                                   | Svelte runes guidance. Use for reactive state, props, effects, or migration. Covers $state, $derived, $effect, $props, $bindable. Prevents r | local  |
+| [`svelte-style-canvas`](./svelte-style-canvas/)                     | Inspect a Svelte component/page, resolve applied SASS/CSS + tokens, emit interactive HTML style-preview canvas (style-pack + preview + report) | local  |
 | [`svelte-styling`](./svelte-styling/)                               | Svelte CSS styling patterns. Use for scoped styles, CSS custom properties, style: directive, :global, or styling child components.           | local  |
 | [`svelte-styling-patterns`](./svelte-styling-patterns/)             | Styling patterns for Svelte and SvelteKit applications using external indented SASS (.sass), two-layer semantic CSS variables, single-tab in | local  |
 | [`svelte-template-directives`](./svelte-template-directives/)       | Svelte template directives ({@attach}, {@html}, {@render}, {@const}, {@debug}). Use for DOM manipulation, third-party libs, tooltips, canvas | local  |

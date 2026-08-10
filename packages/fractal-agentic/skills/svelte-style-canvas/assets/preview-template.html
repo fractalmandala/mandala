@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Svelte Style Canvas</title>
+  <style>
+    /* Shell chrome — not part of the target component */
+    :root {
+      --ssc-chrome-bg: #0f1115;
+      --ssc-chrome-panel: #171a21;
+      --ssc-chrome-border: #2a3140;
+      --ssc-chrome-text: #e8ecf4;
+      --ssc-chrome-muted: #8b95a8;
+      --ssc-chrome-accent: #7c9cff;
+      --ssc-chrome-danger: #f07178;
+      --ssc-chrome-ok: #7fd99a;
+      --ssc-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --ssc-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--ssc-chrome-bg);
+      color: var(--ssc-chrome-text);
+      font-family: var(--ssc-font);
+      font-size: 13px;
+    }
+
+    .ssc-app {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      height: 100%;
+      min-height: 100vh;
+    }
+
+    .ssc-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--ssc-chrome-border);
+      background: var(--ssc-chrome-panel);
+    }
+
+    .ssc-header h1 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .ssc-meta {
+      color: var(--ssc-chrome-muted);
+      font-size: 12px;
+    }
+
+    .ssc-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--ssc-chrome-border);
+      color: var(--ssc-chrome-muted);
+      font-size: 11px;
+      font-family: var(--ssc-mono);
+    }
+
+    .ssc-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--ssc-chrome-border);
+      background: #12151c;
+    }
+
+    .ssc-toolbar label {
+      color: var(--ssc-chrome-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-right: 4px;
+    }
+
+    .ssc-states {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .ssc-btn {
+      appearance: none;
+      border: 1px solid var(--ssc-chrome-border);
+      background: var(--ssc-chrome-panel);
+      color: var(--ssc-chrome-text);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .ssc-btn:hover { border-color: var(--ssc-chrome-accent); }
+    .ssc-btn:focus-visible {
+      outline: 2px solid var(--ssc-chrome-accent);
+      outline-offset: 2px;
+    }
+    .ssc-btn[aria-pressed="true"] {
+      background: color-mix(in srgb, var(--ssc-chrome-accent) 22%, var(--ssc-chrome-panel));
+      border-color: var(--ssc-chrome-accent);
+    }
+
+    .ssc-main {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+      min-height: 0;
+    }
+
+    @media (max-width: 860px) {
+      .ssc-main { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+    }
+
+    .ssc-stage-wrap {
+      position: relative;
+      overflow: auto;
+      min-height: 0;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 24px 24px,
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 24px 24px,
+        #0b0d12;
+    }
+
+    .ssc-stage {
+      min-width: 100%;
+      min-height: 100%;
+      padding: 28px;
+      transform-origin: 0 0;
+    }
+
+    /* Fallback region chrome when target CSS is thin */
+    .ssc-region {
+      position: relative;
+      min-height: 28px;
+      min-width: 40px;
+      outline: 1px dashed transparent;
+      transition: outline-color 120ms ease;
+    }
+
+    .ssc-region.ssc-selected {
+      outline: 2px solid var(--ssc-chrome-accent);
+      outline-offset: 2px;
+      z-index: 2;
+    }
+
+    .ssc-region-label {
+      position: absolute;
+      top: 2px;
+      left: 4px;
+      z-index: 3;
+      font-size: 10px;
+      font-family: var(--ssc-mono);
+      color: var(--ssc-chrome-muted);
+      background: rgba(15, 17, 21, 0.72);
+      padding: 1px 5px;
+      border-radius: 3px;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    .ssc-region-body {
+      padding: 18px 10px 10px;
+    }
+
+    .ssc-inspector {
+      border-left: 1px solid var(--ssc-chrome-border);
+      background: var(--ssc-chrome-panel);
+      overflow: auto;
+      padding: 12px 14px 24px;
+      min-height: 180px;
+    }
+
+    .ssc-inspector h2 {
+      margin: 0 0 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ssc-chrome-muted);
+      font-weight: 600;
+    }
+
+    .ssc-inspector dl {
+      margin: 0 0 14px;
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 6px 8px;
+    }
+
+    .ssc-inspector dt {
+      color: var(--ssc-chrome-muted);
+    }
+
+    .ssc-inspector dd {
+      margin: 0;
+      word-break: break-word;
+      font-family: var(--ssc-mono);
+      font-size: 12px;
+    }
+
+    .ssc-list {
+      margin: 0;
+      padding-left: 16px;
+    }
+
+    .ssc-list li { margin: 4px 0; }
+
+    .ssc-empty {
+      color: var(--ssc-chrome-muted);
+      font-style: italic;
+    }
+
+    .ssc-warn { color: var(--ssc-chrome-danger); }
+    .ssc-ok { color: var(--ssc-chrome-ok); }
+
+    .ssc-error {
+      margin: 16px;
+      padding: 12px 14px;
+      border: 1px solid var(--ssc-chrome-danger);
+      border-radius: 8px;
+      background: rgba(240, 113, 120, 0.08);
+      color: var(--ssc-chrome-text);
+      font-family: var(--ssc-mono);
+      white-space: pre-wrap;
+    }
+
+    /* Injected component CSS lands here */
+    /*__SSC_INJECTED_CSS__*/
+  </style>
+</head>
+<body>
+  <div class="ssc-app" id="ssc-app">
+    <header class="ssc-header">
+      <div>
+        <h1 id="ssc-title">Svelte Style Canvas</h1>
+        <div class="ssc-meta" id="ssc-subtitle">Loading…</div>
+      </div>
+      <div>
+        <span class="ssc-badge" id="ssc-fidelity">fidelity</span>
+      </div>
+    </header>
+
+    <div class="ssc-toolbar" role="toolbar" aria-label="Preview controls">
+      <label id="ssc-states-label">States</label>
+      <div class="ssc-states" id="ssc-states" aria-labelledby="ssc-states-label"></div>
+      <button type="button" class="ssc-btn" id="ssc-reset">Reset</button>
+      <button type="button" class="ssc-btn" id="ssc-labels" aria-pressed="true">Labels</button>
+    </div>
+
+    <div class="ssc-main">
+      <div class="ssc-stage-wrap" id="ssc-stage-wrap">
+        <div class="ssc-stage" id="ssc-stage" tabindex="0" aria-label="Style preview stage"></div>
+      </div>
+      <aside class="ssc-inspector" id="ssc-inspector" aria-live="polite">
+        <h2>Inspector</h2>
+        <p class="ssc-empty">Select a region on the stage.</p>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Agent replaces the entire JSON object below -->
+  <script type="application/json" id="ssc-style-pack">
+{
+  "version": 1,
+  "meta": {
+    "title": "Template placeholder",
+    "targetPath": "(unset)",
+    "targetSlug": "template",
+    "generatedAt": "1970-01-01T00:00:00Z",
+    "fidelity": "L1",
+    "notes": "Replace this pack when generating a real preview."
+  },
+  "tokens": [],
+  "classes": [],
+  "regions": [
+    {
+      "id": "r0",
+      "label": "Root",
+      "kind": "shell",
+      "tag": "div",
+      "parentId": null,
+      "classes": [],
+      "states": [],
+      "file": "(unset)",
+      "lineStart": null,
+      "lineEnd": null,
+      "textHint": "Replace style pack",
+      "confidence": "unresolved"
+    }
+  ],
+  "states": [],
+  "cssSubset": "",
+  "orphans": [],
+  "unresolved": []
+}
+  </script>
+
+  <script>
+    (function () {
+      const packEl = document.getElementById("ssc-style-pack");
+      let pack;
+      try {
+        pack = JSON.parse(packEl.textContent);
+      } catch (err) {
+        document.getElementById("ssc-app").innerHTML =
+          '<div class="ssc-error">Failed to parse #ssc-style-pack JSON:\n' +
+          String(err) +
+          "</div>";
+        return;
+      }
+
+      const byId = new Map((pack.regions || []).map((r) => [r.id, r]));
+      const childrenOf = new Map();
+      for (const r of pack.regions || []) {
+        const key = r.parentId == null ? "__root__" : r.parentId;
+        if (!childrenOf.has(key)) childrenOf.set(key, []);
+        childrenOf.get(key).push(r);
+      }
+
+      const classIndex = new Map(
+        (pack.classes || []).map((c) => [String(c.name).replace(/^\./, ""), c])
+      );
+
+      const activeStates = new Set(
+        (pack.states || []).filter((s) => s.defaultOn).map((s) => s.id)
+      );
+      let selectedId = null;
+      let showLabels = true;
+
+      const titleEl = document.getElementById("ssc-title");
+      const subEl = document.getElementById("ssc-subtitle");
+      const fidEl = document.getElementById("ssc-fidelity");
+      const stage = document.getElementById("ssc-stage");
+      const statesEl = document.getElementById("ssc-states");
+      const inspector = document.getElementById("ssc-inspector");
+
+      const meta = pack.meta || {};
+      titleEl.textContent = meta.title || "Svelte Style Canvas";
+      document.title = titleEl.textContent + " — Style Canvas";
+      subEl.textContent = [meta.targetPath, meta.notes].filter(Boolean).join(" · ");
+      fidEl.textContent = "fidelity: " + (meta.fidelity || "L1");
+
+      function regionStateClasses(region) {
+        const extra = [];
+        for (const s of pack.states || []) {
+          if (!activeStates.has(s.id)) continue;
+          if ((s.appliesTo || []).includes(region.id) && s.className) {
+            extra.push(s.className);
+          }
+        }
+        return extra;
+      }
+
+      function buildRegion(region) {
+        const el = document.createElement("div");
+        el.className = ["ssc-region"]
+          .concat(region.classes || [])
+          .concat(regionStateClasses(region))
+          .join(" ");
+        el.dataset.regionId = region.id;
+        el.setAttribute("role", "button");
+        el.tabIndex = 0;
+        el.setAttribute(
+          "aria-label",
+          (region.label || region.id) + " region"
+        );
+
+        const label = document.createElement("span");
+        label.className = "ssc-region-label";
+        label.hidden = !showLabels;
+        label.textContent = region.label || region.id;
+        el.appendChild(label);
+
+        const body = document.createElement("div");
+        body.className = "ssc-region-body";
+
+        const kids = childrenOf.get(region.id) || [];
+        if (kids.length === 0) {
+          const hint = document.createElement("div");
+          hint.className = "ssc-empty";
+          hint.textContent = region.textHint || region.label || region.tag || "";
+          body.appendChild(hint);
+        } else {
+          for (const child of kids) body.appendChild(buildRegion(child));
+        }
+        el.appendChild(body);
+
+        el.addEventListener("click", (e) => {
+          e.stopPropagation();
+          selectRegion(region.id);
+        });
+        el.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            e.stopPropagation();
+            selectRegion(region.id);
+          }
+        });
+
+        return el;
+      }
+
+      function renderStage() {
+        stage.innerHTML = "";
+        const roots = childrenOf.get("__root__") || [];
+        if (roots.length === 0) {
+          const p = document.createElement("p");
+          p.className = "ssc-empty";
+          p.textContent = "No regions in style pack.";
+          stage.appendChild(p);
+          return;
+        }
+        for (const r of roots) stage.appendChild(buildRegion(r));
+        if (selectedId) {
+          const node = stage.querySelector(
+            '[data-region-id="' + CSS.escape(selectedId) + '"]'
+          );
+          if (node) node.classList.add("ssc-selected");
+        }
+      }
+
+      function renderStates() {
+        statesEl.innerHTML = "";
+        const states = pack.states || [];
+        if (states.length === 0) {
+          const span = document.createElement("span");
+          span.className = "ssc-empty";
+          span.textContent = "No state variants discovered";
+          statesEl.appendChild(span);
+          return;
+        }
+        for (const s of states) {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "ssc-btn";
+          btn.textContent = s.label || s.id;
+          btn.setAttribute("aria-pressed", activeStates.has(s.id) ? "true" : "false");
+          btn.addEventListener("click", () => {
+            if (activeStates.has(s.id)) activeStates.delete(s.id);
+            else activeStates.add(s.id);
+            renderStates();
+            renderStage();
+            if (selectedId) selectRegion(selectedId);
+          });
+          statesEl.appendChild(btn);
+        }
+      }
+
+      function selectRegion(id) {
+        selectedId = id;
+        stage.querySelectorAll(".ssc-region.ssc-selected").forEach((n) => {
+          n.classList.remove("ssc-selected");
+        });
+        const node = stage.querySelector(
+          '[data-region-id="' + CSS.escape(id) + '"]'
+        );
+        if (node) node.classList.add("ssc-selected");
+
+        const region = byId.get(id);
+        if (!region) {
+          inspector.innerHTML =
+            "<h2>Inspector</h2><p class='ssc-empty'>Unknown region.</p>";
+          return;
+        }
+
+        const classDetails = (region.classes || []).map((name) => {
+          const bare = String(name).replace(/^\./, "");
+          const hit = classIndex.get(bare);
+          if (!hit) {
+            return (
+              "<li class='ssc-warn'><code>." +
+              bare +
+              "</code> — orphan / unresolved</li>"
+            );
+          }
+          return (
+            "<li class='ssc-ok'><code>." +
+            bare +
+            "</code> — " +
+            (hit.source || "?") +
+            (hit.line != null ? " L" + hit.line : "") +
+            " · " +
+            (hit.confidence || "") +
+            "</li>"
+          );
+        });
+
+        const tokens = new Set();
+        for (const name of region.classes || []) {
+          const hit = classIndex.get(String(name).replace(/^\./, ""));
+          if (hit && hit.tokenRefs) {
+            for (const t of hit.tokenRefs) tokens.add(t);
+          }
+        }
+
+        const tokenLines = [...tokens]
+          .map((t) => {
+            const def = (pack.tokens || []).find((x) => x.name === t);
+            if (!def) return "<li><code>" + t + "</code></li>";
+            return (
+              "<li><code>" +
+              t +
+              "</code> = <code>" +
+              (def.value || "") +
+              "</code></li>"
+            );
+          })
+          .join("");
+
+        const lineRange =
+          region.lineStart != null
+            ? "L" +
+              region.lineStart +
+              (region.lineEnd != null ? "–" + region.lineEnd : "")
+            : "—";
+
+        inspector.innerHTML =
+          "<h2>Inspector</h2>" +
+          "<dl>" +
+          "<dt>Label</dt><dd>" +
+          escapeHtml(region.label || region.id) +
+          "</dd>" +
+          "<dt>Kind</dt><dd>" +
+          escapeHtml(region.kind || "") +
+          "</dd>" +
+          "<dt>Tag</dt><dd>" +
+          escapeHtml(region.tag || "") +
+          "</dd>" +
+          "<dt>File</dt><dd>" +
+          escapeHtml(region.file || "") +
+          "</dd>" +
+          "<dt>Lines</dt><dd>" +
+          escapeHtml(lineRange) +
+          "</dd>" +
+          "<dt>Confidence</dt><dd>" +
+          escapeHtml(region.confidence || "") +
+          "</dd>" +
+          "</dl>" +
+          "<h2>Classes</h2>" +
+          (classDetails.length
+            ? "<ul class='ssc-list'>" + classDetails.join("") + "</ul>"
+            : "<p class='ssc-empty'>No classes on this region.</p>") +
+          "<h2>Tokens</h2>" +
+          (tokenLines
+            ? "<ul class='ssc-list'>" + tokenLines + "</ul>"
+            : "<p class='ssc-empty'>No token refs resolved for these classes.</p>") +
+          orphanSummary() +
+          unresolvedSummary();
+      }
+
+      function orphanSummary() {
+        const orphans = pack.orphans || [];
+        if (!orphans.length) return "";
+        return (
+          "<h2>Orphans (pack)</h2><ul class='ssc-list'>" +
+          orphans
+            .map(
+              (o) =>
+                "<li class='ssc-warn'><code>." +
+                escapeHtml(o.name || "") +
+                "</code> " +
+                escapeHtml(o.note || "") +
+                "</li>"
+            )
+            .join("") +
+          "</ul>"
+        );
+      }
+
+      function unresolvedSummary() {
+        const items = pack.unresolved || [];
+        if (!items.length) return "";
+        return (
+          "<h2>Unresolved</h2><ul class='ssc-list'>" +
+          items
+            .map(
+              (u) =>
+                "<li class='ssc-warn'>" +
+                escapeHtml(u.code || "issue") +
+                ": " +
+                escapeHtml(u.message || "") +
+                "</li>"
+            )
+            .join("") +
+          "</ul>"
+        );
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      document.getElementById("ssc-reset").addEventListener("click", () => {
+        activeStates.clear();
+        for (const s of pack.states || []) {
+          if (s.defaultOn) activeStates.add(s.id);
+        }
+        selectedId = null;
+        showLabels = true;
+        document.getElementById("ssc-labels").setAttribute("aria-pressed", "true");
+        renderStates();
+        renderStage();
+        inspector.innerHTML =
+          "<h2>Inspector</h2><p class='ssc-empty'>Select a region on the stage.</p>" +
+          orphanSummary() +
+          unresolvedSummary();
+      });
+
+      document.getElementById("ssc-labels").addEventListener("click", (e) => {
+        showLabels = !showLabels;
+        e.currentTarget.setAttribute(
+          "aria-pressed",
+          showLabels ? "true" : "false"
+        );
+        stage.querySelectorAll(".ssc-region-label").forEach((n) => {
+          n.hidden = !showLabels;
+        });
+      });
+
+      renderStates();
+      renderStage();
+      inspector.innerHTML =
+        "<h2>Inspector</h2><p class='ssc-empty'>Select a region on the stage.</p>" +
+        orphanSummary() +
+        unresolvedSummary();
+    })();
+  </script>
+</body>
+</html>
