@@ -2,6 +2,7 @@ packages:
   - apps/*
   - sites/*
   - packages/*
+  - '!apps/shradhapp/openreel/**'
 
 allowBuilds:
   '@parcel/watcher': true

@@ -1005,6 +1005,24 @@ impl Ffmpeg {
 
         Ok(regions)
     }
+
+    /// Check if a named encoder is available in the ffmpeg build.
+    pub fn has_encoder(&self, encoder: &str) -> bool {
+        let out = Command::new(&self.ffmpeg)
+            .args(["-hide_banner", "-encoders"])
+            .stdout(Stdio::piped())
+            .stderr(Stdio::null())
+            .output();
+        match out {
+            Ok(o) => String::from_utf8_lossy(&o.stdout).contains(encoder),
+            Err(_) => false,
+        }
+    }
+
+    /// Run ffmpeg with arbitrary arguments (for bridge transcode/proxy ops).
+    pub fn run_args(&self, args: &[String]) -> Result<(), String> {
+        run_quiet(Command::new(&self.ffmpeg).arg("-y").args(args))
+    }
 }
 
 // ------------------------------------------------------------------ types

@@ -1,6 +1,6 @@
 ---
 task: code-design-loop
-status: committed
+status: p4-complete
 host: grok-build
 boss: design + meta
 updated: 2026-08-10
