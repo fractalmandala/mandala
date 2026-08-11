@@ -1,0 +1,145 @@
+// =============================================================================
+// layout.sass — CUBE CSS composition utilities.
+// Layout primitives from Every Layout (stack, cluster, grid, frame, center).
+// These compose structure; components apply visual treatment.
+//   <div class="stack gap-4">
+//     <div class="cluster gap-2">...</div>
+//     <div class="grid grid-2 gap-4">...</div>
+//   </div>
+// =============================================================================
+
+// --- stack: vertical rhythm via margin-block on children, flexbox fallback ---
+.stack
+	display: flex
+	flex-direction: column
+	justify-content: flex-start
+
+.stack > *
+	margin-block: 0
+
+// gap utilities (also used by cluster/grid) — fractals-styler JIT provides
+// numeric variants (gap4, gap8, pad4...) at runtime. These named ones are
+// always-available semantic defaults.
+.gap-1 > * + *
+	margin-block-start: var(--s-1)
+.gap-2 > * + *
+	margin-block-start: var(--s-2)
+.gap-3 > * + *
+	margin-block-start: var(--s-3)
+.gap-4 > * + *
+	margin-block-start: var(--s-4)
+.gap-6 > * + *
+	margin-block-start: var(--s-6)
+.gap-8 > * + *
+	margin-block-start: var(--s-8)
+
+// --- cluster: inline wrapping row ---
+.cluster
+	display: flex
+	flex-wrap: wrap
+	gap: var(--s-2)
+	align-items: center
+	justify-content: flex-start
+
+.cluster.gap-1
+	gap: var(--s-1)
+.cluster.gap-2
+	gap: var(--s-2)
+.cluster.gap-3
+	gap: var(--s-3)
+.cluster.gap-4
+	gap: var(--s-4)
+.cluster.gap-6
+	gap: var(--s-6)
+
+// when stack uses gap (flex), override the margin approach
+.stack.gap-1, .stack.gap-2, .stack.gap-3, .stack.gap-4, .stack.gap-6, .stack.gap-8
+	gap: var(--s-4)
+.stack.gap-1
+	gap: var(--s-1)
+.stack.gap-2
+	gap: var(--s-2)
+.stack.gap-3
+	gap: var(--s-3)
+.stack.gap-4
+	gap: var(--s-4)
+.stack.gap-6
+	gap: var(--s-6)
+.stack.gap-8
+	gap: var(--s-8)
+
+.stack.gap-1 > * + *, .stack.gap-2 > * + *, .stack.gap-3 > * + *,
+.stack.gap-4 > * + *, .stack.gap-6 > * + *, .stack.gap-8 > * + *
+	margin-block-start: 0
+
+// --- grid: responsive auto-fit grid ---
+.grid
+	display: grid
+	gap: var(--s-4)
+
+.grid-2
+	grid-template-columns: repeat(2, minmax(0, 1fr))
+.grid-3
+	grid-template-columns: repeat(3, minmax(0, 1fr))
+.grid-auto
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr))
+
+.grid.gap-1
+	gap: var(--s-1)
+.grid.gap-2
+	gap: var(--s-2)
+.grid.gap-3
+	gap: var(--s-3)
+.grid.gap-6
+	gap: var(--s-6)
+.grid.gap-8
+	gap: var(--s-8)
+
+@media (max-width: 40rem)
+	.grid-2
+		grid-template-columns: 1fr
+	.grid-3
+		grid-template-columns: 1fr
+
+// --- center: block centering with a max measure ---
+.center
+	max-inline-size: var(--container-max)
+	margin-inline: auto
+	padding-inline: var(--s-4)
+
+@media (min-width: 48rem)
+	.center
+		padding-inline: var(--s-6)
+
+// --- frame: intrinsic ratio media wrapper ---
+.frame
+	display: block
+	padding: 0
+.frame > img,
+.frame > video,
+.frame > svg
+	block-size: auto
+	inline-size: 100%
+	max-inline-size: 100%
+
+// --- cover: full-bleed page section ---
+.cover
+	min-block-size: 100dvh
+	display: grid
+	place-content: center
+	padding: var(--s-6)
+
+// --- sidebar layout: main + aside ---
+.with-sidebar
+	display: grid
+	grid-template-columns: 1fr
+	gap: var(--s-4)
+
+@media (min-width: 64rem)
+	.with-sidebar
+		grid-template-columns: 16rem minmax(0, 1fr)
+		gap: var(--s-8)
+
+// --- full bleed (edge-to-edge) ---
+.bleed
+	margin-inline: calc(50% - 50vw)

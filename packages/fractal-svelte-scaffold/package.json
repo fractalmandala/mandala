@@ -1,0 +1,27 @@
+{
+  "name": "fractal-svelte",
+  "version": "0.1.0",
+  "description": "Scaffold a mature, agent-ready SvelteKit + Svelte 5 + CUBE CSS + indented SASS project. Batteries included, Fractal Agentic wired in.",
+  "license": "MIT",
+  "author": { "name": "Amrit" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fractalmandala/mandala",
+    "directory": "packages/fractal-svelte-scaffold"
+  },
+  "keywords": ["svelte", "sveltekit", "scaffold", "cli", "create", "cube-css", "sass", "fractal-agentic", "template"],
+  "type": "module",
+  "bin": { "fractal-svelte": "./dist/cli.js" },
+  "files": ["dist", "templates", "armory"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "check": "tsc --noEmit",
+    "smoke": "tsx src/cli.ts __smoke__ --no-git --no-install"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

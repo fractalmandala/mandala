@@ -1,0 +1,35 @@
+// +error.sass — external styles for the error page.
+
+.error-page
+	display: grid
+	place-content: center
+	min-block-size: calc(100dvh - var(--header-height) - 5rem)
+	padding: var(--s-6)
+
+.error-inner
+	max-inline-size: 32rem
+	text-align: center
+
+.error-status
+	font-size: var(--fs-4xl)
+	font-weight: var(--fw-bold)
+	color: var(--accent)
+
+.error-message
+	font-size: var(--fs-2xl)
+	font-weight: var(--fw-semibold)
+	color: var(--text-1)
+
+.error-link
+	display: inline-block
+	margin-block-start: var(--s-3)
+	padding: var(--s-2) var(--s-4)
+	border-radius: var(--r-md)
+	background-color: var(--accent)
+	color: var(--text-on-accent)
+	font-weight: var(--fw-medium)
+
+.error-link:hover
+	background-color: var(--accent-hover)
+	color: var(--text-on-accent)
+	text-decoration: none

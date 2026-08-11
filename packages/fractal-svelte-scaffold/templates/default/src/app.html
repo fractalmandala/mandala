@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="view-transition" content="same-origin" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+		<script>
+			// Set theme before paint to prevent flash of unstyled content.
+			// Reads localStorage, falls back to prefers-color-scheme, defaults light.
+			(function () {
+				var stored = localStorage.getItem('theme');
+				var theme = 'light';
+				if (stored === 'light' || stored === 'dark') {
+					theme = stored;
+				} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					theme = 'dark';
+				}
+				document.documentElement.setAttribute('data-theme', theme);
+			})();
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
