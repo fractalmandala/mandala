@@ -1,0 +1,100 @@
+@use '../../styles/mixins' as *
+
+[data-slot='select']
+	position: relative
+
+[data-slot='select-trigger']
+	display: flex
+	width: 100%
+	align-items: center
+	justify-content: space-between
+	gap: .5rem
+	padding: .625rem .875rem
+	border: 1px solid var(--border)
+	border-radius: 12px
+	background: var(--background)
+	font-size: .875rem
+	color: var(--foreground)
+	outline: none
+	transition: border-color .2s
+	+interactive
+
+	&:hover
+		border-color: color-mix(in srgb, var(--border) 50%, var(--foreground))
+
+	+focus-ring(2px, var(--foreground), 20%)
+
+	&:disabled
+		pointer-events: none
+		opacity: .5
+
+[data-slot='select-trigger-chevron']
+	display: grid
+	place-items: center
+	flex-shrink: 0
+	color: var(--muted-foreground)
+	+icon-child(1rem)
+
+[data-slot='select-value']
+	min-width: 0
+	overflow: hidden
+	text-overflow: ellipsis
+	white-space: nowrap
+	color: var(--foreground)
+
+	&[data-empty='true']
+		color: var(--muted-foreground)
+
+// flush against the trigger, then separates into its own rounded pill;
+// sits above or below depending on available space
+[data-slot='select-content']
+	position: absolute
+	left: 0
+	right: 0
+	z-index: 20
+	border: 1px solid var(--border)
+	border-radius: 12px
+	background: var(--background)
+	box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4)
+
+	&[data-placement='bottom']
+		top: 100%
+
+	&[data-placement='top']
+		bottom: 100%
+
+[data-slot='select-content-list']
+	padding: .25rem
+
+[data-slot='select-item-button']
+	display: flex
+	width: 100%
+	align-items: center
+	justify-content: space-between
+	gap: .5rem
+	padding: .375rem .625rem
+	border: 0
+	border-radius: var(--radius-md)
+	background: none
+	font: inherit
+	font-size: .875rem
+	text-align: left
+	color: var(--muted-foreground)
+	outline: none
+	transition: background-color .2s, color .2s
+	+interactive
+	+focus-ring(2px, var(--foreground), 20%)
+	+icon-child(.875rem)
+
+	&:hover,
+	&:focus-visible
+		background: var(--card)
+		color: var(--foreground)
+
+	&[data-selected='true']
+		background: var(--card)
+		color: var(--foreground)
+
+	&:disabled
+		pointer-events: none
+		opacity: .5

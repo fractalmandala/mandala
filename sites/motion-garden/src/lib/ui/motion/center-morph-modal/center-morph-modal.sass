@@ -1,0 +1,73 @@
+@use '../../styles/mixins' as *
+
+[data-slot='center-morph-modal-portal']
+	position: fixed
+	inset: 0
+	z-index: 100
+	pointer-events: none
+
+[data-slot='center-morph-modal-backdrop']
+	position: absolute
+	inset: 0
+	width: 100%
+	height: 100%
+	border: 0
+	cursor: default
+	background: color-mix(in srgb, var(--background) 10%, transparent)
+	backdrop-filter: blur(4px)
+	pointer-events: auto
+
+[data-slot='center-morph-modal-center']
+	position: absolute
+	inset: 0
+	display: flex
+	align-items: center
+	justify-content: center
+	overflow-y: auto
+	padding: 1rem
+	pointer-events: none
+	// Drop-shadow reads the clipped child's alpha, so depth follows the
+	// unfolding silhouette without introducing another panel layer.
+	filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15))
+
+[data-slot='center-morph-modal-column']
+	display: flex
+	width: 100%
+	flex-direction: column
+	align-items: center
+	padding: 2rem 0
+
+[data-slot='center-morph-modal-panel']
+	position: relative
+	width: 100%
+	max-width: 26rem
+	transform-origin: center
+	overflow: hidden
+	border: 1px solid var(--border)
+	background: var(--background)
+	color: var(--foreground)
+	pointer-events: auto
+	will-change: clip-path
+
+[data-slot='center-morph-modal-close']
+	position: absolute
+	top: 1rem
+	right: 1rem
+	display: inline-flex
+	width: 2rem
+	height: 2rem
+	align-items: center
+	justify-content: center
+	border: 0
+	border-radius: var(--radius-full)
+	background: color-mix(in srgb, var(--foreground) 5%, transparent)
+	color: var(--muted-foreground)
+	outline: none
+	transition: background-color .2s, color .2s
+	+interactive
+	+focus-ring(2px, var(--ring), 100%)
+	+icon-child(1rem)
+
+	&:hover
+		background: color-mix(in srgb, var(--foreground) 8%, transparent)
+		color: var(--foreground)

@@ -1,0 +1,39 @@
+[data-slot="popover"]
+	display: inline-flex
+	position: relative
+	isolation: isolate
+[data-slot="popover-trigger"]
+	display: inline-flex
+[data-slot="popover-portal"]
+	position: fixed
+	left: 0
+	top: 0
+	z-index: 9999
+	width: 0
+	height: 0
+	isolation: isolate
+	pointer-events: none
+	svg
+		position: absolute
+[data-slot="popover-goo-layer"]
+	position: absolute
+	z-index: -1
+	pointer-events: none
+[data-slot="popover-goo-fill"]
+	position: absolute
+	background: var(--card)
+	&:last-child
+		inset: 0
+[data-slot="popover-content-layer"]
+	position: absolute
+	z-index: 10
+	pointer-events: none
+[data-slot="popover-content-clip"]
+	position: absolute
+	inset: 0
+[data-slot="popover-panel"]
+	width: max-content
+	max-width: min(92vw, 20rem)
+	padding: 1rem
+	color: var(--foreground)
+	outline: none
