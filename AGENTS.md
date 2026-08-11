@@ -37,6 +37,7 @@ Every SvelteKit workspace also has `pnpm dev`; Tauri desktop apps additionally h
 | `sites/testsite` | Scratch / test site. | `pnpm check` |
 | `packages/fractal-agentation` | Agent annotation Svelte package (`fractal-agentation`). | `pnpm check` · `pnpm test` |
 | `packages/fractal-agentic` | Fractal Agentic — orchestration plugin (skills, commands, bosses, agents). Has its own [AGENTS.md](packages/fractal-agentic/AGENTS.md). | `pnpm check` (armory check) · `pnpm test` (verify) |
+| `packages/acrolls` | Vendored Acrolls publishing/docs workspace; nested `@acrolls/*` packages are part of the Mandala workspace. | `pnpm --filter @acrolls/<package> check` · `test` · `build` |
 | `packages/fractal-svelte` | `@fractaldesign/fractal-svelte` component library. | `pnpm check` · `pnpm lint` · `pnpm test` |
 | `packages/fractals-styler` | JIT utility-CSS Vite plugin. Has its own [AGENTS.md](packages/fractals-styler/AGENTS.md). | `pnpm check` (tsc) |
 | `packages/fractalsvelte` | shadcn-style Svelte component library without Tailwind. Has its own [AGENTS.md](packages/fractalsvelte/AGENTS.md). | `pnpm check` · `pnpm lint` |

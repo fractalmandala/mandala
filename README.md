@@ -53,3 +53,5 @@ This is a constantly evolving monorepo. It is best to study any available AGENTS
 - Svelte Icons - `packages/svelte-icons` - combined library for various iconsets (private).
 - Fractalsvelte - `packages/fractalsvelte` - WIP Sveltekit component library and its public site front-end.
 - OKF Package - `packages/okfpackage` - WIP experiments with Google's open knowledge foundation.
+- Acrolls - `packages/acrolls` - vendored SvelteKit publishing and documentation workspace;
+  its `@acrolls/*` packages are included in the Mandala workspace.

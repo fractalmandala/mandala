@@ -1,0 +1,35 @@
+{
+  "name": "@acrolls/styles",
+  "version": "0.1.1",
+  "description": "Scoped publishing CSS and optional SASS tokens for Acrolls.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "foundation.css",
+    "default.css",
+    "sass",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    "./foundation.css": "./foundation.css",
+    "./default.css": "./default.css",
+    "./sass/tokens.sass": "./sass/tokens.sass",
+    "./sass/index.sass": "./sass/index.sass"
+  },
+  "sideEffects": [
+    "./foundation.css",
+    "./default.css"
+  ],
+  "scripts": {
+    "build": "node -e \"console.log('@acrolls/styles: css-first, no build step')\"",
+    "check": "node -e \"require('fs').accessSync('foundation.css'); require('fs').accessSync('default.css')\""
+  },
+  "keywords": [
+    "acrolls",
+    "css",
+    "sass",
+    "publishing",
+    "sveltekit"
+  ]
+}

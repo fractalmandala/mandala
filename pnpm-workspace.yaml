@@ -2,6 +2,9 @@ packages:
   - apps/*
   - sites/*
   - packages/*
+  - '!packages/acrolls'
+  - packages/acrolls/packages/*
+  - packages/acrolls/examples/*
   - '!apps/shradhapp/openreel/**'
 
 allowBuilds:
@@ -12,6 +15,7 @@ allowBuilds:
   prisma: true
   sharp: false
   '@tailwindcss/oxide': true
+  '@hugeicons/svelte': false
 
 # Keep untrusted dependency scripts blocked, including Sharp. A blocked script
 # is an intentional policy decision, not an installation failure; CI will still

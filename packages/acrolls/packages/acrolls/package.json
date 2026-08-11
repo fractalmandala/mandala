@@ -1,0 +1,30 @@
+{
+  "name": "acrolls",
+  "version": "0.0.2",
+  "description": "Acrolls command-line onboarding and validation tools.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "acrolls": "./bin/acrolls.mjs"
+  },
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node --check bin/acrolls.mjs"
+  },
+  "dependencies": {
+    "@acrolls/cli": "workspace:^"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "keywords": [
+    "acrolls",
+    "cli",
+    "sveltekit",
+    "documentation"
+  ]
+}
