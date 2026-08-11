@@ -1,0 +1,79 @@
+[data-slot="input"]
+	display: flex
+	flex-direction: column
+	gap: 0.375rem
+[data-slot="input-label"]
+	padding: 0 var(--space-1)
+	font-size: 0.875rem
+	font-weight: 500
+	color: var(--foreground)
+[data-slot="input-field"]
+	position: relative
+	height: 2.75rem
+	overflow: hidden
+	border: 1px solid var(--border)
+	border-radius: var(--radius-full)
+	transition: border-color 0.2s ease, box-shadow 0.2s ease
+	&[data-state="focused"]
+		border-color: color-mix(in srgb, var(--foreground) 40%, transparent)
+		box-shadow: 0 0 0 2px color-mix(in srgb, var(--ring) 40%, transparent)
+	&[data-state="error"]
+		border-color: var(--destructive)
+		box-shadow: 0 0 0 2px color-mix(in srgb, var(--destructive) 25%, transparent)
+	&[data-disabled="true"]
+		opacity: 0.6
+[data-slot="input-control"]
+	height: 100%
+	width: 100%
+	border: 0
+	background: transparent
+	color: var(--foreground)
+	caret-color: var(--foreground)
+	font-size: 1rem
+	line-height: 1.5rem
+	outline: none
+	padding-left: 0.875rem
+	padding-right: 0.875rem
+	&::placeholder
+		color: color-mix(in srgb, var(--muted-foreground) 60%, transparent)
+	&:disabled
+		cursor: not-allowed
+	&[data-icon-left="true"]
+		padding-left: 2.5rem
+	&[data-icon-right="true"]
+		padding-right: 2.5rem
+[data-slot="input-icon-left"]
+	pointer-events: none
+	position: absolute
+	left: 0.75rem
+	top: 50%
+	transform: translateY(-50%)
+	display: flex
+	align-items: center
+	color: var(--muted-foreground)
+	svg
+		width: 1rem
+		height: 1rem
+[data-slot="input-icon-right"]
+	position: absolute
+	right: 0
+	top: 0
+	display: flex
+	align-items: center
+	height: 100%
+	color: var(--muted-foreground)
+	svg
+		width: 1rem
+		height: 1rem
+[data-slot="input-success"]
+	position: absolute
+	right: 0.875rem
+	top: 50%
+	transform: translateY(-50%)
+	width: 1.25rem
+	height: 1.25rem
+	color: var(--success)
+[data-slot="input-error"]
+	padding: 0 var(--space-1)
+	font-size: 0.75rem
+	color: var(--destructive)
