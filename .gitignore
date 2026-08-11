@@ -7,7 +7,6 @@ apps/fractalengine/src-tauri/bin
 basedocs
 admin
 admin/
-vendors
 
 # Dependencies
 node_modules/
