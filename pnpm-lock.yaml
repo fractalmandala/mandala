@@ -893,6 +893,18 @@ importers:
 
   sites/fractalmandala:
     dependencies:
+      '@acrolls/docs':
+        specifier: file:/Users/amrit/acrolls/packages/docs
+        version: file:../acrolls/packages/docs(svelte@5.56.8(@typescript-eslint/types@8.66.0))
+      '@acrolls/mdsvex':
+        specifier: file:/Users/amrit/acrolls/packages/mdsvex
+        version: file:../acrolls/packages/mdsvex(mdsvex@0.12.8(svelte@5.56.8(@typescript-eslint/types@8.66.0)))(supports-color@7.2.0)
+      '@acrolls/styles':
+        specifier: file:/Users/amrit/acrolls/packages/styles
+        version: file:../acrolls/packages/styles
+      '@acrolls/svelte':
+        specifier: file:/Users/amrit/acrolls/packages/svelte
+        version: file:../acrolls/packages/svelte(svelte@5.56.8(@typescript-eslint/types@8.66.0))
       flexsearch:
         specifier: ^0.8.212
         version: 0.8.212

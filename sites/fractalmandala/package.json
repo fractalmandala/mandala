@@ -35,13 +35,17 @@
 		"vite": "^8.2.1"
 	},
 	"dependencies": {
+		"@acrolls/docs": "file:/Users/amrit/acrolls/packages/docs",
+		"@acrolls/mdsvex": "file:/Users/amrit/acrolls/packages/mdsvex",
+		"@acrolls/styles": "file:/Users/amrit/acrolls/packages/styles",
+		"@acrolls/svelte": "file:/Users/amrit/acrolls/packages/svelte",
 		"flexsearch": "^0.8.212",
+		"fractal-agentation": "^0.0.1",
 		"fractals-styler": "^2.2.0",
 		"graphology": "^0.26.0",
 		"graphology-layout-forceatlas2": "^0.10.1",
 		"gray-matter": "^4.0.3",
 		"sigma": "^3.0.3",
-		"fractal-agentation": "^0.0.1",
 		"svelte-animated-icon": "^1.0.4"
 	},
 	"packageManager": "pnpm@11.20.0+sha512.9a6f330a95b66446ea088faf1521405a8a01f07fde7124cc9958dfed52d4bb436737e65b08f85f37b46fcba375092558ac51262b816844b22f63406ed166bfee"

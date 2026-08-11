@@ -4,6 +4,10 @@ The mandala monorepo supports various websites, packages and wip apps.
 
 ## Public Packages
 
+**fractal-agentic**
+An orchestrator prime - charioteer: domain bosses, a single orchestrator, and a vendored armory of skills, agents, and commands.
+[![npm version](https://img.shields.io/npm/v/fractal-agentic.svg)](https://www.npmjs.com/package/fractal-agentic)
+
 **morphicons-svelte**
 a porting of morphicons to svelte.
 [![npm version](https://img.shields.io/npm/v/morphicons-svelte.svg)](https://www.npmjs.com/package/morphicons-svelte)
