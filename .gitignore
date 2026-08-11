@@ -8,7 +8,6 @@ basedocs
 admin
 admin/
 vendors
-mandalarepo
 
 # Dependencies
 node_modules/
