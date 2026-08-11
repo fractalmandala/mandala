@@ -1,0 +1,91 @@
+// =============================================================================
+// typography.sass — CUBE CSS typography utility classes.
+// These are utilities, not components. Compose them on elements.
+//   <p class="text-2 measure-short leading-relaxed">...</p>
+// =============================================================================
+
+// --- font sizes ---
+.text-xs
+	font-size: var(--fs-xs)
+.text-sm
+	font-size: var(--fs-sm)
+.text-base
+	font-size: var(--fs-base)
+.text-lg
+	font-size: var(--fs-lg)
+.text-xl
+	font-size: var(--fs-xl)
+.text-2xl
+	font-size: var(--fs-2xl)
+.text-3xl
+	font-size: var(--fs-3xl)
+.text-4xl
+	font-size: var(--fs-4xl)
+
+// --- font weights ---
+.font-normal
+	font-weight: var(--fw-normal)
+.font-medium
+	font-weight: var(--fw-medium)
+.font-semibold
+	font-weight: var(--fw-semibold)
+.font-bold
+	font-weight: var(--fw-bold)
+
+// --- line heights ---
+.leading-tight
+	line-height: var(--lh-tight)
+.leading-normal
+	line-height: var(--lh-normal)
+.leading-relaxed
+	line-height: var(--lh-relaxed)
+
+// --- measure (max-width for readability) ---
+.measure-sm
+	max-width: 32ch
+.measure-md
+	max-width: 48ch
+.measure-lg
+	max-width: 64ch
+.measure-xl
+	max-width: 80ch
+
+// --- color helpers (semantic) ---
+.text-1
+	color: var(--text-1)
+.text-2
+	color: var(--text-2)
+.text-3
+	color: var(--text-3)
+.text-muted
+	color: var(--text-muted)
+.text-accent
+	color: var(--accent)
+
+// --- alignment ---
+.text-center
+	text-align: center
+.text-left
+	text-align: left
+.text-right
+	text-align: right
+
+// --- heading scale (use on h1-h6 or any element) ---
+.h1
+	font-size: var(--fs-4xl)
+	font-weight: var(--fw-bold)
+	line-height: var(--lh-tight)
+	letter-spacing: -0.02em
+.h2
+	font-size: var(--fs-3xl)
+	font-weight: var(--fw-semibold)
+	line-height: var(--lh-tight)
+	letter-spacing: -0.01em
+.h3
+	font-size: var(--fs-2xl)
+	font-weight: var(--fw-semibold)
+	line-height: var(--lh-tight)
+.h4
+	font-size: var(--fs-xl)
+	font-weight: var(--fw-semibold)
+	line-height: var(--lh-normal)

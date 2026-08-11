@@ -1,0 +1,156 @@
+// =============================================================================
+// tokens.sass — CUBE CSS two-layer token system (primitive → semantic).
+// Light/dark via [data-theme="..."]. No BEM. No Tailwind. No hex fallbacks.
+// Components consume semantic variables only (e.g. --surface-1, --text-1).
+// =============================================================================
+
+// ---------------------------------------------------------------------------
+// Primitive tokens — raw design values, namespaced --c-* (color), --s-*
+// (space/scale), --r-* (radius), --sh-* (shadow), --fs-* (font-size), --lh-*
+// (line-height), --fw-* (font-weight). Do not consume these directly in
+// components; reach for the semantic layer below.
+// ---------------------------------------------------------------------------
+
+:root
+	// --- color primitives ---
+	--c-gray-50: hsl(220 20% 98%)
+	--c-gray-100: hsl(220 14% 96%)
+	--c-gray-200: hsl(220 13% 91%)
+	--c-gray-300: hsl(216 12% 84%)
+	--c-gray-400: hsl(220 9% 64%)
+	--c-gray-500: hsl(220 9% 46%)
+	--c-gray-600: hsl(220 9% 38%)
+	--c-gray-700: hsl(220 14% 28%)
+	--c-gray-800: hsl(220 14% 18%)
+	--c-gray-900: hsl(222 18% 12%)
+	--c-gray-950: hsl(224 24% 6%)
+
+	--c-blue-300: hsl(217 91% 75%)
+	--c-blue-500: hsl(217 91% 60%)
+	--c-blue-600: hsl(217 91% 52%)
+	--c-blue-700: hsl(219 83% 45%)
+
+	--c-green-500: hsl(152 60% 45%)
+	--c-red-500: hsl(0 72% 55%)
+	--c-amber-500: hsl(38 92% 50%)
+
+	// --- space scale (8px base) ---
+	--s-0: 0
+	--s-1: 0.25rem
+	--s-2: 0.5rem
+	--s-3: 0.75rem
+	--s-4: 1rem
+	--s-5: 1.5rem
+	--s-6: 2rem
+	--s-8: 3rem
+	--s-10: 4rem
+	--s-12: 6rem
+	--s-16: 8rem
+
+	// --- radius ---
+	--r-sm: 0.25rem
+	--r-md: 0.5rem
+	--r-lg: 0.75rem
+	--r-xl: 1rem
+	--r-full: 9999px
+
+	// --- shadow ---
+	--sh-sm: 0 1px 2px hsl(220 14% 18% / 0.06)
+	--sh-md: 0 4px 12px hsl(220 14% 18% / 0.08)
+	--sh-lg: 0 8px 24px hsl(220 14% 18% / 0.12)
+
+	// --- typography scale ---
+	--fs-xs: 0.75rem
+	--fs-sm: 0.875rem
+	--fs-base: 1rem
+	--fs-lg: 1.125rem
+	--fs-xl: 1.25rem
+	--fs-2xl: 1.5rem
+	--fs-3xl: 2rem
+	--fs-4xl: 2.5rem
+
+	--lh-tight: 1.2
+	--lh-normal: 1.5
+	--lh-relaxed: 1.7
+
+	--fw-normal: 400
+	--fw-medium: 500
+	--fw-semibold: 600
+	--fw-bold: 700
+
+	// --- layout ---
+	--container-max: 72rem
+	--header-height: 3.5rem
+
+	// --- transition ---
+	--t-fast: 150ms ease-out
+	--t-normal: 200ms ease-out
+
+	// ---------------------------------------------------------------------------
+	// Semantic tokens — light theme defaults.
+	// Components consume ONLY these. Theme switches reassign these.
+	// ---------------------------------------------------------------------------
+
+	--surface-1: var(--c-gray-50)
+	--surface-2: var(--c-gray-100)
+	--surface-3: var(--c-gray-200)
+	--surface-page: var(--c-gray-50)
+
+	--text-1: var(--c-gray-900)
+	--text-2: var(--c-gray-700)
+	--text-3: var(--c-gray-500)
+	--text-muted: var(--c-gray-400)
+	--text-on-accent: var(--c-gray-50)
+
+	--border-1: var(--c-gray-200)
+	--border-2: var(--c-gray-300)
+	--border-strong: var(--c-gray-400)
+
+	--accent: var(--c-blue-600)
+	--accent-hover: var(--c-blue-700)
+	--accent-soft: var(--c-blue-300)
+	--accent-contrast: var(--c-blue-50)
+
+	--success: var(--c-green-500)
+	--danger: var(--c-red-500)
+	--warning: var(--c-amber-500)
+
+	--shadow-card: var(--sh-sm)
+	--shadow-overlay: var(--sh-lg)
+
+	--ring: var(--c-blue-500)
+
+// ---------------------------------------------------------------------------
+// Dark theme — reassign semantic tokens only. Primitives stay the same.
+// ---------------------------------------------------------------------------
+
+[data-theme='dark']
+	--surface-1: var(--c-gray-900)
+	--surface-2: var(--c-gray-800)
+	--surface-3: var(--c-gray-700)
+	--surface-page: var(--c-gray-950)
+
+	--text-1: var(--c-gray-50)
+	--text-2: var(--c-gray-300)
+	--text-3: var(--c-gray-400)
+	--text-muted: var(--c-gray-500)
+	--text-on-accent: var(--c-gray-950)
+
+	--border-1: var(--c-gray-800)
+	--border-2: var(--c-gray-700)
+	--border-strong: var(--c-gray-600)
+
+	--accent: var(--c-blue-300)
+	--accent-hover: var(--c-blue-500)
+	--accent-soft: var(--c-blue-500)
+	--accent-contrast: var(--c-gray-900)
+
+	--shadow-card: 0 1px 2px hsl(0 0% 0% / 0.3)
+	--shadow-overlay: 0 8px 24px hsl(0 0% 0% / 0.5)
+
+	--ring: var(--c-blue-300)
+
+@media (prefers-reduced-motion: reduce)
+	:root
+		--t-fast: 0ms
+		--t-normal: 0ms

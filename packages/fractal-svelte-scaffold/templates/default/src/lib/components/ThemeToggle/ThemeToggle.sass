@@ -1,0 +1,22 @@
+// ThemeToggle.sass — external styles for ThemeToggle.svelte.
+
+.theme-toggle
+	display: inline-flex
+	align-items: center
+	justify-content: center
+	block-size: var(--header-height)
+	inline-size: var(--header-height)
+	color: var(--text-2)
+	border-radius: var(--r-md)
+	transition: background-color var(--t-fast), color var(--t-fast)
+
+.theme-toggle:hover
+	background-color: var(--surface-2)
+	color: var(--text-1)
+
+.theme-toggle:focus-visible
+	outline: 2px solid var(--ring)
+	outline-offset: -2px
+
+.theme-icon
+	flex-shrink: 0

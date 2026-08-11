@@ -1,0 +1,57 @@
+// Accordion.sass — external styles for Accordion.svelte.
+
+.accordion
+	display: flex
+	flex-direction: column
+	gap: var(--s-2)
+
+.accordion-section
+	border: 1px solid var(--border-1)
+	border-radius: var(--r-md)
+	background-color: var(--surface-1)
+	overflow: hidden
+
+.accordion-disabled
+	opacity: 0.5
+
+.accordion-trigger
+	display: flex
+	width: 100%
+	align-items: center
+	justify-content: space-between
+	gap: var(--s-3)
+	padding: var(--s-4) var(--s-5)
+	font-size: var(--fs-base)
+	font-weight: var(--fw-medium)
+	color: var(--text-1)
+	transition: background-color var(--t-fast)
+
+.accordion-trigger:not(:disabled):hover
+	background-color: var(--surface-2)
+
+.accordion-trigger:focus-visible
+	outline: 2px solid var(--ring)
+	outline-offset: -2px
+
+.accordion-trigger:disabled
+	cursor: not-allowed
+
+.accordion-title
+	text-align: left
+	flex: 1
+	min-inline-size: 0
+
+.accordion-chevron
+	flex-shrink: 0
+	color: var(--text-3)
+	transition: transform var(--t-normal)
+
+.accordion-chevron-open
+	transform: rotate(180deg)
+
+.accordion-panel
+	border-block-start: 1px solid var(--border-1)
+
+.accordion-content
+	padding: var(--s-4) var(--s-5)
+	color: var(--text-2)

@@ -1,0 +1,66 @@
+// Card.sass — external styles for Card.svelte.
+
+.card
+	display: block
+	background-color: var(--surface-1)
+	border: 1px solid var(--border-1)
+	border-radius: var(--r-lg)
+	box-shadow: var(--shadow-card)
+	overflow: hidden
+	text-decoration: none
+	color: inherit
+	transition: border-color var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast)
+
+.card-interactive
+	cursor: pointer
+
+.card-interactive:hover
+	border-color: var(--border-strong)
+	box-shadow: var(--shadow-overlay)
+	transform: translateY(-1px)
+
+.card-header
+	display: flex
+	align-items: flex-start
+	justify-content: space-between
+	gap: var(--s-3)
+	padding: var(--s-4) var(--s-5)
+
+.card-header-toggle
+	cursor: pointer
+
+.card-header-toggle:hover
+	background-color: var(--surface-2)
+
+.card-header-toggle:focus-visible
+	outline: 2px solid var(--ring)
+	outline-offset: -2px
+
+.card-titles
+	flex: 1
+	min-inline-size: 0
+
+.card-title
+	font-size: var(--fs-lg)
+	font-weight: var(--fw-semibold)
+	color: var(--text-1)
+	line-height: var(--lh-tight)
+
+.card-subtitle
+	margin-block-start: var(--s-1)
+	font-size: var(--fs-sm)
+	color: var(--text-3)
+
+.card-chevron
+	flex-shrink: 0
+	color: var(--text-3)
+	transition: transform var(--t-normal)
+
+.card-chevron-open
+	transform: rotate(180deg)
+
+.card-body
+	padding: var(--s-4) var(--s-5)
+
+.card-header + .card-body
+	padding-block-start: 0

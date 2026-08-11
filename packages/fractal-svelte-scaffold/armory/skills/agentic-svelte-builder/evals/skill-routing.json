@@ -1,0 +1,11 @@
+[
+	{"prompt": "add a button", "route": "component-build"},
+	{"prompt": "add a collapsible accordion", "route": "component-build"},
+	{"prompt": "convert this React component to SvelteKit", "route": "react-conversion"},
+	{"prompt": "convert this Next page to SvelteKit", "route": "react-conversion"},
+	{"prompt": "add a SvelteKit form action", "route": "route-build"},
+	{"prompt": "convert this CSS to SASS", "route": "style-conversion"},
+	{"prompt": "add motion to this card", "route": "motion"},
+	{"prompt": "preview the styling of this component", "route": "visual-review"},
+	{"prompt": "deploy this SvelteKit app", "route": "deployment"}
+]
