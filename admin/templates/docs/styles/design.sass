@@ -1,0 +1,248 @@
+.design-home,
+.design-document
+	min-height: 100vh
+	color: var(--docs-ink)
+	background: var(--docs-canvas)
+	font-family: var(--docs-font-sans)
+
+.design-nav
+	justify-content: space-between
+	padding: 1.1rem 2rem
+	border-bottom: 1px solid var(--docs-line)
+	box-shadow: 0 3px 0 rgba(27, 23, 32, .08)
+
+.design-brand,
+.design-links a
+	color: var(--docs-ink)
+	text-decoration: none
+
+.design-brand
+	display: inline-flex
+	align-items: center
+	font-size: .9rem
+	font-weight: 750
+	letter-spacing: -.05em
+
+.design-brand img
+	width: 9rem
+	height: auto
+
+.design-links a
+	font-size: .75rem
+
+.design-links a:hover,
+.design-meta a,
+.design-related a:hover
+	color: var(--site-accent)
+
+.design-tools input
+	width: 10rem
+	padding: .55rem .7rem
+	border: 1px solid var(--docs-line)
+	border-radius: var(--docs-radius-sm)
+	color: var(--docs-ink)
+	background: var(--docs-surface)
+	font: inherit
+	font-size: .7rem
+	box-shadow: 3px 3px 0 rgba(27, 23, 32, .1)
+
+.design-intro
+	grid-template-columns: 1fr 1fr
+	align-items: end
+	width: min(100% - 3rem, 1120px)
+	min-height: 19rem
+	margin: 0 auto
+	padding-block: 3rem 2rem
+	border-bottom: 1px solid var(--docs-line)
+
+.design-meta
+	justify-content: space-between
+	color: var(--docs-muted)
+	font-size: .65rem
+	letter-spacing: .1em
+	text-transform: uppercase
+
+.design-meta a
+	text-decoration: none
+
+.design-intro h1
+	max-width: 42rem
+	margin: 1.5rem 0 0
+	font-size: clamp(3.2rem, 7vw, 6.5rem)
+	font-weight: 750
+	letter-spacing: -.1em
+	line-height: .88
+
+.design-intro > p
+	max-width: 21rem
+	margin: 0 0 .3rem
+	color: var(--docs-muted)
+	font-size: 1.05rem
+	line-height: 1.55
+
+.design-board
+	grid-template-columns: 1.35fr .8fr .8fr
+	width: min(100% - 3rem, 1120px)
+	margin: 3rem auto 5rem
+
+.design-feature,
+.design-card
+	min-height: 12rem
+	padding: 1.25rem
+	border: 1px solid var(--docs-line)
+	border-radius: 4px
+	color: var(--docs-ink)
+	background: var(--docs-surface)
+	text-decoration: none
+	box-shadow: var(--docs-shadow-hard)
+	transition: transform .16s ease, box-shadow .16s ease
+
+.design-feature
+	grid-row: span 2
+	display: flex
+	flex-direction: column
+	justify-content: space-between
+	min-height: 26rem
+	border-color: var(--site-accent-deep)
+	color: #fff
+	background: linear-gradient(135deg, var(--site-accent-deep), var(--site-accent-hot))
+	box-shadow: 12px 12px 0 #1b1720
+
+.design-feature h2
+	max-width: 20rem
+	margin: 2.2rem 0 0
+	color: inherit
+	font-size: 2.4rem
+	font-weight: 750
+	letter-spacing: -.08em
+	line-height: .94
+
+.design-feature p
+	margin: 1rem 0 0
+	color: #ffe8f2
+	font-size: .78rem
+
+.design-feature .u-label
+	color: #ffe8f2
+
+.design-card:nth-child(2)
+	transform: translateY(1rem)
+
+.design-card:nth-child(3)
+	transform: translateY(-.35rem)
+
+.design-card:nth-child(4)
+	transform: translateY(1.3rem)
+
+.design-card:hover
+	transform: translate(-2px, -2px)
+	box-shadow: 11px 11px 0 rgba(27, 23, 32, .22)
+
+.design-card h2
+	margin: 2rem 0 .55rem
+	font-size: 1.35rem
+	letter-spacing: -.06em
+
+.design-card p
+	margin: 0
+	color: var(--docs-muted)
+	font-size: .76rem
+	line-height: 1.55
+
+.design-document-layout
+	grid-template-columns: 7rem minmax(0, 42rem) 10rem
+	width: min(100% - 3rem, 1120px)
+	margin: 0 auto
+	padding-block: 4rem 5rem
+
+.design-document-number
+	color: var(--site-accent-hot)
+	font-size: 5.4rem
+	font-weight: 750
+	letter-spacing: -.12em
+	line-height: .8
+	text-shadow: 3px 3px 0 rgba(27, 23, 32, .12)
+
+.design-document-body
+	padding-block: 2rem 3rem
+
+.design-document-body h1
+	margin: 1.5rem 0 1.1rem
+	font-size: clamp(3rem, 6vw, 5.3rem)
+	font-weight: 750
+	letter-spacing: -.1em
+	line-height: .88
+
+.design-meta
+	margin-bottom: 2rem
+
+.design-document-intro
+	color: var(--docs-muted)
+	font-size: 1.1rem
+
+.design-document-body h2
+	margin-top: 2.8rem
+	font-size: 1.5rem
+	letter-spacing: -.05em
+
+.design-document-body p
+	margin: 1rem 0
+
+.design-callout
+	margin-block: 1.8rem
+	padding: 1rem 1.2rem
+	border: 1px solid var(--docs-line)
+	border-left: 4px solid var(--site-accent)
+	border-radius: var(--docs-radius-md)
+	color: var(--docs-muted)
+	background: var(--site-accent-soft)
+	box-shadow: 6px 6px 0 rgba(27, 23, 32, .12)
+
+.design-related
+	align-self: end
+	padding: 1rem
+	border: 1px solid var(--docs-line)
+	color: var(--docs-muted)
+	background: var(--docs-surface)
+	font-size: .72rem
+	line-height: 1.6
+	box-shadow: var(--docs-shadow-hard)
+
+.design-related strong
+	display: block
+	margin-bottom: .7rem
+	color: var(--site-accent)
+
+.design-related a
+	display: block
+	padding: .25rem 0
+	color: inherit
+	text-decoration: none
+
+@media (max-width: 780px)
+	.design-nav
+		padding-inline: 1rem
+
+	.design-links
+		display: none
+
+	.design-intro,
+	.design-board,
+	.design-document-layout
+		width: min(100% - 2rem, 1120px)
+
+	.design-intro
+		grid-template-columns: 1fr
+		gap: 2rem
+
+	.design-board
+		grid-template-columns: 1fr
+
+	.design-feature
+		grid-row: auto
+
+	.design-card:nth-child(n)
+		transform: none
+
+	.design-document-number
+		margin-bottom: 2rem

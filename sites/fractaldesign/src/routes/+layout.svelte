@@ -24,6 +24,7 @@
 		{ href: '/play', label: 'Play' },
 		{ href: '/about', label: 'About' }
 	];
+
 	const isCurrent = (href: string) =>
 		href === '/' ? current === '/' : current.startsWith(href);
 

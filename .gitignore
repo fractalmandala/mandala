@@ -5,8 +5,13 @@ apps/fractalengine/src-tauri/bin
 .superdesign
 .qoder
 basedocs
-admin
-admin/
+admin/*
+!admin/templates/
+admin/templates/*
+!admin/templates/docs/
+!admin/templates/docs/**
+sites/mandalarepo
+sites/motion-garden
 
 # Dependencies
 node_modules/
@@ -25,7 +30,7 @@ packages/svelte-animated-icon/.vercel/
 !**/src/**/build/
 .electron-runtime/
 target/
-
+packages/fractalsvelte/.vercel/
 # System files
 .DS_Store
 Thumbs.db

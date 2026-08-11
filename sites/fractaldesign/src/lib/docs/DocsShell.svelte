@@ -5,6 +5,7 @@
 	import { tick, type Snippet } from 'svelte';
 	import { theme, toggleTheme } from '$lib/utils/globalstores';
 	import type { DocNavItem } from '$lib/docs/nav';
+	import DesignDocumentTemplate from '$lib/templates/DesignDocumentTemplate.svelte';
 
 	/** Mobile drawer controls surfaced to the header snippet (may be absent during SSR). */
 	interface NavCtl {
@@ -169,7 +170,9 @@
 		</div>
 	{/snippet}
 
-	<div class="docs-content" bind:this={article}>
-		{@render children()}
-	</div>
+	<DesignDocumentTemplate>
+		<div class="docs-content" bind:this={article}>
+			{@render children()}
+		</div>
+	</DesignDocumentTemplate>
 </AppShell>

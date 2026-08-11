@@ -2,7 +2,7 @@
 
 Live inventory of `skills/`. All skills are **vendored** (local copies) inside this plugin.
 
-**Current entries:** 171
+**Current entries:** 174
 
 | Skill ID                                                            | Description                                                                                                                                  | Source |
 | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -18,6 +18,7 @@ Live inventory of `skills/`. All skills are **vendored** (local copies) inside t
 | [`agent-self-evaluation`](./agent-self-evaluation/)                 | Use after completing any non-trivial task. The agent self-rates its output on 5 axes — accuracy, completeness, clarity, actionability, conci | local  |
 | [`agent-sort`](./agent-sort/)                                       | Build an evidence-backed ECC install plan for a specific repo by sorting skills, commands, rules, hooks, and extras into DAILY vs LIBRARY bu | local  |
 | [`agentic-engineering`](./agentic-engineering/)                     | Operate as an agentic engineer using eval-first execution, decomposition, and cost-aware model routing.                                      | local  |
+| [`agentic-svelte-builder`](./agentic-svelte-builder/)               | Progressive-discovery router for native HTML/CSS and Svelte 5 component recipes using CUBE CSS conventions.                               | local  |
 | [`agentic-os`](./agentic-os/)                                       | Build persistent multi-agent operating systems on the coding agent. Covers kernel architecture, specialist agents, slash commands, file-based mem | local  |
 | [`ai-first-engineering`](./ai-first-engineering/)                   | Engineering operating model for teams where AI agents generate a large share of implementation output.                                       | local  |
 | [`ai-regression-testing`](./ai-regression-testing/)                 | Regression testing strategies for AI-assisted development. Sandbox-mode API testing without database dependencies, automated bug-check workf | local  |
@@ -132,6 +133,7 @@ Live inventory of `skills/`. All skills are **vendored** (local copies) inside t
 | [`recursive-decision-ledger`](./recursive-decision-ledger/)         | Use when the user asks for repeated rollouts, marked decision processes, high-dimensional search, stochastic optimization, local-optima expl | local  |
 | [`redis-patterns`](./redis-patterns/)                               | Redis data structure patterns, caching strategies, distributed locks, rate limiting, pub/sub, and connection management for production appli | local  |
 | [`repo-scan`](./repo-scan/)                                         | Cross-stack source code asset audit — classifies every file, detects embedded third-party libraries, and delivers actionable four-level verd | local  |
+| [`react-to-sveltekit`](./react-to-sveltekit/)                       | Convert React and Next.js components into Svelte 5 and SvelteKit with hook, template, motion, SSR, and indented SASS mappings.             | local  |
 | [`rules-distill`](./rules-distill/)                                 | Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files                       | local  |
 | [`rust-patterns`](./rust-patterns/)                                 | Idiomatic Rust patterns, ownership, error handling, traits, concurrency, and best practices for building safe, performant applications.      | local  |
 | [`rust-testing`](./rust-testing/)                                   | Rust testing patterns including unit tests, integration tests, async testing, property-based testing, mocking, and coverage. Follows TDD met | local  |

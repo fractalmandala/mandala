@@ -51,6 +51,7 @@ they appear in the `/docs` reading path:
 - `docs/orchestration/INDEX.md` → `/docs/orchestration`
 - `docs/armory/INDEX.md` → `/docs/armory`
 - `docs/wiki/INDEX.md` → `/docs/wiki`
+- `docs/svelte-framework/INDEX.md` → `/docs/svelte-framework`
 
 These hubs are part of the shipped docs and should be kept short enough to orient a reader.
 

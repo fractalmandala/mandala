@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figmaboy — Flow Map</title>
+<style>
+  :root {
+    --bg: #0d0d0d; --surface: #1a1a1a; --border: #2a2a2a;
+    --text: #ddd; --muted: #888; --accent: #6c8; --accent2: #f8a;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,monospace; background: var(--bg); color: var(--text); overflow: hidden; height: 100dvh; width: 100vw; }
+  #workspace { width: 100%; height: 100%; position: relative; overflow: hidden; cursor: grab; transform-origin: 0 0; }
+  #workspace:active, #workspace.panning { cursor: grabbing; }
+  svg#edges { position: absolute; top: 0; left: 0; pointer-events: none; }
+  svg#edges line, svg#edges path { pointer-events: stroke; }
+  .node {
+    position: absolute; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 8px 12px; font-size: 12px; line-height: 1.4;
+    cursor: grab; user-select: none; min-width: 160px; max-width: 300px;
+    transition: box-shadow 0.15s; z-index: 1;
+  }
+  .node:hover { border-color: var(--accent); box-shadow: 0 0 12px rgba(102,204,136,0.15); z-index: 10; }
+  .node.selected { border-color: var(--accent); box-shadow: 0 0 16px rgba(102,204,136,0.3); z-index: 10; }
+  .node.dragging { cursor: grabbing; opacity: 0.9; z-index: 1000; }
+  .node-kind { font-size: 9px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px; }
+  .node-label { font-weight: 600; margin: 2px 0; }
+  .node-path { font-size: 10px; color: var(--muted); word-break: break-all; }
+  .node-class { font-size: 10px; color: var(--accent2); }
+  #toolbar { position: fixed; top: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 2000; }
+  #toolbar input, #toolbar button { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 4px; font: inherit; font-size: 12px; }
+  #toolbar button { cursor: pointer; }
+  #toolbar button:hover { border-color: var(--accent); }
+  #toolbar input:focus { outline: none; border-color: var(--accent); }
+  #evidence { position: fixed; bottom: 10px; right: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 12px; max-width: 420px; font-size: 11px; line-height: 1.5; z-index: 2000; }
+  #evidence h3 { font-size: 12px; margin-bottom: 4px; color: var(--accent); }
+  #legend { position: fixed; bottom: 10px; left: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-size: 11px; z-index: 2000; }
+  #legend div { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+  .leg-line { width: 20px; height: 2px; flex-shrink: 0; }
+  .leg-solid { background: var(--accent); }
+  .leg-dash { background: none; border-top: 2px dashed var(--accent2); }
+</style>
+</head>
+<body>
+<div id="toolbar">
+  <input id="search" type="text" placeholder="Filter nodes…" aria-label="Search nodes">
+  <button id="reset" title="Reset layout">Reset</button>
+  <button id="zoom-in" title="Zoom in">+</button>
+  <button id="zoom-out" title="Zoom out">−</button>
+  <span id="scale" style="color:var(--muted);display:flex;align-items:center;font-size:11px;">100%</span>
+</div>
+<div id="workspace"><svg id="edges"></svg></div>
+<div id="legend"><div><span class="leg-line leg-solid"></span> Containment</div><div><span class="leg-line leg-dash"></span> Data / state / event</div></div>
+<div id="evidence"><h3>Selected Node Evidence</h3><div id="evidence-content">Click a node to see details</div></div>
+
+<script type="application/json" id="fa-flow-data">
+{
+  "nodes": [
+    {"id":"root","label":"SvelteKit Layout","kind":"layout","path":"src/routes/+layout.svelte","classes":"ssr=false, SPA fallback","x":40,"y":20},
+    {"id":"home","label":"Home (Library)","kind":"route","path":"src/routes/+page.svelte","classes":"Workspace browser","x":40,"y":110},
+    {"id":"editor-route","label":"Editor Route","kind":"route","path":"src/routes/editor/[id]/+page.svelte","classes":"Shell: panels, toolbar, save","x":340,"y":110},
+    {"id":"edsession","label":"EditorSession","kind":"state-machine","path":"src/lib/editor/editor.svelte.ts:78","classes":"$state runes, undo/redo, gestures","x":280,"y":220},
+    {"id":"canvas","label":"EditorCanvas","kind":"component","path":"src/lib/editor/EditorCanvas.svelte","classes":"Pointer modes, pan/zoom, draw","x":140,"y":340},
+    {"id":"canvasnode","label":"CanvasNode","kind":"component","path":"src/lib/editor/CanvasNode.svelte","classes":"Recursive SVG renderer","x":40,"y":460},
+    {"id":"domain","label":"Domain Types","kind":"data-boundary","path":"src/lib/domain.ts:1","classes":"11 node types, Paint, Document","x":460,"y":460},
+    {"id":"geometry","label":"Geometry Engine","kind":"data-boundary","path":"src/lib/geometry.ts:1","classes":"Matrix math, transforms, bounds","x":600,"y":460},
+    {"id":"validation","label":"Document Validation","kind":"trust-boundary","path":"src/lib/document-validation.ts:1","classes":"sanitizeDocument(), repair","x":500,"y":340},
+    {"id":"selection","label":"Canvas Selection","kind":"state-boundary","path":"src/lib/editor/canvas-selection.ts:35","classes":"Figma depth resolution","x":140,"y":580},
+    {"id":"rpc","label":"MCP Bridge (RPC)","kind":"data-boundary","path":"src/lib/editor/editor-rpc.ts:1","classes":"External operations → session","x":620,"y":340},
+    {"id":"repo","label":"Repository Interface","kind":"seam","path":"src/lib/repository.ts:6","classes":"23 CRUD methods","x":340,"y":580},
+    {"id":"browser-repo","label":"BrowserRepository","kind":"adapter","path":"src/lib/repository.ts:99","classes":"localStorage + backup","x":220,"y":680},
+    {"id":"tauri-repo","label":"TauriRepository","kind":"adapter","path":"src/lib/repository.ts","classes":"invoke() → Rust SQLite","x":460,"y":680},
+    {"id":"rust-backend","label":"Rust Backend","kind":"external","path":"src-tauri/src/lib.rs:1","classes":"SQLite WAL, 30 commands","x":460,"y":780},
+    {"id":"mcp-server","label":"MCP Server (sidecar)","kind":"external","path":"src-tauri/mcp/src/main.rs:1","classes":"17 tools, offline+live","x":620,"y":580},
+    {"id":"bridge","label":"Editor Bridge","kind":"external","path":"src-tauri/src/editor_bridge.rs:1","classes":"TCP loopback, token auth","x":740,"y":460},
+    {"id":"text-layout","label":"Text Layout","kind":"data-boundary","path":"src/lib/text-layout.ts:1","classes":"Wrap, measure, truncate","x":740,"y":340},
+    {"id":"terminal","label":"Terminal (Rust)","kind":"external","path":"src-tauri/src/terminal.rs:1","classes":"PTY sessions, xterm.js","x":740,"y":220}
+  ],
+  "edges": [
+    {"from":"root","to":"home","kind":"containment"},
+    {"from":"root","to":"editor-route","kind":"containment"},
+    {"from":"editor-route","to":"edsession","kind":"containment"},
+    {"from":"edsession","to":"canvas","kind":"containment"},
+    {"from":"edsession","to":"rpc","kind":"containment"},
+    {"from":"canvas","to":"canvasnode","kind":"containment"},
+    {"from":"canvasnode","to":"canvasnode","kind":"containment","label":"recursive"},
+    {"from":"edsession","to":"domain","kind":"state","label":"imports types"},
+    {"from":"edsession","to":"geometry","kind":"state","label":"imports math"},
+    {"from":"edsession","to":"validation","kind":"state","label":"sanitize on load"},
+    {"from":"edsession","to":"text-layout","kind":"state","label":"text sizing"},
+    {"from":"canvas","to":"selection","kind":"state","label":"hit-test resolution"},
+    {"from":"home","to":"repo","kind":"state","label":"library ops"},
+    {"from":"editor-route","to":"repo","kind":"state","label":"save/load"},
+    {"from":"repo","to":"browser-repo","kind":"containment"},
+    {"from":"repo","to":"tauri-repo","kind":"containment"},
+    {"from":"tauri-repo","to":"rust-backend","kind":"state","label":"invoke()"},
+    {"from":"rpc","to":"edsession","kind":"event","label":"applyExternalOperations → mutate()"},
+    {"from":"edsession","to":"editor-route","kind":"event","label":"changeToken → autosave"},
+    {"from":"mcp-server","to":"bridge","kind":"event","label":"TCP JSON-RPC"},
+    {"from":"bridge","to":"editor-route","kind":"event","label":"Tauri event"},
+    {"from":"mcp-server","to":"rust-backend","kind":"state","label":"read-only SQLite (offline tools)"},
+    {"from":"editor-route","to":"terminal","kind":"event","label":"terminal_start/write/resize"},
+    {"from":"validation","to":"repo","kind":"state","label":"sanitize on every read"}
+  ],
+  "evidence": {
+    "root":"+layout.svelte — SPA shell, imports app.css, ssr=false",
+    "home":"+page.svelte (336 lines) — Library browser: projects, files, recents, drafts, starred, trash",
+    "editor-route":"editor/[id]/+page.svelte (620 lines) — RPC listener, autosave, keyboard shortcuts, module loading",
+    "edsession":"editor.svelte.ts (687 lines) — Central state machine. mutate(), beginGesture/commitGesture/cancelGesture for pointer previews. 100-entry undo stack. changeToken for stale detection.",
+    "canvas":"EditorCanvas.svelte (1,144 lines) — Pointer mode state machine (idle, pan, draw, text, edit-text, move, marquee, resize, rotate). Local viewport previews. 4px drag threshold.",
+    "canvasnode":"CanvasNode.svelte (192 lines) — Recursive SVG renderer. Handles all 11 node types. Rotation, opacity, blend modes, clip paths, strokes, shadows.",
+    "domain":"domain.ts (347 lines) — 11 node types (frame, group, rectangle, ellipse, line, arrow, polygon, star, text, image, icon). Paint types, Document schema, factory functions.",
+    "geometry":"geometry.ts (168 lines) — Matrix math (multiply, invert, nodeMatrix, worldMatrix, transformPoint, screenToWorld, worldToNodeLocal). Selection bounds, polygon generation.",
+    "validation":"document-validation.ts (217 lines) — Trust boundary. sanitizeDocument() repairs cycles, invalid types, NaN/Infinity. Preserves unknown fields for forward compatibility.",
+    "selection":"canvas-selection.ts (76 lines) — canvasSelectionTarget() resolves Figma-style depth. Frame-first, then groups atomic, then deepest child. Locked ancestors skip. DeepSelect mode.",
+    "rpc":"editor-rpc.ts (365 lines) — MCP operations → EditorSession. Validates every input. Operations: create/delete/update/reparent/reorder, centerNodes, setBorderRadius, placeImage.",
+    "repo":"repository.ts (489 lines) — Repository interface (23 methods). Auto-detects Tauri. Browser adapter: localStorage + backup. Tauri adapter: invoke() → Rust.",
+    "browser-repo":"BrowserRepository: localStorage (key: figmaboy.workspace.v1) with backup. normalizeBrowserState() on every read → sanitize → recovery pages for orphans.",
+    "tauri-repo":"TauriRepository: invoke() IPC bridge to Rust SQLite backend. WAL mode for concurrent access.",
+    "rust-backend":"lib.rs (1,596 lines) — SQLite: projects, design_files, pages, assets. 30 Tauri commands. Package export/import as .figmaboy ZIP. Content-addressed image storage.",
+    "mcp-server":"figmaboy-mcp (665+625=1,290 lines) — Stdio MCP server. 17 tools. Offline: read SQLite directly. Live: TCP bridge → Tauri event. Uses rmcp framework.",
+    "bridge":"editor_bridge.rs (203 lines) — Binds random TCP port, writes bridge.json (0600). Token auth. 10s timeout. Forwards JSON-RPC to Tauri events.",
+    "text-layout":"text-layout.ts (122 lines) — Text wrapping, measurement, truncation. syncTextSize() called after every text mutation.",
+    "terminal":"terminal.rs (242 lines) — PTY sessions via portable-pty. Commands: start, write, resize, close. Output as base64 Tauri events."
+  }
+}
+</script>
+<script>
+(()=>{
+const D=JSON.parse(document.getElementById('fa-flow-data').textContent);
+const W=document.getElementById('workspace'),S=document.getElementById('edges');
+const I=document.getElementById('search'),EC=document.getElementById('evidence-content'),SC=document.getElementById('scale');
+let s=1,px=0,py=0,pan=!1,ps={x:0,y:0},pp={x:0,y:0},dn=null,ds={x:0,y:0},ns={x:0,y:0};
+const NM=new Map(),NE=new Map();
+function uz(){W.style.transform=`translate(${px}px,${py}px) scale(${s})`;SC.textContent=Math.round(s*100)+'%';}
+function de(fe,te,k){
+  const fr=fe.getBoundingClientRect(),tr=te.getBoundingClientRect(),wr=W.getBoundingClientRect();
+  const x1=(fr.left+fr.width/2-wr.left)/s-px/s,y1=(fr.top+fr.height/2-wr.top)/s-py/s;
+  const x2=(tr.left+tr.width/2-wr.left)/s-px/s,y2=(tr.top+tr.height/2-wr.top)/s-py/s;
+  if(k==='event'||k==='state'){
+    const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+    l.setAttribute('stroke','#f8a');l.setAttribute('stroke-width','1.5');l.setAttribute('stroke-dasharray','6 3');l.setAttribute('opacity','0.6');
+    return l;
+  }
+  const my=(y1+y2)/2,p=document.createElementNS('http://www.w3.org/2000/svg','path');
+  p.setAttribute('d',`M${x1},${y1} L${x1},${my} L${x2},${my} L${x2},${y2}`);
+  p.setAttribute('stroke','#6c8');p.setAttribute('stroke-width','1.5');p.setAttribute('fill','none');
+  return p;
+}
+function re(){
+  S.innerHTML='';
+  for(const e of D.edges){
+    const fe=NE.get(e.from),te=NE.get(e.to);
+    if(!fe||!te||fe.style.display==='none'||te.style.display==='none') continue;
+    S.appendChild(de(fe,te,e.kind));
+  }
+}
+function cn(n){
+  const el=document.createElement('div');
+  el.className='node';el.dataset.id=n.id;
+  el.style.left=n.x+'px';el.style.top=n.y+'px';
+  el.innerHTML=`<div class="node-kind">${n.kind}</div><div class="node-label">${n.label}</div>${n.classes?`<div class="node-class">${n.classes}</div>`:''}<div class="node-path">${n.path}</div>`;
+  el.addEventListener('mousedown',e=>{
+    if(e.target.tagName==='BUTTON'||e.target.tagName==='INPUT') return;
+    e.stopPropagation();dn=el;ds={x:e.clientX,y:e.clientY};ns={x:parseFloat(el.style.left)||0,y:parseFloat(el.style.top)||0};
+    el.classList.add('dragging');
+    document.querySelectorAll('.node.selected').forEach(n=>n.classList.remove('selected'));
+    el.classList.add('selected');
+    const ev=D.evidence[n.id];
+    EC.innerHTML=ev?`<strong>${n.label}</strong><br><br>${ev}`:'No evidence';
+    W.classList.add('panning');
+  });
+  W.appendChild(el);NE.set(n.id,el);NM.set(n.id,n);
+}
+function mm(e){
+  if(dn){
+    dn.style.left=(ns.x+(e.clientX-ds.x)/s)+'px';dn.style.top=(ns.y+(e.clientY-ds.y)/s)+'px';re();return;
+  }
+  if(pan){px=pp.x+(e.clientX-ps.x);py=pp.y+(e.clientY-ps.y);uz();requestAnimationFrame(re);}
+}
+function mu(){if(dn){dn.classList.remove('dragging');const n=NM.get(dn.dataset.id);if(n){n.x=parseFloat(dn.style.left)||0;n.y=parseFloat(dn.style.top)||0;}dn=null;W.classList.remove('panning');}if(pan){pan=!1;W.classList.remove('panning');}}
+W.addEventListener('mousedown',e=>{if(e.target===W||e.target===S){pan=!0;ps={x:e.clientX,y:e.clientY};pp={x:px,y:py};W.classList.add('panning');}});
+window.addEventListener('mousemove',mm);window.addEventListener('mouseup',mu);
+I.addEventListener('input',()=>{
+  const q=I.value.toLowerCase();
+  for(const[id,el]of NE){
+    const n=NM.get(id),t=(n.label+' '+n.path+' '+(n.classes||'')).toLowerCase();
+    el.style.display=t.includes(q)?'':'none';
+  }
+  re();
+});
+document.getElementById('reset').addEventListener('click',()=>{for(const n of D.nodes){const el=NE.get(n.id);if(el){el.style.left=n.x+'px';el.style.top=n.y+'px';}}s=1;px=0;py=0;uz();re();});
+document.getElementById('zoom-in').addEventListener('click',()=>{s=Math.min(2,s+.1);uz();requestAnimationFrame(re);});
+document.getElementById('zoom-out').addEventListener('click',()=>{s=Math.max(.3,s-.1);uz();requestAnimationFrame(re);});
+W.addEventListener('wheel',e=>{e.preventDefault();const f=e.deltaY<0?1.1:.9,ns=Math.min(2,Math.max(.3,s*f));const r=W.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;px=mx-(mx-px)*(ns/s);py=my-(my-py)*(ns/s);s=ns;uz();requestAnimationFrame(re);},{passive:!1});
+for(const n of D.nodes) cn(n);uz();re();
+})();
+</script>
+</body>
+</html>

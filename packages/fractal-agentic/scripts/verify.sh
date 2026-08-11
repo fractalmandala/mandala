@@ -35,6 +35,14 @@ progression_doc=$plugin_dir/docs/progression.md
 openai_yaml=$plugin_dir/skills/boss-orchestration/agents/openai.yaml
 orchestrate_cmd=$plugin_dir/commands/orchestrate.md
 code_review_cmd=$plugin_dir/commands/code-review.md
+react_sveltekit_schema=$plugin_dir/skills/react-to-sveltekit/references/output-contract.schema.json
+react_sveltekit_validator=$plugin_dir/skills/react-to-sveltekit/scripts/validate-output-contract.py
+react_sveltekit_fixtures=$plugin_dir/skills/react-to-sveltekit/evals/fixtures
+react_sveltekit_invalid_fixtures=$plugin_dir/skills/react-to-sveltekit/evals/invalid-fixtures
+svelte_skill_routing=$plugin_dir/skills/agentic-svelte-builder/references/SKILL_ROUTING.json
+svelte_skill_routing_validator=$plugin_dir/skills/agentic-svelte-builder/scripts/validate-skill-routing.py
+svelte_skill_route_resolver=$plugin_dir/skills/agentic-svelte-builder/scripts/resolve-skill-route.py
+svelte_skill_route_cases=$plugin_dir/skills/agentic-svelte-builder/evals/skill-routing.json
 
 tmp_base=${TMPDIR:-/tmp}
 case "$tmp_base" in
@@ -76,6 +84,14 @@ test -f "$progression_doc" || fail "progression.md missing: $progression_doc"
 test -f "$openai_yaml" || fail "openai.yaml missing: $openai_yaml"
 test -f "$orchestrate_cmd" || fail "orchestrate command missing: $orchestrate_cmd"
 test -f "$code_review_cmd" || fail "code-review command missing: $code_review_cmd"
+test -f "$react_sveltekit_schema" || fail "React-to-SvelteKit output schema missing: $react_sveltekit_schema"
+test -f "$react_sveltekit_validator" || fail "React-to-SvelteKit output validator missing: $react_sveltekit_validator"
+test -d "$react_sveltekit_fixtures" || fail "React-to-SvelteKit output fixtures missing: $react_sveltekit_fixtures"
+test -d "$react_sveltekit_invalid_fixtures" || fail "React-to-SvelteKit invalid fixtures missing: $react_sveltekit_invalid_fixtures"
+test -f "$svelte_skill_routing" || fail "Svelte skill routing manifest missing: $svelte_skill_routing"
+test -f "$svelte_skill_routing_validator" || fail "Svelte skill routing validator missing: $svelte_skill_routing_validator"
+test -f "$svelte_skill_route_resolver" || fail "Svelte skill route resolver missing: $svelte_skill_route_resolver"
+test -f "$svelte_skill_route_cases" || fail "Svelte skill routing cases missing: $svelte_skill_route_cases"
 
 if command -v jq >/dev/null 2>&1; then
   jq empty "$manifest"
@@ -88,6 +104,21 @@ else
   python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$manifest"
   pass "plugin manifest JSON is valid (python)"
 fi
+
+python3 "$react_sveltekit_validator" \
+  --schema "$react_sveltekit_schema" \
+  --fixtures "$react_sveltekit_fixtures" \
+  --invalid-fixtures "$react_sveltekit_invalid_fixtures"
+pass "React-to-SvelteKit output contract schema and fixtures"
+
+python3 -c "import json,sys; json.load(open(sys.argv[1]))" "$svelte_skill_routing"
+python3 "$svelte_skill_routing_validator" \
+  --routing "$svelte_skill_routing" \
+  --skills-root "$plugin_dir/skills"
+python3 "$svelte_skill_route_resolver" \
+  --routing "$svelte_skill_routing" \
+  --cases "$svelte_skill_route_cases"
+pass "Svelte skill routing manifest JSON is valid"
 
 sh "$armory_check"
 pass "armory check"

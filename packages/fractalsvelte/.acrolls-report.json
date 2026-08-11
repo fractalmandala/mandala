@@ -1,0 +1,981 @@
+{
+  "root": "/Users/amrit/mandala/packages/fractalsvelte/docs",
+  "documents": [
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/ai.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/annotations.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/bookmarks.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/browser.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/contributions.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/designer.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/dev.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/fractaldocs.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/ide.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/ipc-and-data-layer.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/kernel.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/media.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/newdesign.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/notes.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/security-boundaries.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/shell-and-routes.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/styling-system.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/areas/undo-system.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/00-rules.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/01-tokens.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/02-sass-variables.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/03-typography.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/04-layout-system.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/05-utility-primitives.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/06-animations.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/07-class-registry.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/08-font-usage.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/09-mixins-breakpoints.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/10-editor-theme.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/11-style-aggregation.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/12-token-theme-mapping.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/13-control-text-taxonomy.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/17-annotation-overlay.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/18-workspace-shell.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/AI-MEMORY-ARCHITECTURE.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/DESIGN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/graph-reports.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/design/media-module.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/feature-plans/2026-06-24-ai-providers-and-local-models-upgrade.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/feature-plans/2026-06-24-codemirror-editor.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/feature-plans/2026-06-24-command-palette-settings-system-and-ai-copilot-upgrade.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/feature-plans/2026-06-24-fractalengine-ide-setup.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/feature-plans/2026-06-24-in-app-browser.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/feature-plans/2026-06-24-spatial-canvas-stream-a.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/feature-plans/2026-07-15-fractalmedia-two-stream-implementation.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/feature-plans/2026-07-15-shared-memory-mve-two-stream-implementation.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-001-tauri-sveltekit-framework.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-002-svelte-5-state-management.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-003-css-token-system-with-sass.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-004-single-ipc-gateway-module.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-005-spatial-canvas-layout.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-006-undo-redo-boundary.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-007-browser-with-password-vault-and-2fa.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-008-workspace-serialization-format.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-009-ai-providers-and-custom-models-settings.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-010-classic-ide-layout-integration.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-011-local-first-ai-memory-and-context-harness.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-012-markdown-notes-wiki-with-tiptap.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-013-notes-vault-persistence.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-014-document-level-drag-resize-pattern.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-015-app-template-routing-and-state-domains.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-016-shared-envelope-encryption-crypto-module.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-017-keep-provider-secrets-native.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-018-contain-filesystem-ipc-to-user-selected-roots.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-019-separate-sveltekit-generation-directories.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-020-isolate-built-artifact-browser-tests.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-021-designer-module-extraction.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-022-notes-module-extraction.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-023-ide-module-extraction-and-kernel-deferral.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-024-ai-module-embed-dont-rewrite.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-025-contribution-registry.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-026-core-undo-engine.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-027-data-layer-mock-engine.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-028-security-boundaries-contract-ipc.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-029-unify-ai-model-registry-and-native-discovery.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-030-single-add-model-flow.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-031-single-control-and-text-class-taxonomy.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-032-immediate-byok-model-configuration.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-033-unified-model-management-and-local-status-cue.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-034-snippet-rendered-virtual-list-rows.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-035-envelope-encrypted-api-key-store.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-036-browser-module-rebuild.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-037-composite-tokens-live-in-theme-scope.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-038-use-native-on-device-dictation-bridge.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-039-complete-owned-library-media-workflow.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-040-relocate-exclusive-component-styles-to-modules.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-041-module-flow-scan-contract.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-042-dev-graph-gallery-and-report-splitting.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-043-undo-history-reentrant-gestures.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-044-project-local-shared-annotations.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-045-isolate-new-design-canvas-grid.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-046-shared-workspace-shell.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-047-newdesign-canvas-pattern-picker.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/fractalengine-adr/ADR-048-constrain-media-to-owned-library-root.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/guides/add-a-command-or-keybinding.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/guides/add-a-module-graph-report.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/guides/add-a-module.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/guides/add-an-ipc-function.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/guides/add-styles-or-tokens.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/guides/render-external-html.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/guides/write-a-two-stream-plan.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/index.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/accordion.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/alert.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/aspect-ratio.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/avatar.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/badge.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/breadcrumb.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/button-group.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/button.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/card.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/carousel.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/checkbox.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/collapsible.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/dialog.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/drawer.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/dropdown-menu.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/empty.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/field.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/hover-card.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/INDEX.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/input-group.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/input.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/item.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/kbd.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/label.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/native-select.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/navigation-menu.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/pagination.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/popover.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/progress.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/radio-group.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/ROUTER.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/scroll-area.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/select.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/separator.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/sidebar.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/skeleton.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/slider.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/spinner.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/switch.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/table.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/tabs.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/textarea.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/toggle-group.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/toggle.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/tooltip.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/native-components/typography.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/AI-LAYER-FRESH-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/AI-LAYER-REMEDIATION-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/AI-MODULE-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/BITS-UI-ADOPTION-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/BROWSER-MODULE-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/BROWSER-MODULE-TASKS.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/CONTRIBUTION-REGISTRY-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/DATA-LAYER-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/DESIGNER-EXTRACTION-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/DESIGNER-HYGIENE-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/DOCS-MIGRATION-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/IDE-EXTRACTION-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/MACOS-DICTATION-FEATURE-SPEC.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/media-module-plan.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/memory-and-harness-module.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/NOTES-EXTRACTION-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/SECURITY-CONTRACT-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/SKAA-INTEGRATION-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/SPATIAL_CANVAS_MIGRATION.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/SPATIAL_CANVAS_TASKS.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/plans/UNDO-ENGINE-PLAN.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/accordion.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/alert-dialog.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/calendar.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/carousel.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/combobox.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/context-menu.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/data-table.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/date-picker.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/dialog.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/drawer.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/dropdown-menu.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/hover-card.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/input-otp.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/menubar.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/navigation-menu.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/pagination.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/popover.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/resizable.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/select.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/sidebar.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/tabs.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/toast.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/toggle-group.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte/tooltip.md",
+      "status": "ready",
+      "diagnostics": []
+    },
+    {
+      "file": "/Users/amrit/mandala/packages/fractalsvelte/docs/svelte-orch/install-lucide.md",
+      "status": "ready",
+      "diagnostics": []
+    }
+  ],
+  "summary": {
+    "discovered": 194,
+    "ready": 194,
+    "normalized": 0,
+    "rejected": 0
+  }
+}

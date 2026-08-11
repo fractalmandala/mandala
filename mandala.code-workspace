@@ -2,6 +2,18 @@
     "folders": [
         {
             "path": "."
+        },
+        {
+            "path": "../acrolls"
+        },
+        {
+            "path": "../src/mandala/feat"
+        },
+        {
+            "path": "../screenpipe"
         }
-    ]
+    ],
+    "settings": {
+        "git.ignoreLimitWarning": true
+    }
 }

@@ -1,1 +1,0 @@
-import{$ as e,_t as t,xt as n,yt as r}from"./CK3v5WtD.js";import{a as i,i as a,l as o,n as s,o as c,r as l,s as u,t as d}from"./Bl3r0WP5.js";function f(i){let a=n(t(i));return{[d]:!0,[u]:!0,get current(){return e(a)},set current(e){r(a,e,!0)}}}f.from=l,f.with=a,f.flatten=s,f.readonly=o,f.isBox=i,f.isWritableBox=c;export{f as t};

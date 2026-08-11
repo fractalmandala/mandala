@@ -1,0 +1,236 @@
+// Fractal Design templates: faceted editorial surfaces with soft colour notes.
+.design-home
+	color: var(--text-primary)
+
+.design-kicker
+	margin: 0
+	font-family: var(--font-mono)
+	font-size: 11px
+	font-weight: 600
+	letter-spacing: 0.16em
+	line-height: 1.4
+	text-transform: uppercase
+	color: var(--text-tertiary)
+
+.design-home-hero
+	padding-block: clamp(78px, 14vw, 168px) clamp(62px, 10vw, 120px)
+	h1
+		max-width: 850px
+		margin: 18px 0 24px
+		font-family: var(--font-display)
+		font-size: clamp(50px, 8vw, 104px)
+		font-weight: 400
+		letter-spacing: -0.06em
+		line-height: 0.92
+		em
+			color: var(--brand)
+			font-style: normal
+
+.design-home-lede
+	max-width: 560px
+	margin: 0
+	color: var(--text-secondary)
+	font-size: clamp(17px, 2vw, 21px)
+	line-height: 1.55
+
+.design-home-actions
+	display: flex
+	flex-wrap: wrap
+	align-items: center
+	gap: 22px
+	margin-top: 34px
+
+.design-button
+	display: inline-flex
+	align-items: center
+	gap: 12px
+	padding: 12px 18px
+	border-radius: var(--radius-pill)
+	background: var(--brand)
+	color: #fff
+	font-size: 13px
+	font-weight: 600
+	text-decoration: none
+	&:hover
+		background: var(--brand-hover)
+
+.design-link
+	color: var(--text-primary)
+	font-size: 13px
+	font-weight: 600
+	text-decoration: none
+	&:hover
+		color: var(--brand)
+
+.design-chip-row
+	display: flex
+	flex-wrap: wrap
+	gap: 8px
+	margin-top: 34px
+	span
+		padding: 5px 10px
+		border: 1px solid var(--border)
+		border-radius: var(--radius-pill)
+		color: var(--text-secondary)
+		font-family: var(--font-mono)
+		font-size: 10px
+		letter-spacing: 0.05em
+
+.design-home-section
+	padding-block: clamp(58px, 9vw, 112px)
+	border-top: 1px solid var(--border)
+
+.design-home-section-muted
+	background: var(--bg-subtle)
+
+.design-section-heading
+	display: flex
+	align-items: end
+	justify-content: space-between
+	gap: 32px
+	margin-bottom: 34px
+	@media (max-width: 680px)
+		align-items: start
+		flex-direction: column
+	h2
+		margin: 12px 0 0
+		font-family: var(--font-display)
+		font-size: clamp(30px, 4.5vw, 54px)
+		font-weight: 400
+		letter-spacing: -0.045em
+		line-height: 1
+	> p
+		max-width: 280px
+		margin: 0
+		color: var(--text-secondary)
+		font-size: 13px
+		line-height: 1.5
+
+.design-card-grid
+	display: grid
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))
+	gap: 12px
+
+.design-index-card
+	position: relative
+	display: flex
+	flex-direction: column
+	min-height: 210px
+	gap: 9px
+	padding: 20px
+	border: 1px solid var(--border)
+	border-radius: var(--radius-l)
+	background: var(--bg-raised)
+	box-shadow: var(--shadow-card)
+	color: inherit
+	text-decoration: none
+	transition: border-color 160ms ease, transform 160ms ease
+	&:hover
+		border-color: var(--brand)
+		transform: translateY(-3px)
+	strong
+		font-size: 17px
+	font-weight: 600
+	span:not(.design-card-glyph)
+		color: var(--text-secondary)
+		font-size: 13px
+		line-height: 1.5
+	b
+		margin-top: auto
+		color: var(--brand)
+		font-weight: 400
+
+.design-card-glyph
+	display: grid
+	place-items: center
+	width: 38px
+	height: 38px
+	margin-bottom: 7px
+	border-radius: 12px
+	font-size: 16px
+.design-card-glyph-lav
+	background: var(--chip-lav-bg)
+	color: var(--chip-lav-tx)
+.design-card-glyph-mint
+	background: var(--chip-mint-bg)
+	color: var(--chip-mint-tx)
+.design-card-glyph-sky
+	background: var(--chip-sky-bg)
+	color: var(--chip-sky-tx)
+.design-card-glyph-amber
+	background: var(--chip-amber-bg)
+	color: var(--chip-amber-tx)
+.design-card-glyph-rose
+	background: var(--chip-rose-bg)
+	color: var(--chip-rose-tx)
+
+.design-list
+	border-top: 1px solid var(--border)
+	a
+		display: grid
+		grid-template-columns: 0.8fr 1.5fr auto
+		gap: 20px
+		align-items: center
+		padding: 18px 0
+		border-bottom: 1px solid var(--border)
+		color: inherit
+		text-decoration: none
+		@media (max-width: 680px)
+			grid-template-columns: 1fr auto
+			small
+				display: none
+		&:hover
+			color: var(--brand)
+		span
+			font-family: var(--font-display)
+			font-size: 20px
+		small
+			color: var(--text-secondary)
+			font-size: 13px
+			line-height: 1.4
+
+.design-play-grid
+	display: grid
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))
+	gap: 12px
+	a
+		display: flex
+		flex-direction: column
+		min-height: 145px
+		gap: 8px
+		padding: 20px
+		border: 1px solid var(--border)
+		border-radius: var(--radius-m)
+		background: var(--bg-raised)
+		color: inherit
+		text-decoration: none
+		&:hover
+			border-color: var(--brand)
+		strong
+			font-size: 17px
+		span
+			color: var(--text-secondary)
+			font-size: 13px
+			line-height: 1.5
+		b
+			margin-top: auto
+			color: var(--brand)
+			font-weight: 400
+
+.design-home-footer
+	padding-block: 28px
+	border-top: 1px solid var(--border)
+	color: var(--text-tertiary)
+	font-size: 12px
+	.fd-wrap
+		display: flex
+		justify-content: space-between
+		gap: 20px
+	a
+		color: var(--brand)
+		text-decoration: none
+
+.design-document-template
+	min-height: 100%
+	.docs-content
+		padding-block: 10px

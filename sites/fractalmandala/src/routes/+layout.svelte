@@ -7,6 +7,8 @@
   import Sun from "$lib/comps/icon-sun.svelte";
   import Moon from "$lib/comps/icon-moon.svelte";
   import Search from "$lib/comps/search.svelte";
+  import { page } from "$app/state";
+  import { DocsSidebar } from "@acrolls/docs";
 
   let { data, children } = $props<{ data: LayoutData; children: any }>();
   let openIndex = $state<number | null>(null);
@@ -59,7 +61,7 @@
   </header>
   <main class="appbody">
     <aside class="sidebarleft">
-
+    
     </aside>
     <section>
       {@render children()}
@@ -69,4 +71,3 @@
     </aside>
   </main>
 </div>
-

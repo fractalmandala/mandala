@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "agentic-svelte-builder-manifest",
+  "version": "1.0.0",
+  "description": "JSON index for zero-token-waste progressive discovery of Svelte components and CUBE CSS styling",
+  "components": {
+    "accordion": {
+      "zero_js": "native-components/accordion.md",
+      "svelte5": "native-components/svelte/accordion.md",
+      "cube_classes": "[ accordion ] [ box w100 ] [ radius8 bdr ]"
+    },
+    "alert": {
+      "zero_js": "native-components/alert.md",
+      "cube_classes": "[ alert ] [ row xtop gap12 ] [ pad16 radius8 bdr ]"
+    },
+    "alert-dialog": {
+      "svelte5": "native-components/svelte/alert-dialog.md",
+      "cube_classes": "[ alert-dialog ] [ box maxw500 ] [ pad24 radius12 bdr ]"
+    },
+    "calendar": {
+      "svelte5": "native-components/svelte/calendar.md",
+      "cube_classes": "[ calendar ] [ box maxw320 ] [ pad16 radius8 bdr ]"
+    },
+    "carousel": {
+      "zero_js": "native-components/carousel.md",
+      "svelte5": "native-components/svelte/carousel.md",
+      "cube_classes": "[ carousel-track ] [ row gap16 padbot8 ]"
+    },
+    "combobox": {
+      "svelte5": "native-components/svelte/combobox.md",
+      "cube_classes": "[ combobox ] [ box w100 position-relative ]"
+    },
+    "data-table": {
+      "svelte5": "native-components/svelte/data-table.md",
+      "cube_classes": "[ data-table-container ] [ box w100 gap16 ]"
+    },
+    "dialog": {
+      "zero_js": "native-components/dialog.md",
+      "svelte5": "native-components/svelte/dialog.md",
+      "cube_classes": "[ modal-container ] [ box maxw500 ] [ pad24 radius12 bdr ]"
+    },
+    "drawer": {
+      "zero_js": "native-components/drawer.md",
+      "svelte5": "native-components/svelte/drawer.md",
+      "cube_classes": "[ drawer ] [ width360 maxw100 h100 ]"
+    },
+    "dropdown-menu": {
+      "zero_js": "native-components/dropdown-menu.md",
+      "svelte5": "native-components/svelte/dropdown-menu.md",
+      "cube_classes": "[ dropdown-menu ] [ pad6 radius8 bdr minw180 ]"
+    },
+    "input-otp": {
+      "svelte5": "native-components/svelte/input-otp.md",
+      "cube_classes": "[ input-otp ] [ row ycenter gap8 ]"
+    },
+    "navigation-menu": {
+      "zero_js": "native-components/navigation-menu.md",
+      "svelte5": "native-components/svelte/navigation-menu.md",
+      "cube_classes": "[ nav-menu__list ] [ row ycenter gap16 ]"
+    },
+    "pagination": {
+      "zero_js": "native-components/pagination.md",
+      "svelte5": "native-components/svelte/pagination.md",
+      "cube_classes": "[ pagination__list ] [ row ycenter gap4 ]"
+    },
+    "popover": {
+      "zero_js": "native-components/popover.md",
+      "svelte5": "native-components/svelte/popover.md",
+      "cube_classes": "[ popover ] [ pad16 radius8 bdr maxw320 ]"
+    },
+    "sidebar": {
+      "zero_js": "native-components/sidebar.md",
+      "svelte5": "native-components/svelte/sidebar.md",
+      "cube_classes": "[ sidebar ] [ box width260 h100 ]"
+    },
+    "tabs": {
+      "zero_js": "native-components/tabs.md",
+      "svelte5": "native-components/svelte/tabs.md",
+      "cube_classes": "[ tabs ] [ box ]"
+    },
+    "toast": {
+      "svelte5": "native-components/svelte/toast.md",
+      "cube_classes": "[ toast-container ] [ box gap8 position-fixed ]"
+    },
+    "toggle": {
+      "zero_js": "native-components/toggle.md",
+      "cube_classes": "[ toggle ] [ row ycenter ]"
+    },
+    "toggle-group": {
+      "zero_js": "native-components/toggle-group.md",
+      "svelte5": "native-components/svelte/toggle-group.md",
+      "cube_classes": "[ toggle-group ] [ row ycenter pad4 radius8 ]"
+    },
+    "tooltip": {
+      "zero_js": "native-components/tooltip.md",
+      "zero_js_file": "native-components/tooltip.md",
+      "svelte5": "native-components/svelte/tooltip.md",
+      "cube_classes": "[ tooltip-wrapper ] [ position-relative ]"
+    }
+  }
+}

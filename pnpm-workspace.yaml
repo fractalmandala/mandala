@@ -33,5 +33,6 @@ overrides:
 minimumReleaseAgeExclude:
   - fractal-agentation@0.0.1
   - fractals-styler@2.2.0
+  - acrolls@0.0.1
 onlyBuiltDependencies:
   - esbuild

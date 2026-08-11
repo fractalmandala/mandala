@@ -21,7 +21,8 @@ Read the guides in this order when you are new to the plugin:
 5. [Domain bosses](./bosses/INDEX.md) — choose one owner and read its authoritative playbook.
 6. [Orchestration](./orchestration/INDEX.md) — understand capability lanes, verification, and review after selection.
 7. [Armory](./armory/INDEX.md) — browse the skills, agents, and commands available to each boss.
-8. [Continuous wiki](./wiki/INDEX.md) — add optional long-term project memory.
+8. [Svelte Framework](./svelte-framework/INDEX.md) — build SvelteKit components, routes, and conversions through short prompts.
+9. [Continuous wiki](./wiki/INDEX.md) — add optional long-term project memory.
 
 After that, use [Troubleshooting](./troubleshooting.md), the [Glossary](./glossary.md), and the reference guides as needed.
 
@@ -35,6 +36,7 @@ These files live under `plugin/docs/`:
 
 - `docs/INDEX.md` is this guide and the root of the reading path.
 - `docs/bosses/INDEX.md`, `docs/orchestration/INDEX.md`, `docs/armory/INDEX.md`, and `docs/wiki/INDEX.md` introduce their sections.
+- `docs/svelte-framework/INDEX.md` is the end-to-end guide for the Svelte and SvelteKit armory.
 - The site publishes these hubs as `/docs/guide`, `/docs/bosses`, `/docs/orchestration`, `/docs/armory`, and `/docs/wiki`.
 
 They are worth publishing because they explain how the pieces fit together. They are not inventories.
@@ -61,6 +63,7 @@ inventory wins; the owning nested boss playbook resolves domain mapping.
 | Make a project load it automatically | [Auto-use mandate](./03-auto-use.md) |
 | Run a feature, fix, or refactor through the delivery loop | [Runtime loop](./orchestration/runtime.md) |
 | Decide which domain owns a task | [Domain bosses](./bosses/INDEX.md) |
+| Build a SvelteKit website with short prompts | [Svelte Framework](./svelte-framework/INDEX.md) |
 | Find a skill, agent, or command | [Armory](./armory/INDEX.md) or the [live explorer](https://fractal-agentic.vercel.app/) |
 | Add durable project knowledge | [Wiki setup](./wiki/setup.md) |
 | Understand graceful failure | [Non-blocking policy](./progression.md) |

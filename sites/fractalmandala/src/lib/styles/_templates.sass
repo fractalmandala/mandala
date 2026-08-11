@@ -1,0 +1,331 @@
+// Fractal Mandala templates: warm paper, quiet borders, generous measure.
+.mandala-home, .mandala-document
+	width: 100%
+	max-width: 1180px
+	margin-inline: auto
+	padding-inline: clamp(20px, 5vw, 72px)
+
+.mandala-home
+	padding-top: clamp(48px, 10vw, 116px)
+
+.mandala-kicker
+	margin: 0
+	font-family: var(--font-mono)
+	font-size: 11px
+	font-weight: 600
+	letter-spacing: 0.16em
+	line-height: 1.4
+	text-transform: uppercase
+	color: var(--brand)
+
+.mandala-home-hero
+	display: grid
+	grid-template-columns: minmax(0, 1fr)
+	gap: 48px
+	align-items: end
+	padding-bottom: clamp(72px, 11vw, 144px)
+	@media (min-width: 840px)
+		grid-template-columns: minmax(0, 1fr) 250px
+
+.mandala-home-hero h1
+	max-width: 780px
+	margin: 18px 0 24px
+	font-family: Georgia, 'Times New Roman', serif
+	font-size: clamp(42px, 6vw, 78px)
+	font-weight: 400
+	letter-spacing: -0.045em
+	line-height: 0.98
+	& em
+		color: var(--brand)
+		font-style: normal
+
+.mandala-home-lede
+	max-width: 570px
+	margin: 0
+	color: var(--text-secondary)
+	font-size: clamp(17px, 2vw, 21px)
+	line-height: 1.55
+
+.mandala-home-actions
+	display: flex
+	flex-wrap: wrap
+	align-items: center
+	gap: 22px
+	margin-top: 34px
+
+.mandala-button
+	display: inline-flex
+	align-items: center
+	gap: 12px
+	padding: 12px 18px
+	border-radius: 3px
+	font-size: 13px
+	font-weight: 600
+	text-decoration: none
+
+.mandala-button-primary
+	background: var(--brand)
+	color: white
+	&:hover
+		background: var(--brand-hover)
+
+.mandala-text-link
+	color: var(--text-primary)
+	font-size: 13px
+	font-weight: 600
+	text-decoration: none
+	&:hover
+		color: var(--brand)
+
+.mandala-home-mark
+	position: relative
+	display: grid
+	place-items: center
+	width: 190px
+	height: 190px
+	margin-inline: auto
+	color: var(--brand)
+	border: 1px solid color-mix(in srgb, var(--brand) 38%, transparent)
+	border-radius: 50%
+	&::before, &::after
+		content: ''
+		position: absolute
+		inset: 20px
+		border: 1px solid color-mix(in srgb, var(--brand) 28%, transparent)
+		border-radius: 50%
+	&::after
+		inset: 42px
+		border-color: color-mix(in srgb, var(--brand) 46%, transparent)
+	span
+		font-family: Georgia, serif
+		font-size: 58px
+		line-height: 1
+		z-index: 1
+	& i
+		position: absolute
+		width: 5px
+		height: 5px
+		background: var(--brand)
+		border-radius: 50%
+	& i:nth-of-type(1)
+		top: 18px
+	& i:nth-of-type(2)
+		right: 8px
+		bottom: 56px
+	& i:nth-of-type(3)
+		bottom: 12px
+		left: 50px
+
+.mandala-home-section
+	padding-block: clamp(52px, 8vw, 96px)
+	border-top: 1px solid var(--border)
+
+.mandala-home-section-banks
+	padding-bottom: 32px
+
+.mandala-section-heading
+	display: flex
+	align-items: end
+	justify-content: space-between
+	gap: 32px
+	margin-bottom: 34px
+	@media (max-width: 680px)
+		align-items: start
+		flex-direction: column
+	.mandala-section-heading h2
+		margin: 12px 0 0
+		font-family: Georgia, 'Times New Roman', serif
+		font-size: clamp(28px, 4vw, 44px)
+		font-weight: 400
+		letter-spacing: -0.035em
+		line-height: 1
+
+.mandala-section-note
+	max-width: 280px
+	margin: 0
+	color: var(--text-secondary)
+	font-size: 13px
+	line-height: 1.5
+
+.mandala-card-grid
+	display: grid
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr))
+	gap: 12px
+
+.mandala-index-card
+	position: relative
+	display: flex
+	flex-direction: column
+	min-height: 190px
+	gap: 10px
+	padding: 20px
+	border: 1px solid var(--border)
+	background: var(--bg-raised)
+	color: inherit
+	text-decoration: none
+	transition: border-color 140ms ease, transform 140ms ease
+	&:hover
+		border-color: var(--brand)
+		transform: translateY(-2px)
+
+.mandala-card-index
+	color: var(--text-muted)
+	font-family: var(--font-mono)
+	font-size: 11px
+
+.mandala-index-card strong
+	font-family: Georgia, serif
+	font-size: 22px
+	font-weight: 400
+
+.mandala-index-card > span:not(.mandala-card-index)
+	color: var(--text-secondary)
+	font-size: 13px
+	line-height: 1.5
+
+.mandala-index-card small
+	margin-top: auto
+	color: var(--brand)
+	font-size: 18px
+
+.mandala-bank-list
+	border-top: 1px solid var(--border)
+
+.mandala-bank-row
+	display: grid
+	grid-template-columns: minmax(170px, 0.7fr) minmax(0, 1.4fr) 20px
+	gap: 24px
+	align-items: center
+	padding: 18px 0
+	border-bottom: 1px solid var(--border)
+	color: inherit
+	text-decoration: none
+	@media (max-width: 680px)
+		grid-template-columns: 1fr 20px
+		> span:nth-child(2)
+			display: none
+	&:hover
+		color: var(--brand)
+	> span:first-child
+		font-family: Georgia, serif
+		font-size: 20px
+	> span:nth-child(2)
+		color: var(--text-secondary)
+		font-size: 13px
+	> b
+		font-weight: 400
+		text-align: right
+
+.mandala-home-footer
+	display: flex
+	justify-content: space-between
+	gap: 20px
+	padding-block: 24px 42px
+	color: var(--text-secondary)
+	font-size: 12px
+	.mandala-home-footer a
+		color: var(--brand)
+		text-decoration: none
+
+.mandala-document
+	max-width: 860px
+	padding-top: clamp(52px, 9vw, 104px)
+	padding-bottom: 96px
+
+.mandala-document-header
+	max-width: 700px
+	padding-bottom: 42px
+	border-bottom: 1px solid var(--border)
+
+.mandala-document-back
+	display: inline-block
+	margin-bottom: 30px
+	color: var(--text-secondary)
+	font-size: 12px
+	text-decoration: none
+	&:hover
+		color: var(--brand)
+
+.mandala-document-header h1
+	margin: 16px 0 18px
+	font-family: Georgia, 'Times New Roman', serif
+	font-size: clamp(38px, 6vw, 66px)
+	font-weight: 400
+	letter-spacing: -0.04em
+	line-height: 1
+
+.mandala-document-description
+	max-width: 590px
+	margin: 0
+	color: var(--text-secondary)
+	font-size: 18px
+	line-height: 1.55
+
+.mandala-document-tags
+	display: flex
+	flex-wrap: wrap
+	gap: 8px
+	margin-top: 24px
+	span
+		padding: 5px 9px
+		border: 1px solid var(--border)
+		color: var(--brand)
+		font-family: var(--font-mono)
+		font-size: 10px
+		letter-spacing: 0.08em
+		text-transform: uppercase
+
+.mandala-document-body
+	max-width: 680px
+	padding-top: 46px
+	color: var(--text-primary)
+	font-size: 17px
+	line-height: 1.75
+	h2
+		margin: 56px 0 16px
+		font-family: Georgia, serif
+		font-size: 31px
+		font-weight: 400
+		line-height: 1.1
+	h3
+		margin: 36px 0 12px
+		font-size: 21px
+	p
+		margin: 0 0 20px
+	a
+		color: var(--brand)
+	blockquote
+		margin: 28px 0
+		padding: 12px 0 12px 22px
+		border-left: 2px solid var(--brand)
+		color: var(--text-secondary)
+	pre
+		margin: 26px 0
+		padding: 18px
+		overflow-x: auto
+		background: var(--bg-subtle)
+		font-size: 13px
+
+.mandala-document-related
+	max-width: 680px
+	margin-top: 72px
+	padding-top: 24px
+	border-top: 1px solid var(--border)
+	> a
+		display: flex
+		flex-direction: column
+		gap: 5px
+		padding: 14px 0
+		color: inherit
+		text-decoration: none
+		&:hover
+			color: var(--brand)
+		span
+			color: var(--text-secondary)
+			font-size: 13px
+
+.mandala-document-also > a
+	display: inline-block
+	margin: 12px 24px 0 0
+	color: var(--brand)
+	font-size: 13px

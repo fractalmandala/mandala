@@ -1,0 +1,237 @@
+.mandala-home,
+.mandala-document
+	min-height: 100vh
+	color: var(--docs-ink)
+	background: var(--docs-canvas)
+	font-family: var(--docs-font-sans)
+
+.mandala-nav
+	justify-content: space-between
+	padding: 1.1rem 2rem
+	border-bottom: 1px solid var(--docs-line)
+
+.mandala-brand,
+.mandala-links a,
+.mandala-tools
+	color: var(--docs-ink)
+	text-decoration: none
+
+.mandala-brand
+	font-size: 1rem
+	font-weight: 700
+	letter-spacing: -.04em
+
+.mandala-links a
+	font-size: .78rem
+
+.mandala-links a:hover,
+.mandala-related a:hover,
+.mandala-document-nav a:hover
+	color: var(--site-accent)
+
+.mandala-tools input
+	width: 10rem
+	padding: .55rem .7rem
+	border: 1px solid var(--docs-line)
+	border-radius: var(--docs-radius-sm)
+	color: var(--docs-ink)
+	background: var(--docs-surface-soft)
+	font: inherit
+	font-size: .7rem
+
+.mandala-hero
+	position: relative
+	padding-block: 6rem 7rem
+
+.mandala-hero h1
+	max-width: 46rem
+	margin: 1.1rem 0 1.25rem
+	font-size: clamp(3rem, 7vw, 6.2rem)
+	font-weight: 750
+	letter-spacing: -.09em
+	line-height: .94
+
+.mandala-hero-copy
+	max-width: 36rem
+	margin: 0
+	color: var(--docs-muted)
+	font-size: 1.05rem
+	line-height: 1.65
+
+.mandala-actions
+	margin-top: 2rem
+
+.mandala-orbit
+	position: absolute
+	top: 5rem
+	right: 4rem
+	width: 14rem
+	height: 14rem
+	border: 1px solid var(--site-accent)
+	border-radius: 50%
+	opacity: .55
+
+.mandala-orbit::before,
+.mandala-orbit::after
+	position: absolute
+	inset: 1.7rem
+	border: 1px solid var(--site-accent)
+	border-radius: 50%
+	content: ''
+
+.mandala-orbit::after
+	inset: 4.6rem
+	background: var(--site-accent-soft)
+
+.mandala-orbit span
+	position: absolute
+	inset: 5.4rem
+	display: grid
+	place-items: center
+	color: var(--site-accent)
+	font-size: 2rem
+
+.mandala-collections
+	padding-bottom: 5rem
+
+.mandala-section-heading
+	justify-content: space-between
+	margin-bottom: 1.25rem
+	padding-bottom: .75rem
+	border-bottom: 1px solid var(--docs-line)
+
+.mandala-section-heading h2
+	margin: 0
+	font-size: 1.6rem
+	letter-spacing: -.06em
+
+.mandala-section-heading span
+	color: var(--docs-muted)
+	font-size: .7rem
+
+.mandala-card-list
+	display: grid
+	grid-template-columns: repeat(3, 1fr)
+	gap: .8rem
+
+.mandala-card
+	min-height: 11rem
+	padding: 1.25rem
+	border: 1px solid var(--docs-line)
+	color: var(--docs-ink)
+	background: var(--docs-surface)
+	text-decoration: none
+	transition: transform .16s ease, border-color .16s ease
+
+.mandala-card:nth-child(2)
+	transform: translateY(1.25rem)
+
+.mandala-card:hover
+	border-color: var(--site-accent)
+	transform: translateY(-.2rem)
+
+.mandala-card:nth-child(2):hover
+	transform: translateY(1rem)
+
+.mandala-card h3
+	margin: 2rem 0 .5rem
+	font-size: 1.35rem
+	letter-spacing: -.05em
+
+.mandala-card p
+	margin: 0
+	color: var(--docs-muted)
+	font-size: .76rem
+	line-height: 1.55
+
+.mandala-document-layout
+	width: min(100% - 3rem, 1120px)
+	margin: 0 auto
+	padding-block: 4.5rem
+
+.mandala-document-nav,
+.mandala-related
+	color: var(--docs-muted)
+	font-size: .72rem
+	line-height: 1.6
+
+.mandala-document-nav strong,
+.mandala-related strong
+	display: block
+	margin-bottom: .75rem
+	color: var(--docs-ink)
+
+.mandala-document-nav a,
+.mandala-related a
+	display: block
+	padding: .35rem 0
+	color: inherit
+	text-decoration: none
+
+.mandala-document-nav a.is-active
+	color: var(--site-accent)
+
+.mandala-document-body h1
+	margin: 1rem 0 1rem
+	font-size: clamp(2.6rem, 5vw, 4.5rem)
+	font-weight: 750
+	letter-spacing: -.09em
+	line-height: .96
+
+.mandala-meta
+	margin-bottom: 2rem
+	color: var(--docs-muted)
+	font-size: .66rem
+	letter-spacing: .1em
+	text-transform: uppercase
+
+.mandala-document-intro
+	color: var(--docs-muted)
+	font-size: 1.05rem
+
+.mandala-document-body h2
+	margin-top: 2.75rem
+	font-size: 1.7rem
+	letter-spacing: -.06em
+
+.mandala-document-body p
+	margin: 1rem 0
+
+.mandala-callout
+	margin-block: 1.8rem
+	padding: 1rem 1.2rem
+	border-left: 3px solid var(--site-accent)
+	color: var(--docs-muted)
+	background: var(--site-accent-soft)
+
+@media (max-width: 780px)
+	.mandala-nav
+		padding-inline: 1rem
+
+	.mandala-links
+		display: none
+
+	.mandala-hero
+		padding-block: 4rem 5rem
+
+	.mandala-orbit
+		top: 3rem
+		right: 0
+		width: 9rem
+		height: 9rem
+		opacity: .3
+
+	.mandala-orbit span
+		inset: 3.4rem
+
+	.mandala-orbit::before
+		inset: 1rem
+
+	.mandala-orbit::after
+		inset: 3rem
+
+	.mandala-card-list
+		grid-template-columns: 1fr
+
+	.mandala-card:nth-child(2)
+		transform: none

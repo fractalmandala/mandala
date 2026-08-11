@@ -1,0 +1,55 @@
+.l-cluster
+	display: flex
+	align-items: center
+	flex-wrap: wrap
+	gap: 1rem
+
+.l-stack
+	display: flex
+	flex-direction: column
+
+.l-center
+	width: min(100% - 3rem, 1120px)
+	margin-inline: auto
+
+.l-switcher
+	display: grid
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr))
+	gap: 1.25rem
+
+.l-sidebar
+	display: grid
+	grid-template-columns: 12rem minmax(0, 1fr) 10rem
+	gap: 3rem
+
+.l-prose
+	max-width: 42rem
+	font-size: 1rem
+	line-height: 1.75
+
+.l-prose h1,
+.l-prose h2,
+.l-prose h3
+	color: var(--docs-ink)
+	font-family: var(--docs-font-sans)
+
+@media (max-width: 960px)
+	.l-sidebar
+		grid-template-columns: 10rem minmax(0, 1fr)
+
+	.l-sidebar > :last-child
+		display: none
+
+@media (max-width: 680px)
+	.l-center
+		width: min(100% - 2rem, 1120px)
+
+	.l-sidebar
+		display: block
+
+	.l-sidebar > :first-child
+		display: flex
+		gap: .75rem
+		overflow-x: auto
+		padding-bottom: .75rem
+		border-bottom: 1px solid var(--docs-line)

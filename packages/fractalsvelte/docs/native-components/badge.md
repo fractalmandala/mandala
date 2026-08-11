@@ -1,0 +1,65 @@
+---
+title: Badge
+description: The Badge component renders small status indicators, tags, or count pills using native inline HTML (span or mark), styled with fractals-styler primitives (row, ycenter,…
+---
+
+## Component Code (`Badge.svelte`)
+
+```svelte
+<script lang="ts">
+  import type { Snippet } from 'svelte';
+  import type { HTMLAttributes } from 'svelte/elements';
+
+  type Props = HTMLAttributes<HTMLSpanElement> & {
+    variant?: 'primary' | 'secondary' | 'outline' | 'destructive';
+    children?: Snippet;
+  };
+
+  let { variant = 'primary', children, ...restProps }: Props = $props();
+</script>
+
+<span
+  class="[ badge ] [ row ycenter ] [ pad4 padleft10 padright10 radiusfull text-xs bold lh1 ]"
+  data-variant={variant}
+  {...restProps}
+>
+  {@render children?.()}
+</span>
+
+<style lang="sass">
+  .badge
+    white-space: nowrap
+    display: inline-flex
+
+    /* CUBE Exception variants via data-variant attribute */
+    &[data-variant="primary"]
+      background-color: var(--brand-primary, #2563eb)
+      color: #ffffff
+
+    &[data-variant="secondary"]
+      background-color: var(--background20, #f1f5f9)
+      color: var(--foreground10, #0f172a)
+
+    &[data-variant="outline"]
+      background-color: transparent
+      border: 1px solid var(--border, #cbd5e1)
+      color: var(--foreground-muted, #334155)
+
+    &[data-variant="destructive"]
+      background-color: var(--danger-bg, #ef4444)
+      color: #ffffff
+</style>
+```
+
+---
+
+## Usage Example (`+page.svelte`)
+
+```svelte
+<script lang="ts">
+  import Badge from './Badge.svelte';
+</script>
+
+<Badge variant="primary">New Feature</Badge>
+<Badge variant="destructive">Deprecated</Badge>
+```

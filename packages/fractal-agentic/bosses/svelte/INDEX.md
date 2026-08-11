@@ -1,6 +1,6 @@
 ---
 title: "Svelte Boss"
-description: "Authoritative Svelte Boss playbook for Svelte 5, SvelteKit, indented SASS, and the port lane."
+description: "Authoritative Svelte Boss playbook for Svelte 5, SvelteKit, indented SASS, and the universal React-to-Svelte conversion lane."
 type: guide
 ---
 
@@ -9,8 +9,8 @@ type: guide
 **Activate:** [`/activate-boss-svelte`](../../../commands/activate-boss-svelte.md)
 
 Use this authoritative playbook for the monorepo frontend contract: Svelte 5 runes,
-SvelteKit data flow, indented SASS, component library work, and the shadcn →
-fractalsvelte port lane. Read no other boss playbook unless a handoff below requires
+SvelteKit data flow, indented SASS, component library work, and the universal React →
+Svelte 5 conversion lane. Read no other boss playbook unless a handoff below requires
 it. For a non-trivial delivery, then load the
 [orchestration runtime](../../../skills/boss-orchestration/SKILL.md).
 
@@ -40,6 +40,7 @@ are migration-only secondary reviewers, not peer defaults.
 
 ## Mapped skills — core contract
 
+- [Agentic Svelte Builder](../../../skills/agentic-svelte-builder/SKILL.md) — zero-token-waste progressive discovery router for Svelte 5 and HTML/CSS CUBE component construction.
 - [Svelte 5 Runes](../../../skills/svelte-5-runes/SKILL.md) — canonical runes authority.
 - [Svelte Runes](../../../skills/svelte-runes/SKILL.md) — progressive-disclosure reference pack.
 - [Svelte Components Patterns](../../../skills/svelte-components-patterns/SKILL.md),
@@ -59,8 +60,9 @@ are migration-only secondary reviewers, not peer defaults.
   [E2E Testing](../../../skills/e2e-testing/SKILL.md), and
   [TDD Workflow](../../../skills/tdd-workflow/SKILL.md).
 
-## Port lane — primary for fractalsvelte
+## Universal Port & Conversion Lane
 
+- [React to SvelteKit](../../../skills/react-to-sveltekit/SKILL.md) — universal 4-tier React/Next.js (`.tsx` + `.ts`) → Svelte 5 + SvelteKit (`.svelte` + `.ts` + `.sass`) conversion engine with Framer Motion, GSAP, WebGL canvas, and Svelte 5 Runes mapping.
 - [Port Component](../../../skills/port-component/SKILL.md) — primary shadcn-svelte /
   Tailwind → fractalsvelte pipeline.
 - [Shadcn Porting](../../../skills/shadcn-porting/SKILL.md) and
@@ -74,8 +76,7 @@ are migration-only secondary reviewers, not peer defaults.
   [`/svelte-test`](../../../commands/svelte-test.md) →
   [`/quality-gate`](../../../commands/quality-gate.md).
 - [`/code-review`](../../../commands/code-review.md).
-- The port command surface is the [Port Component](../../../skills/port-component/SKILL.md)
-  skill invocation.
+- The port command surface is the [React to SvelteKit](../../../skills/react-to-sveltekit/SKILL.md) or [Port Component](../../../skills/port-component/SKILL.md) skill invocation.
 
 ## Playbook
 
@@ -86,14 +87,15 @@ are migration-only secondary reviewers, not peer defaults.
 
 ### Phase 2 — components, snippets, and SASS
 
-1. Use component patterns, snippets, and template directives.
-2. Use Svelte Styling Patterns and Svelte Styling for indented SASS.
-3. Use Ecosystem Guide for Bits UI and ecosystem choices.
+1. Use [Agentic Svelte Builder](../../../skills/agentic-svelte-builder/SKILL.md) for zero-token component pattern discovery, snippets, and CUBE CSS styling.
+2. Use component patterns, snippets, and template directives.
+3. Use Svelte Styling Patterns and Svelte Styling for indented SASS.
+4. Use Ecosystem Guide for Bits UI and ecosystem choices.
 
-### Phase 3 — port and library work
+### Phase 3 — universal port and library conversion
 
-1. Use Port Component as the primary pipeline.
-2. Use Shadcn Porting / Shadcn to Svelte for source conversion.
+1. Use [React to SvelteKit](../../../skills/react-to-sveltekit/SKILL.md) as the primary 4-tier conversion pipeline for any React/Next.js component.
+2. Use Port Component for shadcn-svelte / Tailwind → fractalsvelte library ports.
 3. Use Styling Docs Builder for library style maps.
 
 ### Phase 4 — review, check, and E2E

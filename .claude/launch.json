@@ -72,6 +72,16 @@
 			],
 			"port": 5173,
 			"autoPort": true
+		},
+		{
+			"name": "fractalsvelte",
+			"runtimeExecutable": "sh",
+			"runtimeArgs": [
+				"-c",
+				"cd packages/fractalsvelte && exec node_modules/.bin/vite dev --port 5182 --strictPort"
+			],
+			"port": 5182,
+			"autoPort": true
 		}
 	]
 }

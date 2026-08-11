@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { progress } from '$lib/docs/registry.js';
-	import { aiProgress } from '$lib/docs/ai-registry.js';
-	import { blocksProgress } from '$lib/docs/blocks-registry.js';
+	import { progress } from '$lib/docshell/registry.js';
+	import { aiProgress } from '$lib/docshell/ai-registry.js';
+	import { blocksProgress } from '$lib/docshell/blocks-registry.js';
 
 	const { ready, total } = progress();
 	const { aiReady, aiTotal } = aiProgress();
@@ -23,33 +23,6 @@
 		drop it in — styling stays in indented SASS keyed on <code>data-slot</code>, colours come
 		from tokens, and nothing depends on a class-string merger.
 	</p>
-	</div>
-	<div class="grid grid-cols-3 sections">
-		<a class="gap8 box pad32" href="/components">
-			<span class="text-bs fw600">Components</span>
-			<span class="text-sm sectext"
-				>{ready} of {total} core primitives — buttons, forms, overlays, navigation, data.</span
-			>
-		</a>
-		<a class="gap8 box pad32" href="/ai">
-			<span class="text-bs fw600">AI Elements</span>
-			<span class="text-sm sectext"
-				>{aiReady} of {aiTotal} chat-UI components — messages, reasoning, tools, prompt input,
-				code.</span
-			>
-		</a>
-		<a class="gap8 box pad32" href="/blocks">
-			<span class="text-bs fw600">Blocks</span>
-			<span class="text-sm sectext"
-				>{blocksReady} of {blocksTotal} layout shells — page frames, sidebars, accordion nav.</span
-			>
-		</a>
-		<a class="gap8 box pad32" href="/svx-prototype">
-			<span class="text-bs fw600">SVX Prototype</span>
-			<span class="text-sm sectext"
-				>One .svx file with live previews — mdsvex + markdown, fully interactive.</span
-			>
-		</a>
 	</div>
 </div>
 

@@ -129,6 +129,40 @@ Local trial at `/Users/amrit/dharmalib` (uncommitted):
 
 ## Verification and remaining work
 
+### FractalSvelte integration correction (2026-08-11)
+
+- FractalSvelte now forces Svelte runes mode only for authored `.svelte` files; mdsvex
+  `.md`/`.svx` output and dependencies use compiler auto-detection.
+- The Vercel adapter explicitly targets Node 24, allowing the host build to run from the
+  local Node 25 toolchain while producing a supported deployment runtime.
+- `@acrolls/mdsvex` now guarantees a named `metadata` export for documents without
+  frontmatter. Export detection is syntax-aware (Acorn plus the Svelte TypeScript parser),
+  so existing bindings, aliases, comments, strings, and Svelte 5 module scripts are safe.
+- Acrolls mdsvex: 19 tests passing; package check and build passing. FractalSvelte:
+  `svelte-check` reports 0 errors/0 warnings and the full Vercel-adapted Vite build passes.
+- Fresh-review verdict: **ship**. No blocking correctness or public-contract issues remain.
+- The local host's `file:` dependency cache was refreshed by pointing only
+  `node_modules/@acrolls/mdsvex` at the Acrolls package; no workspace-wide module purge
+  was performed. A normal install should refresh the copied package after Acrolls is built.
+
+### Mandalarepo and FractalMandala wiring follow-up (2026-08-11)
+
+- Mandalarepo's `svelte.config.js` mixed the old options API with the new preprocessor
+  API and referenced three undefined identifiers. It now imports and uses
+  `createAcrollsMdsvexPreprocessor()` directly; configuration evaluation and
+  `svelte-check` pass with 0 errors/0 warnings.
+- Mandalarepo's content glob resolved to nonexistent `src/docs`. It now points from
+  `src/lib/docs/source.ts` to the site-root `docs/`, discovers all 619 documents, and
+  generates catch-all entries. The build now reaches 27 raw-HTML/Svelte parsing failures
+  in the generated `docs/html/**` corpus; routing and config are no longer the blocker.
+- FractalMandala evaluates, checks, and completes its Vercel production build. It still
+  uses `mdsvex(createAcrollsMdsvexOptions(...))`, so it bypasses the newer Acrolls
+  source-safety and guaranteed-metadata preprocessor. Its 98 docs currently all have
+  frontmatter, which masks the metadata-export risk.
+- FractalMandala intentionally composes `DocsSidebar` into its existing global
+  three-column shell rather than adopting `DocsShell`; this is an integration choice,
+  but it omits Acrolls' integrated TOC, breadcrumbs, and pager.
+
 Completed verification:
 
 - Acrolls docs tests: 10 tests passing; package check passing.
